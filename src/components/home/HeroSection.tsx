@@ -6,7 +6,7 @@ import { PROFILE } from '@/data/profile';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { ArrowDown, FileText, Sparkles, Database, Brain, BarChart2, ShieldCheck, CheckCircle2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 export const HeroSection: React.FC = () => {
   return (

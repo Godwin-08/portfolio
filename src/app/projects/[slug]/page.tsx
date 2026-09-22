@@ -4,20 +4,21 @@ import { getAllProjects, getProjectBySlug } from '@/data/projects';
 import { CaseStudySection } from '@/components/projects/CaseStudySection';
 
 interface CaseStudyPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   const projects = getAllProjects();
   return projects.map((p) => ({
     slug: p.slug,
   }));
 }
 
-export function generateMetadata({ params }: CaseStudyPageProps): Metadata {
-  const project = getProjectBySlug(params.slug);
+export async function generateMetadata({ params }: CaseStudyPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
   if (!project) {
     return {
       title: 'Projet non trouvé',
@@ -34,8 +35,9 @@ export function generateMetadata({ params }: CaseStudyPageProps): Metadata {
   };
 }
 
-export default function CaseStudyPage({ params }: CaseStudyPageProps) {
-  const project = getProjectBySlug(params.slug);
+export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
 
   if (!project) {
     notFound();
@@ -56,4 +58,3 @@ export default function CaseStudyPage({ params }: CaseStudyPageProps) {
     </div>
   );
 }
-

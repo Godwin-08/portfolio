@@ -1,59 +1,60 @@
 /**
- * Design System Tokens — Godwin Elie Nougbolo Portfolio
- * Theme: Light only (éditorial + engineering, net et contrasté)
+ * Tokens de Design System — Godwin Elie Nougbolo Portfolio
+ * Cible : Thème clair éditorial + engineering
+ * Direction : Bleu clair (identitaire) + Vert doux (accent) + Neutres contrastés
  */
 
 :root {
-  /* Surface & Base Colors */
-  --color-bg-primary: #f8fafc;       /* slate-50 */
-  --color-surface: #ffffff;          /* white */
-  --color-surface-subtle: #f1f5f9;   /* slate-100 */
-  
-  /* Text & Contrast */
-  --color-text-primary: #0f172a;     /* slate-900 */
-  --color-text-secondary: #475569;   /* slate-600 */
-  --color-text-muted: #64748b;       /* slate-500 */
-  --color-border: #e2e8f0;           /* slate-200 */
-  --color-border-hover: #cbd5e1;     /* slate-300 */
+  /* Surfaces & Fonds */
+  --bg-main: #f8fafc;              /* Fond principal clair et doux */
+  --bg-surface: #ffffff;           /* Cartes et panneaux */
+  --bg-surface-subtle: #f1f5f9;    /* Composants secondaires */
+  --bg-blue-tint: #f0f9ff;         /* Fond teinté bleu très pâle */
+  --bg-green-tint: #ecfdf5;        /* Fond teinté vert très pâle */
 
-  /* Primary Blue (Ciel / Azur d'ingénierie) */
+  /* Typographie & Texte (Haute lisibilité, WCAG AAA) */
+  --text-primary: #0f172a;         /* Titres et textes dominants */
+  --text-secondary: #334155;       /* Textes de corps et descriptifs */
+  --text-muted: #64748b;           /* Métadonnées et labels secondaires */
+
+  /* Bordures */
+  --border-subtle: #e2e8f0;        /* Bordures par défaut */
+  --border-hover: #cbd5e1;         /* Bordures au survol */
+  --border-blue: #bae6fd;          /* Bordures accent bleu clair */
+  --border-green: #a7f3d0;         /* Bordures accent vert doux */
+
+  /* Bleu Clair (Couleur Identitaire) */
   --color-blue-50: #f0f9ff;
   --color-blue-100: #e0f2fe;
   --color-blue-200: #bae6fd;
+  --color-blue-300: #7dd3fc;
+  --color-blue-400: #38bdf8;
   --color-blue-500: #0ea5e9;
-  --color-blue-600: #0284c7;        /* Main Blue */
-  --color-blue-700: #0369a1;        /* Deep Blue */
-  --color-blue-900: #0c4a6e;
+  --color-blue-600: #0284c7;       /* Bleu azur identitaire */
+  --color-blue-700: #0369a1;
 
-  /* Soft Emerald Accent (Rigueur & Validation) */
+  /* Vert Doux (Couleur Accent - Rigueur & Validation) */
   --color-green-50: #ecfdf5;
   --color-green-100: #d1fae5;
   --color-green-200: #a7f3d0;
-  --color-green-500: #10b981;
-  --color-green-600: #059669;       /* Main Green Accent */
+  --color-green-300: #6ee7b7;
+  --color-green-400: #34d399;
+  --color-green-500: #10b981;      /* Vert doux principal */
+  --color-green-600: #059669;      /* Vert doux intermédiaire */
   --color-green-700: #047857;
 
-  /* Functional / Status Tokens */
-  --color-success-bg: var(--color-green-50);
-  --color-success-text: var(--color-green-700);
-  --color-focus-ring: rgba(2, 132, 199, 0.4);
-
-  /* Typography */
+  /* Typographie */
   --font-heading: 'Manrope', system-ui, -apple-system, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
 
-  /* Radius */
+  /* Rayons de courbure */
   --radius-card: 14px;
   --radius-btn: 11px;
-  --radius-badge: 9999px;
   --radius-input: 8px;
+  --radius-badge: 9999px;
 
-  /* Shadows (Très légères et diffuses) */
+  /* Ombres légères */
   --shadow-subtle: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
   --shadow-card: 0 4px 6px -1px rgba(15, 23, 42, 0.04), 0 2px 4px -2px rgba(15, 23, 42, 0.03);
   --shadow-card-hover: 0 12px 24px -4px rgba(15, 23, 42, 0.07), 0 4px 8px -2px rgba(15, 23, 42, 0.03);
-
-  /* Containers */
-  --container-max-width: 72rem;     /* 1152px (max-w-6xl) */
-  --container-article-width: 56rem; /* 896px (max-w-4xl) */
 }

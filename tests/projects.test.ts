@@ -2,6 +2,10 @@ import { describe, it, expect } from 'vitest';
 import { getAllProjects, getFeaturedProjects, getProjectBySlug, PROJECTS } from '@/data/projects';
 import { SKILLS, getSkillsForProject } from '@/data/skills';
 import { PROFILE } from '@/data/profile';
+import { routing } from '@/i18n/routing';
+import { getProjectMDX } from '@/lib/mdx';
+import frMessages from '../messages/fr.json';
+import enMessages from '../messages/en.json';
 
 describe('Data Layer - Projects', () => {
   it('should have unique slugs for all projects', () => {
@@ -76,3 +80,25 @@ describe('Data Layer - Profile & Positioning', () => {
   });
 });
 
+describe('Technical Validation - i18n & next-intl', () => {
+  it('should have valid routing configuration with fr and en locales', () => {
+    expect(routing.locales).toEqual(['fr', 'en']);
+    expect(routing.defaultLocale).toBe('fr');
+    expect(routing.localePrefix).toBe('as-needed');
+  });
+
+  it('should have consistent dictionary structure across fr and en', () => {
+    expect(frMessages.common).toBeDefined();
+    expect(enMessages.common).toBeDefined();
+    expect(Object.keys(frMessages.common)).toEqual(Object.keys(enMessages.common));
+    expect(Object.keys(frMessages.common.nav)).toEqual(Object.keys(enMessages.common.nav));
+    expect(Object.keys(frMessages.common.cta)).toEqual(Object.keys(enMessages.common.cta));
+  });
+});
+
+describe('Technical Validation - MDX Content Layer', () => {
+  it('should safely resolve mdx loader without error for non-existent slug', async () => {
+    const content = await getProjectMDX('non-existent-project');
+    expect(content).toBeNull();
+  });
+});
