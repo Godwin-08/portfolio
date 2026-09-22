@@ -5,6 +5,11 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
+    server: {
+      deps: {
+        inline: ['next-intl'],
+      },
+    },
   },
   resolve: {
     alias: {
