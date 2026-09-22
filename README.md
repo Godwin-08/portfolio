@@ -1,9 +1,21 @@
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 # Portfolio Professionnel — Godwin Elie Nougbolo
 
+## Getting Started
 Portfolio personnel et professionnel de **Godwin Elie Nougbolo**, étudiant ingénieur en 2e année en *Informatique et Ingénierie des Données (IID)*.
 
+First, run the development server:
 ## 🚀 Stack Technique
 
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 - **Framework** : Next.js 14 (App Router)
 - **Langage** : TypeScript
 - **Styling** : Tailwind CSS
@@ -13,8 +25,10 @@ Portfolio personnel et professionnel de **Godwin Elie Nougbolo**, étudiant ing�
 - **Contenu** : MDX & Data Layer typé
 - **Tests** : Vitest
 
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 ## 📁 Arborescence du Projet
 
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 ```
 portofolio/
 ├── messages/               # Fichiers de traductions (fr.json, en.json)
@@ -53,27 +67,36 @@ portofolio/
 └── package.json            # Scripts et dépendances
 ```
 
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 ## 🛠️ Commandes Principales
 
+## Learn More
 ```bash
 # Lancer le serveur de développement
 npm run dev
 
+To learn more about Next.js, take a look at the following resources:
 # Exécuter les vérifications de lint
 npm run lint
 
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 # Lancer la suite de tests unitaires
 npm test
 
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 # Compiler pour la production (SSG / Build Next.js)
 npm run build
 
+## Deploy on Vercel
 # Démarrer en mode production
 npm start
 ```
 
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 ## 🎯 Principes Clés
 
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 1. **Preuve > Affirmation** : Valorisation des projets, décisions techniques documentées et métriques réelles plutôt que des adjectifs vagues.
 2. **Fil rouge** : *Comprendre → Analyser → Construire*.
 3. **Thème clair uniquement** : Interface sobre, éditoriale et lisible.
