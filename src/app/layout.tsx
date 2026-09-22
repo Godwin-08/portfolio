@@ -50,9 +50,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${inter.variable} ${manrope.variable}`}>
-      <body className="min-h-screen flex flex-col bg-background text-foreground selection:bg-primary-100 selection:text-primary-900">
+      <body className="min-h-screen flex flex-col bg-background text-foreground selection:bg-primary-100 selection:text-primary-900 antialiased">
         <Navbar />
-        <main className="flex-1">
+        <main id="main-content" tabIndex={-1} className="flex-1 focus:outline-none">
           {children}
         </main>
         <Footer />

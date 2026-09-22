@@ -1,146 +1,107 @@
 import React from 'react';
 import Link from 'next/link';
 import { PROFILE } from '@/data/profile';
-import { Github, Linkedin, Mail, ArrowUp } from 'lucide-react';
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { Mail, Linkedin, Github, FileText, ArrowUpRight } from 'lucide-react';
 
 export const Footer: React.FC = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="border-t border-slate-200 bg-white text-slate-600 transition-colors">
+    <footer aria-label="Pied de page" className="border-t border-slate-200 bg-white text-slate-600 transition-colors">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          {/* Brand & Leitmotif */}
-          <div className="md:col-span-2 space-y-4">
-            <div>
-              <h3 className="font-heading font-bold text-lg text-slate-900">
-                {PROFILE.name}
-              </h3>
-              <p className="text-sm text-slate-500 mt-0.5">
-                {PROFILE.title}
-              </p>
-            </div>
-            <p className="text-sm text-slate-600 max-w-md leading-relaxed">
-              Une approche d’ingénieur guidée par la rigueur scientifique :{' '}
-              <span className="font-semibold text-slate-900">
-                {PROFILE.tagline}
-              </span>
-              . La démonstration par les résultats chiffrés et la validation empirique.
+        
+        {/* Grille Principale */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 pb-10 border-b border-slate-100">
+          
+          {/* Identité & Rôle (6 cols) */}
+          <div className="md:col-span-6 space-y-3">
+            <h2 className="font-heading font-extrabold text-lg text-slate-900 tracking-tight">
+              {PROFILE.name}
+            </h2>
+            <p className="text-sm font-medium text-slate-600 max-w-md">
+              Étudiant ingénieur · Informatique & Ingénierie des Données (IID)
             </p>
-            <div className="flex items-center space-x-3 pt-2">
-              <a
-                href={PROFILE.contact.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                className="w-9 h-9 rounded-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:text-slate-900 hover:border-slate-300 hover:bg-slate-50 transition-colors"
-              >
-                <Github className="w-4 h-4" />
-              </a>
-              <a
-                href={PROFILE.contact.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="w-9 h-9 rounded-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:text-primary-600 hover:border-primary-200 hover:bg-primary-50 transition-colors"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a
-                href={`mailto:${PROFILE.contact.email}`}
-                aria-label="Email"
-                className="w-9 h-9 rounded-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:text-accent-600 hover:border-accent-200 hover:bg-accent-50 transition-colors"
-              >
-                <Mail className="w-4 h-4" />
-              </a>
-            </div>
+            <p className="text-xs text-slate-500 max-w-md leading-relaxed pt-1">
+              Méthodologie orientée preuve : <span className="text-slate-800 font-semibold">{PROFILE.tagline}</span>. Conception de solutions logicielles et analytiques rigoureuses.
+            </p>
           </div>
 
-          {/* Navigation Rapide */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-900">
-              Navigation
-            </h4>
-            <ul className="space-y-2 text-sm">
+          {/* Liens Professionnels & Coordonnées (4 cols) */}
+          <div className="md:col-span-4 space-y-3">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-900">
+              Liens & Contact
+            </h3>
+            <ul className="space-y-2 text-xs sm:text-sm">
               <li>
-                <Link
-                  href="/"
-                  className="hover:text-primary-600 transition-colors"
+                <a
+                  href={`mailto:${PROFILE.contact.email}`}
+                  className="inline-flex items-center gap-2 text-slate-600 hover:text-primary-700 transition-colors py-0.5 focus:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 rounded"
                 >
-                  Accueil
-                </Link>
+                  <Mail className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
+                  <span>Email : {PROFILE.contact.email}</span>
+                </a>
               </li>
               <li>
-                <Link
-                  href="/projects"
-                  className="hover:text-primary-600 transition-colors"
+                <a
+                  href={PROFILE.contact.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-slate-600 hover:text-primary-700 transition-colors py-0.5 focus:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 rounded"
                 >
-                  Tous les projets
-                </Link>
+                  <Linkedin className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
+                  <span>LinkedIn (Profil professionnel)</span>
+                  <ArrowUpRight className="w-3 h-3 text-slate-400" aria-hidden="true" />
+                </a>
               </li>
               <li>
-                <Link
-                  href="/projects/gtm"
-                  className="hover:text-primary-600 transition-colors"
+                <a
+                  href={PROFILE.contact.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-slate-600 hover:text-primary-700 transition-colors py-0.5 focus:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 rounded"
                 >
-                  Étude de cas : GTM (Référence)
-                </Link>
+                  <Github className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
+                  <span>GitHub (Dépôts & code source)</span>
+                  <ArrowUpRight className="w-3 h-3 text-slate-400" aria-hidden="true" />
+                </a>
               </li>
               <li>
-                <Link
-                  href="/projects/olist"
-                  className="hover:text-primary-600 transition-colors"
+                <a
+                  href={PROFILE.contact.cvPath}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-slate-600 hover:text-primary-700 transition-colors py-0.5 focus:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 rounded"
                 >
-                  Étude de cas : Olist
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/about"
-                  className="hover:text-primary-600 transition-colors"
-                >
-                  À propos & Parcours
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="hover:text-primary-600 transition-colors"
-                >
-                  Contact
-                </Link>
+                  <FileText className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
+                  <span>Curriculum Vitae (PDF)</span>
+                  <ArrowUpRight className="w-3 h-3 text-slate-400" aria-hidden="true" />
+                </a>
               </li>
             </ul>
           </div>
 
-          {/* Statut & Disponibilité */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-900">
-              Opportunité
-            </h4>
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
-              <div className="flex items-center space-x-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-accent-500 animate-pulse" />
-                <span className="text-xs font-bold text-slate-900">
-                  {PROFILE.badge}
-                </span>
-              </div>
-              <p className="text-xs text-slate-600 leading-normal">
-                Ouvert aux opportunités de stage PFA orientées Data Analysis, Data Engineering & Machine Learning.
-              </p>
-            </div>
+          {/* Langues (2 cols) */}
+          <div className="md:col-span-2 space-y-3">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-900">
+              Langue / Locale
+            </h3>
+            <LanguageSwitcher variant="footer" />
           </div>
+
         </div>
 
-        {/* Bottom bar */}
-        <div className="pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+        {/* Barre Inférieure (Copyright) */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
           <p>
-            © {new Date().getFullYear()} {PROFILE.name}. Portfolio conçu avec Next.js & Tailwind CSS.
+            © {currentYear} {PROFILE.name}. Tous droits réservés.
           </p>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 text-[11px] text-slate-400">
             <span>{PROFILE.corePhilosophy}</span>
           </div>
         </div>
+
       </div>
     </footer>
   );
 };
-

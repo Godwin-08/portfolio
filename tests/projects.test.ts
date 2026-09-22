@@ -78,6 +78,13 @@ describe('Data Layer - Profile & Positioning', () => {
     expect(PROFILE.growingFields).toContain('Data Engineering');
     expect(PROFILE.growingFields).toContain('Machine Learning');
   });
+
+  it('should have all contact and social URLs centralized in profile', () => {
+    expect(PROFILE.contact.email).toBeDefined();
+    expect(PROFILE.contact.github).toContain('github.com');
+    expect(PROFILE.contact.linkedin).toContain('linkedin.com');
+    expect(PROFILE.contact.cvPath).toBeDefined();
+  });
 });
 
 describe('Technical Validation - i18n & next-intl', () => {
