@@ -1,24 +1,22 @@
 import { HeroSection } from '@/components/home/HeroSection';
 import { SkillsTicker } from '@/components/home/SkillsTicker';
 import { FeaturedProjects } from '@/components/home/FeaturedProjects';
-import { MethodSection } from '@/components/home/MethodSection';
+import { AboutTransition } from '@/components/home/AboutTransition';
 
 export default function HomePage() {
   return (
     <div className="flex flex-col">
-      {/* 1. Hero Section */}
+      {/* 1. Hero */}
       <HeroSection />
 
-      {/* 2. Compétences Interactives (Bandeau cliquable) */}
+      {/* 2. Compétences interactives */}
       <SkillsTicker />
 
-      {/* 3. Projets Sélectionnés (Minimum 3 : Olist, GTM, AFC) */}
+      {/* 3. Projets sélectionnés */}
       <FeaturedProjects />
 
-      {/* 4. Transition vers About & Démarche d'Ingénieur */}
-      <div className="px-4 sm:px-6 lg:px-8">
-        <MethodSection />
-      </div>
+      {/* 4. Transition vers About */}
+      <AboutTransition />
     </div>
   );
 }
