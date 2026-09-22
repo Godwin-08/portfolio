@@ -1,0 +1,20 @@
+{
+  "common": {
+    "name": "Godwin Elie Nougbolo",
+    "role": "Computer Science & Data Engineering Student",
+    "badge": "Seeking 2nd-Year Engineering Internship (PFA)",
+    "tagline": "Understand → Analyze → Build",
+    "philosophy": "Proof > Claim",
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "projects": "Projects",
+      "contact": "Contact"
+    },
+    "cta": {
+      "viewProjects": "Explore my projects",
+      "downloadCv": "Download my CV",
+      "contact": "Contact me"
+    }
+  }
+}

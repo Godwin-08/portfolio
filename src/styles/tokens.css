@@ -1,0 +1,34 @@
+:root {
+  /* Colors */
+  --color-bg-primary: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+
+  /* Brand Blue (Primary) */
+  --color-blue-primary: #0284c7;
+  --color-blue-pale: #f0f9ff;
+  --color-blue-border: #bae6fd;
+  --color-blue-deep: #0369a1;
+
+  /* Brand Green (Soft Emerald Accent) */
+  --color-green-accent: #059669;
+  --color-green-pale: #ecfdf5;
+  --color-green-border: #a7f3d0;
+
+  /* Typography */
+  --font-heading: 'Manrope', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  /* Radii */
+  --radius-card: 14px;
+  --radius-btn: 11px;
+  --radius-badge: 9999px;
+  --radius-input: 8px;
+
+  /* Shadows */
+  --shadow-subtle: 0 1px 3px 0 rgba(15, 23, 42, 0.05);
+  --shadow-card: 0 4px 6px -1px rgba(15, 23, 42, 0.05);
+}

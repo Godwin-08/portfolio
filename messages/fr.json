@@ -1,0 +1,20 @@
+{
+  "common": {
+    "name": "Godwin Elie Nougbolo",
+    "role": "Étudiant Ingénieur en Informatique et Ingénierie des Données",
+    "badge": "Recherche PFA 2e année",
+    "tagline": "Comprendre → Analyser → Construire",
+    "philosophy": "Preuve > Affirmation",
+    "nav": {
+      "home": "Accueil",
+      "about": "À Propos",
+      "projects": "Projets",
+      "contact": "Contact"
+    },
+    "cta": {
+      "viewProjects": "Voir mes projets",
+      "downloadCv": "Télécharger mon CV",
+      "contact": "Me contacter"
+    }
+  }
+}
