@@ -1,6 +1,8 @@
-import React from 'react';
-import Link from 'next/link';
-import { Project } from '@/types';
+import { getLocale, getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/routing';
+import type { Project } from '@/types';
+import { getCategorySlug } from '@/data/projects';
+import { getEnglishCaseStudyCopy, localizeCaseStudy } from '@/data/case-study-translations';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import {
@@ -24,13 +26,26 @@ interface CaseStudySectionProps {
   nextProject?: Project;
 }
 
-export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
+export async function CaseStudySection({
   project,
   previousProject,
   nextProject,
-}) => {
-  const { caseStudy } = project;
-  if (!caseStudy) return null;
+}: CaseStudySectionProps) {
+  const source = project.caseStudy;
+  if (!source) return null;
+
+  const [locale, t, projectCopy, categoryLabels] = await Promise.all([
+    getLocale(),
+    getTranslations('caseStudies.ui'),
+    getTranslations('projects.cards'),
+    getTranslations('projects.categories'),
+  ]);
+  const englishCopy = locale === 'en' ? getEnglishCaseStudyCopy(project.slug) : undefined;
+  if (locale === 'en' && !englishCopy) {
+    throw new Error(`Missing English case study content for ${project.slug}`);
+  }
+  const caseStudy = englishCopy ? localizeCaseStudy(source, englishCopy) : source;
+  const title = projectCopy(`${project.id}.title`);
 
   return (
     <article className="max-w-4xl mx-auto space-y-16 pb-20">
@@ -42,12 +57,12 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
           className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-primary-700 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Retour à tous les projets</span>
+          <span>{t('back')}</span>
         </Link>
         {project.isFlagship && (
           <Badge variant="accent" size="sm" className="gap-1 font-semibold">
             <Star className="w-3.5 h-3.5 fill-accent-600" />
-            <span>Étude de Cas de Référence</span>
+            <span>{t('flagship')}</span>
           </Badge>
         )}
       </div>
@@ -56,10 +71,10 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
       <header className="space-y-6 pb-8 border-b border-slate-200">
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="primary" size="md">
-            {project.category}
+            {categoryLabels(getCategorySlug(project.category))}
           </Badge>
           <Badge variant="neutral" size="md">
-            {project.context}
+            {projectCopy(`${project.id}.context`)}
           </Badge>
           <Badge variant="outline" size="md">
             {project.period}
@@ -68,7 +83,7 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
 
         <div className="space-y-3">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-slate-900 tracking-tight leading-tight">
-            {project.title}
+            {title}
           </h1>
           <p className="text-lg sm:text-xl text-slate-700 font-medium leading-relaxed">
             {caseStudy.heroTagline}
@@ -85,7 +100,7 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
               size="md"
               leftIcon={<Github className="w-4 h-4" />}
             >
-              Code source (GitHub)
+              {t('source')}
             </Button>
           )}
           {caseStudy.liveUrl && (
@@ -96,7 +111,7 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
               size="md"
               rightIcon={<ExternalLink className="w-4 h-4" />}
             >
-              Démonstration en ligne
+              {t('demo')}
             </Button>
           )}
         </div>
@@ -107,7 +122,7 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
         <div className="flex items-center gap-2">
           <BarChart3 className="w-5 h-5 text-primary-600" />
           <h2 className="text-sm font-bold uppercase tracking-wider text-slate-700">
-            Résultats & Métriques Validées
+            {t('metricsTitle')}
           </h2>
         </div>
 
@@ -135,7 +150,7 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
         <div className="flex items-center gap-2 text-slate-900">
           <AlertCircle className="w-5 h-5 text-amber-500" />
           <h2 className="text-xl sm:text-2xl font-heading font-bold">
-            1. Problème & Contexte Métier
+            {t('problemTitle')}
           </h2>
         </div>
         <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
@@ -144,7 +159,7 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
         {caseStudy.problemPoints && caseStudy.problemPoints.length > 0 && (
           <div className="p-5 rounded-xl bg-amber-50/60 border border-amber-200/60 space-y-2">
             <span className="text-xs font-bold uppercase tracking-wider text-amber-900 block">
-              Points de friction initiaux
+              {t('problemPointsTitle')}
             </span>
             <ul className="space-y-2 text-xs sm:text-sm text-amber-950">
               {caseStudy.problemPoints.map((pt, i) => (
@@ -163,7 +178,7 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
         <div className="flex items-center gap-2 text-slate-900">
           <Layers className="w-5 h-5 text-primary-600" />
           <h2 className="text-xl sm:text-2xl font-heading font-bold">
-            2. Approche & Méthodologie
+            {t('approachTitle')}
           </h2>
         </div>
         <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
@@ -190,7 +205,7 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
         <div className="flex items-center gap-2 text-slate-900">
           <CheckCircle2 className="w-5 h-5 text-accent-600" />
           <h2 className="text-xl sm:text-2xl font-heading font-bold">
-            3. Rôle & Responsabilités
+            {t('roleTitle')}
           </h2>
         </div>
         <div className="p-5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm sm:text-base text-slate-700 leading-relaxed">
@@ -203,7 +218,7 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
         <div className="flex items-center gap-2 text-slate-900">
           <Cpu className="w-5 h-5 text-primary-600" />
           <h2 className="text-xl sm:text-2xl font-heading font-bold">
-            4. Réalisation Technique & Architecture
+            {t('implementationTitle')}
           </h2>
         </div>
         <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
@@ -212,7 +227,7 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
         {caseStudy.architectureHighlights && (
           <div className="p-5 rounded-xl bg-white border border-slate-200 space-y-2.5">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
-              Points forts de l&apos;architecture
+              {t('architectureHighlightsTitle')}
             </span>
             <ul className="space-y-2 text-xs sm:text-sm text-slate-700">
               {caseStudy.architectureHighlights.map((hl, i) => (
@@ -232,7 +247,7 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
           <div className="flex items-center gap-2 text-slate-900">
             <Lightbulb className="w-5 h-5 text-amber-500" />
             <h2 className="text-xl sm:text-2xl font-heading font-bold">
-              5. Décisions Techniques & Arbitrages
+              {t('decisionsTitle')}
             </h2>
           </div>
           <div className="space-y-4">
@@ -246,15 +261,15 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                   <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                    <span className="font-bold text-slate-800 block mb-1">Décision :</span>
+                    <span className="font-bold text-slate-800 block mb-1">{t('decisionLabel')}</span>
                     <span className="text-slate-600">{dec.decision}</span>
                   </div>
                   <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                    <span className="font-bold text-slate-800 block mb-1">Raison d&apos;ingénierie :</span>
+                    <span className="font-bold text-slate-800 block mb-1">{t('rationaleLabel')}</span>
                     <span className="text-slate-600">{dec.rationale}</span>
                   </div>
                   <div className="p-2.5 rounded-lg bg-emerald-50/70 border border-emerald-100">
-                    <span className="font-bold text-emerald-900 block mb-1">Impact mesuré :</span>
+                    <span className="font-bold text-emerald-900 block mb-1">{t('impactLabel')}</span>
                     <span className="text-emerald-800">{dec.impact}</span>
                   </div>
                 </div>
@@ -269,7 +284,7 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
         <div className="flex items-center gap-2 text-slate-900">
           <ShieldCheck className="w-5 h-5 text-accent-600" />
           <h2 className="text-xl sm:text-2xl font-heading font-bold">
-            6. Validation & Suite de Tests
+            {t('validationTitle')}
           </h2>
         </div>
         <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
@@ -278,7 +293,7 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
         {caseStudy.validationPoints && (
           <div className="p-4 rounded-xl bg-accent-50/50 border border-accent-200/60 space-y-2">
             <span className="text-xs font-bold uppercase tracking-wider text-accent-900 block">
-              Garanties de qualité
+              {t('validationPointsTitle')}
             </span>
             <ul className="space-y-1.5 text-xs sm:text-sm text-accent-950">
               {caseStudy.validationPoints.map((vp, i) => (
@@ -297,7 +312,7 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
         <div className="flex items-center gap-2 text-slate-900">
           <Lightbulb className="w-5 h-5 text-primary-600" />
           <h2 className="text-xl sm:text-2xl font-heading font-bold">
-            7. Recul & Enseignements
+            {t('reflectionTitle')}
           </h2>
         </div>
         <div className="p-5 rounded-xl bg-slate-50 border border-slate-200 text-sm sm:text-base text-slate-700 leading-relaxed italic">
@@ -308,7 +323,7 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
       {/* 8. Technologies Détaillées */}
       <section className="space-y-4 pt-4 border-t border-slate-200">
         <h2 className="text-lg font-heading font-bold text-slate-900">
-          Technologies & Outils Mobilisés
+          {t('technologiesTitle')}
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {caseStudy.technologiesDetailed.map((cat, i) => (
@@ -335,24 +350,24 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
       <div className="pt-8 border-t border-slate-200 flex items-center justify-between">
         {previousProject ? (
           <Link
-            href={`/projects/${previousProject.slug}`}
+            href={{ pathname: '/projects/[slug]', params: { slug: previousProject.slug } }}
             className="group flex flex-col text-left"
           >
-            <span className="text-xs text-slate-400">Projet précédent</span>
+            <span className="text-xs text-slate-400">{t('previousProject')}</span>
             <span className="text-sm font-bold text-slate-800 group-hover:text-primary-600 transition-colors">
-              ← {previousProject.title}
+              ← {projectCopy(`${previousProject.id}.title`)}
             </span>
           </Link>
         ) : <div />}
 
         {nextProject && (
           <Link
-            href={`/projects/${nextProject.slug}`}
+            href={{ pathname: '/projects/[slug]', params: { slug: nextProject.slug } }}
             className="group flex flex-col text-right"
           >
-            <span className="text-xs text-slate-400">Projet suivant</span>
+            <span className="text-xs text-slate-400">{t('nextProject')}</span>
             <span className="text-sm font-bold text-slate-800 group-hover:text-primary-600 transition-colors">
-              {nextProject.title} →
+              {projectCopy(`${nextProject.id}.title`)} →
             </span>
           </Link>
         )}
@@ -360,5 +375,5 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
 
     </article>
   );
-};
+}
 

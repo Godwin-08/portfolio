@@ -2,20 +2,267 @@
   "common": {
     "name": "Godwin Elie Nougbolo",
     "role": "Computer Science & Data Engineering Student",
-    "badge": "Seeking 2nd-Year Engineering Internship (PFA)",
+    "badge": "Seeking a second-year project placement (PFA)",
     "tagline": "Understand → Analyze → Build",
     "philosophy": "Proof > Claim",
+    "primaryFocus": "Data Analysis",
     "nav": {
       "home": "Home",
       "about": "About",
       "projects": "Projects",
-      "contact": "Contact"
+      "contact": "Contact",
+      "mainLabel": "Main navigation",
+      "mobileLabel": "Mobile navigation",
+      "active": "Current page"
     },
     "cta": {
       "viewProjects": "Explore my projects",
+      "viewAllProjects": "View all projects",
+      "readCaseStudy": "View case study",
       "downloadCv": "Download my CV",
       "contact": "Contact me"
+    },
+    "language": {
+      "label": "Language",
+      "selectorLabel": "Language selector",
+      "switchToFrench": "Switch to French",
+      "switchToEnglish": "Switch to English"
+    },
+    "footer": {
+      "label": "Links and contact",
+      "linksHeading": "Links and contact",
+      "role": "Engineering student \u00b7 Computer Science and Data Engineering (IID)",
+      "copyright": "All rights reserved."
+    },
+    "accessibility": {
+      "skipToContent": "Skip to main content",
+      "homeLink": "Home page - {name}",
+      "openMenu": "Open navigation menu",
+      "closeMenu": "Close menu",
+      "mobileMenu": "Mobile menu",
+      "linkedinProfile": "{name}'s LinkedIn profile (opens in a new tab)",
+      "githubProfile": "{name}'s GitHub profile (opens in a new tab)",
+      "externalNewTab": "(opens in a new tab)"
     }
+  },
+  "seo": {
+    "siteName": "Godwin Elie Nougbolo’s portfolio",
+    "home": {
+      "title": "Data analysis and software portfolio",
+      "description": "Engineering student at ENSA Khouribga sharing projects in data analysis, software development, and applied statistics."
+    },
+    "about": {
+      "title": "About — background and approach",
+      "description": "Academic background, work on Galaxy Training Manager, and working approach of Godwin Elie Nougbolo, an engineering student at ENSA Khouribga."
+    },
+    "projects": {
+      "title": "Data analysis and software projects",
+      "description": "Explore six documented projects in data analysis, software development, applied statistics, and information systems."
+    },
+    "contact": {
+      "title": "Contact — discuss a project",
+      "description": "Contact Godwin Elie Nougbolo about a project or placement in data analysis and software development."
+    }
+  },
+  "home": {
+    "hero": {
+      "studentBadge": "Engineering student · Computer Science and Data Engineering",
+      "pfaBadge": "Seeking a second-year project placement",
+      "degree": "Computer Science and Data Engineering",
+      "intro": "I am an engineering student at ENSA Khouribga, building a foundation in data-focused work. My projects have given me practical experience in data analysis, and I am steadily developing my skills in Data Engineering and Machine Learning.",
+      "focusHeading": "Areas of interest",
+      "analysisTitle": "Data Analysis",
+      "analysisDescription": "Practical experience exploring and analysing data through hands-on projects.",
+      "growingFieldsDescription": "Skills I am steadily developing",
+      "growingFields": "Data Engineering · Machine Learning",
+      "tagline": "Make sense of data. Find its value. Build practical solutions.",
+      "viewProjects": "Explore my projects",
+      "downloadCv": "Download my CV",
+      "portraitAlt": "Portrait of Godwin Elie Nougbolo, engineering student at ENSA Khouribga",
+      "pfaOverlay": "Seeking a project placement",
+      "portraitDiscipline": "Computer Science and Data Engineering · Data Analysis",
+      "availability": "Seeking a project placement"
+    },
+    "skills": {
+      "sectionLabel": "Skills linked to projects",
+      "heading": "Skills",
+      "instruction": "Select a skill to see related projects.",
+      "filterAria": "Filter projects by skill: {skill}",
+      "names": {
+        "statistiques": "Statistics",
+        "bases-de-donnees": "Databases",
+        "systemes-d-information": "Information Systems"
+      }
+    },
+    "projects": {
+      "eyebrow": "Selected work",
+      "heading": "Selected projects",
+      "description": "Practical projects demonstrating careful analysis, software development, and well-documented decisions."
+    },
+    "aboutTransition": {
+      "label": "Link to the About page",
+      "heading": "Explore the thinking behind the projects",
+      "description": "Academic background, projects, and approach to work.",
+      "link": "Explore my background"
+    }
+  },
+  "projects": {
+    "list": {
+      "eyebrow": "Projects and work",
+      "heading": "Technical projects",
+      "description": "Practical projects in data analysis, software development, and applied statistics.",
+      "emptyTitle": "No projects match these filters",
+      "emptyDescription": "Change the filters or reset the list."
+    },
+    "filters": {
+      "label": "Project filters",
+      "categoriesHeading": "Categories",
+      "categoryGroup": "Filter by category",
+      "allCategories": "All",
+      "skillsHeading": "Skills",
+      "skillGroup": "Filter by skill",
+      "reset": "Reset filters",
+      "showMore": "Show {count} more",
+      "showLess": "Show less",
+      "resultCount": "{count, plural, =0 {No projects} one {# project} other {# projects}}",
+      "updating": "Updating…"
+    },
+    "categories": {
+      "data-analysis": "Data Analysis",
+      "web-si": "Web / Information Systems",
+      "statistiques": "Statistics",
+      "machine-learning": "Machine Learning",
+      "data-engineering": "Data Engineering"
+    },
+    "card": {
+      "caseStudy": "Read the case study",
+      "project": "View project",
+      "caseStudyAria": "Read case study: {title}",
+      "projectAria": "View project: {title}",
+      "flagship": "Key project",
+      "imageAlt": "Preview of the {title} project"
+    },
+    "cards": {
+      "gtm": { "title": "GTM — Galaxy Training Manager", "tagline": "A professional training-management application with evaluation and decision-support analysis.", "summary": "A training management and analysis application developed in a professional setting.", "context": "Professional · individual project" },
+      "olist": { "title": "E-commerce Data Audit — Olist", "tagline": "Exploratory analysis and a quality audit of 96,252 e-commerce orders.", "summary": "A marketplace audit covering data quality, delivery times, seller performance, and product categories.", "context": "Academic · team of two" },
+      "afc": { "title": "Correspondence Analysis (CA)", "tagline": "A Python implementation of the calculations behind a multivariate analysis method.", "summary": "An implementation of correspondence analysis to study links between fields and skills on LinkedIn.", "context": "Academic · team of two" },
+      "revision-flow": { "title": "RevisionFlow", "tagline": "A browser-based study planner that updates the schedule in real time.", "summary": "A browser-based study planner that adapts its schedule to progress and flags workloads that cannot be completed.", "context": "Academic · individual project" },
+      "sante-scolaire": { "title": "SantéScolaire", "tagline": "A school health information system for student records, visits, scheduling, and statistics.", "summary": "A Flask application for student records, medical history, consultations, and scheduling, with access based on user roles.", "context": "Personal project" },
+      "novastore": { "title": "NovaStore", "tagline": "An object-oriented e-commerce store with a catalogue, cart, orders, and invoicing.", "summary": "A Flask e-commerce application built with object-oriented programming, from the product catalogue to invoicing and the admin area.", "context": "Academic · team project" }
+    }
+  },
+  "caseStudies": {
+    "ui": {
+      "back": "Back to all projects",
+      "flagship": "Featured case study",
+      "source": "Source code (GitHub)",
+      "demo": "Live demo",
+      "metricsTitle": "Results and verified metrics",
+      "problemTitle": "1. Problem and business context",
+      "problemPointsTitle": "Initial challenges",
+      "approachTitle": "2. Approach and method",
+      "roleTitle": "3. Role and responsibilities",
+      "implementationTitle": "4. Technical implementation and architecture",
+      "architectureHighlightsTitle": "Architecture highlights",
+      "decisionsTitle": "5. Technical decisions and trade-offs",
+      "decisionLabel": "Decision:",
+      "rationaleLabel": "Engineering reason:",
+      "impactLabel": "Impact:",
+      "validationTitle": "6. Validation and tests",
+      "validationPointsTitle": "Quality checks",
+      "reflectionTitle": "7. Lessons learned",
+      "technologiesTitle": "8. Technologies and tools",
+      "previousProject": "Previous project",
+      "nextProject": "Next project"
+    }
+  },
+  "skills": {
+    "names": {
+      "python": "Python", "sql": "SQL", "pandas": "Pandas", "numpy": "NumPy", "matplotlib": "Matplotlib", "chart-js": "Chart.js", "mysql": "MySQL", "flask": "Flask", "sqlalchemy": "SQLAlchemy", "javascript": "JavaScript", "html-css": "HTML/CSS", "git": "Git", "statistiques": "Statistics", "data-analysis": "Data Analysis", "backend": "Backend", "bases-de-donnees": "Databases", "systemes-d-information": "Information Systems", "scipy": "SciPy", "jupyter": "Jupyter", "pytest": "pytest", "openpyxl": "openpyxl", "seaborn": "Seaborn", "reportlab": "ReportLab"
+    },
+    "descriptions": {
+      "python": "A core language for data pipelines, statistical analysis, and backend development.",
+      "sql": "Complex queries, joins, aggregations, and relational modelling (3NF).",
+      "pandas": "Manipulating, cleaning, and aggregating complex datasets.",
+      "numpy": "Vectorized matrix computation, linear algebra, and numerical optimization.",
+      "matplotlib": "Descriptive statistical charts, distributions, and exploratory analysis.",
+      "chart-js": "Interactive dashboards and dynamic charts for the web.",
+      "mysql": "Relational database administration, referential integrity, and ACID constraints.",
+      "flask": "Building microservices and modular web applications with Blueprints.",
+      "sqlalchemy": "ORM workflows, session management, migrations, and complex relationships.",
+      "javascript": "Client-side interactivity and web integration.",
+      "html-css": "Semantic structure, accessibility, and responsive web integration.",
+      "git": "Version control, collaboration, and code traceability.",
+      "statistiques": "Univariate and bivariate analysis, total inertia, factor decomposition, and metrics.",
+      "data-analysis": "Methodical exploration, pattern discovery, and indicators tied to business needs.",
+      "backend": "MVC architectures, authentication, ORM workflows, and business logic.",
+      "bases-de-donnees": "Conceptual and logical data modelling, normalization, indexing, and transaction integrity.",
+      "systemes-d-information": "Designing information systems for management and operational oversight.",
+      "scipy": "Scientific computing and singular value decomposition (SVD).",
+      "jupyter": "Reproducible notebooks, data audits, and living documentation.",
+      "pytest": "Unit and regression tests, with continuous functional validation.",
+      "openpyxl": "Automating and generating multi-sheet Excel workbooks.",
+      "seaborn": "Exploratory statistical visualizations and distribution comparisons.",
+      "reportlab": "Programmatic generation of vector PDF documents."
+    }
+  },
+  "about": {
+    "eyebrow": "About",
+    "title": "Making sense of data and turning it into something useful.",
+    "intro": "I am an engineering student in Computer Science and Data Engineering at ENSA Khouribga. Data Analysis is my current direction; I am also steadily building my foundations in Data Engineering and Machine Learning.",
+    "search": "I am currently looking for a second-year project placement (PFA), where data and software can help solve a concrete problem.",
+    "education": {
+      "heading": "Education",
+      "engineering": { "period": "Since 2025", "degree": "Engineering Cycle — Computer Science and Data Engineering (IID)", "location": "Khouribga, Morocco", "description": "Engineering studies focused on computer science and data engineering." },
+      "deug": { "period": "2023–2025", "degree": "DEUG in Fundamental Computer Science", "location": "Kénitra, Morocco", "description": "Fairly good honours · 13/20." },
+      "baccalaureate": { "period": "2022–2023", "degree": "Mathematics and Life & Earth Sciences Baccalaureate", "location": "Togo", "description": "Very good honours." }
+    },
+    "professional": "Professional experience",
+    "galaxyLabel": "Individual professional project · GTM",
+    "galaxy": "Galaxy Solutions — Galaxy Training Manager",
+    "galaxyText": "As an individual professional project, I designed GTM, a training-management application. It brings together a web interface, database, user roles, dashboard, and analytical features to make training activity easier to follow.",
+    "galaxyLink": "View the GTM case study",
+    "association": "Community involvement",
+    "cestom": "CESTOM",
+    "currentEngagement": "Current involvement",
+    "currentRole": "Secretary General · CESTOM Khouribga",
+    "previousEngagements": "Previous involvement",
+    "previousTreasurer": "Local Treasurer · CESTOM Kénitra",
+    "previousVolunteer": "Volunteer · CESTOM Ben Guerir",
+    "cestomText": "A current community responsibility, separate from paid employment.",
+    "method": "How I work",
+    "methodTitle": "Understand → Analyse → Build",
+    "steps": {
+      "understand": { "title": "Understand", "text": "I start with the problem, available data, and constraints. The CA project in particular led me to revisit the method’s mechanics before coding them." },
+      "analyze": { "title": "Analyse", "text": "I check and structure what exists before drawing conclusions. The Olist audit is where this step takes the most space." },
+      "build": { "title": "Build", "text": "I turn that understanding into a tangible output: an interface, an analysis, or a tool. GTM brings these dimensions together in one application." }
+    },
+    "traits": "What the projects demonstrate",
+    "proof": {
+      "verify": { "title": "Check before concluding", "text": "Olist consistency checks and GTM validation steps are part of the work, not just its presentation." },
+      "method": { "title": "Understand the method", "text": "For CA, the calculations were rebuilt step by step with Pandas, NumPy, and SciPy instead of being treated as a black box." },
+      "progress": { "title": "Keep learning", "text": "Data Analysis is my current foundation. Data Engineering and Machine Learning remain fields I am exploring and developing." }
+    },
+    "focus": "What I am looking for",
+    "focusText": "A second-year project placement (PFA), primarily in Data Analysis, while staying open to work where Data Engineering provides a useful framework. Machine Learning and AI are also areas I continue to explore.",
+    "beyond": "Beyond projects",
+    "beyondText": "I also learn through collaborative projects and practical technical challenges. Community involvement such as CESTOM complements this path through teamwork and real-world use of digital tools.",
+    "cta": "Let’s continue the conversation."
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Let’s talk about a practical project.",
+    "intro": "I am currently looking for a second-year project placement (PFA), with a primary interest in Data Analysis while steadily developing my skills in Data Engineering and Machine Learning.",
+    "focus": "Current focus",
+    "email": "Email me",
+    "emailDetail": "The most direct way to discuss an opportunity or project.",
+    "linkedin": "View my LinkedIn profile",
+    "linkedinDetail": "Professional background and profile.",
+    "github": "View my GitHub profile",
+    "githubDetail": "Source code and public projects.",
+    "cv": "Download my CV",
+    "externalNewTab": "(opens in a new tab)",
+    "contactLinks": "Ways to get in touch"
   }
 }
 

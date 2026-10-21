@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useLocale } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import type { ReactNode } from 'react';
 import { ArrowLeft, BookOpenCheck, Braces, ChartScatter, Github, Sigma, TestTube2 } from 'lucide-react';
 
@@ -36,9 +36,9 @@ const copy = {
 } as const;
 
 export function AfcCaseStudy() {
-  const isEnglish = usePathname().startsWith('/en'); const t = copy[isEnglish ? 'en' : 'fr']; const path = (slug: string) => isEnglish ? `/en/projects/${slug}` : `/projects/${slug}`;
+  const isEnglish = useLocale() === 'en'; const t = copy[isEnglish ? 'en' : 'fr']; const path = (slug: string) => ({ pathname: '/projects/[slug]' as const, params: { slug } });
   return <article className="max-w-5xl mx-auto pb-20 space-y-16">
-    <Link href={isEnglish ? '/en/projects' : '/projects'} className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded"><ArrowLeft className="w-4 h-4" aria-hidden="true" />{t.back}</Link>
+    <Link href="/projects" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded"><ArrowLeft className="w-4 h-4" aria-hidden="true" />{t.back}</Link>
     <header className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center"><div className="lg:col-span-5 space-y-5"><p className="text-xs font-bold uppercase tracking-widest text-primary-700">{t.eyebrow}</p><h1 className="text-4xl sm:text-5xl font-heading font-extrabold tracking-tight text-slate-900">{t.title}</h1><p className="text-lg leading-relaxed text-slate-700">{t.intro}</p><a href="https://github.com/Godwin-08/AFC-Analyse-Factorielle-Correspondances" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-btn border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"><Github className="w-4 h-4" aria-hidden="true" />{t.source}</a></div><Figure src="/images/projects/afc-biplot.png" alt={isEnglish ? 'Correspondence analysis biplot for professional fields and skills' : 'Biplot AFC des domaines professionnels et compétences'} caption={isEnglish ? 'Biplot exported by the project notebook.' : 'Biplot exporté par le notebook du projet.'} priority /></header>
     <Section icon={<BookOpenCheck />} title={t.contextTitle}><p>{t.context}</p><div className="mt-5 rounded-xl border border-primary-100 bg-primary-50/60 p-5"><h3 className="font-heading font-bold text-slate-900">{t.roleTitle}</h3><p className="mt-2">{t.role}</p></div></Section>
     <Section icon={<ChartScatter />} title={t.dataTitle}><p>{t.data}</p></Section>

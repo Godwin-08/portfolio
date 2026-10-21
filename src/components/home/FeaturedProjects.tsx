@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
-import { getFeaturedProjects } from '@/data/projects';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
+import { getCategorySlug, getFeaturedProjects } from '@/data/projects';
 import { Project } from '@/types';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -126,7 +127,18 @@ const PROJECT_BG: Record<string, string> = {
   afc: 'from-violet-400/20 via-purple-300/10 to-slate-100',
 };
 
-const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
+interface ProjectPreviewCopy {
+  title: string;
+  category: string;
+  tagline: string;
+}
+
+const ProjectCard: React.FC<{
+  project: Project;
+  copy: ProjectPreviewCopy;
+  caseStudyLabel: string;
+  caseStudyAria: string;
+}> = ({ project, copy, caseStudyLabel, caseStudyAria }) => {
   const bgClass = PROJECT_BG[project.slug] ?? 'from-primary-500/20 to-slate-100';
 
   return (
@@ -140,10 +152,10 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
         {/* Info visible au repos */}
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-slate-900/60 via-slate-900/25 to-transparent">
           <span className="text-[10px] font-bold uppercase tracking-widest text-white/80">
-            {project.category}
+            {copy.category}
           </span>
           <h3 className="text-base font-heading font-bold text-white mt-0.5 line-clamp-1">
-            {project.title}
+            {copy.title}
           </h3>
         </div>
 
@@ -158,15 +170,15 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
         >
           <div>
             <span className="text-[10px] font-bold uppercase tracking-widest text-primary-300">
-              {project.category}
+              {copy.category}
             </span>
             <h3 className="text-base font-heading font-bold text-white mt-0.5 line-clamp-2">
-              {project.title}
+              {copy.title}
             </h3>
           </div>
 
           <p className="text-xs text-slate-300 leading-relaxed line-clamp-3">
-            {project.tagline}
+            {copy.tagline}
           </p>
 
           <div className="flex flex-wrap gap-1.5">
@@ -181,10 +193,10 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
           </div>
 
           <Link
-            href={`/projects/${project.slug}`}
+            href={{ pathname: '/projects/[slug]', params: { slug: project.slug } }}
             className="mt-1 inline-flex items-center gap-1.5 text-xs font-semibold text-white bg-primary-600 hover:bg-primary-500 px-4 py-2 rounded-lg transition-colors self-start focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
           >
-            <span>Voir l&apos;étude de cas</span>
+            <span>{caseStudyLabel}</span>
             <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
           </Link>
         </div>
@@ -203,8 +215,8 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
           )}
         </div>
         <Link
-          href={`/projects/${project.slug}`}
-          aria-label={`Voir l'étude de cas : ${project.title}`}
+          href={{ pathname: '/projects/[slug]', params: { slug: project.slug } }}
+          aria-label={caseStudyAria}
           className="ml-2 shrink-0 p-1.5 rounded-lg hover:bg-primary-50 text-slate-500 hover:text-primary-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
         >
           <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
@@ -215,6 +227,11 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
 };
 
 export const FeaturedProjects: React.FC = () => {
+  const t = useTranslations('home.projects');
+  const cta = useTranslations('common.cta');
+  const cards = useTranslations('projects.cards');
+  const categories = useTranslations('projects.categories');
+  const cardUi = useTranslations('projects.card');
   const featured = getFeaturedProjects();
 
   return (
@@ -226,26 +243,39 @@ export const FeaturedProjects: React.FC = () => {
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-primary-600" aria-hidden="true" />
               <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                Réalisations sélectionnées
+                {t('eyebrow')}
               </span>
             </div>
             <h2
               id="projects-heading"
               className="text-2xl sm:text-3xl md:text-4xl font-heading font-extrabold text-slate-900 tracking-tight"
             >
-              Projets sélectionnés
+              {t('heading')}
             </h2>
             <p className="text-sm sm:text-base text-slate-600 max-w-2xl leading-relaxed">
-              Des cas réels démontrant rigueur analytique, ingénierie logicielle et décisions documentées.
+              {t('description')}
             </p>
           </div>
         </div>
 
         {/* Grille 3 projets */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
-          {featured.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
+          {featured.map((project) => {
+            const copy: ProjectPreviewCopy = {
+              title: cards(`${project.id}.title`),
+              category: categories(getCategorySlug(project.category)),
+              tagline: cards(`${project.id}.tagline`),
+            };
+            return (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                copy={copy}
+                caseStudyLabel={cta('readCaseStudy')}
+                caseStudyAria={cardUi('caseStudyAria', { title: copy.title })}
+              />
+            );
+          })}
         </div>
 
         {/* Lien vers tous les projets */}
@@ -254,7 +284,7 @@ export const FeaturedProjects: React.FC = () => {
             href="/projects"
             className="inline-flex items-center gap-2 text-sm font-semibold text-primary-700 hover:text-primary-800 px-5 py-2.5 rounded-btn border border-primary-200 hover:border-primary-300 bg-primary-50/60 hover:bg-primary-50 transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
           >
-            <span>Voir tous les projets</span>
+            <span>{cta('viewAllProjects')}</span>
             <ArrowRight className="w-4 h-4" aria-hidden="true" />
           </Link>
         </div>

@@ -1,4 +1,5 @@
 import { Project } from '@/types';
+import { SKILLS } from '@/data/skills';
 
 export interface ProjectCategoryDefinition {
   name: Project['category'];
@@ -17,6 +18,26 @@ export const ALL_PROJECT_CATEGORIES = [
   { name: 'Machine Learning', slug: 'machine-learning' },
   { name: 'Data Engineering', slug: 'data-engineering' },
 ] as const satisfies readonly ProjectCategoryDefinition[];
+
+export function getCategorySlug(categoryName: Project['category']): string {
+  return ALL_PROJECT_CATEGORIES.find((category) => category.name === categoryName)?.slug ?? categoryName;
+}
+
+export function filterProjects(
+  projects: readonly Project[],
+  categorySlug: string | null,
+  skillId: string | null
+): Project[] {
+  const category = getCategoryBySlug(categorySlug);
+  const skill = skillId ? SKILLS.find((entry) => entry.id === skillId) : undefined;
+
+  return [...projects]
+    .filter((project) => !category || project.category === category.name)
+    .filter((project) => !skill || project.skills.some(
+      (projectSkill) => projectSkill.toLowerCase() === skill.name.toLowerCase()
+    ))
+    .sort((a, b) => a.order - b.order);
+}
 
 export const PROJECTS: Project[] = [
   {

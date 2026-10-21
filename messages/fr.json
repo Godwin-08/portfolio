@@ -2,20 +2,267 @@
   "common": {
     "name": "Godwin Elie Nougbolo",
     "role": "Étudiant Ingénieur en Informatique et Ingénierie des Données",
-    "badge": "Recherche PFA 2e année",
+    "badge": "Recherche un PFA de 2e année",
     "tagline": "Comprendre → Analyser → Construire",
     "philosophy": "Preuve > Affirmation",
+    "primaryFocus": "Data Analysis",
     "nav": {
       "home": "Accueil",
       "about": "À Propos",
       "projects": "Projets",
-      "contact": "Contact"
+      "contact": "Contact",
+      "mainLabel": "Navigation principale",
+      "mobileLabel": "Navigation mobile",
+      "active": "Actif"
     },
     "cta": {
       "viewProjects": "Voir mes projets",
+      "viewAllProjects": "Voir tous les projets",
+      "readCaseStudy": "Voir l’étude de cas",
       "downloadCv": "Télécharger mon CV",
       "contact": "Me contacter"
+    },
+    "language": {
+      "label": "Langue",
+      "selectorLabel": "S\u00e9lecteur de langue",
+      "switchToFrench": "Passer en fran\u00e7ais",
+      "switchToEnglish": "Passer en anglais"
+    },
+    "footer": {
+      "label": "Liens et contact",
+      "linksHeading": "Liens et contact",
+      "role": "\u00c9tudiant ing\u00e9nieur \u00b7 Informatique et Ing\u00e9nierie des Donn\u00e9es (IID)",
+      "copyright": "Tous droits r\u00e9serv\u00e9s."
+    },
+    "accessibility": {
+      "skipToContent": "Passer au contenu principal",
+      "homeLink": "Page d'accueil - {name}",
+      "openMenu": "Ouvrir le menu de navigation",
+      "closeMenu": "Fermer le menu",
+      "mobileMenu": "Menu mobile",
+      "linkedinProfile": "Profil LinkedIn de {name} (nouvelle fen\u00eatre)",
+      "githubProfile": "Profil GitHub de {name} (nouvelle fen\u00eatre)",
+      "externalNewTab": "(nouvel onglet)"
     }
+  },
+  "seo": {
+    "siteName": "Portfolio de Godwin Elie Nougbolo",
+    "home": {
+      "title": "Portfolio en analyse de données et développement",
+      "description": "Étudiant ingénieur à l’ENSA Khouribga, je présente mes projets en analyse de données, développement logiciel et statistiques appliquées."
+    },
+    "about": {
+      "title": "À propos — parcours et méthode",
+      "description": "Parcours académique, expérience sur Galaxy Training Manager et méthode de travail de Godwin Elie Nougbolo, étudiant ingénieur à l’ENSA Khouribga."
+    },
+    "projects": {
+      "title": "Projets en analyse de données et développement",
+      "description": "Découvrez six projets documentés en analyse de données, développement logiciel, statistiques appliquées et systèmes d’information."
+    },
+    "contact": {
+      "title": "Contact — échanger sur un projet",
+      "description": "Contacter Godwin Elie Nougbolo au sujet d’un projet ou d’un PFA en analyse de données et développement logiciel."
+    }
+  },
+  "home": {
+    "hero": {
+      "studentBadge": "Étudiant ingénieur · Informatique et Ingénierie des Données",
+      "pfaBadge": "Recherche un PFA de 2e année",
+      "degree": "Informatique et Ingénierie des Données",
+      "intro": "Étudiant ingénieur à l’ENSA Khouribga, je me forme aux métiers de la donnée. Mes projets m’ont apporté une première expérience pratique en analyse de données ; je développe progressivement mes compétences en Data Engineering et en Machine Learning.",
+      "focusHeading": "Domaines d’intérêt",
+      "analysisTitle": "Data Analysis",
+      "analysisDescription": "Expérience pratique en exploration et analyse de données sur des projets concrets.",
+      "growingFieldsDescription": "En développement progressif",
+      "growingFields": "Data Engineering · Machine Learning",
+      "tagline": "Comprendre les données. En tirer de la valeur. Construire des solutions.",
+      "viewProjects": "Voir mes projets",
+      "downloadCv": "Télécharger mon CV",
+      "portraitAlt": "Portrait de Godwin Elie Nougbolo, étudiant ingénieur à l’ENSA Khouribga",
+      "pfaOverlay": "Recherche PFA",
+      "portraitDiscipline": "Informatique et Ingénierie des Données · Data Analysis",
+      "availability": "Recherche un PFA"
+    },
+    "skills": {
+      "sectionLabel": "Compétences reliées aux projets",
+      "heading": "Compétences",
+      "instruction": "Choisissez une compétence pour voir les projets associés.",
+      "filterAria": "Filtrer les projets par compétence : {skill}",
+      "names": {
+        "statistiques": "Statistiques",
+        "bases-de-donnees": "Bases de données",
+        "systemes-d-information": "Systèmes d’information"
+      }
+    },
+    "projects": {
+      "eyebrow": "Projets sélectionnés",
+      "heading": "Projets sélectionnés",
+      "description": "Des projets concrets qui illustrent une approche rigoureuse de l’analyse, du développement logiciel et des décisions documentées."
+    },
+    "aboutTransition": {
+      "label": "Lien vers la présentation",
+      "heading": "Découvrir la démarche derrière les projets",
+      "description": "Parcours académique, projets et manière de travailler.",
+      "link": "Découvrir mon parcours"
+    }
+  },
+  "projects": {
+    "list": {
+      "eyebrow": "Projets et réalisations",
+      "heading": "Projets techniques",
+      "description": "Des projets concrets en analyse de données, développement logiciel et statistiques appliquées.",
+      "emptyTitle": "Aucun projet ne correspond",
+      "emptyDescription": "Modifiez les filtres ou réinitialisez la liste."
+    },
+    "filters": {
+      "label": "Filtres de projets",
+      "categoriesHeading": "Catégories",
+      "categoryGroup": "Filtrer par catégorie",
+      "allCategories": "Toutes",
+      "skillsHeading": "Compétences",
+      "skillGroup": "Filtrer par compétence",
+      "reset": "Réinitialiser",
+      "showMore": "Afficher encore {count}",
+      "showLess": "Moins",
+      "resultCount": "{count, plural, =0 {Aucun projet} one {# projet} other {# projets}}",
+      "updating": "Mise à jour…"
+    },
+    "categories": {
+      "data-analysis": "Analyse de données",
+      "web-si": "Web / Systèmes d’information",
+      "statistiques": "Statistiques",
+      "machine-learning": "Apprentissage automatique",
+      "data-engineering": "Ingénierie des données"
+    },
+    "card": {
+      "caseStudy": "Lire l’étude de cas",
+      "project": "Voir le projet",
+      "caseStudyAria": "Lire l’étude de cas : {title}",
+      "projectAria": "Voir le projet : {title}",
+      "flagship": "Projet de référence",
+      "imageAlt": "Aperçu du projet {title}"
+    },
+    "cards": {
+      "gtm": { "title": "GTM — Galaxy Training Manager", "tagline": "Application de gestion des formations développée en contexte professionnel, avec évaluation et analyse décisionnelle.", "summary": "Application de gestion et d’analyse des formations développée dans un contexte professionnel.", "context": "Professionnel · projet individuel" },
+      "olist": { "title": "Audit de données commerciales — Olist", "tagline": "Analyse exploratoire et audit de qualité portant sur 96 252 commandes e-commerce.", "summary": "Audit d’une marketplace portant sur la qualité des données, les délais logistiques, la performance des vendeurs et les catégories de produits.", "context": "Académique · binôme" },
+      "afc": { "title": "Analyse factorielle des correspondances (AFC)", "tagline": "Implémentation en Python des calculs d’une méthode d’analyse multivariée.", "summary": "Implémentation de l’analyse factorielle des correspondances pour étudier les relations entre domaines et compétences sur LinkedIn.", "context": "Académique · binôme" },
+      "revision-flow": { "title": "RevisionFlow", "tagline": "Planificateur de révisions dans le navigateur, avec recalcul du planning en temps réel.", "summary": "Planificateur de révisions fonctionnant dans le navigateur, qui adapte le planning à l’avancement et signale les situations de surcharge.", "context": "Académique · projet individuel" },
+      "sante-scolaire": { "title": "SantéScolaire", "tagline": "Système d’information pour l’infirmerie scolaire : dossiers, consultations, agenda et statistiques.", "summary": "Application Flask pour gérer les dossiers élèves, l’historique médical, les consultations et l’agenda, avec des accès définis par rôle.", "context": "Projet personnel" },
+      "novastore": { "title": "NovaStore", "tagline": "Boutique e-commerce en programmation orientée objet : catalogue, panier, commandes et facturation.", "summary": "Application e-commerce Flask organisée autour de la programmation orientée objet, du catalogue à la facturation et au back-office.", "context": "Académique · projet en équipe" }
+    }
+  },
+  "caseStudies": {
+    "ui": {
+      "back": "Retour à tous les projets",
+      "flagship": "Étude de cas de référence",
+      "source": "Code source (GitHub)",
+      "demo": "Démonstration en ligne",
+      "metricsTitle": "Résultats et métriques validés",
+      "problemTitle": "1. Problème et contexte métier",
+      "problemPointsTitle": "Points de friction initiaux",
+      "approachTitle": "2. Approche et méthodologie",
+      "roleTitle": "3. Rôle et responsabilités",
+      "implementationTitle": "4. Réalisation technique et architecture",
+      "architectureHighlightsTitle": "Points forts de l’architecture",
+      "decisionsTitle": "5. Décisions techniques et arbitrages",
+      "decisionLabel": "Décision :",
+      "rationaleLabel": "Raison d’ingénierie :",
+      "impactLabel": "Impact :",
+      "validationTitle": "6. Validation et suite de tests",
+      "validationPointsTitle": "Garanties de qualité",
+      "reflectionTitle": "7. Recul et enseignements",
+      "technologiesTitle": "8. Technologies et outils mobilisés",
+      "previousProject": "Projet précédent",
+      "nextProject": "Projet suivant"
+    }
+  },
+  "skills": {
+    "names": {
+      "python": "Python", "sql": "SQL", "pandas": "Pandas", "numpy": "NumPy", "matplotlib": "Matplotlib", "chart-js": "Chart.js", "mysql": "MySQL", "flask": "Flask", "sqlalchemy": "SQLAlchemy", "javascript": "JavaScript", "html-css": "HTML/CSS", "git": "Git", "statistiques": "Statistiques", "data-analysis": "Analyse de données", "backend": "Backend", "bases-de-donnees": "Bases de données", "systemes-d-information": "Systèmes d’information", "scipy": "SciPy", "jupyter": "Jupyter", "pytest": "pytest", "openpyxl": "openpyxl", "seaborn": "Seaborn", "reportlab": "ReportLab"
+    },
+    "descriptions": {
+      "python": "Langage central pour les pipelines de données, l’analyse statistique et le backend.",
+      "sql": "Requêtes complexes, jointures, agrégations et modélisation relationnelle (3NF).",
+      "pandas": "Manipulation, nettoyage et agrégation de jeux de données complexes.",
+      "numpy": "Calcul matriciel vectorisé, algèbre linéaire et optimisation numérique.",
+      "matplotlib": "Visualisations statistiques descriptives, distributions et analyses exploratoires.",
+      "chart-js": "Tableaux de bord interactifs et graphiques dynamiques pour le web.",
+      "mysql": "Administration de bases relationnelles, intégrité référentielle et contraintes ACID.",
+      "flask": "Développement de microservices et d’applications web modulaires avec des Blueprints.",
+      "sqlalchemy": "ORM, gestion des sessions, migrations et relations complexes.",
+      "javascript": "Interactivité côté client et intégration web.",
+      "html-css": "Structure sémantique, accessibilité et intégration responsive.",
+      "git": "Gestion de versions, travail collaboratif et traçabilité du code.",
+      "statistiques": "Analyse univariée et bivariée, inertie totale, décomposition factorielle et métriques.",
+      "data-analysis": "Exploration méthodique, recherche de tendances et indicateurs liés aux besoins métier.",
+      "backend": "Architectures MVC, authentification, ORM et logique métier.",
+      "bases-de-donnees": "Conception MCD/MLD, normalisation, indexation et intégrité des transactions.",
+      "systemes-d-information": "Conception de solutions de gestion et de pilotage opérationnel.",
+      "scipy": "Calcul scientifique et décomposition en valeurs singulières (SVD).",
+      "jupyter": "Notebooks reproductibles, audit de données et documentation vivante.",
+      "pytest": "Tests unitaires et de régression, et validation fonctionnelle continue.",
+      "openpyxl": "Automatisation et génération de classeurs Excel multi-onglets.",
+      "seaborn": "Visualisation statistique exploratoire et comparaison de distributions.",
+      "reportlab": "Génération programmatique de documents PDF vectoriels."
+    }
+  },
+  "about": {
+    "eyebrow": "À propos",
+    "title": "Donner du sens aux données et en faire quelque chose d’utile.",
+    "intro": "Je suis étudiant ingénieur en Informatique et Ingénierie des Données à l’ENSA Khouribga. La Data Analysis est mon orientation actuelle ; je développe aussi progressivement mes repères en Data Engineering et en Machine Learning.",
+    "search": "Je recherche aujourd’hui un PFA de deuxième année, avec l’envie de contribuer à un contexte où les données et le logiciel répondent à un besoin concret.",
+    "education": {
+      "heading": "Parcours académique",
+      "engineering": { "period": "Depuis 2025", "degree": "Cycle ingénieur — Informatique et Ingénierie des Données (IID)", "location": "Khouribga, Maroc", "description": "Formation d’ingénieur en informatique et ingénierie des données." },
+      "deug": { "period": "2023–2025", "degree": "DEUG Informatique Fondamentale", "location": "Kénitra, Maroc", "description": "Mention assez bien · 13/20." },
+      "baccalaureate": { "period": "2022–2023", "degree": "Baccalauréat Maths & SVT / Sciences de la Nature", "location": "Togo", "description": "Mention très bien." }
+    },
+    "professional": "Expérience professionnelle",
+    "galaxyLabel": "Projet professionnel individuel · GTM",
+    "galaxy": "Galaxy Solutions — Galaxy Training Manager",
+    "galaxyText": "Dans le cadre d’un projet professionnel individuel, j’ai conçu GTM, une application de gestion de formations. Elle réunit une interface web, une base de données, des rôles utilisateurs, un tableau de bord et des fonctions d’analyse pour rendre le suivi des formations plus lisible.",
+    "galaxyLink": "Voir l’étude de cas GTM",
+    "association": "Engagement associatif",
+    "cestom": "CESTOM",
+    "currentEngagement": "Engagement actuel",
+    "currentRole": "Secrétaire général · CESTOM Khouribga",
+    "previousEngagements": "Engagements précédents",
+    "previousTreasurer": "Trésorier local · CESTOM Kénitra",
+    "previousVolunteer": "Bénévole · CESTOM Ben Guerir",
+    "cestomText": "Responsabilité associative actuelle, distincte d’une expérience salariée.",
+    "method": "Ma manière de travailler",
+    "methodTitle": "Comprendre → Analyser → Construire",
+    "steps": {
+      "understand": { "title": "Comprendre", "text": "Je commence par le problème, les données disponibles et les contraintes. Le travail AFC m’a notamment amené à revenir aux mécanismes de la méthode avant de les coder." },
+      "analyze": { "title": "Analyser", "text": "Je vérifie et structure ce qui existe avant d’en tirer une lecture. L’audit Olist est le terrain où cette étape prend le plus de place." },
+      "build": { "title": "Construire", "text": "Je transforme ensuite cette compréhension en un livrable concret : une interface, une analyse ou un outil. GTM relie ces dimensions dans une même application." }
+    },
+    "traits": "Ce que les projets montrent",
+    "proof": {
+      "verify": { "title": "Vérifier avant de conclure", "text": "Les contrôles de cohérence d’Olist et les étapes de validation de GTM font partie du travail, pas seulement de sa présentation." },
+      "method": { "title": "Comprendre une méthode", "text": "Pour l’AFC, le calcul a été reconstruit étape par étape avec Pandas, NumPy et SciPy plutôt que réduit à une boîte noire." },
+      "progress": { "title": "Rester en progression", "text": "La Data Analysis est mon point d’appui actuel. Le Data Engineering et le Machine Learning restent des domaines que j’explore et développe." }
+    },
+    "focus": "Ce que je cherche aujourd’hui",
+    "focusText": "Un PFA de deuxième année, prioritairement orienté Data Analysis, tout en restant ouvert à une mission où la Data Engineering apporte un cadre utile. Le Machine Learning et l’IA font partie des domaines que je continue d’explorer.",
+    "beyond": "En dehors des projets",
+    "beyondText": "J’apprends aussi à travers des projets collectifs et des problèmes techniques concrets. L’engagement associatif, comme CESTOM, complète ce parcours en donnant une place au travail d’équipe et à l’usage réel des interfaces.",
+    "cta": "Continuons la conversation."
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Échangeons autour d’un projet concret.",
+    "intro": "Je recherche actuellement un PFA de deuxième année, avec un intérêt prioritaire pour la Data Analysis, tout en développant progressivement mes compétences en Data Engineering et en Machine Learning.",
+    "focus": "Recherche actuelle",
+    "email": "Me contacter par email",
+    "emailDetail": "Le moyen le plus direct pour échanger sur une opportunité ou un projet.",
+    "linkedin": "Voir mon LinkedIn",
+    "linkedinDetail": "Parcours et profil professionnel.",
+    "github": "Voir mon GitHub",
+    "githubDetail": "Code source et projets publics.",
+    "cv": "Télécharger mon CV",
+    "externalNewTab": "(nouvel onglet)",
+    "contactLinks": "Moyens de contact"
   }
 }
 

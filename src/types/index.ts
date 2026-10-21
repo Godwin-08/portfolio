@@ -75,7 +75,6 @@ export interface Skill {
   id: string;
   name: string;
   category: SkillCategory;
-  description: string;
   projectSlugs: string[];
   isTopSkill?: boolean;
 }
@@ -91,10 +90,6 @@ export interface ExperienceItem {
 }
 
 export interface EducationItem {
-  period: string;
-  degree: string;
+  id: 'engineering' | 'deug' | 'baccalaureate';
   institution: string;
-  location: string;
-  description: string;
-  specialties: string[];
 }

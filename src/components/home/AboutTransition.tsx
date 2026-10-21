@@ -1,10 +1,12 @@
 import React from 'react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import { ArrowRight, User } from 'lucide-react';
 
 export const AboutTransition: React.FC = () => {
+  const t = useTranslations('home.aboutTransition');
   return (
-    <section className="py-10 md:py-14" aria-label="Lien vers la page À propos">
+    <section className="py-10 md:py-14" aria-label={t('label')}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 px-6 py-6 rounded-2xl border border-slate-200/80 bg-gradient-to-r from-slate-50 to-primary-50/40">
           <div className="flex items-center gap-4">
@@ -16,10 +18,10 @@ export const AboutTransition: React.FC = () => {
             </div>
             <div>
               <p className="text-sm font-semibold text-slate-900">
-                Comprendre la démarche derrière les projets
+                {t('heading')}
               </p>
               <p className="text-xs text-slate-500 mt-0.5">
-                Parcours académique, expérience professionnelle et manière de travailler
+                {t('description')}
               </p>
             </div>
           </div>
@@ -27,7 +29,7 @@ export const AboutTransition: React.FC = () => {
             href="/about"
             className="inline-flex items-center gap-2 text-sm font-semibold text-primary-700 hover:text-primary-800 shrink-0 group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-sm"
           >
-            <span>Découvrir mon parcours</span>
+            <span>{t('link')}</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
           </Link>
         </div>

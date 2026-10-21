@@ -1,10 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import { ArrowUpRight, Star } from 'lucide-react';
 
 import { Project } from '@/types';
+import { getCategorySlug } from '@/data/projects';
+import { SKILLS } from '@/data/skills';
 import { cn } from '@/lib/utils';
 
 interface ProjectCardProps {
@@ -16,6 +19,15 @@ export function ProjectCard({
   project,
   featured = false,
 }: ProjectCardProps) {
+  const copy = useTranslations('projects.cards');
+  const ui = useTranslations('projects.card');
+  const categories = useTranslations('projects.categories');
+  const skillLabels = useTranslations('skills.names');
+  const title = copy(`${project.id}.title`);
+  const getSkillLabel = (name: string) => {
+    const skill = SKILLS.find((entry) => entry.name.toLowerCase() === name.toLowerCase());
+    return skill ? skillLabels(skill.id) : name;
+  };
   const hasCaseStudy = Boolean(project.caseStudy);
 
   return (
@@ -37,7 +49,7 @@ export function ProjectCard({
         {project.image ? (
           <Image
             src={project.image}
-            alt={`Aperçu du projet ${project.title}`}
+            alt={ui('imageAlt', { title })}
             fill
             sizes={
               featured
@@ -62,7 +74,7 @@ export function ProjectCard({
         {/* Top information */}
         <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-3 p-3 sm:p-4">
           <span className="rounded-md bg-white/90 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-700 shadow-sm backdrop-blur-sm">
-            {project.category}
+            {categories(getCategorySlug(project.category))}
           </span>
 
           {project.isFlagship && (
@@ -71,7 +83,7 @@ export function ProjectCard({
                 className="h-3 w-3 fill-accent-500 text-accent-500"
                 aria-hidden="true"
               />
-              Référence
+              {ui('flagship')}
             </span>
           )}
         </div>
@@ -79,26 +91,26 @@ export function ProjectCard({
         {/* Bottom visible information */}
         <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
           <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-white/75">
-            {project.context}
+            {copy(`${project.id}.context`)}
           </p>
 
           <h2 className="line-clamp-2 font-heading text-lg font-bold text-white sm:text-xl">
-            {project.title}
+            {title}
           </h2>
         </div>
 
         {/* Desktop / keyboard reveal */}
         <div className="absolute inset-0 flex translate-y-full flex-col justify-end bg-slate-950/94 p-5 text-white transition-transform duration-300 group-hover:translate-y-0 group-focus-within:translate-y-0 sm:p-6">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-white/65">
-            {project.category}
+            {categories(getCategorySlug(project.category))}
           </p>
 
           <h3 className="mt-1 font-heading text-lg font-bold sm:text-xl">
-            {project.title}
+            {title}
           </h3>
 
           <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-slate-200">
-            {project.summary}
+            {copy(`${project.id}.summary`)}
           </p>
 
           <div className="mt-4 flex flex-wrap gap-1.5">
@@ -107,17 +119,17 @@ export function ProjectCard({
                 key={skill}
                 className="rounded-md bg-white/10 px-2 py-1 font-mono text-[10px] text-slate-100"
               >
-                {skill}
+                {getSkillLabel(skill)}
               </span>
             ))}
           </div>
 
           <Link
-            href={hasCaseStudy ? `/projects/${project.slug}` : '/projects'}
+            href={hasCaseStudy ? { pathname: '/projects/[slug]', params: { slug: project.slug } } : '/projects'}
             className="mt-5 inline-flex w-fit items-center gap-1.5 rounded-btn bg-primary-600 px-3.5 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300"
           >
             <span>
-              {hasCaseStudy ? 'Lire l’étude de cas' : 'Voir le projet'}
+              {hasCaseStudy ? ui('caseStudy') : ui('project')}
             </span>
             <ArrowUpRight
               className="h-3.5 w-3.5"
@@ -130,7 +142,7 @@ export function ProjectCard({
       {/* Mobile / non-hover fallback */}
       <div className="flex flex-1 flex-col p-4 sm:hidden">
         <p className="line-clamp-2 text-xs leading-relaxed text-slate-600">
-          {project.tagline}
+          {copy(`${project.id}.tagline`)}
         </p>
 
         <div className="mt-3 flex flex-wrap gap-1.5">
@@ -139,17 +151,18 @@ export function ProjectCard({
               key={skill}
               className="rounded-md border border-slate-200/70 bg-slate-50 px-2 py-0.5 font-mono text-[10px] text-slate-600"
             >
-              {skill}
+              {getSkillLabel(skill)}
             </span>
           ))}
         </div>
 
         <Link
-          href={hasCaseStudy ? `/projects/${project.slug}` : '/projects'}
+          href={hasCaseStudy ? { pathname: '/projects/[slug]', params: { slug: project.slug } } : '/projects'}
+          aria-label={hasCaseStudy ? ui('caseStudyAria', { title }) : ui('projectAria', { title })}
           className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-btn bg-slate-900 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-primary-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
         >
           <span>
-            {hasCaseStudy ? 'Lire l’étude de cas' : 'Voir le projet'}
+            {hasCaseStudy ? ui('caseStudy') : ui('project')}
           </span>
           <ArrowUpRight
             className="h-3.5 w-3.5"

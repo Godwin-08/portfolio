@@ -25,6 +25,10 @@ bun dev
 - **Contenu** : MDX & Data Layer typé
 - **Tests** : Vitest
 
+## SEO et domaine de production
+
+Les métadonnées canoniques, `og:url` et les images sociales absolues s’appuient sur la variable `NEXT_PUBLIC_SITE_URL`. Configurez-la avec l’origine HTTPS du domaine de production une fois celui-ci confirmé. Aucune valeur n’est définie dans ce dépôt : sans domaine fiable, ces URL sont volontairement omises plutôt que remplacées par une adresse fictive. `next-intl` fournit les variantes de langue via l’en-tête HTTP `Link`.
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 ## 📁 Arborescence du Projet
 

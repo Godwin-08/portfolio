@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from '@/i18n/routing';
 import { ChevronDown, ChevronUp, Filter, X } from 'lucide-react';
 
 import { SKILLS } from '@/data/skills';
@@ -22,8 +24,11 @@ export function ProjectFilters({
   totalResults,
 }: ProjectFiltersProps) {
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
+  const t = useTranslations('projects.filters');
+  const categoryLabels = useTranslations('projects.categories');
+  const skillLabels = useTranslations('skills.names');
+  const skillDescriptions = useTranslations('skills.descriptions');
 
   const [isPending, startTransition] = useTransition();
   const [showAllSkills, setShowAllSkills] = useState(false);
@@ -47,11 +52,10 @@ export function ProjectFilters({
       params.delete(key);
     }
 
-    const query = params.toString();
-    const nextUrl = query ? `${pathname}?${query}` : pathname;
+    const query = Object.fromEntries(params.entries());
 
     startTransition(() => {
-      router.push(nextUrl, { scroll: false });
+      router.push({ pathname: '/projects', query }, { scroll: false });
     });
   };
 
@@ -71,25 +75,25 @@ export function ProjectFilters({
 
   const handleReset = () => {
     startTransition(() => {
-      router.push(pathname, { scroll: false });
+      router.push('/projects', { scroll: false });
     });
   };
 
   return (
     <section
       className="space-y-5 rounded-card border border-slate-200/90 bg-white p-5 shadow-card sm:p-6"
-      aria-label="Filtres de projets"
+      aria-label={t('label')}
     >
       {/* Catégories */}
       <div className="space-y-2.5">
         <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
-          Catégories
+          {t('categoriesHeading')}
         </p>
 
         <div
           className="flex flex-wrap gap-2"
           role="group"
-          aria-label="Filtrer par catégorie"
+          aria-label={t('categoryGroup')}
         >
           <button
             type="button"
@@ -103,7 +107,7 @@ export function ProjectFilters({
                 : 'border border-slate-200/70 bg-white text-slate-600 hover:bg-slate-50'
             )}
           >
-            Tous
+            {t('allCategories')}
           </button>
 
           {categories.map((category) => {
@@ -123,7 +127,7 @@ export function ProjectFilters({
                     : 'border border-slate-200/70 bg-white text-slate-600 hover:bg-slate-50'
                 )}
               >
-                {category.name}
+                {categoryLabels(category.slug)}
               </button>
             );
           })}
@@ -138,7 +142,7 @@ export function ProjectFilters({
               className="h-3.5 w-3.5"
               aria-hidden="true"
             />
-            Compétences
+            {t('skillsHeading')}
           </p>
 
           {isFiltered && (
@@ -151,7 +155,7 @@ export function ProjectFilters({
                 className="h-3.5 w-3.5"
                 aria-hidden="true"
               />
-              Réinitialiser
+              {t('reset')}
             </button>
           )}
         </div>
@@ -159,7 +163,7 @@ export function ProjectFilters({
         <div
           className="flex flex-wrap gap-1.5"
           role="group"
-          aria-label="Filtrer par compétence"
+          aria-label={t('skillGroup')}
         >
           {visibleSkills.map((skill) => {
             const isActive = activeSkillId === skill.id;
@@ -170,7 +174,7 @@ export function ProjectFilters({
                 type="button"
                 onClick={() => handleSkillChange(skill.id)}
                 aria-pressed={isActive}
-                title={skill.description}
+                title={skillDescriptions(skill.id)}
                 className={cn(
                   'rounded-md border px-2.5 py-1 text-xs font-mono transition-colors',
                   'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500',
@@ -179,7 +183,7 @@ export function ProjectFilters({
                     : 'border-slate-200/60 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                 )}
               >
-                {skill.name}
+                {skillLabels(skill.id)}
               </button>
             );
           })}
@@ -197,7 +201,7 @@ export function ProjectFilters({
                     className="h-3 w-3"
                     aria-hidden="true"
                   />
-                  <span>Moins</span>
+                  <span>{t('showLess')}</span>
                 </>
               ) : (
                 <>
@@ -205,7 +209,7 @@ export function ProjectFilters({
                     className="h-3 w-3"
                     aria-hidden="true"
                   />
-                  <span>+{secondarySkills.length}</span>
+                  <span>{t('showMore', { count: secondarySkills.length })}</span>
                 </>
               )}
             </button>
@@ -220,14 +224,13 @@ export function ProjectFilters({
       >
         <span>
           <strong className="text-slate-700">
-            {totalResults}
-          </strong>{' '}
-          projet{totalResults > 1 ? 's' : ''}
+            {t('resultCount', { count: totalResults })}
+          </strong>
         </span>
 
         {isPending && (
           <span className="font-medium text-primary-600">
-            Mise à jour…
+            {t('updating')}
           </span>
         )}
       </div>

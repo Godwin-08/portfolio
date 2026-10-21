@@ -2,12 +2,15 @@
 
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import { PROFILE } from '@/data/profile';
 import { FileText, ArrowRight, BarChart2, Database, Brain, CheckCircle2 } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export const HeroSection: React.FC = () => {
+  const t = useTranslations('home.hero');
+  const common = useTranslations('common');
   return (
     <section
       className="relative pt-10 pb-16 md:pt-16 md:pb-24 overflow-hidden"
@@ -37,11 +40,11 @@ export const HeroSection: React.FC = () => {
             <div className="flex flex-wrap items-center gap-2.5">
               <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-primary-700 bg-primary-50 border border-primary-200 px-3 py-1 rounded-full">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary-600 shrink-0" aria-hidden="true" />
-                ÉTUDIANT INGÉNIEUR · IID
+                {t('studentBadge')}
               </span>
               <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent-700 bg-accent-50 border border-accent-200 px-3 py-1 rounded-full">
                 <CheckCircle2 className="w-3.5 h-3.5 text-accent-600" aria-hidden="true" />
-                PFA 2e année · Recherche actuellement
+                {t('pfaBadge')}
               </span>
             </div>
 
@@ -51,18 +54,17 @@ export const HeroSection: React.FC = () => {
                 id="hero-heading"
                 className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-[3.2rem] text-slate-900 tracking-tight leading-[1.1]"
               >
-                {PROFILE.name}
+                {common('name')}
               </h1>
               <p className="mt-2.5 text-lg sm:text-xl font-medium text-slate-600">
-                Informatique et{' '}
-                <span className="text-slate-900 font-semibold">Ingénierie des Données</span>
+                {t('degree')}
               </p>
             </div>
 
             {/* Orientation & Essor */}
             <div className="rounded-2xl border border-slate-200 bg-white shadow-card p-5 space-y-3">
               <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                Orientation & Spécialisation
+                {t('focusHeading')}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {/* Majeure Data Analysis */}
@@ -70,10 +72,10 @@ export const HeroSection: React.FC = () => {
                   <BarChart2 className="w-5 h-5 text-primary-700 mt-0.5 shrink-0" aria-hidden="true" />
                   <div>
                     <span className="block text-xs font-extrabold text-primary-900">
-                      Data Analysis
+                      {t('analysisTitle')}
                     </span>
                     <span className="text-[11px] text-primary-700/90 leading-relaxed">
-                      Exploration, modélisation & KPIs décisionnels
+                      {t('analysisDescription')}
                     </span>
                   </div>
                 </div>
@@ -85,10 +87,10 @@ export const HeroSection: React.FC = () => {
                   </div>
                   <div>
                     <span className="block text-xs font-bold text-slate-700">
-                      Data Engineering · Machine Learning
+                      {t('growingFields')}
                     </span>
                     <span className="text-[11px] text-slate-500 leading-relaxed">
-                      En développement actif
+                      {t('growingFieldsDescription')}
                     </span>
                   </div>
                 </div>
@@ -97,8 +99,7 @@ export const HeroSection: React.FC = () => {
 
             {/* Phrase de méthode */}
             <p className="text-base sm:text-lg text-slate-700 leading-relaxed max-w-lg">
-              Je comprends un problème, j&apos;identifie ce qui compte, puis je construis{' '}
-              <span className="text-slate-900 font-semibold">une réponse concrète.</span>
+              {t('tagline')}
             </p>
 
             {/* CTAs */}
@@ -107,7 +108,7 @@ export const HeroSection: React.FC = () => {
                 href="/projects"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-btn bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
               >
-                Voir mes projets
+                {t('viewProjects')}
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </Link>
               <a
@@ -117,7 +118,7 @@ export const HeroSection: React.FC = () => {
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-btn bg-white hover:bg-slate-50 text-slate-800 text-sm font-semibold border border-slate-300 hover:border-slate-400 shadow-xs hover:shadow-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
               >
                 <FileText className="w-4 h-4 text-slate-500" aria-hidden="true" />
-                Télécharger mon CV
+                {t('downloadCv')}
               </a>
             </div>
           </motion.div>
@@ -142,14 +143,14 @@ export const HeroSection: React.FC = () => {
                 {/* Badge PFA overlay */}
                 <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-accent-500/95 backdrop-blur-sm text-white text-[11px] font-bold shadow-md">
                   <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" aria-hidden="true" />
-                  PFA 2e année
+                  {t('pfaOverlay')}
                 </div>
 
                 {/* Photo portrait vertical */}
                 <div className="relative aspect-[4/5] w-full">
                   <Image
                     src="/images/godwin-portrait.jpg"
-                    alt="Portrait de Godwin Elie Nougbolo, étudiant ingénieur IID"
+                    alt={t('portraitAlt')}
                     fill
                     priority
                     sizes="(max-width: 640px) 340px, (max-width: 1024px) 380px, 380px"
@@ -165,12 +166,12 @@ export const HeroSection: React.FC = () => {
                 {/* Micro-légende sous la photo */}
                 <div className="px-4 py-3 bg-white border-t border-slate-100 flex items-center justify-between">
                   <div>
-                    <p className="text-xs font-bold text-slate-900">{PROFILE.name}</p>
-                    <p className="text-[11px] text-slate-500">IID · Data Analysis</p>
+                    <p className="text-xs font-bold text-slate-900">{common('name')}</p>
+                    <p className="text-[11px] text-slate-500">{t('portraitDiscipline')}</p>
                   </div>
                   <div className="flex items-center gap-1 text-[11px] font-mono text-primary-700 font-semibold">
                     <CheckCircle2 className="w-3.5 h-3.5 text-accent-600" aria-hidden="true" />
-                    Disponible PFA
+                    {t('availability')}
                   </div>
                 </div>
 

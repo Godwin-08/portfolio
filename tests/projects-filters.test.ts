@@ -1,29 +1,16 @@
 import { describe, it, expect } from 'vitest';
-import { getAllProjects, PROJECTS } from '@/data/projects';
+import { filterProjects as applyProjectFilters, getAllProjects, PROJECTS } from '@/data/projects';
 import { SKILLS } from '@/data/skills';
-import { ProjectCategory } from '@/types';
 
 // ---------- Helper: reproduce the same filtering logic as the page ----------
 function filterProjects({
-  category = 'Tous' as ProjectCategory,
+  categorySlug = null as string | null,
   skillId = null as string | null,
 }: {
-  category?: ProjectCategory;
+  categorySlug?: string | null;
   skillId?: string | null;
 }) {
-  const allProjects = getAllProjects();
-  const activeSkill = skillId ? SKILLS.find((s) => s.id === skillId) : null;
-
-  return allProjects.filter((project) => {
-    if (category !== 'Tous' && project.category !== category) return false;
-    if (activeSkill) {
-      const match = project.skills.some(
-        (s) => s.toLowerCase() === activeSkill.name.toLowerCase()
-      );
-      if (!match) return false;
-    }
-    return true;
-  });
+  return applyProjectFilters(getAllProjects(), categorySlug, skillId);
 }
 
 // ---------------------------------------------------------------------------
@@ -38,7 +25,7 @@ describe('Projects Page - No Filter (all projects)', () => {
 
 describe('Projects Page - Category Filter', () => {
   it('should filter by Data Analysis category', () => {
-    const results = filterProjects({ category: 'Data Analysis' });
+    const results = filterProjects({ categorySlug: 'data-analysis' });
     expect(results.length).toBeGreaterThanOrEqual(1);
     results.forEach((p) => {
       expect(p.category).toBe('Data Analysis');
@@ -47,7 +34,7 @@ describe('Projects Page - Category Filter', () => {
   });
 
   it('should filter by Web / SI category', () => {
-    const results = filterProjects({ category: 'Web / SI' });
+    const results = filterProjects({ categorySlug: 'web-si' });
     expect(results.length).toBeGreaterThanOrEqual(1);
     results.forEach((p) => {
       expect(p.category).toBe('Web / SI');
@@ -56,7 +43,7 @@ describe('Projects Page - Category Filter', () => {
   });
 
   it('should filter by Statistiques category', () => {
-    const results = filterProjects({ category: 'Statistiques' });
+    const results = filterProjects({ categorySlug: 'statistiques' });
     expect(results.length).toBeGreaterThanOrEqual(1);
     results.forEach((p) => {
       expect(p.category).toBe('Statistiques');
@@ -93,7 +80,7 @@ describe('Projects Page - Skill Filter', () => {
 
 describe('Projects Page - Combined Filters', () => {
   it('should combine category and skill filters', () => {
-    const results = filterProjects({ category: 'Web / SI', skillId: 'flask' });
+    const results = filterProjects({ categorySlug: 'web-si', skillId: 'flask' });
     expect(results.length).toBeGreaterThanOrEqual(1);
     results.forEach((p) => {
       expect(p.category).toBe('Web / SI');
@@ -103,7 +90,7 @@ describe('Projects Page - Combined Filters', () => {
 
   it('should return empty for impossible combination', () => {
     // Data Analysis projects don't use Flask
-    const results = filterProjects({ category: 'Data Analysis', skillId: 'flask' });
+    const results = filterProjects({ categorySlug: 'data-analysis', skillId: 'flask' });
     expect(results.length).toBe(0);
   });
 });
@@ -116,7 +103,7 @@ describe('Projects Page - Empty State', () => {
   });
 
   it('should return empty for Machine Learning category (no projects yet)', () => {
-    const results = filterProjects({ category: 'Machine Learning' });
+    const results = filterProjects({ categorySlug: 'machine-learning' });
     expect(results.length).toBe(0);
   });
 });

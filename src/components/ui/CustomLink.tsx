@@ -1,18 +1,20 @@
 import React from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-interface CustomLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  href: string;
-  isExternal?: boolean;
+type LocalizedHref = React.ComponentProps<typeof Link>['href'];
+type CustomLinkProps = Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & (
+  | { href: LocalizedHref; isExternal?: false }
+  | { href: string; isExternal: true }
+) & {
   showIcon?: boolean;
   variant?: 'primary' | 'muted' | 'subtle';
-}
+};
 
 export const CustomLink: React.FC<CustomLinkProps> = ({
   href,
-  isExternal = false,
+  isExternal,
   showIcon = false,
   variant = 'primary',
   className,
@@ -31,7 +33,7 @@ export const CustomLink: React.FC<CustomLinkProps> = ({
     className
   );
 
-  if (isExternal) {
+  if (isExternal === true) {
     return (
       <a
         href={href}

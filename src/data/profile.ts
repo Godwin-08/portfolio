@@ -28,28 +28,16 @@ export const PROFILE = {
   },
   education: [
     {
-      period: 'Depuis 2025',
-      degree: 'Cycle ingénieur — Informatique et Ingénierie des Données (IID)',
+      id: 'engineering',
       institution: 'ENSA Khouribga',
-      location: 'Khouribga, Maroc',
-      description: 'Formation d’ingénieur en informatique et ingénierie des données.',
-      specialties: [],
     },
     {
-      period: '2023–2025',
-      degree: 'DEUG Informatique Fondamentale',
+      id: 'deug',
       institution: 'Université Ibn Tofaïl',
-      location: 'Kénitra, Maroc',
-      description: 'Mention assez bien · 13/20.',
-      specialties: [],
     },
     {
-      period: '2022–2023',
-      degree: 'Baccalauréat Maths & SVT / Sciences de la Nature',
+      id: 'baccalaureate',
       institution: 'Collège Protestant Lomé Tokoin',
-      location: 'Togo',
-      description: 'Mention très bien.',
-      specialties: [],
     },
   ] as EducationItem[],
 };

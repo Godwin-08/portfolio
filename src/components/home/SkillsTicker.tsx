@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { Link, useRouter } from '@/i18n/routing';
 import { SKILLS } from '@/data/skills';
 import { Layers, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -11,6 +11,9 @@ const TRACK_SPEED = 35; // secondes pour un cycle
 
 export const SkillsTicker: React.FC = () => {
   const router = useRouter();
+  const t = useTranslations('home.skills');
+  const descriptions = useTranslations('skills.descriptions');
+  const common = useTranslations('common');
 
   // Diviser en 2 bandes
   const midpoint = Math.ceil(SKILLS.length / 2);
@@ -18,7 +21,14 @@ export const SkillsTicker: React.FC = () => {
   const track2 = SKILLS.slice(midpoint);
 
   const handleSkillClick = (skillId: string) => {
-    router.push(`/projects?skill=${encodeURIComponent(skillId)}`);
+    router.push({ pathname: '/projects', query: { skill: skillId } });
+  };
+
+  const skillName = (skill: (typeof SKILLS)[number]) => {
+    if (skill.id === 'statistiques') return t('names.statistiques');
+    if (skill.id === 'bases-de-donnees') return t('names.bases-de-donnees');
+    if (skill.id === 'systemes-d-information') return t('names.systemes-d-information');
+    return skill.name;
   };
 
   const SkillChip = ({
@@ -31,8 +41,8 @@ export const SkillsTicker: React.FC = () => {
     <button
       type="button"
       onClick={() => handleSkillClick(skill.id)}
-      aria-label={`Filtrer les projets par compétence : ${skill.name}`}
-      title={skill.description}
+      aria-label={t('filterAria', { skill: skillName(skill) })}
+      title={descriptions(skill.id)}
       className={cn(
         'group inline-flex items-center gap-2 px-4 py-2 rounded-xl',
         'bg-white border border-slate-200/90 text-slate-700',
@@ -44,7 +54,7 @@ export const SkillsTicker: React.FC = () => {
         className
       )}
     >
-      <span className="text-xs sm:text-sm font-semibold">{skill.name}</span>
+      <span className="text-xs sm:text-sm font-semibold">{skillName(skill)}</span>
       <span
         className={cn(
           'text-[10px] font-mono px-1.5 py-0.5 rounded-md font-medium transition-colors',
@@ -59,7 +69,7 @@ export const SkillsTicker: React.FC = () => {
   return (
     <section
       className="py-10 border-y border-slate-200/80 bg-white/70 overflow-hidden"
-      aria-label="Compétences cliquables reliées aux projets"
+      aria-label={t('sectionLabel')}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -72,10 +82,10 @@ export const SkillsTicker: React.FC = () => {
             </div>
             <div>
               <h2 className="text-sm sm:text-base font-heading font-bold text-slate-900">
-                Compétences
+                {t('heading')}
               </h2>
               <p className="text-xs text-slate-500">
-                Cliquer sur une compétence filtre les projets associés
+                {t('instruction')}
               </p>
             </div>
           </div>
@@ -83,7 +93,7 @@ export const SkillsTicker: React.FC = () => {
             href="/projects"
             className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary-700 hover:text-primary-800 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-sm"
           >
-            <span>Voir tous les projets</span>
+            <span>{common('cta.viewAllProjects')}</span>
             <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
           </Link>
         </div>

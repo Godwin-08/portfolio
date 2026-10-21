@@ -1,14 +1,26 @@
 import React from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { cn } from '@/lib/utils';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+type LocalizedHref = React.ComponentProps<typeof Link>['href'];
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: 'primary' | 'secondary' | 'accent' | 'outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
-  href?: string;
-  isExternal?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+} & (
+  | { href?: undefined; isExternal?: false }
+  | { href: LocalizedHref; isExternal?: false }
+  | { href: string; isExternal?: false }
+  | { href: string; isExternal: true }
+);
+
+function isMailtoHref(href: LocalizedHref | string): href is string {
+  return typeof href === 'string' && href.startsWith('mailto:');
+}
+
+function isLocalizedHref(href: LocalizedHref | string): href is LocalizedHref {
+  return typeof href !== 'string' || href.startsWith('/');
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -55,7 +67,7 @@ export const Button: React.FC<ButtonProps> = ({
   const combinedClasses = cn(baseStyles, sizeStyles[size], variantStyles[variant], className);
 
   if (href) {
-    if (isExternal) {
+    if (isExternal === true) {
       return (
         <a
           href={href}
@@ -67,11 +79,19 @@ export const Button: React.FC<ButtonProps> = ({
         </a>
       );
     }
-    return (
+    if (isMailtoHref(href)) {
+      return (
+        <a href={href} className={combinedClasses}>
+          {content}
+        </a>
+      );
+    }
+    if (isLocalizedHref(href)) return (
       <Link href={href} className={combinedClasses}>
         {content}
       </Link>
     );
+    return <a href={href} className={combinedClasses}>{content}</a>;
   }
 
   return (
