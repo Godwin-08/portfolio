@@ -1,8 +1,10 @@
 import nextPlugin from "@next/eslint-plugin-next";
 import reactPlugin from "eslint-plugin-react";
 import hooksPlugin from "eslint-plugin-react-hooks";
+import tseslint from "typescript-eslint";
 
 export default [
+  ...tseslint.configs.recommended,
   {
     plugins: {
       "@next/next": nextPlugin,
