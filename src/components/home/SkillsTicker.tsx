@@ -17,8 +17,8 @@ export const SkillsTicker: React.FC = () => {
   const track1 = SKILLS.slice(0, midpoint);
   const track2 = SKILLS.slice(midpoint);
 
-  const handleSkillClick = (skillName: string) => {
-    router.push(`/projects?skill=${encodeURIComponent(skillName)}`);
+  const handleSkillClick = (skillId: string) => {
+    router.push(`/projects?skill=${encodeURIComponent(skillId)}`);
   };
 
   const SkillChip = ({
@@ -30,7 +30,7 @@ export const SkillsTicker: React.FC = () => {
   }) => (
     <button
       type="button"
-      onClick={() => handleSkillClick(skill.name)}
+      onClick={() => handleSkillClick(skill.id)}
       aria-label={`Filtrer les projets par compétence : ${skill.name}`}
       title={skill.description}
       className={cn(

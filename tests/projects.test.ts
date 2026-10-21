@@ -17,8 +17,8 @@ describe('Data Layer - Projects', () => {
   it('should return featured projects with at least 3 items in defined order', () => {
     const featured = getFeaturedProjects();
     expect(featured.length).toBeGreaterThanOrEqual(3);
-    expect(featured[0].slug).toBe('olist');
-    expect(featured[1].slug).toBe('gtm');
+    expect(featured[0].slug).toBe('gtm');
+    expect(featured[1].slug).toBe('olist');
     expect(featured[2].slug).toBe('afc');
   });
 
@@ -32,11 +32,23 @@ describe('Data Layer - Projects', () => {
     expect(gtm?.caseStudy?.validation).toBeDefined();
   });
 
+  it('should expose the verified GTM source repository', () => {
+    const gtm = getProjectBySlug('gtm');
+    expect(gtm?.caseStudy?.githubUrl).toBe('https://github.com/Godwin-08/GTM');
+    expect(gtm?.image).toBe('/images/projects/gtm-dashboard.png');
+  });
+
   it('should have Olist with 96k+ metric and structured case study', () => {
     const olist = getProjectBySlug('olist');
     expect(olist).toBeDefined();
     expect(olist?.category).toBe('Data Analysis');
     expect(olist?.caseStudy?.results.some((r) => r.value.includes('96 252'))).toBe(true);
+  });
+
+  it('should expose the verified Olist source repository and hero asset', () => {
+    const olist = getProjectBySlug('olist');
+    expect(olist?.caseStudy?.githubUrl).toBe('https://github.com/Godwin-08/Projet-Traitement-des-donn-es-');
+    expect(olist?.image).toBe('/images/projects/olist-delais-livraison.png');
   });
 
   it('should have AFC with from-scratch implementation and pytest validation', () => {
@@ -45,6 +57,12 @@ describe('Data Layer - Projects', () => {
     expect(afc?.category).toBe('Statistiques');
     expect(afc?.skills).toContain('SciPy');
     expect(afc?.skills).toContain('NumPy');
+  });
+
+  it('should expose the verified AFC source repository and biplot asset', () => {
+    const afc = getProjectBySlug('afc');
+    expect(afc?.caseStudy?.githubUrl).toBe('https://github.com/Godwin-08/AFC-Analyse-Factorielle-Correspondances');
+    expect(afc?.image).toBe('/images/projects/afc-biplot.png');
   });
 });
 

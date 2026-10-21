@@ -262,3 +262,4 @@ export const FeaturedProjects: React.FC = () => {
     </section>
   );
 };
+

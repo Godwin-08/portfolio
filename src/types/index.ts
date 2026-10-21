@@ -3,11 +3,13 @@ export type ProjectCategory =
   | 'Data Analysis'
   | 'Web / SI'
   | 'Statistiques'
-  | 'Machine Learning';
+  | 'Machine Learning'
+  | 'Data Engineering';
 
 export type ProjectContextType = 
   | 'Professionnel (Individuel)'
   | 'Académique (Binôme)'
+  | 'Académique (Équipe)'
   | 'Académique (Individuel)'
   | 'Projet Personnel';
 
@@ -58,6 +60,7 @@ export interface Project {
   skills: string[];
   keyMetrics: ProjectMetric[];
   accentColor: string;
+  image?: string;
   caseStudy?: CaseStudyData;
   isFlagship?: boolean;
 }
@@ -95,4 +98,3 @@ export interface EducationItem {
   description: string;
   specialties: string[];
 }
-

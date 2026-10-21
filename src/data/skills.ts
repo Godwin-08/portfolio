@@ -7,7 +7,7 @@ export const SKILLS: Skill[] = [
     name: 'Python',
     category: 'Data & Analyse',
     description: 'Langage central pour les pipelines de données, l\'analyse statistique et le backend.',
-    projectSlugs: ['olist', 'gtm', 'afc', 'revision-flow'],
+    projectSlugs: ['olist', 'gtm', 'afc'],
     isTopSkill: true,
   },
   {
@@ -15,7 +15,7 @@ export const SKILLS: Skill[] = [
     name: 'SQL',
     category: 'Data & Analyse',
     description: 'Requêtes complexes, jointures, agrégations et modélisation relationnelle (3NF).',
-    projectSlugs: ['gtm', 'sante-scolaire', 'novastore'],
+    projectSlugs: ['gtm', 'sante-scolaire'],
     isTopSkill: true,
   },
   {
@@ -47,7 +47,7 @@ export const SKILLS: Skill[] = [
     name: 'Chart.js',
     category: 'Data & Analyse',
     description: 'Dashboards interactifs et graphiques dynamiques web.',
-    projectSlugs: ['gtm', 'revision-flow'],
+    projectSlugs: ['gtm', 'sante-scolaire', 'novastore'],
     isTopSkill: false,
   },
   {
@@ -71,7 +71,7 @@ export const SKILLS: Skill[] = [
     name: 'SQLAlchemy',
     category: 'Développement & Backend',
     description: 'ORM avancé, gestion de sessions, migrations et relations complexes.',
-    projectSlugs: ['gtm', 'sante-scolaire'],
+    projectSlugs: ['gtm', 'sante-scolaire', 'novastore'],
     isTopSkill: true,
   },
   {
@@ -79,7 +79,7 @@ export const SKILLS: Skill[] = [
     name: 'JavaScript',
     category: 'Développement & Backend',
     description: 'Interactivité dynamique côté client et intégration web.',
-    projectSlugs: ['gtm', 'cestom', 'revision-flow'],
+    projectSlugs: ['gtm', 'revision-flow', 'novastore', 'sante-scolaire'],
     isTopSkill: false,
   },
   {
@@ -87,7 +87,7 @@ export const SKILLS: Skill[] = [
     name: 'HTML/CSS',
     category: 'Développement & Backend',
     description: 'Structure sémantique, accessibilité et intégration responsive moderne.',
-    projectSlugs: ['gtm', 'cestom'],
+    projectSlugs: ['gtm', 'revision-flow', 'novastore', 'sante-scolaire'],
     isTopSkill: false,
   },
   {
@@ -95,7 +95,7 @@ export const SKILLS: Skill[] = [
     name: 'Git',
     category: 'Outils & Ingénierie',
     description: 'Gestion de versions, travail collaboratif et traçabilité de code.',
-    projectSlugs: ['gtm', 'olist', 'afc', 'cestom'],
+    projectSlugs: ['gtm', 'olist', 'afc'],
     isTopSkill: true,
   },
   {
@@ -159,7 +159,7 @@ export const SKILLS: Skill[] = [
     name: 'pytest',
     category: 'Outils & Ingénierie',
     description: 'Tests unitaires, tests de régression et validation fonctionnelle continue.',
-    projectSlugs: ['gtm', 'afc'],
+    projectSlugs: ['gtm', 'sante-scolaire'],
     isTopSkill: true,
   },
   {
@@ -168,6 +168,14 @@ export const SKILLS: Skill[] = [
     category: 'Outils & Ingénierie',
     description: 'Automatisation et génération de classeurs Excel dynamiques multi-onglets.',
     projectSlugs: ['gtm'],
+    isTopSkill: false,
+  },
+  {
+    id: 'seaborn',
+    name: 'Seaborn',
+    category: 'Data & Analyse',
+    description: 'Visualisations statistiques exploratoires et comparaison de distributions.',
+    projectSlugs: ['olist'],
     isTopSkill: false,
   },
   {

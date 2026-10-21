@@ -11,10 +11,16 @@ import { cn } from '@/lib/utils';
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isEnglish = pathname.startsWith('/en');
 
   // Normaliser le chemin actuel (enlever le préfixe de locale pour la détection active)
   const normalizedPath = pathname.replace(/^\/(fr|en)/, '') || '/';
 
+  const withLocale = (href: string) => (isEnglish ? `/en${href}` : href);
+  const navigationLabel = (href: string, fallback: string) => {
+    if (!isEnglish) return fallback;
+    return ({ '/': 'Home', '/about': 'About', '/projects': 'Projects', '/contact': 'Contact' } as Record<string, string>)[href] ?? fallback;
+  };
   const navLinks = [
     { name: 'Accueil', href: '/' },
     { name: 'À propos', href: '/about' },
@@ -61,7 +67,7 @@ export const Navbar: React.FC = () => {
           
           {/* 1. Gauche : Identité & Nom */}
           <Link
-            href="/"
+            href={withLocale('/')}
             aria-label={`Page d'accueil - ${PROFILE.name}`}
             className="group flex flex-col focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 rounded-md py-1"
           >
@@ -83,7 +89,7 @@ export const Navbar: React.FC = () => {
               return (
                 <Link
                   key={link.href}
-                  href={link.href}
+                  href={withLocale(link.href)}
                   aria-current={active ? 'page' : undefined}
                   className={cn(
                     'relative px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500',
@@ -92,7 +98,7 @@ export const Navbar: React.FC = () => {
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
                   )}
                 >
-                  <span>{link.name}</span>
+                  <span>{navigationLabel(link.href, link.name)}</span>
                   {active && (
                     <span
                       className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-primary-600 rounded-full"
@@ -171,7 +177,7 @@ export const Navbar: React.FC = () => {
               return (
                 <Link
                   key={link.href}
-                  href={link.href}
+                  href={withLocale(link.href)}
                   aria-current={active ? 'page' : undefined}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
@@ -181,7 +187,7 @@ export const Navbar: React.FC = () => {
                       : 'text-slate-700 hover:bg-slate-50'
                   )}
                 >
-                  <span>{link.name}</span>
+                  <span>{navigationLabel(link.href, link.name)}</span>
                   {active && (
                     <span className="text-xs font-semibold text-primary-600" aria-hidden="true">
                       Actif

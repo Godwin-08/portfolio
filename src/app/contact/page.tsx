@@ -1,277 +1,29 @@
 'use client';
 
-import React, { useState } from 'react';
-import { PROFILE } from '@/data/profile';
+import { usePathname } from 'next/navigation';
+import { FileText, Github, Linkedin, Mail } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import {
-  Mail,
-  Linkedin,
-  Github,
-  MapPin,
-  Send,
-  CheckCircle2,
-  FileText,
-  Clock,
-  Sparkles,
-  ShieldCheck,
-} from 'lucide-react';
+import { PROFILE } from '@/data/profile';
+
+const content = {
+  fr: { eyebrow: 'Contact', title: 'Échangeons autour d’un projet concret.', intro: 'Je recherche actuellement un PFA de deuxième année, avec un intérêt prioritaire pour la Data Analysis, puis la Data Engineering. Le Machine Learning fait partie des domaines que je continue à développer.', focus: 'Recherche actuelle', email: 'Me contacter par email', linkedin: 'Voir mon LinkedIn', github: 'Voir mon GitHub', cv: 'Télécharger mon CV', emailDetail: 'Le moyen le plus direct pour échanger sur une opportunité ou un projet.', linkedinDetail: 'Parcours et profil professionnel.', githubDetail: 'Code source et projets publics.', external: '(nouvel onglet)' },
+  en: { eyebrow: 'Contact', title: 'Let’s discuss a concrete project.', intro: 'I am currently looking for a second-year end-of-year project placement (PFA), with Data Analysis as my primary interest and Data Engineering as a second direction. Machine Learning is a field I continue to develop.', focus: 'Current focus', email: 'Contact me by email', linkedin: 'View my LinkedIn', github: 'View my GitHub', cv: 'Download my CV', emailDetail: 'The most direct way to discuss an opportunity or project.', linkedinDetail: 'Professional profile and background.', githubDetail: 'Source code and public projects.', external: '(opens in a new tab)' },
+} as const;
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
+  const english = usePathname().startsWith('/en');
+  const t = content[english ? 'en' : 'fr'];
+  const links = [
+    { label: t.email, detail: t.emailDetail, href: `mailto:${PROFILE.contact.email}`, icon: Mail, primary: true },
+    { label: t.linkedin, detail: t.linkedinDetail, href: PROFILE.contact.linkedin, icon: Linkedin, external: true },
+    { label: t.github, detail: t.githubDetail, href: PROFILE.contact.github, icon: Github, external: true },
+  ];
 
-  const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate brief client submission and mailto fallback
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      
-      const mailtoUrl = `mailto:${PROFILE.contact.email}?subject=${encodeURIComponent(
-        `[Contact Portfolio] ${formData.subject}`
-      )}&body=${encodeURIComponent(
-        `Nom: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      )}`;
-      
-      window.location.href = mailtoUrl;
-    }, 600);
-  };
-
-  return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 space-y-12">
-      
-      {/* Header */}
-      <div className="space-y-4">
-        <div className="flex flex-wrap items-center gap-2">
-          <Badge variant="pfa" size="md" className="gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-accent-500 animate-pulse" />
-            <span>{PROFILE.badge}</span>
-          </Badge>
-          <Badge variant="neutral" size="md">
-            Disponible pour stage
-          </Badge>
-        </div>
-
-        <div className="space-y-2">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-slate-900 tracking-tight">
-            Entrons en Contact
-          </h1>
-          <p className="text-sm sm:text-base text-slate-600 max-w-xl leading-relaxed">
-            Vous recherchez un stagiaire ingénieur rigoureux pour un projet à fort enjeu Data Analysis, Data Engineering ou Machine Learning ? Discutons-en.
-          </p>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-        
-        {/* Left Column: Direct info (5 cols) */}
-        <div className="md:col-span-5 space-y-6">
-          
-          {/* Contact Details Card */}
-          <div className="p-6 rounded-card bg-white border border-slate-200/90 shadow-card space-y-6">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900">
-              Coordonnées Directes
-            </h2>
-
-            <div className="space-y-4 text-sm">
-              <a
-                href={`mailto:${PROFILE.contact.email}`}
-                className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 hover:bg-primary-50 text-slate-700 hover:text-primary-700 transition-colors border border-slate-100"
-              >
-                <Mail className="w-5 h-5 text-primary-600 shrink-0 mt-0.5" />
-                <div>
-                  <span className="block text-xs font-bold text-slate-900">Email</span>
-                  <span className="text-xs break-all">{PROFILE.contact.email}</span>
-                </div>
-              </a>
-
-              <a
-                href={PROFILE.contact.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 hover:bg-primary-50 text-slate-700 hover:text-primary-700 transition-colors border border-slate-100"
-              >
-                <Linkedin className="w-5 h-5 text-primary-600 shrink-0 mt-0.5" />
-                <div>
-                  <span className="block text-xs font-bold text-slate-900">LinkedIn</span>
-                  <span className="text-xs">Profil professionnel</span>
-                </div>
-              </a>
-
-              <a
-                href={PROFILE.contact.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 hover:bg-primary-50 text-slate-700 hover:text-primary-700 transition-colors border border-slate-100"
-              >
-                <Github className="w-5 h-5 text-primary-600 shrink-0 mt-0.5" />
-                <div>
-                  <span className="block text-xs font-bold text-slate-900">GitHub</span>
-                  <span className="text-xs">Dépôts & projets open source</span>
-                </div>
-              </a>
-
-              <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 text-slate-700 border border-slate-100">
-                <MapPin className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
-                <div>
-                  <span className="block text-xs font-bold text-slate-900">Mobilité</span>
-                  <span className="text-xs">{PROFILE.contact.location}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-2 border-t border-slate-100">
-              <Button
-                href={PROFILE.contact.cvPath}
-                isExternal
-                variant="outline"
-                size="md"
-                leftIcon={<FileText className="w-4 h-4 text-slate-500" />}
-                className="w-full justify-center"
-              >
-                Télécharger mon CV (PDF)
-              </Button>
-            </div>
-
-          </div>
-
-          {/* Quick statement */}
-          <div className="p-4 rounded-xl bg-accent-50/70 border border-accent-200/70 space-y-2">
-            <div className="flex items-center gap-2 text-xs font-bold text-accent-900">
-              <ShieldCheck className="w-4 h-4 text-accent-700" />
-              <span>Engagement de réponse</span>
-            </div>
-            <p className="text-xs text-accent-800 leading-relaxed">
-              Je réponds généralement sous 24 à 48 heures aux propositions de stage et d&apos;échange technique.
-            </p>
-          </div>
-
-        </div>
-
-        {/* Right Column: Contact Form (7 cols) */}
-        <div className="md:col-span-7">
-          <div className="p-6 sm:p-8 rounded-card bg-white border border-slate-200/90 shadow-card">
-            
-            {submitted ? (
-              <div className="py-12 text-center space-y-4">
-                <div className="w-14 h-14 rounded-full bg-accent-100 text-accent-700 flex items-center justify-center mx-auto">
-                  <CheckCircle2 className="w-8 h-8" />
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-lg font-heading font-bold text-slate-900">
-                    Message préparé avec succès !
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 max-w-sm mx-auto">
-                    Votre client mail par défaut s&apos;est ouvert pour envoyer le message. Vous pouvez également m&apos;écrire directement à {PROFILE.contact.email}.
-                  </p>
-                </div>
-                <Button
-                  onClick={() => setSubmitted(false)}
-                  variant="outline"
-                  size="sm"
-                >
-                  Envoyer un autre message
-                </Button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <h2 className="text-base font-heading font-bold text-slate-900">
-                  Formulaire de Message Direct
-                </h2>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-700" htmlFor="name">
-                      Votre nom / Entreprise *
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      required
-                      placeholder="ex: Marie Dupont (Entreprise X)"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 bg-slate-50 focus:bg-white transition-all"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-700" htmlFor="email">
-                      Votre adresse email *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      required
-                      placeholder="ex: marie.dupont@entreprise.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 bg-slate-50 focus:bg-white transition-all"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-700" htmlFor="subject">
-                    Objet de votre demande *
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    required
-                    placeholder="ex: Opportunité de Stage PFA 2e Année - Data Analysis"
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 bg-slate-50 focus:bg-white transition-all"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-700" htmlFor="message">
-                    Votre message *
-                  </label>
-                  <textarea
-                    id="message"
-                    required
-                    rows={5}
-                    placeholder="Décrivez votre besoin, le contexte de la mission ou les sujets techniques envisagés..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 bg-slate-50 focus:bg-white transition-all resize-y"
-                  />
-                </div>
-
-                <div className="pt-2">
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    size="md"
-                    disabled={isSubmitting}
-                    rightIcon={<Send className="w-4 h-4" />}
-                    className="w-full justify-center"
-                  >
-                    {isSubmitting ? 'Préparation...' : 'Envoyer le message'}
-                  </Button>
-                </div>
-              </form>
-            )}
-
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  );
+  return <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-24 space-y-16 md:space-y-20">
+    <header className="max-w-3xl space-y-6"><div className="flex flex-wrap gap-2"><Badge variant="pfa" size="md">{PROFILE.badge}</Badge><Badge variant="neutral" size="md">{PROFILE.primaryFocus}</Badge></div><p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-700">{t.eyebrow}</p><h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-extrabold leading-[1.08] tracking-tight text-slate-900">{t.title}</h1><p className="text-base sm:text-lg leading-relaxed text-slate-600">{t.intro}</p></header>
+    <section aria-labelledby="contact-links" className="grid md:grid-cols-3 gap-4 sm:gap-5"><h2 id="contact-links" className="sr-only">{t.eyebrow}</h2>{links.map(({ label, detail, href, icon: Icon, external, primary }) => <a key={label} href={href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined} className={`group rounded-card border p-5 sm:p-6 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 ${primary ? 'border-primary-200 bg-primary-50/60 hover:bg-primary-50' : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'}`}><Icon className={`w-5 h-5 ${primary ? 'text-primary-700' : 'text-slate-500'}`} aria-hidden="true" /><h3 className="mt-5 text-base font-heading font-bold text-slate-900">{label}</h3><p className="mt-2 text-sm leading-relaxed text-slate-600">{detail}{external && <span className="sr-only"> {t.external}</span>}</p></a>)}</section>
+    <section className="grid md:grid-cols-12 gap-8 md:items-center border-y border-slate-200 py-8 sm:py-10"><div className="md:col-span-7"><p className="text-xs font-bold uppercase tracking-wider text-accent-700">{t.focus}</p><p className="mt-3 text-sm sm:text-base leading-relaxed text-slate-700">{t.intro}</p></div><div className="md:col-span-5 md:justify-self-end"><Button href={PROFILE.contact.cvPath} isExternal variant="outline" size="md" leftIcon={<FileText className="w-4 h-4" />}>{t.cv}</Button></div></section>
+    <div><Button href={`mailto:${PROFILE.contact.email}`} variant="primary" size="lg" leftIcon={<Mail className="w-4 h-4" />}>{t.email}</Button></div>
+  </div>;
 }
-

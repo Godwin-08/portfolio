@@ -1,113 +1,122 @@
 'use client';
 
-import React, { Suspense, useMemo } from 'react';
+import { Suspense, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { getAllProjects } from '@/data/projects';
-import { ProjectCategory } from '@/types';
+import { FolderGit2, SearchX } from 'lucide-react';
+
+import {
+  PROJECT_CATEGORIES,
+  getAllProjects,
+  getCategoryBySlug,
+} from '@/data/projects';
+import { getSkillById } from '@/data/skills';
 import { ProjectCard } from '@/components/projects/ProjectCard';
 import { ProjectFilters } from '@/components/projects/ProjectFilters';
-import { FolderGit2, AlertCircle } from 'lucide-react';
-
-const CATEGORIES: ProjectCategory[] = [
-  'Tous',
-  'Data Analysis',
-  'Web / SI',
-  'Statistiques',
-  'Machine Learning',
-];
 
 function ProjectsContent() {
   const searchParams = useSearchParams();
+
   const allProjects = useMemo(() => getAllProjects(), []);
 
-  const activeCategory = (searchParams.get('category') as ProjectCategory) || 'Tous';
-  const activeSkill = searchParams.get('skill');
-  const searchQuery = searchParams.get('q') || '';
+  const activeCategory = getCategoryBySlug(
+    searchParams.get('category')
+  );
 
-  // Filter logic
+  const activeSkill = getSkillById(
+    searchParams.get('skill') ?? ''
+  );
+
   const filteredProjects = useMemo(() => {
-    return allProjects.filter((project) => {
-      // Category filter
-      if (activeCategory !== 'Tous' && project.category !== activeCategory) {
-        return false;
-      }
-
-      // Skill filter
-      if (activeSkill) {
-        const skillMatch = project.skills.some(
-          (s) => s.toLowerCase() === activeSkill.toLowerCase() || s.toLowerCase().includes(activeSkill.toLowerCase())
-        );
-        if (!skillMatch) return false;
-      }
-
-      // Text search query
-      if (searchQuery.trim()) {
-        const query = searchQuery.toLowerCase();
-        const titleMatch = project.title.toLowerCase().includes(query);
-        const taglineMatch = project.tagline.toLowerCase().includes(query);
-        const summaryMatch = project.summary.toLowerCase().includes(query);
-        const skillMatch = project.skills.some((s) => s.toLowerCase().includes(query));
-        if (!titleMatch && !taglineMatch && !summaryMatch && !skillMatch) {
+    return allProjects
+      .filter((project) => {
+        // Filtre catégorie
+        if (
+          activeCategory &&
+          project.category !== activeCategory.name
+        ) {
           return false;
         }
-      }
 
-      return true;
-    });
-  }, [allProjects, activeCategory, activeSkill, searchQuery]);
+        // Filtre compétence
+        if (
+          activeSkill &&
+          !project.skills.some(
+            (skill) =>
+              skill.toLowerCase() === activeSkill.name.toLowerCase()
+          )
+        ) {
+          return false;
+        }
+
+        // Les deux filtres sont cumulatifs :
+        // catégorie ET compétence doivent correspondre.
+        return true;
+      })
+      .sort((a, b) => a.order - b.order);
+  }, [allProjects, activeCategory, activeSkill]);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 space-y-10">
-      
+    <main className="mx-auto max-w-6xl space-y-10 px-4 py-10 md:py-16 sm:px-6 lg:px-8">
       {/* Header */}
-      <div className="space-y-3">
+      <header className="space-y-3">
         <div className="flex items-center gap-2">
-          <FolderGit2 className="w-5 h-5 text-primary-600" />
+          <FolderGit2
+            className="h-5 w-5 text-primary-600"
+            aria-hidden="true"
+          />
+
           <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-            Catalogue & Réalisations
+            Projets & réalisations
           </span>
         </div>
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-slate-900 tracking-tight">
-          Projets & Réalisations Techniques
-        </h1>
-        <p className="text-sm sm:text-base text-slate-600 max-w-2xl leading-relaxed">
-          Chaque projet présenté illustre une compétence concrète, un problème réel résolu, des choix d&apos;architecture documentés et des métriques vérifiables.
-        </p>
-      </div>
 
-      {/* Interactive Filters (URL-synced) */}
+        <h1 className="font-heading text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-5xl">
+          Projets techniques
+        </h1>
+
+        <p className="max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+          Des projets réels couvrant l&apos;analyse de données,
+          l&apos;ingénierie logicielle et les statistiques appliquées.
+        </p>
+      </header>
+
+      {/* Filters */}
       <ProjectFilters
-        categories={CATEGORIES}
-        activeCategory={activeCategory}
-        activeSkill={activeSkill}
-        searchQuery={searchQuery}
+        categories={PROJECT_CATEGORIES}
+        activeCategorySlug={activeCategory?.slug ?? null}
+        activeSkillId={activeSkill?.id ?? null}
         totalResults={filteredProjects.length}
       />
 
-      {/* Projects Grid */}
+      {/* Projects */}
       {filteredProjects.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 pt-4">
+        <div className="grid grid-cols-1 gap-6 pt-2 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {filteredProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+            <ProjectCard
+              key={project.id}
+              project={project}
+            />
           ))}
         </div>
       ) : (
-        <div className="p-12 text-center rounded-card bg-white border border-slate-200 space-y-4">
-          <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
-            <AlertCircle className="w-6 h-6" />
-          </div>
+        <div className="space-y-4 rounded-card border border-slate-200 bg-white p-10 text-center sm:p-12">
+          <SearchX
+            className="mx-auto h-8 w-8 text-slate-400"
+            aria-hidden="true"
+          />
+
           <div className="space-y-1">
-            <h3 className="text-base font-bold text-slate-900">
-              Aucun projet ne correspond à ces critères
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-500">
-              Essayez de réinitialiser vos filtres ou de modifier votre recherche.
+            <h2 className="text-base font-bold text-slate-900">
+              Aucun projet ne correspond
+            </h2>
+
+            <p className="text-sm text-slate-500">
+              Modifiez les filtres ou réinitialisez la vue complète.
             </p>
           </div>
         </div>
       )}
-
-    </div>
+    </main>
   );
 }
 
@@ -115,13 +124,12 @@ export default function ProjectsPage() {
   return (
     <Suspense
       fallback={
-        <div className="max-w-6xl mx-auto px-4 py-20 text-center text-slate-500">
-          Chargement des projets...
-        </div>
+        <main className="mx-auto max-w-6xl px-4 py-20 text-center text-slate-500">
+          Chargement des projets…
+        </main>
       }
     >
       <ProjectsContent />
     </Suspense>
   );
 }
-
