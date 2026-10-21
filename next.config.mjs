@@ -9,9 +9,6 @@ const withMDX = createMDX({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
-  typescript: {
-    ignoreBuildErrors: true,
-  },
 };
 
 export default withNextIntl(withMDX(nextConfig));

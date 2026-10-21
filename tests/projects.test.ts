@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getAllProjects, getFeaturedProjects, getProjectBySlug, PROJECTS } from '@/data/projects';
+import { getFeaturedProjects, getProjectBySlug, PROJECTS } from '@/data/projects';
 import { SKILLS, getSkillsForProject } from '@/data/skills';
 import { PROFILE } from '@/data/profile';
 import { routing } from '@/i18n/routing';
