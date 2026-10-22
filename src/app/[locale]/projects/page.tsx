@@ -43,7 +43,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
   const filteredProjects = filterProjects(getAllProjects(), categorySlug, skillId);
 
   return (
-    <main className="mx-auto max-w-6xl space-y-6 px-4 py-8 sm:px-6 md:space-y-9 md:py-14 lg:px-8">
+    <main className="mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-6 md:space-y-9 md:py-14 lg:px-8">
       <header className="space-y-2.5">
         <div className="flex items-center gap-2">
           <FolderGit2

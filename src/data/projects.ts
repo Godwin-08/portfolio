@@ -53,7 +53,7 @@ export const PROJECTS: Project[] = [
     period: '2024 (PFA Individuel)',
     summary:
       'Application de gestion et d’analyse des formations développée dans un contexte professionnel.',
-    skills: ['Python', 'Flask', 'SQLAlchemy', 'MySQL', 'Pandas', 'NumPy', 'JavaScript', 'HTML/CSS', 'Chart.js', 'Git', 'pytest', 'openpyxl', 'ReportLab'],
+    skills: ['Python', 'Flask', 'SQLAlchemy', 'MySQL', 'Pandas', 'NumPy', 'JavaScript', 'HTML/CSS', 'Chart.js', 'Business Intelligence', 'Git', 'pytest', 'openpyxl', 'ReportLab'],
     accentColor: '#059669', // Emerald Green
     image: '/images/projects/gtm-dashboard.png',
     keyMetrics: [

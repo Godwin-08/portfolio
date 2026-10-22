@@ -5,7 +5,7 @@
     "badge": "Internship from July 2027",
     "tagline": "Understand → Analyze → Build",
     "philosophy": "Proof > Claim",
-    "primaryFocus": "Data Analysis",
+    "primaryFocus": "Data Analysis & BI",
     "nav": {
       "home": "Home",
       "about": "About",
@@ -48,32 +48,32 @@
   "seo": {
     "siteName": "Godwin Elie Nougbolo’s portfolio",
     "home": {
-      "title": "Data analysis and software portfolio",
-      "description": "Engineering student at ENSA Khouribga sharing projects in data analysis, software development, and applied statistics."
+      "title": "Data analysis, BI, and software portfolio",
+      "description": "Engineering student at ENSA Khouribga sharing projects in data analysis, Business Intelligence, dashboards, and software development."
     },
     "about": {
       "title": "About — background and approach",
-      "description": "Academic background, work on Galaxy Training Manager, and working approach of Godwin Elie Nougbolo, an engineering student at ENSA Khouribga."
+      "description": "Academic background, Data Analysis and BI interests, the GTM dashboard, and working approach of Godwin Elie Nougbolo, an engineering student at ENSA Khouribga."
     },
     "projects": {
-      "title": "Data analysis and software projects",
-      "description": "Explore six documented projects in data analysis, software development, applied statistics, and information systems."
+      "title": "Data analysis, BI, and software projects",
+      "description": "Explore six documented projects in data analysis, Business Intelligence, software development, applied statistics, and information systems."
     },
     "contact": {
       "title": "Contact — discuss a project",
-      "description": "Contact Godwin Elie Nougbolo about a project or an internship from July 2027 in data analysis and software development."
+      "description": "Contact Godwin Elie Nougbolo about a project or an internship from July 2027 in Data Analysis, BI, and software development."
     }
   },
   "home": {
     "hero": {
       "studentBadge": "Engineering student · ENSA Khouribga",
       "degree": "Computer Science and Data Engineering (IID)",
-      "intro": "I am an engineering student at ENSA Khouribga, building a foundation in data-focused work. My projects have given me practical experience in data analysis, and I am steadily developing my skills in Data Engineering and Machine Learning.",
+      "intro": "I am interested in Data Analysis and Business Intelligence (BI). My projects give me early hands-on practice analyzing data and presenting indicators; I am steadily building my Data Engineering foundations and remain open to Data Science and Machine Learning.",
       "focusHeading": "Areas of interest",
-      "analysisTitle": "Data Analysis",
-      "analysisDescription": "Practical experience exploring and analysing data through hands-on projects.",
-      "growingFieldsDescription": "Skills I am steadily developing",
-      "growingFields": "Data Engineering · Machine Learning",
+      "analysisTitle": "Data Analysis & BI",
+      "analysisDescription": "Early hands-on practice analyzing data and presenting indicators through projects, including the GTM dashboard.",
+      "growingFieldsDescription": "Building Data Engineering foundations · open to Data Science and Machine Learning",
+      "growingFields": "Data Engineering · Data Science · Machine Learning",
       "tagline": "Understand data. Find its value. Build useful solutions.",
       "viewProjects": "Explore my projects",
       "downloadCv": "Download my CV",
@@ -83,20 +83,33 @@
     "skills": {
       "sectionLabel": "Skills linked to projects",
       "heading": "Skills",
-      "instruction": "Choose a skill to see the projects that demonstrate it.",
-      "filterAria": "Show projects linked to the {skill} skill",
+      "instruction": "Choose a skill or practice to see related project evidence.",
+      "filterAria": "Show projects linked to the {skill} skill or practice",
       "moreSkills": "Show {count} more skills",
       "names": {
         "statistiques": "Statistics",
         "bases-de-donnees": "Databases",
-        "systemes-d-information": "Information Systems"
+        "systemes-d-information": "Information Systems",
+        "business-intelligence": "Business Intelligence (BI)"
       }
     },
     "projects": {
       "eyebrow": "Selected work",
       "heading": "Selected projects",
-      "description": "Practical projects demonstrating careful analysis, software development, and well-documented decisions.",
+      "description": "Practical projects in Data Analysis, Business Intelligence, and software development, grounded in careful analysis and documented decisions.",
       "ordersAnalyzed": "orders analyzed"
+    },
+    "certifications": {
+      "eyebrow": "Continuous learning",
+      "heading": "Certifications",
+      "description": "These SQL courses completed through DataCamp complement the projects, which remain the primary evidence of my skills.",
+      "count": "{count, plural, one {# certificate completed} other {# certificates completed}}",
+      "completedOn": "Completed",
+      "reference": "Certificate no.",
+      "viewCertificate": "View certificate",
+      "verifyCertificate": "Verify on DataCamp",
+      "viewCertificateAria": "Open the {title} certificate in a new tab",
+      "verifyCertificateAria": "Verify the {title} certificate on DataCamp in a new tab"
     },
     "aboutTransition": {
       "label": "Link to the About page",
@@ -179,7 +192,7 @@
   },
   "skills": {
     "names": {
-      "python": "Python", "sql": "SQL", "pandas": "Pandas", "numpy": "NumPy", "matplotlib": "Matplotlib", "chart-js": "Chart.js", "mysql": "MySQL", "flask": "Flask", "sqlalchemy": "SQLAlchemy", "javascript": "JavaScript", "html-css": "HTML/CSS", "git": "Git", "statistiques": "Statistics", "data-analysis": "Data Analysis", "backend": "Backend", "bases-de-donnees": "Databases", "systemes-d-information": "Information Systems", "scipy": "SciPy", "jupyter": "Jupyter", "pytest": "pytest", "openpyxl": "openpyxl", "seaborn": "Seaborn", "reportlab": "ReportLab"
+      "python": "Python", "sql": "SQL", "pandas": "Pandas", "numpy": "NumPy", "matplotlib": "Matplotlib", "chart-js": "Chart.js", "business-intelligence": "Business Intelligence (BI)", "mysql": "MySQL", "flask": "Flask", "sqlalchemy": "SQLAlchemy", "javascript": "JavaScript", "html-css": "HTML/CSS", "git": "Git", "statistiques": "Statistics", "data-analysis": "Data Analysis", "backend": "Backend", "bases-de-donnees": "Databases", "systemes-d-information": "Information Systems", "scipy": "SciPy", "jupyter": "Jupyter", "pytest": "pytest", "openpyxl": "openpyxl", "seaborn": "Seaborn", "reportlab": "ReportLab"
     },
     "descriptions": {
       "python": "A core language for data pipelines, statistical analysis, and backend development.",
@@ -188,6 +201,7 @@
       "numpy": "Vectorized matrix computation, linear algebra, and numerical optimization.",
       "matplotlib": "Descriptive statistical charts, distributions, and exploratory analysis.",
       "chart-js": "Interactive dashboards and dynamic charts for the web.",
+      "business-intelligence": "Early hands-on practice presenting indicators through dashboards, illustrated by the GTM project.",
       "mysql": "Relational database administration, referential integrity, and ACID constraints.",
       "flask": "Building microservices and modular web applications with Blueprints.",
       "sqlalchemy": "ORM workflows, session management, migrations, and complex relationships.",
@@ -210,7 +224,7 @@
   "about": {
     "eyebrow": "About",
     "title": "Making sense of data and turning it into something useful.",
-    "intro": "I am an engineering student in Computer Science and Data Engineering at ENSA Khouribga. Data Analysis is my current direction; I am also steadily building my foundations in Data Engineering and Machine Learning.",
+    "intro": "I am a Computer Science and Data Engineering student at ENSA Khouribga, particularly interested in Data Analysis and Business Intelligence (BI). My projects, including the GTM dashboard, have given me early hands-on practice analyzing data and presenting indicators. I am building my Data Engineering foundations and remain open to Data Science and Machine Learning.",
     "search": "I am seeking an internship starting July 2027, where data and software can help solve a concrete problem.",
     "education": {
       "heading": "Education",
@@ -230,7 +244,14 @@
     "previousEngagements": "Previous involvement",
     "previousTreasurer": "Local Treasurer · CESTOM Kénitra",
     "previousVolunteer": "Volunteer · CESTOM Ben Guerir",
-    "cestomText": "A current community responsibility, separate from paid employment.",
+    "cestomText": "As secretary general, I contribute to coordinating the Khouribga section and following up with its members.",
+    "cestomResponsibilitiesTitle": "Main responsibilities",
+    "cestomResponsibilities": {
+      "welcome": "Welcome and guide new Togolese students in Khouribga.",
+      "relay": "Relay information between section members and the national office.",
+      "activities": "Help organize cultural, scientific, and sports activities.",
+      "followUp": "Follow up with members and contribute to coordinating the section."
+    },
     "method": "How I work",
     "methodTitle": "Understand → Analyse → Build",
     "steps": {
@@ -242,10 +263,10 @@
     "proof": {
       "verify": { "title": "Check before concluding", "text": "Olist consistency checks and GTM validation steps are part of the work, not just its presentation." },
       "method": { "title": "Understand the method", "text": "For CA, the calculations were rebuilt step by step with Pandas, NumPy, and SciPy instead of being treated as a black box." },
-      "progress": { "title": "Keep learning", "text": "Data Analysis is my current foundation. Data Engineering and Machine Learning remain fields I am exploring and developing." }
+      "progress": { "title": "Keep learning", "text": "Data Analysis and BI guide my interests; my analysis projects and the GTM dashboard offer practical examples. I am developing my Data Engineering foundations and remain open to Data Science and Machine Learning." }
     },
     "focus": "What I am looking for",
-    "focusText": "My priority is Data Analysis, while staying open to work where Data Engineering provides a useful framework. Machine Learning and AI are also areas I continue to explore.",
+    "focusText": "Data Analysis and BI shape my interests, grounded in practical analysis and dashboard projects. I am developing my Data Engineering foundations and remain curious about Data Science and Machine Learning.",
     "beyond": "Beyond projects",
     "beyondText": "I also learn through collaborative projects and practical technical challenges. Community involvement such as CESTOM complements this path through teamwork and real-world use of digital tools.",
     "cta": "Let’s continue the conversation."
@@ -253,7 +274,7 @@
   "contact": {
     "eyebrow": "Contact",
     "title": "Let’s talk about a practical project.",
-    "intro": "My current focus is Data Analysis, while I continue to develop my skills in Data Engineering and Machine Learning.",
+    "intro": "My professional interests centre on Data Analysis and Business Intelligence (BI), illustrated by my analysis and dashboard projects. I am building my Data Engineering foundations and remain open to Data Science and Machine Learning.",
     "focus": "Current focus",
     "email": "Email me",
     "emailDetail": "The most direct way to discuss an opportunity or project.",
@@ -264,7 +285,7 @@
     "cv": "Download my CV",
     "externalNewTab": "(opens in a new tab)",
     "contactLinks": "Ways to get in touch",
-    "focusText": "My aim is to start with a concrete need and deliver useful analysis supported by evidence."
+    "focusText": "My aim is to analyze data and present useful indicators, starting from a concrete need and grounding results in evidence."
   }
 }
 

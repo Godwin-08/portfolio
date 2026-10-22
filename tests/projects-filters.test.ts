@@ -76,6 +76,11 @@ describe('Projects Page - Skill Filter', () => {
       expect(p.skills.some((s) => s.toLowerCase() === 'numpy')).toBe(true);
     });
   });
+
+  it('should link Business Intelligence to its dashboard case study', () => {
+    const results = filterProjects({ skillId: 'business-intelligence' });
+    expect(results.map((project) => project.slug)).toEqual(['gtm']);
+  });
 });
 
 describe('Projects Page - Combined Filters', () => {

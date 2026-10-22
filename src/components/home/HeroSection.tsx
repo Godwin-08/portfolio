@@ -27,7 +27,7 @@ export const HeroSection: React.FC = () => {
         aria-hidden="true"
       />
 
-      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[minmax(0,1.12fr)_minmax(330px,0.88fr)] lg:gap-14 lg:px-8 lg:py-20">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[minmax(0,1.12fr)_minmax(330px,0.88fr)] lg:gap-14 lg:px-8 lg:py-20">
         <motion.div
           className="hero-motion-entry space-y-7"
           initial={{ opacity: 0, y: 20 }}
@@ -114,7 +114,7 @@ export const HeroSection: React.FC = () => {
         </motion.div>
 
         <motion.div
-          className="hero-motion-entry relative mx-auto w-full max-w-[330px] sm:max-w-[380px] lg:max-w-[420px]"
+          className="hero-motion-entry relative mx-auto w-full max-w-[330px] sm:max-w-[380px] lg:max-w-[460px]"
           initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.45, delay: 0.1 }}
@@ -133,7 +133,7 @@ export const HeroSection: React.FC = () => {
               alt={t('portraitAlt')}
               fill
               priority
-              sizes="(max-width: 640px) 330px, (max-width: 1024px) 380px, 420px"
+              sizes="(max-width: 640px) 330px, (max-width: 1024px) 380px, 460px"
               className="object-cover object-top"
               quality={90}
             />

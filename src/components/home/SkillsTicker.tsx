@@ -4,8 +4,52 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 import { Link, useRouter } from '@/i18n/routing';
 import { SKILLS } from '@/data/skills';
-import { ArrowRight, ArrowUpRight, ChevronDown, Layers } from 'lucide-react';
+import Image from 'next/image';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  BarChart3,
+  Braces,
+  ChevronDown,
+  Database,
+  FileSpreadsheet,
+  FileText,
+  Layers,
+  Server,
+  Sigma,
+  type LucideIcon,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+const skillLogos: Record<string, string> = {
+  python: 'python',
+  pandas: 'pandas',
+  numpy: 'numpy',
+  'chart-js': 'chartdotjs',
+  mysql: 'mysql',
+  flask: 'flask',
+  javascript: 'javascript',
+  'html-css': 'html5',
+  git: 'git',
+  scipy: 'scipy',
+  jupyter: 'jupyter',
+  pytest: 'pytest',
+};
+
+const conceptIcons: Record<string, LucideIcon> = {
+  sql: Database,
+  matplotlib: BarChart3,
+  'business-intelligence': BarChart3,
+  sqlalchemy: Database,
+  statistiques: Sigma,
+  'data-analysis': BarChart3,
+  backend: Server,
+  'bases-de-donnees': Database,
+  'systemes-d-information': Layers,
+  openpyxl: FileSpreadsheet,
+  seaborn: BarChart3,
+  reportlab: FileText,
+};
 
 export const SkillsTicker: React.FC = () => {
   const router = useRouter();
@@ -21,14 +65,42 @@ export const SkillsTicker: React.FC = () => {
     if (skill.id === 'statistiques') return t('names.statistiques');
     if (skill.id === 'bases-de-donnees') return t('names.bases-de-donnees');
     if (skill.id === 'systemes-d-information') return t('names.systemes-d-information');
+    if (skill.id === 'business-intelligence') return t('names.business-intelligence');
     return skill.name;
   };
 
   const renderSkill = (skill: (typeof SKILLS)[number]) => {
     const name = skillName(skill);
+    const logo = skillLogos[skill.id];
+    const ConceptIcon = conceptIcons[skill.id] ?? Braces;
     const content = (
       <>
-        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-coral-300" aria-hidden="true" />
+        <span
+          className={cn(
+            'inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md',
+            skill.id === 'javascript' ? 'bg-ink' : 'bg-white'
+          )}
+          aria-hidden="true"
+        >
+          {logo ? (
+            <Image
+              src={`/skill-logos/${logo}.svg`}
+              alt=""
+              aria-hidden="true"
+              width={18}
+              height={18}
+              unoptimized
+              className="h-[18px] w-[18px]"
+            />
+          ) : (
+            <ConceptIcon
+              className={cn(
+                'h-[18px] w-[18px] text-ink',
+                skill.id === 'business-intelligence' && 'text-coral-700'
+              )}
+            />
+          )}
+        </span>
         <span className="text-sm font-semibold">{name}</span>
         <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-white/55" aria-hidden="true" />
       </>
@@ -44,6 +116,7 @@ export const SkillsTicker: React.FC = () => {
       <button
         key={skill.id}
         type="button"
+        data-skill-id={skill.id}
         onClick={() => router.push({ pathname: '/projects', query: { skill: skill.id } })}
         aria-label={t('filterAria', { skill: name })}
         className={className}
@@ -58,7 +131,7 @@ export const SkillsTicker: React.FC = () => {
       className="skills-ticker overflow-hidden border-y border-ink bg-ink py-8 sm:py-9"
       aria-label={t('sectionLabel')}
     >
-      <div data-skills-header="true" className="mx-auto mb-5 flex max-w-6xl flex-col justify-between gap-3 px-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
+      <div data-skills-header="true" className="mx-auto mb-5 flex max-w-7xl flex-col justify-between gap-3 px-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
         <div className="flex items-center gap-3">
           <div
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-coral-100"
@@ -84,7 +157,7 @@ export const SkillsTicker: React.FC = () => {
         </Link>
       </div>
 
-      <div className="mx-auto hidden max-w-6xl gap-1.5 px-4 sm:gap-2 sm:px-6 md:grid lg:px-8">
+      <div className="mx-auto hidden max-w-7xl gap-1.5 px-4 sm:gap-2 sm:px-6 md:grid lg:px-8">
         {tracks.map((skills, index) => (
           <div
             key={index}
@@ -95,7 +168,7 @@ export const SkillsTicker: React.FC = () => {
         ))}
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 md:hidden lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:hidden lg:px-8">
         <div className="skills-ticker__row skills-ticker__row--first">
           {topSkills.map((skill) => renderSkill(skill))}
         </div>

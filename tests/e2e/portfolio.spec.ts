@@ -118,12 +118,18 @@ for (const site of localizedRoutes) {
 
     test(`${site.locale}: ${path} renders and hydrates`, async ({ page }) => {
       const diagnostics = observeBrowser(page);
+      if (slug === 'olist') await page.setViewportSize({ width: 1440, height: 900 });
       const response = await page.goto(path);
 
       expect(response?.status()).toBe(200);
       await expect(page.locator('html')).toHaveAttribute('lang', site.locale);
       await expect(page.locator('#main-content')).toBeVisible();
       await expect(page.getByRole('heading', { level: 1 })).toContainText(expected);
+      if (slug === 'olist') {
+        const heroFigure = page.locator('main figure').first();
+        const figureBounds = await heroFigure.boundingBox();
+        expect(figureBounds?.width).toBeGreaterThan(500);
+      }
       expect((await page.locator('body').innerText()).trim().length).toBeGreaterThan(100);
       expectNoBrowserErrors(diagnostics);
     });
@@ -178,6 +184,132 @@ test('desktop navigation opens project pages and every case study from the listi
 
   expectNoBrowserErrors(diagnostics);
 });
+
+for (const site of localizedRoutes) {
+  test(`${site.locale}: home content containers are wider on desktop`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(site.home);
+
+    const containers = [
+      page.locator('main#main-content section[aria-labelledby="hero-heading"] > div.mx-auto'),
+      page.locator('section.skills-ticker [data-skills-header]'),
+      page.locator('footer > div'),
+    ];
+
+    for (const container of containers) {
+      const bounds = await container.boundingBox();
+      expect(bounds?.width).toBeGreaterThan(1200);
+    }
+
+    const portrait = page.locator('main#main-content section[aria-labelledby="hero-heading"] img');
+    const portraitBounds = await portrait.boundingBox();
+    expect(portraitBounds?.width).toBeGreaterThan(400);
+  });
+
+  test(`${site.locale}: desktop navigation opens About and Contact`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${site.projects}/afc`);
+
+    const navigation = page.getByRole('navigation', {
+      name: site.messages.common.nav.mainLabel,
+    });
+    await expect(navigation).toBeVisible();
+
+    await navigation
+      .getByRole('link', { name: site.messages.common.nav.about, exact: true })
+      .click();
+    await expect(page).toHaveURL(
+      new RegExp(`${site.about.replaceAll('/', '\\/')}$`)
+    );
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      site.messages.about.title
+    );
+    await expect(page.getByText(site.messages.about.intro, { exact: true })).toBeVisible();
+    for (const responsibility of Object.values(site.messages.about.cestomResponsibilities)) {
+      await expect(page.getByText(responsibility, { exact: true })).toBeVisible();
+    }
+
+    await navigation
+      .getByRole('link', { name: site.messages.common.nav.contact, exact: true })
+      .click();
+    await expect(page).toHaveURL(
+      new RegExp(`${site.contact.replaceAll('/', '\\/')}$`)
+    );
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      site.messages.contact.title
+    );
+    await expect(page.getByText(site.messages.contact.intro, { exact: true })).toBeVisible();
+  });
+
+  test(`${site.locale}: AFC hero image uses the full image column`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${site.projects}/afc`);
+
+    const heroFigure = page.locator('article > header > figure');
+    const heroFigureBox = await heroFigure.boundingBox();
+    expect(heroFigureBox?.width).toBeGreaterThan(400);
+  });
+
+  test(`${site.locale}: Business Intelligence is visible and links to its project evidence`, async ({ page }) => {
+    const skillLabel = site.messages.home.skills.names['business-intelligence'];
+    const skillAriaLabel = site.messages.home.skills.filterAria.replace(
+      '{skill}',
+      skillLabel
+    );
+
+    for (const width of [1440, 390]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(site.home);
+      const skillButton = page.getByRole('button', {
+        name: skillAriaLabel,
+        exact: true,
+      });
+      await expect(
+        page.getByRole('heading', {
+          level: 2,
+          name: site.messages.home.hero.analysisTitle,
+        })
+      ).toBeVisible();
+      await expect(
+        page.getByRole('heading', {
+          level: 2,
+          name: site.messages.home.hero.growingFields,
+        })
+      ).toBeVisible();
+      await expect(skillButton).toBeVisible();
+      await expect(skillButton.locator('svg')).toHaveCount(2);
+
+      const pythonSkill = page.locator('[data-skill-id="python"]:visible').first();
+      const pythonLogo = pythonSkill.locator('img');
+      await expect(pythonLogo).toHaveAttribute('src', '/skill-logos/python.svg');
+      await expect(pythonLogo).toHaveAttribute('alt', '');
+      await expect(pythonLogo).toHaveAttribute('aria-hidden', 'true');
+      await expect
+        .poll(() => pythonLogo.evaluate((image) => (image as HTMLImageElement).naturalWidth))
+        .toBeGreaterThan(0);
+      await expect(skillButton.locator('img')).toHaveCount(0);
+
+      if (width === 1440) {
+        const brandLogos = page.locator('.skills-ticker__row:visible img');
+        await expect(brandLogos).toHaveCount(12);
+        await expect
+          .poll(() =>
+            brandLogos.evaluateAll((images) =>
+              images.every((image) => (image as HTMLImageElement).naturalWidth > 0)
+            )
+          )
+          .toBe(true);
+      }
+    }
+
+    await page.getByRole('button', { name: skillAriaLabel, exact: true }).click();
+    await expect(page).toHaveURL(/skill=business-intelligence$/);
+    await expect(page.locator('article h2')).toHaveCount(1);
+    await expect(page.locator('article h2')).toContainText(
+      site.messages.projects.cards.gtm.title
+    );
+  });
+}
 
 test('mobile navigation opens, closes with Escape, and follows a localized link', async ({ page }) => {
   const diagnostics = observeBrowser(page);

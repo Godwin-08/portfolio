@@ -39,13 +39,14 @@ export function AboutContent() {
     { key: 'build', number: '03' },
   ] as const;
   const proof = ['verify', 'method', 'progress'] as const;
+  const associationResponsibilities = ['welcome', 'relay', 'activities', 'followUp'] as const;
   const href = (path: '/projects/gtm' | '/projects' | '/contact') =>
     path === '/projects/gtm'
       ? { pathname: '/projects/[slug]' as const, params: { slug: 'gtm' } }
       : path;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 space-y-20 md:space-y-28">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 space-y-20 md:space-y-28">
       <header className="max-w-4xl space-y-6">
         <div className="flex flex-wrap gap-2">
           <Badge variant="neutral" size="md">{common('primaryFocus')}</Badge>
@@ -104,6 +105,14 @@ export function AboutContent() {
           <p className="mt-4 text-xs font-bold uppercase tracking-wider text-accent-800">{t('currentEngagement')}</p>
           <p className="mt-1 text-base font-semibold text-slate-900">{t('currentRole')}</p>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-700">{t('cestomText')}</p>
+          <div className="mt-4">
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-600">{t('cestomResponsibilitiesTitle')}</p>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-relaxed text-slate-700">
+              {associationResponsibilities.map((key) => (
+                <li key={key}>{t(`cestomResponsibilities.${key}`)}</li>
+              ))}
+            </ul>
+          </div>
           <div className="mt-5 border-t border-accent-200 pt-4">
             <p className="text-xs font-bold uppercase tracking-wider text-slate-600">{t('previousEngagements')}</p>
             <ul className="mt-2 space-y-1 text-sm text-slate-700">

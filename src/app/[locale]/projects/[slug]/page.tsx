@@ -61,7 +61,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
   if (project.slug === 'gtm') {
     return (
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
         <GtmCaseStudy />
       </div>
     );
@@ -69,7 +69,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
   if (project.slug === 'olist') {
     return (
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
         <OlistCaseStudy />
       </div>
     );
@@ -77,14 +77,14 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
   if (project.slug === 'afc') {
     return (
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
         <AfcCaseStudy />
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
       <CaseStudySection
         project={project}
         previousProject={previousProject}

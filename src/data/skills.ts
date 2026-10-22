@@ -45,6 +45,13 @@ export const SKILLS: Skill[] = [
     isTopSkill: false,
   },
   {
+    id: 'business-intelligence',
+    name: 'Business Intelligence',
+    category: 'Data & Analyse',
+    projectSlugs: ['gtm'],
+    isTopSkill: true,
+  },
+  {
     id: 'mysql',
     name: 'MySQL',
     category: 'Développement & Backend',

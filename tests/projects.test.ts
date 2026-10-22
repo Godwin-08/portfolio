@@ -181,8 +181,9 @@ describe('Data Layer - Profile & Positioning', () => {
     expect(PROFILE.badge).toBe('Stage à partir de juillet 2027');
     expect(PROFILE.tagline).toBe('Comprendre → Analyser → Construire');
     expect(PROFILE.corePhilosophy).toBe('Preuve > Affirmation');
-    expect(PROFILE.primaryFocus).toBe('Data Analysis');
+    expect(PROFILE.primaryFocus).toBe('Data Analysis & Business Intelligence');
     expect(PROFILE.growingFields).toContain('Data Engineering');
+    expect(PROFILE.growingFields).toContain('Data Science');
     expect(PROFILE.growingFields).toContain('Machine Learning');
   });
 

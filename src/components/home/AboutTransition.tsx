@@ -7,7 +7,7 @@ export const AboutTransition: React.FC = () => {
   const t = useTranslations('home.aboutTransition');
   return (
     <section className="bg-white py-12 md:py-16" aria-label={t('label')}>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-6 border-l-[5px] border-coral-500 bg-lilac-50 px-6 py-7 sm:flex-row sm:items-center sm:justify-between sm:px-9 sm:py-8">
           <div className="max-w-2xl">
               <p className="font-heading text-xl font-extrabold leading-snug text-ink sm:text-2xl">

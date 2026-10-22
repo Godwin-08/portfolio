@@ -4,6 +4,7 @@ import { buildLocalizedPageMetadata } from '@/lib/seo';
 import { HeroSection } from '@/components/home/HeroSection';
 import { SkillsTicker } from '@/components/home/SkillsTicker';
 import { FeaturedProjects } from '@/components/home/FeaturedProjects';
+import { CertificationsSection } from '@/components/home/CertificationsSection';
 import { AboutTransition } from '@/components/home/AboutTransition';
 
 interface HomePageProps {
@@ -35,7 +36,10 @@ export default function HomePage() {
       {/* 3. Projets sélectionnés */}
       <FeaturedProjects />
 
-      {/* 4. Transition vers About */}
+      {/* 4. Formations complémentaires aux projets */}
+      <CertificationsSection />
+
+      {/* 5. Transition vers About */}
       <AboutTransition />
     </div>
   );
