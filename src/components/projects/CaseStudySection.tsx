@@ -353,7 +353,7 @@ export async function CaseStudySection({
             href={{ pathname: '/projects/[slug]', params: { slug: previousProject.slug } }}
             className="group flex flex-col text-left"
           >
-            <span className="text-xs text-slate-400">{t('previousProject')}</span>
+            <span className="text-xs text-slate-600">{t('previousProject')}</span>
             <span className="text-sm font-bold text-slate-800 group-hover:text-primary-600 transition-colors">
               ← {projectCopy(`${previousProject.id}.title`)}
             </span>
@@ -365,7 +365,7 @@ export async function CaseStudySection({
             href={{ pathname: '/projects/[slug]', params: { slug: nextProject.slug } }}
             className="group flex flex-col text-right"
           >
-            <span className="text-xs text-slate-400">{t('nextProject')}</span>
+            <span className="text-xs text-slate-600">{t('nextProject')}</span>
             <span className="text-sm font-bold text-slate-800 group-hover:text-primary-600 transition-colors">
               {projectCopy(`${nextProject.id}.title`)} →
             </span>

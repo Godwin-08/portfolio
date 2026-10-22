@@ -237,20 +237,20 @@ for (const site of localizedRoutes) {
     await page.getByRole('button', { name: categoryName, exact: true }).click();
     await expect(page).toHaveURL(/category=web-si/);
     expect(new URL(page.url()).searchParams.get('campaign')).toBe('acceptance');
-    await expect(page.locator('article h3')).toHaveCount(4);
+    await expect(page.locator('article h2')).toHaveCount(4);
 
     await page.goto(`${site.projects}?skill=flask`);
-    await expect(page.locator('article h3')).toHaveCount(3);
+    await expect(page.locator('article h2')).toHaveCount(3);
 
     await page.goto(`${site.projects}?category=web-si&skill=flask`);
-    await expect(page.locator('article h3')).toHaveCount(3);
+    await expect(page.locator('article h2')).toHaveCount(3);
 
     await page.goto(`${site.projects}?category=data-analysis&skill=flask`);
-    await expect(page.locator('article h3')).toHaveCount(0);
+    await expect(page.locator('article h2')).toHaveCount(0);
     await expect(page.getByRole('heading', { name: site.messages.projects.list.emptyTitle })).toBeVisible();
     await page.getByRole('button', { name: site.messages.projects.filters.reset, exact: true }).click();
     await expect(page).toHaveURL(new RegExp(`${site.projects.replaceAll('/', '\\/')}$`));
-    await expect(page.locator('article h3')).toHaveCount(6);
+    await expect(page.locator('article h2')).toHaveCount(6);
 
     await page.goto(`${site.projects}?category=web-si&skill=flask`);
     const switchButton = site.locale === 'fr'
@@ -262,7 +262,7 @@ for (const site of localizedRoutes) {
     const search = new URL(page.url()).searchParams;
     expect(search.get('category')).toBe('web-si');
     expect(search.get('skill')).toBe('flask');
-    await expect(page.locator('article h3')).toHaveCount(3);
+    await expect(page.locator('article h2')).toHaveCount(3);
 
     expectNoBrowserErrors(diagnostics);
   });

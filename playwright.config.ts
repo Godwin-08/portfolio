@@ -1,10 +1,11 @@
 import { defineConfig } from '@playwright/test';
 
-const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:4173';
+const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000';
 
 export default defineConfig({
   testDir: './tests/e2e',
-  outputDir: './test-results',
+  // Keep Playwright's cleanup isolated from other user-owned files in test-results.
+  outputDir: './test-results/playwright',
   fullyParallel: false,
   reporter: 'list',
   timeout: 30_000,
@@ -15,14 +16,4 @@ export default defineConfig({
     locale: 'fr-FR',
     trace: 'retain-on-failure',
   },
-  ...(process.env.PLAYWRIGHT_BASE_URL
-    ? {}
-    : {
-        webServer: {
-          command: 'npm.cmd run start -- --hostname localhost --port 4173',
-          url: baseURL,
-          reuseExistingServer: !process.env.CI,
-          timeout: 180_000,
-        },
-      }),
 });

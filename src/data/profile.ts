@@ -4,7 +4,7 @@ export const PROFILE = {
   name: 'Godwin Elie Nougbolo',
   shortName: 'Godwin Nougbolo',
   title: 'Étudiant ingénieur en Informatique et Ingénierie des Données (IID)',
-  badge: 'Recherche PFA 2e année',
+  badge: 'Stage à partir de juillet 2027',
   primaryFocus: 'Data Analysis',
   growingFields: ['Data Engineering', 'Machine Learning'],
   tagline: 'Comprendre → Analyser → Construire',

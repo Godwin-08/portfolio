@@ -5,54 +5,83 @@
   --font-sans: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
   --font-heading: var(--font-manrope), 'Manrope', system-ui, -apple-system, sans-serif;
 
-  --color-primary-50: #f0f9ff;
-  --color-primary-100: #e0f2fe;
-  --color-primary-200: #bae6fd;
-  --color-primary-300: #7dd3fc;
-  --color-primary-400: #38bdf8;
-  --color-primary-500: #0ea5e9;
-  --color-primary-600: #0284c7;
-  --color-primary-700: #0369a1;
-  --color-primary-800: #075985;
-  --color-primary-900: #0c4a6e;
-  --color-primary: #0284c7;
+  --color-primary-50: #eef1ff;
+  --color-primary-100: #e0e7ff;
+  --color-primary-200: #c6d0ff;
+  --color-primary-300: #aab8ff;
+  --color-primary-400: #8397ff;
+  --color-primary-500: #5f78ff;
+  --color-primary-600: #3453ed;
+  --color-primary-700: #2c45cb;
+  --color-primary-800: #263aa4;
+  --color-primary-900: #202f7d;
+  --color-primary: #3453ed;
 
-  --color-accent-50: #ecfdf5;
-  --color-accent-100: #d1fae5;
-  --color-accent-200: #a7f3d0;
-  --color-accent-300: #6ee7b7;
-  --color-accent-400: #34d399;
-  --color-accent-500: #10b981;
-  --color-accent-600: #059669;
-  --color-accent-700: #047857;
-  --color-accent: #10b981;
+  --color-accent-50: #edfbf3;
+  --color-accent-100: #d4f5e2;
+  --color-accent-200: #b3eccc;
+  --color-accent-300: #84ddae;
+  --color-accent-400: #52c98c;
+  --color-accent-500: #2da96d;
+  --color-accent-600: #1f8557;
+  --color-accent-700: #186844;
+  --color-accent-800: #145339;
+  --color-accent-900: #124330;
+  --color-accent: #2da96d;
 
-  --color-background: #f8fafc;
-  --color-foreground: #0f172a;
+  --color-coral-50: #fff3ef;
+  --color-coral-100: #ffe3db;
+  --color-coral-200: #ffc6b7;
+  --color-coral-300: #fba08d;
+  --color-coral-400: #f27965;
+  --color-coral-500: #e65e4f;
+  --color-coral-600: #d34b3d;
+  --color-coral-700: #b83e2e;
+  --color-coral-800: #91332c;
+  --color-coral-900: #762d29;
 
-  --radius-card: 14px;
-  --radius-btn: 11px;
+  --color-lilac-50: #f7f4ff;
+  --color-lilac-100: #eee8ff;
+  --color-lilac-200: #ded3ff;
+  --color-lilac-300: #c4b4ff;
+  --color-lilac-400: #a58cff;
+  --color-lilac-500: #805eea;
+  --color-lilac-600: #6646ca;
+  --color-lilac-700: #5138a6;
+  --color-lilac-800: #41317f;
+  --color-lilac-900: #342d62;
+
+  --color-ink: #172033;
+  --color-paper: #f9f7f1;
+  --color-body: #344057;
+  --color-muted: #4b5873;
+
+  --color-background: #f9f7f1;
+  --color-foreground: #172033;
+
+  --radius-card: 10px;
+  --radius-btn: 8px;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    color: #0f172a;
-    background-color: #f8fafc;
+    color: #172033;
+    background-color: #f9f7f1;
   }
 
   body {
     min-height: 100vh;
     font-family: var(--font-inter), sans-serif;
-    background-color: #f8fafc;
-    color: #0f172a;
+    background-color: #f9f7f1;
+    color: #172033;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-manrope), sans-serif;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     font-weight: 700;
   }
 }
@@ -88,4 +117,62 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+@keyframes skills-row-emphasis {
+  0%, 35%, 100% {
+    background-color: transparent;
+    border-color: transparent;
+  }
+
+  12%, 27% {
+    background-color: rgb(255 255 255 / 0.055);
+    border-color: rgb(255 255 255 / 0.11);
+  }
+}
+
+.skills-ticker__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  padding: 0.4rem 0;
+  animation: skills-row-emphasis 18s ease-in-out infinite;
+}
+
+.skills-ticker__row--second {
+  animation-delay: -9s;
+}
+
+.skills-ticker:hover .skills-ticker__row,
+.skills-ticker:focus-within .skills-ticker__row {
+  animation-play-state: paused;
+}
+
+@layer utilities {
+  @media (prefers-reduced-motion: reduce) {
+    .hero-motion-entry {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    html body main .project-card:hover,
+    html body main .project-card:focus-within {
+      --tw-translate-x: 0px !important;
+      --tw-translate-y: 0px !important;
+    }
+
+    html body main .project-card:hover [data-project-visual] img,
+    html body main .project-card:hover a svg {
+      --tw-translate-x: 0px !important;
+      --tw-translate-y: 0px !important;
+    }
+
+    .skills-ticker__row {
+      animation: none !important;
+      background-color: transparent;
+      border-color: transparent;
+    }
+  }
 }

@@ -2,7 +2,7 @@
   "common": {
     "name": "Godwin Elie Nougbolo",
     "role": "Étudiant Ingénieur en Informatique et Ingénierie des Données",
-    "badge": "Recherche un PFA de 2e année",
+    "badge": "Stage à partir de juillet 2027",
     "tagline": "Comprendre → Analyser → Construire",
     "philosophy": "Preuve > Affirmation",
     "primaryFocus": "Data Analysis",
@@ -61,14 +61,13 @@
     },
     "contact": {
       "title": "Contact — échanger sur un projet",
-      "description": "Contacter Godwin Elie Nougbolo au sujet d’un projet ou d’un PFA en analyse de données et développement logiciel."
+      "description": "Contacter Godwin Elie Nougbolo au sujet d’un projet ou d’un stage à partir de juillet 2027 en analyse de données et développement logiciel."
     }
   },
   "home": {
     "hero": {
-      "studentBadge": "Étudiant ingénieur · Informatique et Ingénierie des Données",
-      "pfaBadge": "Recherche un PFA de 2e année",
-      "degree": "Informatique et Ingénierie des Données",
+      "studentBadge": "Étudiant ingénieur · ENSA Khouribga",
+      "degree": "Informatique et Ingénierie des Données (IID)",
       "intro": "Étudiant ingénieur à l’ENSA Khouribga, je me forme aux métiers de la donnée. Mes projets m’ont apporté une première expérience pratique en analyse de données ; je développe progressivement mes compétences en Data Engineering et en Machine Learning.",
       "focusHeading": "Domaines d’intérêt",
       "analysisTitle": "Data Analysis",
@@ -79,15 +78,14 @@
       "viewProjects": "Voir mes projets",
       "downloadCv": "Télécharger mon CV",
       "portraitAlt": "Portrait de Godwin Elie Nougbolo, étudiant ingénieur à l’ENSA Khouribga",
-      "pfaOverlay": "Recherche PFA",
-      "portraitDiscipline": "Informatique et Ingénierie des Données · Data Analysis",
-      "availability": "Recherche un PFA"
+      "availability": "Stage à partir de juillet 2027"
     },
     "skills": {
       "sectionLabel": "Compétences reliées aux projets",
       "heading": "Compétences",
-      "instruction": "Choisissez une compétence pour voir les projets associés.",
-      "filterAria": "Filtrer les projets par compétence : {skill}",
+      "instruction": "Sélectionnez une compétence pour afficher les projets qui la démontrent.",
+      "filterAria": "Afficher les projets associés à la compétence {skill}",
+      "moreSkills": "Voir {count} autres compétences",
       "names": {
         "statistiques": "Statistiques",
         "bases-de-donnees": "Bases de données",
@@ -97,7 +95,8 @@
     "projects": {
       "eyebrow": "Projets sélectionnés",
       "heading": "Projets sélectionnés",
-      "description": "Des projets concrets qui illustrent une approche rigoureuse de l’analyse, du développement logiciel et des décisions documentées."
+      "description": "Des projets concrets qui illustrent une approche rigoureuse de l’analyse, du développement logiciel et des décisions documentées.",
+      "ordersAnalyzed": "commandes analysées"
     },
     "aboutTransition": {
       "label": "Lien vers la présentation",
@@ -140,7 +139,9 @@
       "caseStudyAria": "Lire l’étude de cas : {title}",
       "projectAria": "Voir le projet : {title}",
       "flagship": "Projet de référence",
-      "imageAlt": "Aperçu du projet {title}"
+      "imageAlt": "Aperçu du projet {title}",
+      "editorialVisual": "Illustration éditoriale",
+      "technologiesLabel": "Technologies utilisées"
     },
     "cards": {
       "gtm": { "title": "GTM — Galaxy Training Manager", "tagline": "Application de gestion des formations développée en contexte professionnel, avec évaluation et analyse décisionnelle.", "summary": "Application de gestion et d’analyse des formations développée dans un contexte professionnel.", "context": "Professionnel · projet individuel" },
@@ -210,7 +211,7 @@
     "eyebrow": "À propos",
     "title": "Donner du sens aux données et en faire quelque chose d’utile.",
     "intro": "Je suis étudiant ingénieur en Informatique et Ingénierie des Données à l’ENSA Khouribga. La Data Analysis est mon orientation actuelle ; je développe aussi progressivement mes repères en Data Engineering et en Machine Learning.",
-    "search": "Je recherche aujourd’hui un PFA de deuxième année, avec l’envie de contribuer à un contexte où les données et le logiciel répondent à un besoin concret.",
+    "search": "Je recherche un stage à partir de juillet 2027, dans un contexte où les données et le logiciel répondent à un besoin concret.",
     "education": {
       "heading": "Parcours académique",
       "engineering": { "period": "Depuis 2025", "degree": "Cycle ingénieur — Informatique et Ingénierie des Données (IID)", "location": "Khouribga, Maroc", "description": "Formation d’ingénieur en informatique et ingénierie des données." },
@@ -244,7 +245,7 @@
       "progress": { "title": "Rester en progression", "text": "La Data Analysis est mon point d’appui actuel. Le Data Engineering et le Machine Learning restent des domaines que j’explore et développe." }
     },
     "focus": "Ce que je cherche aujourd’hui",
-    "focusText": "Un PFA de deuxième année, prioritairement orienté Data Analysis, tout en restant ouvert à une mission où la Data Engineering apporte un cadre utile. Le Machine Learning et l’IA font partie des domaines que je continue d’explorer.",
+    "focusText": "Ma priorité est la Data Analysis, tout en restant ouvert à des missions où la Data Engineering apporte un cadre utile. Le Machine Learning et l’IA font partie des domaines que je continue d’explorer.",
     "beyond": "En dehors des projets",
     "beyondText": "J’apprends aussi à travers des projets collectifs et des problèmes techniques concrets. L’engagement associatif, comme CESTOM, complète ce parcours en donnant une place au travail d’équipe et à l’usage réel des interfaces.",
     "cta": "Continuons la conversation."
@@ -252,7 +253,7 @@
   "contact": {
     "eyebrow": "Contact",
     "title": "Échangeons autour d’un projet concret.",
-    "intro": "Je recherche actuellement un PFA de deuxième année, avec un intérêt prioritaire pour la Data Analysis, tout en développant progressivement mes compétences en Data Engineering et en Machine Learning.",
+    "intro": "Mon orientation actuelle est la Data Analysis, et je développe progressivement mes compétences en Data Engineering et en Machine Learning.",
     "focus": "Recherche actuelle",
     "email": "Me contacter par email",
     "emailDetail": "Le moyen le plus direct pour échanger sur une opportunité ou un projet.",
@@ -262,7 +263,8 @@
     "githubDetail": "Code source et projets publics.",
     "cv": "Télécharger mon CV",
     "externalNewTab": "(nouvel onglet)",
-    "contactLinks": "Moyens de contact"
+    "contactLinks": "Moyens de contact",
+    "focusText": "Mon objectif : partir d’un besoin concret et produire une analyse utile, étayée par des preuves."
   }
 }
 

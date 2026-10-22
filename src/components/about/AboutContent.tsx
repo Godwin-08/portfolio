@@ -48,7 +48,6 @@ export function AboutContent() {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 space-y-20 md:space-y-28">
       <header className="max-w-4xl space-y-6">
         <div className="flex flex-wrap gap-2">
-          <Badge variant="pfa" size="md">{common('badge')}</Badge>
           <Badge variant="neutral" size="md">{common('primaryFocus')}</Badge>
         </div>
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-700">{t('eyebrow')}</p>

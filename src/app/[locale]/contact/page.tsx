@@ -68,7 +68,7 @@ export default async function ContactPage() {
       <section className="grid md:grid-cols-12 gap-8 md:items-center border-y border-slate-200 py-8 sm:py-10">
         <div className="md:col-span-7">
           <p className="text-xs font-bold uppercase tracking-wider text-accent-700">{t('focus')}</p>
-          <p className="mt-3 text-sm sm:text-base leading-relaxed text-slate-700">{t('intro')}</p>
+          <p className="mt-3 text-sm sm:text-base leading-relaxed text-slate-700">{t('focusText')}</p>
         </div>
         <div className="md:col-span-5 md:justify-self-end">
           <Button href={PROFILE.contact.cvPath} isExternal variant="outline" size="md" leftIcon={<FileText className="w-4 h-4" />}>

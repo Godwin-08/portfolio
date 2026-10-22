@@ -26,7 +26,7 @@ export const Badge: React.FC<BadgeProps> = ({
     accent: 'bg-accent-50 text-accent-700 border border-accent-200/70',
     neutral: 'bg-slate-100 text-slate-700 border border-slate-200/80',
     outline: 'bg-white text-slate-600 border border-slate-300',
-    pfa: 'bg-gradient-to-r from-primary-50 to-accent-50 text-slate-800 border border-primary-200/80 shadow-xs font-semibold',
+    pfa: 'bg-coral-50 text-coral-900 border border-coral-200 font-semibold',
   };
 
   return (

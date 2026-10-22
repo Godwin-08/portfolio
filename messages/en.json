@@ -2,7 +2,7 @@
   "common": {
     "name": "Godwin Elie Nougbolo",
     "role": "Computer Science & Data Engineering Student",
-    "badge": "Seeking a second-year project placement (PFA)",
+    "badge": "Internship from July 2027",
     "tagline": "Understand → Analyze → Build",
     "philosophy": "Proof > Claim",
     "primaryFocus": "Data Analysis",
@@ -61,33 +61,31 @@
     },
     "contact": {
       "title": "Contact — discuss a project",
-      "description": "Contact Godwin Elie Nougbolo about a project or placement in data analysis and software development."
+      "description": "Contact Godwin Elie Nougbolo about a project or an internship from July 2027 in data analysis and software development."
     }
   },
   "home": {
     "hero": {
-      "studentBadge": "Engineering student · Computer Science and Data Engineering",
-      "pfaBadge": "Seeking a second-year project placement",
-      "degree": "Computer Science and Data Engineering",
+      "studentBadge": "Engineering student · ENSA Khouribga",
+      "degree": "Computer Science and Data Engineering (IID)",
       "intro": "I am an engineering student at ENSA Khouribga, building a foundation in data-focused work. My projects have given me practical experience in data analysis, and I am steadily developing my skills in Data Engineering and Machine Learning.",
       "focusHeading": "Areas of interest",
       "analysisTitle": "Data Analysis",
       "analysisDescription": "Practical experience exploring and analysing data through hands-on projects.",
       "growingFieldsDescription": "Skills I am steadily developing",
       "growingFields": "Data Engineering · Machine Learning",
-      "tagline": "Make sense of data. Find its value. Build practical solutions.",
+      "tagline": "Understand data. Find its value. Build useful solutions.",
       "viewProjects": "Explore my projects",
       "downloadCv": "Download my CV",
       "portraitAlt": "Portrait of Godwin Elie Nougbolo, engineering student at ENSA Khouribga",
-      "pfaOverlay": "Seeking a project placement",
-      "portraitDiscipline": "Computer Science and Data Engineering · Data Analysis",
-      "availability": "Seeking a project placement"
+      "availability": "Seeking an internship from July 2027"
     },
     "skills": {
       "sectionLabel": "Skills linked to projects",
       "heading": "Skills",
-      "instruction": "Select a skill to see related projects.",
-      "filterAria": "Filter projects by skill: {skill}",
+      "instruction": "Choose a skill to see the projects that demonstrate it.",
+      "filterAria": "Show projects linked to the {skill} skill",
+      "moreSkills": "Show {count} more skills",
       "names": {
         "statistiques": "Statistics",
         "bases-de-donnees": "Databases",
@@ -97,7 +95,8 @@
     "projects": {
       "eyebrow": "Selected work",
       "heading": "Selected projects",
-      "description": "Practical projects demonstrating careful analysis, software development, and well-documented decisions."
+      "description": "Practical projects demonstrating careful analysis, software development, and well-documented decisions.",
+      "ordersAnalyzed": "orders analyzed"
     },
     "aboutTransition": {
       "label": "Link to the About page",
@@ -140,7 +139,9 @@
       "caseStudyAria": "Read case study: {title}",
       "projectAria": "View project: {title}",
       "flagship": "Key project",
-      "imageAlt": "Preview of the {title} project"
+      "imageAlt": "Preview of the {title} project",
+      "editorialVisual": "Editorial illustration",
+      "technologiesLabel": "Technologies used"
     },
     "cards": {
       "gtm": { "title": "GTM — Galaxy Training Manager", "tagline": "A professional training-management application with evaluation and decision-support analysis.", "summary": "A training management and analysis application developed in a professional setting.", "context": "Professional · individual project" },
@@ -210,7 +211,7 @@
     "eyebrow": "About",
     "title": "Making sense of data and turning it into something useful.",
     "intro": "I am an engineering student in Computer Science and Data Engineering at ENSA Khouribga. Data Analysis is my current direction; I am also steadily building my foundations in Data Engineering and Machine Learning.",
-    "search": "I am currently looking for a second-year project placement (PFA), where data and software can help solve a concrete problem.",
+    "search": "I am seeking an internship starting July 2027, where data and software can help solve a concrete problem.",
     "education": {
       "heading": "Education",
       "engineering": { "period": "Since 2025", "degree": "Engineering Cycle — Computer Science and Data Engineering (IID)", "location": "Khouribga, Morocco", "description": "Engineering studies focused on computer science and data engineering." },
@@ -244,7 +245,7 @@
       "progress": { "title": "Keep learning", "text": "Data Analysis is my current foundation. Data Engineering and Machine Learning remain fields I am exploring and developing." }
     },
     "focus": "What I am looking for",
-    "focusText": "A second-year project placement (PFA), primarily in Data Analysis, while staying open to work where Data Engineering provides a useful framework. Machine Learning and AI are also areas I continue to explore.",
+    "focusText": "My priority is Data Analysis, while staying open to work where Data Engineering provides a useful framework. Machine Learning and AI are also areas I continue to explore.",
     "beyond": "Beyond projects",
     "beyondText": "I also learn through collaborative projects and practical technical challenges. Community involvement such as CESTOM complements this path through teamwork and real-world use of digital tools.",
     "cta": "Let’s continue the conversation."
@@ -252,7 +253,7 @@
   "contact": {
     "eyebrow": "Contact",
     "title": "Let’s talk about a practical project.",
-    "intro": "I am currently looking for a second-year project placement (PFA), with a primary interest in Data Analysis while steadily developing my skills in Data Engineering and Machine Learning.",
+    "intro": "My current focus is Data Analysis, while I continue to develop my skills in Data Engineering and Machine Learning.",
     "focus": "Current focus",
     "email": "Email me",
     "emailDetail": "The most direct way to discuss an opportunity or project.",
@@ -262,7 +263,8 @@
     "githubDetail": "Source code and public projects.",
     "cv": "Download my CV",
     "externalNewTab": "(opens in a new tab)",
-    "contactLinks": "Ways to get in touch"
+    "contactLinks": "Ways to get in touch",
+    "focusText": "My aim is to start with a concrete need and deliver useful analysis supported by evidence."
   }
 }
 

@@ -178,7 +178,7 @@ describe('Data Layer - Skills & Bidirectional Mapping', () => {
 describe('Data Layer - Profile & Positioning', () => {
   it('should match Godwin Elie Nougbolo profile specs', () => {
     expect(PROFILE.name).toBe('Godwin Elie Nougbolo');
-    expect(PROFILE.badge).toContain('PFA 2e année');
+    expect(PROFILE.badge).toBe('Stage à partir de juillet 2027');
     expect(PROFILE.tagline).toBe('Comprendre → Analyser → Construire');
     expect(PROFILE.corePhilosophy).toBe('Preuve > Affirmation');
     expect(PROFILE.primaryFocus).toBe('Data Analysis');
