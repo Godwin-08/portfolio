@@ -65,11 +65,12 @@ export interface Project {
   isFlagship?: boolean;
 }
 
-export type SkillCategory = 
-  | 'Data & Analyse'
-  | 'Développement & Backend'
-  | 'Statistiques & Modélisation'
-  | 'Outils & Ingénierie';
+export type SkillCategory =
+  | 'data-analysis'
+  | 'data-management'
+  | 'programming'
+  | 'application-development'
+  | 'development-tools';
 
 export interface Skill {
   id: string;

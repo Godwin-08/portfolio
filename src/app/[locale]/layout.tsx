@@ -6,6 +6,13 @@ import {getMessages, getTranslations, setRequestLocale} from 'next-intl/server';
 import '../globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+import { BackToTopButton } from '@/components/ui/BackToTopButton';
+import { PageMotion } from '@/components/ui/PageMotion';
+import { AIAssistantProvider } from '@/components/ai/AIAssistantContext';
+import { GlobalAIAssistant } from '@/components/ai/GlobalAIAssistant';
+import { AIAssistantFAB } from '@/components/ai/AIAssistantFAB';
+import { ThemeProvider } from '@/components/theme/ThemeContext';
+import { ThemeScript } from '@/components/theme/ThemeScript';
 import { PROFILE } from '@/data/profile';
 import {routing} from '@/i18n/routing';
 import { getSiteUrl } from '@/lib/seo';
@@ -82,14 +89,25 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${inter.variable} ${manrope.variable}`}>
+    <html lang={locale} className={`${inter.variable} ${manrope.variable}`} suppressHydrationWarning>
+      <head>
+        <ThemeScript />
+      </head>
       <body className="min-h-screen flex flex-col bg-background text-foreground selection:bg-primary-100 selection:text-primary-900 antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Navbar />
-          <main id="main-content" tabIndex={-1} className="flex-1 focus:outline-none">
-            {children}
-          </main>
-          <Footer />
+          <ThemeProvider>
+            <AIAssistantProvider>
+              <PageMotion />
+              <Navbar />
+              <main id="main-content" tabIndex={-1} className="flex-1 focus:outline-none">
+                {children}
+              </main>
+              <Footer />
+              <BackToTopButton />
+              <AIAssistantFAB />
+              <GlobalAIAssistant />
+            </AIAssistantProvider>
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -39,14 +39,29 @@ export function buildLocalizedPageMetadata({
   siteUrl?: URL;
 }): Metadata {
   const pathname = getPathname({ locale, href });
+  const pathnameFr = getPathname({ locale: 'fr', href });
+  const pathnameEn = getPathname({ locale: 'en', href });
   const pageUrl = siteUrl ? new URL(pathname, siteUrl) : undefined;
+  const frUrl = siteUrl ? new URL(pathnameFr, siteUrl) : undefined;
+  const enUrl = siteUrl ? new URL(pathnameEn, siteUrl) : undefined;
   const imageUrl = siteUrl && image ? new URL(image, siteUrl) : undefined;
   const isFrench = locale === 'fr';
 
   return {
     title,
     description,
-    ...(pageUrl ? { alternates: { canonical: pageUrl } } : {}),
+    ...(pageUrl
+      ? {
+          alternates: {
+            canonical: pageUrl,
+            languages: {
+              fr: frUrl ? frUrl.toString() : pathnameFr,
+              en: enUrl ? enUrl.toString() : pathnameEn,
+              'x-default': frUrl ? frUrl.toString() : pathnameFr,
+            },
+          },
+        }
+      : {}),
     openGraph: {
       title: `${title} | ${siteName}`,
       description,

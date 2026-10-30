@@ -2,7 +2,7 @@ import { expect, test, type Locator, type Page } from '@playwright/test';
 import frMessages from '../../messages/fr.json';
 import enMessages from '../../messages/en.json';
 
-const projectIds = ['gtm', 'olist', 'afc', 'revision-flow', 'sante-scolaire', 'novastore'] as const;
+const projectIds = ['gtm', 'olist', 'afc', 'acp', 'revision-flow', 'novastore', 'sante-scolaire', 'pneumonia-detection'] as const;
 const locales = [
   { locale: 'fr', projects: '/projets', messages: frMessages },
   { locale: 'en', projects: '/en/projects', messages: enMessages },
@@ -111,7 +111,7 @@ async function assertProjectListing(
   site: (typeof locales)[number]
 ) {
   await expect(page.locator('html')).toHaveAttribute('lang', site.locale);
-  await expect(page.locator('article')).toHaveCount(6);
+  await expect(page.locator('article')).toHaveCount(8);
   await expect(page.locator('article h2')).toHaveText(
     projectIds.map((slug) => site.messages.projects.cards[slug].title)
   );
@@ -160,33 +160,44 @@ async function assertProjectListing(
 test('captures iteration 3 layouts in French and English after the Hero has settled', async ({ page }, testInfo) => {
   test.setTimeout(60_000);
   const screenshot = (name: string) => testInfo.outputPath(`iteration-3-${name}.png`);
+  const featuredProjectCards = page.locator(
+    'section[aria-labelledby="projects-heading"] article.project-card'
+  );
 
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
-  await expect(page.locator('article')).toHaveCount(3);
+  await expect(featuredProjectCards).toHaveCount(4);
   await waitForStableHome(page);
-  await assertTechnologyTagContrast(page.locator('article'));
+  await assertTechnologyTagContrast(featuredProjectCards);
   await page.screenshot({ path: screenshot('home-fr-desktop'), fullPage: true });
 
-  const ticker = page.getByRole('region', { name: frMessages.home.skills.sectionLabel });
-  await expect(ticker.getByRole('button')).toHaveCount(23);
+  const skillsSection = page.getByRole('region', { name: frMessages.home.skills.sectionLabel });
+  await expect(skillsSection.locator('[data-skill-id]')).toHaveCount(24);
+  await expect(skillsSection.locator('[data-skill-category]')).toHaveCount(5);
   const headerBounds = await page.locator('[data-skills-header] > div').first().boundingBox();
-  const firstSkillBounds = await ticker.getByRole('button').first().boundingBox();
+  const firstCategoryBounds = await skillsSection.locator('[data-skill-category]').first().boundingBox();
   expect(headerBounds).not.toBeNull();
-  expect(firstSkillBounds).not.toBeNull();
-  expect(Math.abs(firstSkillBounds!.x - headerBounds!.x)).toBeLessThanOrEqual(2);
-  const headingSize = await ticker.getByRole('heading', { name: frMessages.home.skills.heading })
+  expect(firstCategoryBounds).not.toBeNull();
+  expect(Math.abs(firstCategoryBounds!.x - headerBounds!.x)).toBeLessThanOrEqual(2);
+  const headingSize = await skillsSection.getByRole('heading', { name: frMessages.home.skills.heading })
     .evaluate((heading) => Number.parseFloat(getComputedStyle(heading).fontSize));
   expect(headingSize).toBeGreaterThanOrEqual(36);
+  for (const category of Object.values(frMessages.home.skills.categories)) {
+    await expect(skillsSection.getByRole('heading', { name: category, level: 3 })).toBeVisible();
+  }
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-  await ticker.screenshot({ path: screenshot('skills-alignment') });
+  await skillsSection.screenshot({ path: screenshot('skills-categories') });
 
   await page.goto('/en');
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-  await expect(page.locator('article')).toHaveCount(3);
+  await expect(featuredProjectCards).toHaveCount(4);
   await waitForStableHome(page);
-  await assertTechnologyTagContrast(page.locator('article'));
+  await assertTechnologyTagContrast(featuredProjectCards);
+  const englishSkillsSection = page.getByRole('region', { name: enMessages.home.skills.sectionLabel });
+  for (const category of Object.values(enMessages.home.skills.categories)) {
+    await expect(englishSkillsSection.getByRole('heading', { name: category, level: 3 })).toBeVisible();
+  }
   await page.screenshot({ path: screenshot('home-en-desktop'), fullPage: true });
 
   await page.setViewportSize({ width: 390, height: 844 });
@@ -267,8 +278,8 @@ test('Hero and project hover motion respect reduced-motion preferences', async (
     await expect(entry).toHaveCSS('opacity', '1');
     await expect(entry).toHaveCSS('transform', 'none');
   }
-  const tickerTrack = page.locator('.skills-ticker__row:visible').first();
-  await expect.poll(() => tickerTrack.evaluate((track) => getComputedStyle(track).animationName)).toBe('none');
+  const skillCategory = page.locator('.skills-ticker [data-skill-category]').first();
+  await expect.poll(() => skillCategory.evaluate((category) => getComputedStyle(category).animationName)).toBe('none');
 
   const projectCard = page.locator('article').first();
   await projectCard.hover();

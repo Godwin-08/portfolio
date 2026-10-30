@@ -1,56 +1,199 @@
-'use client';
-
-import Image from 'next/image';
-import { useLocale } from 'next-intl';
-import { Link } from '@/i18n/routing';
 import type { ReactNode } from 'react';
-import { ArrowLeft, BookOpenCheck, Braces, ChartScatter, Github, Sigma, TestTube2 } from 'lucide-react';
+import type { ProjectDetailCopy, ProjectDetailImage } from '@/data/project-details';
+import { ProjectGallery, type ProjectGalleryLabels } from '@/components/projects/ProjectGallery';
+import { AlertTriangle, BookOpenCheck, FileText, Lightbulb, ListChecks } from 'lucide-react';
 
-const copy = {
-  fr: {
-    back: 'Retour aux projets', eyebrow: 'Projet académique · ENSA Khouribga', title: 'AFC — Analyse Factorielle des Correspondances', intro: 'Implémenter étape par étape une méthode d’analyse multivariée pour étudier les associations entre domaines professionnels et compétences.',
-    contextTitle: 'Question de départ', context: 'À partir des offres LinkedIn 2023–2024, le projet cherche à répondre à une question simple : quelles compétences sont associées à quels domaines professionnels ? L’AFC permet de représenter simultanément ces deux variables qualitatives dans un plan factoriel.',
-    roleTitle: 'Mon rôle dans le binôme', role: 'Projet réalisé avec Sadik Mohammed. Le dépôt identifie les deux auteurs ; le notebook documente le raisonnement et les calculs de l’analyse. Cette étude présente le travail sans attribuer au seul auteur une répartition non documentée du binôme.',
-    dataTitle: 'Données → table de contingence', data: 'Le notebook fusionne postings.csv, job_skills.csv et skills.csv, issus du dataset LinkedIn Job Postings 2023–2024. Les titres sont regroupés en 6 domaines, puis pandas construit une table domaines × compétences par crosstab : c’est l’objet sur lequel l’AFC est calculée.',
-    methodTitle: 'La méthode, rendue lisible', steps: [['Fréquences et marges', 'Passer des effectifs aux fréquences relatives et au profil moyen.'], ['Profils et χ²', 'Comparer les profils observés à l’indépendance et mesurer l’inertie totale.'], ['Résidus et SVD', 'Standardiser les écarts puis décomposer la matrice Z pour obtenir les axes.'], ['Qualité et lecture', 'Utiliser cos² et CTR pour qualifier la représentation avant d’interpréter le biplot.']],
-    scratchTitle: 'Implémentation from scratch', scratch: 'Le projet n’utilise pas de bibliothèque AFC dédiée. NumPy réalise la SVD de la matrice des résidus standardisés ; Pandas structure les données et SciPy fournit le test du χ². L’objectif est de suivre et vérifier chaque étape du calcul, non de créer une nouvelle méthode.',
-    validationTitle: 'Validation mathématique et axes retenus', validation: 'Le notebook vérifie que la somme des carrés de Z puis la somme des valeurs propres correspondent à l’inertie totale. Le scree plot conduit à retenir les deux premiers axes : F1 explique 29,2 %, F2 27,0 %, soit 56,2 % de l’inertie cumulée.',
-    readingTitle: 'Lire le biplot avec prudence', reading: 'Les losanges bleus représentent les domaines et les points orange les compétences. La proximité dans ce plan suggère une association dans les données étudiées ; elle ne prouve pas de causalité. Les points dont le cos² est inférieur à 0,5 sont volontairement atténués, car moins bien représentés sur ce plan.',
-    resultsTitle: 'Observations du jeu étudié', results: [['Axe 1', 'oppose principalement des compétences commerciales et financières aux compétences techniques et analytiques.'], ['Axe 2', 'oppose surtout la spécialisation finance/comptabilité aux fonctions commerce, RH et marketing.'], ['Proximités', 'Finance & Compta apparaît près de Finance et Accounting/Auditing ; Tech & Ingénierie et Data & Analyse sont proches d’Information Technology.']],
-    reproducibilityTitle: 'Reproductibilité', reproducibility: 'notebooks/afc_notebook.ipynb est le chemin de calcul : chargement, regroupement, table de contingence, contrôles, visualisations et interprétation. Les dépendances déclarées sont pandas, NumPy, Matplotlib, SciPy et Jupyter.',
-    reflectionTitle: 'Avec le recul', reflection: 'L’interprétation reste limitée au dataset LinkedIn, au regroupement retenu pour les 6 domaines et aux deux axes visualisés. Les 43,8 % d’inertie restants ne sont pas représentés sur le biplot ; les modalités à faible cos² ne doivent pas être surinterprétées.', source: 'Voir le dépôt AFC', techTitle: 'Technologies'
-  },
-  en: {
-    back: 'Back to projects', eyebrow: 'Academic project · ENSA Khouribga', title: 'CA — Correspondence Analysis', intro: 'Implementing a multivariate-analysis method step by step to study associations between professional fields and skills.',
-    contextTitle: 'Starting question', context: 'Using LinkedIn job postings from 2023–2024, the project asks a simple question: which skills are associated with which professional fields? Correspondence Analysis represents both qualitative variables together on a factor map.',
-    roleTitle: 'My role in the pair project', role: 'A project completed with Sadik Mohammed. The repository identifies both authors; the notebook documents the reasoning and analysis calculations. This case study does not assign an undocumented split of pair work to one contributor.',
-    dataTitle: 'Data → contingency table', data: 'The notebook merges postings.csv, job_skills.csv, and skills.csv from the LinkedIn Job Postings 2023–2024 dataset. Job titles are grouped into 6 fields, then pandas builds a field × skill contingency table with crosstab: this is the object analysed by CA.',
-    methodTitle: 'Making the method readable', steps: [['Frequencies and margins', 'Move from counts to relative frequencies and the average profile.'], ['Profiles and χ²', 'Compare observed profiles with independence and measure total inertia.'], ['Residuals and SVD', 'Standardize deviations and decompose matrix Z to obtain factors.'], ['Quality and reading', 'Use cos² and CTR to qualify the representation before reading the biplot.']],
-    scratchTitle: 'From-scratch implementation', scratch: 'The project does not use a dedicated CA library. NumPy performs SVD on the standardized-residual matrix; Pandas structures the data and SciPy provides the χ² test. The aim is to follow and verify every calculation step, not to create a new method.',
-    validationTitle: 'Mathematical validation and retained axes', validation: 'The notebook checks that the sum of squared Z values and then the sum of eigenvalues match total inertia. The scree plot retains the first two axes: F1 explains 29.2%, F2 27.0%, for 56.2% cumulative inertia.',
-    readingTitle: 'Reading the biplot cautiously', reading: 'Blue diamonds represent fields and orange points represent skills. Proximity on this map suggests an association in the studied data; it does not establish causality. Points with cos² below 0.5 are deliberately faded because they are less well represented on this plane.',
-    resultsTitle: 'Observations in the studied data', results: [['Axis 1', 'mainly contrasts commercial and financial skills with technical and analytical skills.'], ['Axis 2', 'mainly contrasts finance/accounting specialization with commercial, HR, and marketing functions.'], ['Proximities', 'Finance & Accounting appears near Finance and Accounting/Auditing; Tech & Engineering and Data & Analysis are close to Information Technology.']],
-    reproducibilityTitle: 'Reproducibility', reproducibility: 'notebooks/afc_notebook.ipynb is the calculation path: loading, grouping, contingency table, checks, visualizations, and interpretation. Declared dependencies are pandas, NumPy, Matplotlib, SciPy, and Jupyter.',
-    reflectionTitle: 'In retrospect', reflection: 'Interpretation is limited to the LinkedIn dataset, the chosen grouping into 6 fields, and the two displayed axes. The remaining 43.8% of inertia is not shown on the biplot; low-cos² modalities should not be over-interpreted.', source: 'View the AFC repository', techTitle: 'Technologies'
-  }
-} as const;
-
-export function AfcCaseStudy() {
-  const isEnglish = useLocale() === 'en'; const t = copy[isEnglish ? 'en' : 'fr']; const path = (slug: string) => ({ pathname: '/projects/[slug]' as const, params: { slug } });
-  return <article className="max-w-5xl mx-auto pb-20 space-y-16">
-    <Link href="/projects" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded"><ArrowLeft className="w-4 h-4" aria-hidden="true" />{t.back}</Link>
-    <header className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center"><div className="lg:col-span-5 space-y-5"><p className="text-xs font-bold uppercase tracking-widest text-primary-700">{t.eyebrow}</p><h1 className="text-4xl sm:text-5xl font-heading font-extrabold tracking-tight text-slate-900">{t.title}</h1><p className="text-lg leading-relaxed text-slate-700">{t.intro}</p><a href="https://github.com/Godwin-08/AFC-Analyse-Factorielle-Correspondances" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-btn border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"><Github className="w-4 h-4" aria-hidden="true" />{t.source}</a></div><Figure src="/images/projects/afc-biplot.png" alt={isEnglish ? 'Correspondence analysis biplot for professional fields and skills' : 'Biplot AFC des domaines professionnels et compétences'} caption={isEnglish ? 'Biplot exported by the project notebook.' : 'Biplot exporté par le notebook du projet.'} priority /></header>
-    <Section icon={<BookOpenCheck />} title={t.contextTitle}><p>{t.context}</p><div className="mt-5 rounded-xl border border-primary-100 bg-primary-50/60 p-5"><h3 className="font-heading font-bold text-slate-900">{t.roleTitle}</h3><p className="mt-2">{t.role}</p></div></Section>
-    <Section icon={<ChartScatter />} title={t.dataTitle}><p>{t.data}</p></Section>
-    <Section icon={<Sigma />} title={t.methodTitle}><div className="grid md:grid-cols-2 gap-4">{t.steps.map(([title, text]) => <div key={title} className="rounded-xl border border-slate-200 bg-white p-5"><h3 className="font-heading font-bold text-slate-900">{title}</h3><p className="mt-2 text-sm">{text}</p></div>)}</div></Section>
-    <Section icon={<Braces />} title={t.scratchTitle}><p>{t.scratch}</p></Section>
-    <Section icon={<TestTube2 />} title={t.validationTitle}><p>{t.validation}</p><Figure src="/images/projects/afc-screeplot.png" alt={isEnglish ? 'Scree plot showing explained inertia by axis' : 'Scree plot de l’inertie expliquée par axe'} caption={isEnglish ? 'The first two axes are retained for the factor map.' : 'Les deux premiers axes sont retenus pour le plan factoriel.'} /></Section>
-    <Section icon={<ChartScatter />} title={t.readingTitle}><p>{t.reading}</p><Figure src="/images/projects/afc-biplot.png" alt={isEnglish ? 'Large correspondence-analysis biplot' : 'Biplot AFC grand format'} caption={isEnglish ? 'Fields and skills on the first factor plane.' : 'Domaines et compétences sur le premier plan factoriel.'} /></Section>
-    <Section icon={<ChartScatter />} title={t.resultsTitle}><div className="grid md:grid-cols-3 gap-4">{t.results.map(([title, text]) => <div key={title} className="rounded-xl border border-slate-200 bg-slate-50 p-5"><h3 className="font-heading font-bold text-slate-900">{title}</h3><p className="mt-2 text-sm">{text}</p></div>)}</div></Section>
-    <Section icon={<BookOpenCheck />} title={t.reproducibilityTitle}><p>{t.reproducibility}</p></Section><Section icon={<BookOpenCheck />} title={t.reflectionTitle}><p>{t.reflection}</p></Section>
-    <section className="border-t border-slate-200 pt-8"><h2 className="font-heading text-xl font-bold text-slate-900">{t.techTitle}</h2><div className="mt-4 flex flex-wrap gap-2">{['Python', 'NumPy', 'Pandas', 'SciPy', 'Matplotlib', 'Jupyter'].map((item) => <span key={item} className="rounded-md border border-slate-200 bg-white px-2.5 py-1 font-mono text-xs text-slate-700">{item}</span>)}</div></section>
-    <nav className="flex items-center justify-between border-t border-slate-200 pt-8" aria-label={isEnglish ? 'Project navigation' : 'Navigation entre les projets'}><Link href={path('olist')} className="text-sm font-semibold text-slate-600 hover:text-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded">← Olist</Link><Link href={path('gtm')} className="text-right text-sm font-semibold text-slate-600 hover:text-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded">GTM →</Link></nav>
-  </article>;
+interface AfcCaseStudyProps {
+  copy: ProjectDetailCopy;
+  locale: 'fr' | 'en';
+  galleryLabels: ProjectGalleryLabels;
 }
-function Section({ icon, title, children }: { icon: ReactNode; title: string; children: ReactNode }) { return <section className="space-y-4"><h2 className="flex items-center gap-2 font-heading text-2xl font-bold text-slate-900"><span className="text-primary-600">{icon}</span>{title}</h2><div className="text-base leading-relaxed text-slate-700">{children}</div></section>; }
-function Figure({ src, alt, caption, priority = false }: { src: string; alt: string; caption: string; priority?: boolean }) { return <figure className="mt-5 lg:col-span-7 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xs"><Image src={src} alt={alt} width={1200} height={700} priority={priority} className="h-auto w-full" /><figcaption className="border-t border-slate-100 px-4 py-3 text-xs text-slate-500">{caption}</figcaption></figure>; }
+
+export function AfcCaseStudy({ copy, locale, galleryLabels }: AfcCaseStudyProps) {
+  const text = locale === 'en'
+    ? {
+        dataTitle: 'Data and count table',
+        methodTitle: 'Method and steps',
+        resultsTitle: 'Analysis results',
+        screeTitle: 'Reading the axis chart',
+        biplotTitle: 'Reading the map',
+        representationTitle: 'How well the points appear',
+        limitationsTitle: 'Limits of the analysis',
+        documentsTitle: 'Project file',
+        question: 'Question',
+        reading: 'How to read it',
+        observation: 'What we see',
+        interpretation: 'What it means',
+        businessInterest: 'Why it is useful',
+        limitation: 'Limit',
+      }
+    : {
+        dataTitle: 'Données et tableau de contingence',
+        methodTitle: 'Méthode et étapes',
+        resultsTitle: 'Résultats statistiques',
+        screeTitle: 'Lire le scree plot',
+        biplotTitle: 'Lire la carte factorielle',
+        representationTitle: 'Vérifier la qualité de représentation',
+        limitationsTitle: 'Limites de l’analyse',
+        documentsTitle: 'Document du projet',
+        question: 'Question étudiée',
+        reading: 'Comment lire la figure',
+        observation: 'Ce que l’on observe',
+        interpretation: 'Interprétation',
+        businessInterest: 'À quoi ça sert',
+        limitation: 'Limite',
+      };
+
+  const scree = copy.gallery.find((image) => image.src.endsWith('afc-screeplot.png'));
+  const biplot = copy.gallery.find((image) => image.src.includes('afc-biplot'));
+  const representation = copy.gallery.find((image) => image.src.includes('afc-qualite-representation'));
+  return (
+    <div className="space-y-12">
+      <section className="space-y-5" aria-labelledby="afc-data-title" data-afc-section="data">
+        <SectionHeading icon={<BookOpenCheck className="h-5 w-5" />} title={text.dataTitle} id="afc-data-title" />
+        <p className="max-w-4xl text-base leading-relaxed text-slate-700 dark:text-slate-300">{copy.dataConstruction}</p>
+      </section>
+
+      <section className="space-y-5" aria-labelledby="afc-method-title" data-afc-section="method">
+        <SectionHeading icon={<ListChecks className="h-5 w-5" />} title={text.methodTitle} id="afc-method-title" />
+        <p className="max-w-4xl text-base leading-relaxed text-slate-700 dark:text-slate-300">{copy.methodIntro}</p>
+        <ol className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {copy.methodSteps.map((step, index) => (
+            <li key={step.title} className="rounded-xl border border-slate-200 bg-white p-5 shadow-xs dark:border-slate-700 dark:bg-slate-800">
+              <span data-project-accent className="font-mono text-xs font-bold">{String(index + 1).padStart(2, '0')}</span>
+              <h3 className="mt-2 font-heading text-lg font-bold text-slate-900 dark:text-white">{step.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-700 dark:text-slate-300">{step.description}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="space-y-5" aria-labelledby="afc-results-title" data-afc-section="results">
+        <SectionHeading icon={<Lightbulb className="h-5 w-5" />} title={text.resultsTitle} id="afc-results-title" />
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {copy.results.map((result) => (
+            <li key={`${result.value}-${result.label}`} className="min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-xs dark:border-slate-700 dark:bg-slate-800">
+              <span data-project-accent className="block break-words font-heading text-xl font-extrabold leading-tight sm:text-2xl">{result.value}</span>
+              <span className="mt-2 block text-sm font-bold text-slate-800 dark:text-slate-200">{result.label}</span>
+              <span className="mt-1 block text-sm leading-relaxed text-slate-600 dark:text-slate-300">{result.detail}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {scree?.analysis && (
+        <FigureAnalysisSection
+          image={scree}
+          title={text.screeTitle}
+          labels={text}
+          galleryLabels={galleryLabels}
+          id="afc-scree"
+        />
+      )}
+      {biplot?.analysis && (
+        <FigureAnalysisSection
+          image={biplot}
+          title={text.biplotTitle}
+          labels={text}
+          galleryLabels={galleryLabels}
+          id="afc-biplot"
+        />
+      )}
+      {representation?.analysis && (
+        <FigureAnalysisSection
+          image={representation}
+          title={text.representationTitle}
+          labels={text}
+          galleryLabels={galleryLabels}
+          id="afc-cos2"
+        />
+      )}
+
+      <section className="space-y-5" aria-labelledby="afc-limits-title" data-afc-section="limits">
+        <SectionHeading icon={<AlertTriangle className="h-5 w-5" />} title={text.limitationsTitle} id="afc-limits-title" />
+        <ul className="space-y-3 rounded-xl border border-amber-200 bg-amber-50/70 p-5 text-sm leading-relaxed text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
+          {copy.limitations.map((limitation) => (
+            <li key={limitation} className="flex items-start gap-3">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-700" aria-hidden="true" />
+              <span>{limitation}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {copy.documents && copy.documents.length > 0 && (
+        <section className="space-y-4" aria-labelledby="afc-documents-title">
+          <SectionHeading icon={<FileText className="h-5 w-5" />} title={text.documentsTitle} id="afc-documents-title" />
+          <ul className="flex flex-wrap gap-3">
+            {copy.documents.map((document) => (
+              <li key={document.href}>
+                <a href={document.href} target="_blank" rel="noopener noreferrer" data-project-document className="motion-control inline-flex min-h-11 items-center gap-2 rounded-btn border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:border-primary-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
+                  <FileText className="h-4 w-4" aria-hidden="true" />
+                  {document.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </div>
+  );
+}
+
+type FigureAnalysisLabels = {
+  question: string;
+  reading: string;
+  observation: string;
+  interpretation: string;
+  businessInterest: string;
+  limitation: string;
+};
+
+function FigureAnalysisSection({
+  image,
+  title,
+  labels,
+  galleryLabels,
+  id,
+}: {
+  image: ProjectDetailImage;
+  title: string;
+  labels: FigureAnalysisLabels;
+  galleryLabels: ProjectGalleryLabels;
+  id: string;
+}) {
+  if (!image.analysis) return null;
+
+  const details = [
+    [labels.question, image.analysis.question],
+    [labels.reading, image.analysis.reading],
+    [labels.observation, image.analysis.observation],
+    [labels.interpretation, image.analysis.interpretation],
+    [labels.businessInterest, image.analysis.businessInterest],
+    [labels.limitation, image.analysis.limitation],
+  ] as const;
+
+  return (
+    <section className="space-y-5" aria-labelledby={`${id}-title`} data-afc-section={id}>
+      <SectionHeading icon={<Lightbulb className="h-5 w-5" />} title={title} id={`${id}-title`} />
+      <ProjectGallery images={[image]} labels={galleryLabels} showTitle={false} headingId={`${id}-gallery-title`} />
+      <dl className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        {details.map(([label, value]) => (
+          <div key={label} className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5 dark:border-slate-700 dark:bg-slate-800">
+            <dt className="font-heading text-sm font-bold text-slate-900 dark:text-white">{label}</dt>
+            <dd className="mt-2 text-sm leading-relaxed text-slate-700 dark:text-slate-300">{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  );
+}
+
+function SectionHeading({ icon, title, id }: { icon: ReactNode; title: string; id: string }) {
+  return (
+    <h2 id={id} className="flex items-center gap-2 font-heading text-2xl font-bold text-slate-900 dark:text-white">
+      <span data-project-accent aria-hidden="true">{icon}</span>
+      {title}
+    </h2>
+  );
+}

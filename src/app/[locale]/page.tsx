@@ -2,10 +2,11 @@ import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { buildLocalizedPageMetadata } from '@/lib/seo';
 import { HeroSection } from '@/components/home/HeroSection';
-import { SkillsTicker } from '@/components/home/SkillsTicker';
 import { FeaturedProjects } from '@/components/home/FeaturedProjects';
+import { SkillsTicker } from '@/components/home/SkillsTicker';
 import { CertificationsSection } from '@/components/home/CertificationsSection';
 import { AboutTransition } from '@/components/home/AboutTransition';
+import { HomeContactSection } from '@/components/home/HomeContactSection';
 
 interface HomePageProps {
   params: Promise<{ locale: 'fr' | 'en' }>;
@@ -30,17 +31,20 @@ export default function HomePage() {
       {/* 1. Hero */}
       <HeroSection />
 
-      {/* 2. Compétences interactives */}
-      <SkillsTicker />
-
-      {/* 3. Projets sélectionnés */}
+      {/* 2. Projets sélectionnés : preuves concrètes avant les compétences */}
       <FeaturedProjects />
+
+      {/* 3. Compétences interactives */}
+      <SkillsTicker />
 
       {/* 4. Formations complémentaires aux projets */}
       <CertificationsSection />
 
       {/* 5. Transition vers About */}
       <AboutTransition />
+
+      {/* 6. Contact direct */}
+      <HomeContactSection />
     </div>
   );
 }

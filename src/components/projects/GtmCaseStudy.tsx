@@ -7,13 +7,13 @@ import type { ReactNode } from 'react';
 import { ArrowLeft, BarChart3, Download, GitBranch, Github, LockKeyhole, ShieldCheck, TestTube2, UsersRound } from 'lucide-react';
 
 export const GTM_QUALITY_COPY = {
-  fr: 'La suite pytest couvre authentification, onboarding, permissions RBAC, filtres, inscriptions, exports, dashboard, ACP et erreurs API. Le README du dépôt documente une suite de 166 tests automatisés, avec 166 tests réussis lors du dernier lancement indiqué.',
-  en: 'The pytest suite covers authentication, onboarding, RBAC permissions, filters, registrations, exports, dashboard, PCA, and API errors. The repository README documents 166 automated tests, with all 166 passing in the latest reported run.',
+  fr: 'La suite pytest couvre l’authentification, l’onboarding, les permissions RBAC, les filtres, les inscriptions, les exports, le tableau de bord, l’ACP et les erreurs API. Elle contient 166 tests automatisés ; les 166 réussissaient lors de la dernière exécution disponible.',
+  en: 'The pytest suite covers authentication, onboarding, RBAC permissions, filters, registrations, exports, the dashboard, PCA, and API errors. It contains 166 automated tests; all 166 passed in the latest available run.',
 } as const;
 
 const copy = {
   fr: {
-    back: 'Retour aux projets', eyebrow: 'Mission professionnelle individuelle',
+    back: 'Retour aux projets', eyebrow: 'Stage d’initiation · Galaxy Solutions · 2025–2026',
     title: 'GTM — Galaxy Training Manager',
     intro: 'Une application Flask pour centraliser la gestion des formations et rendre les données d’activité lisibles pour les équipes de Galaxy Solutions.',
     roleTitle: 'Mon rôle', role: 'J’ai pris en charge la conception et le développement de la solution : modèle de données, backend Flask, interfaces Jinja2, logique métier, exports, analyse et validation automatisée.',
@@ -32,7 +32,7 @@ const copy = {
     source: 'Voir le dépôt GTM', techTitle: 'Technologies mobilisées'
   },
   en: {
-    back: 'Back to projects', eyebrow: 'Individual professional assignment', title: 'GTM — Galaxy Training Manager',
+    back: 'Back to projects', eyebrow: 'Introductory internship · Galaxy Solutions · 2025–2026', title: 'GTM — Galaxy Training Manager',
     intro: 'A Flask application that centralizes training management and makes activity data readable for Galaxy Solutions teams.',
     roleTitle: 'My role', role: 'I designed and developed the solution: data model, Flask backend, Jinja2 interfaces, business logic, exports, analysis, and automated validation.',
     contextTitle: 'Context', context: 'Training information, session tracking, and reporting were spread across separate tools. GTM brings training courses, sessions, clients, learners, trainers, and registrations together in one application.',

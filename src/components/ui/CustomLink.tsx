@@ -22,9 +22,9 @@ export const CustomLink: React.FC<CustomLinkProps> = ({
   ...props
 }) => {
   const variantStyles = {
-    primary: 'text-primary-700 hover:text-primary-800 font-semibold underline-offset-4 hover:underline',
-    muted: 'text-slate-600 hover:text-slate-900 font-medium',
-    subtle: 'text-slate-500 hover:text-primary-600 transition-colors',
+    primary: 'text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 font-semibold underline-offset-4 hover:underline',
+    muted: 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium',
+    subtle: 'text-slate-500 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors',
   };
 
   const combinedClasses = cn(

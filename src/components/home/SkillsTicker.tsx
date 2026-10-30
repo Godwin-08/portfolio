@@ -1,189 +1,194 @@
 'use client';
 
-import React from 'react';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link, useRouter } from '@/i18n/routing';
-import { SKILLS } from '@/data/skills';
-import Image from 'next/image';
 import {
   ArrowRight,
   ArrowUpRight,
   BarChart3,
   Braces,
-  ChevronDown,
   Database,
-  FileSpreadsheet,
-  FileText,
   Layers,
-  Server,
-  Sigma,
+  Wrench,
   type LucideIcon,
 } from 'lucide-react';
+import { SKILLS } from '@/data/skills';
+import type { SkillCategory } from '@/types';
 import { cn } from '@/lib/utils';
 
 const skillLogos: Record<string, string> = {
-  python: 'python',
   pandas: 'pandas',
   numpy: 'numpy',
-  'chart-js': 'chartdotjs',
   mysql: 'mysql',
-  flask: 'flask',
+  python: 'python',
   javascript: 'javascript',
   'html-css': 'html5',
+  flask: 'flask',
   git: 'git',
-  scipy: 'scipy',
   jupyter: 'jupyter',
   pytest: 'pytest',
 };
 
-const conceptIcons: Record<string, LucideIcon> = {
-  sql: Database,
-  matplotlib: BarChart3,
-  'business-intelligence': BarChart3,
-  sqlalchemy: Database,
-  statistiques: Sigma,
-  'data-analysis': BarChart3,
-  backend: Server,
-  'bases-de-donnees': Database,
-  'systemes-d-information': Layers,
-  openpyxl: FileSpreadsheet,
-  seaborn: BarChart3,
-  reportlab: FileText,
+const categoryPresentation: Record<
+  SkillCategory,
+  { Icon: LucideIcon; accent: string; iconSurface: string; skillSurface: string }
+> = {
+  'data-analysis': {
+    Icon: BarChart3,
+    accent: 'text-coral-200',
+    iconSurface: 'bg-coral-400/15 text-coral-200',
+    skillSurface: 'border-coral-300/30 bg-coral-400/[0.06] hover:border-coral-300/70 hover:bg-coral-400/[0.14]',
+  },
+  'data-management': {
+    Icon: Database,
+    accent: 'text-accent-200',
+    iconSurface: 'bg-accent-400/15 text-accent-200',
+    skillSurface: 'border-accent-300/30 bg-accent-400/[0.06] hover:border-accent-300/70 hover:bg-accent-400/[0.14]',
+  },
+  programming: {
+    Icon: Braces,
+    accent: 'text-primary-200',
+    iconSurface: 'bg-primary-400/15 text-primary-200',
+    skillSurface: 'border-primary-300/30 bg-primary-400/[0.06] hover:border-primary-300/70 hover:bg-primary-400/[0.14]',
+  },
+  'application-development': {
+    Icon: Layers,
+    accent: 'text-lilac-200',
+    iconSurface: 'bg-lilac-400/15 text-lilac-200',
+    skillSurface: 'border-lilac-300/30 bg-lilac-400/[0.06] hover:border-lilac-300/70 hover:bg-lilac-400/[0.14]',
+  },
+  'development-tools': {
+    Icon: Wrench,
+    accent: 'text-slate-200',
+    iconSurface: 'bg-slate-400/15 text-slate-200',
+    skillSurface: 'border-slate-300/30 bg-slate-400/[0.06] hover:border-slate-300/70 hover:bg-slate-400/[0.14]',
+  },
 };
 
-export const SkillsTicker: React.FC = () => {
+const skillCategoryColumns: SkillCategory[][] = [
+  ['data-analysis'],
+  ['data-management', 'application-development'],
+  ['programming', 'development-tools'],
+];
+
+export function SkillsTicker() {
   const router = useRouter();
   const t = useTranslations('home.skills');
+  const skillLabels = useTranslations('skills.names');
+  const skillDescriptions = useTranslations('skills.descriptions');
   const common = useTranslations('common');
-
-  const midpoint = Math.ceil(SKILLS.length / 2);
-  const tracks = [SKILLS.slice(0, midpoint), SKILLS.slice(midpoint)];
-  const topSkills = SKILLS.filter((skill) => skill.isTopSkill);
-  const secondarySkills = SKILLS.filter((skill) => !skill.isTopSkill);
-
-  const skillName = (skill: (typeof SKILLS)[number]) => {
-    if (skill.id === 'statistiques') return t('names.statistiques');
-    if (skill.id === 'bases-de-donnees') return t('names.bases-de-donnees');
-    if (skill.id === 'systemes-d-information') return t('names.systemes-d-information');
-    if (skill.id === 'business-intelligence') return t('names.business-intelligence');
-    return skill.name;
-  };
-
-  const renderSkill = (skill: (typeof SKILLS)[number]) => {
-    const name = skillName(skill);
-    const logo = skillLogos[skill.id];
-    const ConceptIcon = conceptIcons[skill.id] ?? Braces;
-    const content = (
-      <>
-        <span
-          className={cn(
-            'inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md',
-            skill.id === 'javascript' ? 'bg-ink' : 'bg-white'
-          )}
-          aria-hidden="true"
-        >
-          {logo ? (
-            <Image
-              src={`/skill-logos/${logo}.svg`}
-              alt=""
-              aria-hidden="true"
-              width={18}
-              height={18}
-              unoptimized
-              className="h-[18px] w-[18px]"
-            />
-          ) : (
-            <ConceptIcon
-              className={cn(
-                'h-[18px] w-[18px] text-ink',
-                skill.id === 'business-intelligence' && 'text-coral-700'
-              )}
-            />
-          )}
-        </span>
-        <span className="text-sm font-semibold">{name}</span>
-        <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-white/55" aria-hidden="true" />
-      </>
-    );
-
-    const className = cn(
-      'group inline-flex min-h-11 shrink-0 items-center gap-2.5 rounded-full border border-white/15 bg-white/[0.07] px-4 py-2 text-white',
-      'whitespace-nowrap transition-colors duration-200 hover:border-coral-300/80 hover:bg-white/[0.13]',
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-300 focus-visible:ring-offset-2 focus-visible:ring-offset-ink'
-    );
-
-    return (
-      <button
-        key={skill.id}
-        type="button"
-        data-skill-id={skill.id}
-        onClick={() => router.push({ pathname: '/projects', query: { skill: skill.id } })}
-        aria-label={t('filterAria', { skill: name })}
-        className={className}
-      >
-        {content}
-      </button>
-    );
-  };
 
   return (
     <section
-      className="skills-ticker overflow-hidden border-y border-ink bg-ink py-8 sm:py-9"
+      className="skills-ticker border-y border-slate-900 bg-slate-900 py-10 text-white sm:py-12"
       aria-label={t('sectionLabel')}
     >
-      <div data-skills-header="true" className="mx-auto mb-5 flex max-w-7xl flex-col justify-between gap-3 px-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
-        <div className="flex items-center gap-3">
-          <div
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-coral-100"
-            aria-hidden="true"
-          >
-            <Layers className="h-4 w-4 text-coral-800" />
-          </div>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div
+          data-skills-header="true"
+          className="mb-6 flex flex-col justify-between gap-3 sm:mb-8 sm:flex-row sm:items-end"
+        >
           <div>
             <h2 className="font-heading text-3xl font-extrabold leading-tight text-white sm:text-4xl">
               {t('heading')}
             </h2>
-            <p className="max-w-xl text-sm leading-relaxed text-slate-200">
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-200 sm:text-base">
               {t('instruction')}
             </p>
           </div>
-        </div>
-        <Link
-          href="/projects"
-          className="inline-flex min-h-10 shrink-0 items-center gap-1.5 self-start rounded-sm text-sm font-semibold text-accent-200 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:self-auto"
-        >
-          <span>{common('cta.viewAllProjects')}</span>
-          <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-        </Link>
-      </div>
-
-      <div className="mx-auto hidden max-w-7xl gap-1.5 px-4 sm:gap-2 sm:px-6 md:grid lg:px-8">
-        {tracks.map((skills, index) => (
-          <div
-            key={index}
-            className={cn('skills-ticker__row', index === 0 ? 'skills-ticker__row--first' : 'skills-ticker__row--second')}
+          <Link
+            href="/projects"
+            className="inline-flex min-h-10 shrink-0 items-center gap-1.5 self-start rounded-sm text-sm font-semibold text-accent-200 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:self-auto"
           >
-            {skills.map((skill) => renderSkill(skill))}
-          </div>
-        ))}
-      </div>
-
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:hidden lg:px-8">
-        <div className="skills-ticker__row skills-ticker__row--first">
-          {topSkills.map((skill) => renderSkill(skill))}
+            <span>{common('cta.viewAllProjects')}</span>
+            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </Link>
         </div>
-        {secondarySkills.length > 0 && (
-          <details className="group mt-2 rounded-xl border border-white/10 px-2">
-            <summary className="flex min-h-10 cursor-pointer list-none items-center justify-between gap-2 text-xs font-semibold text-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-300 [&::-webkit-details-marker]:hidden">
-              <span>{t('moreSkills', { count: secondarySkills.length })}</span>
-              <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" aria-hidden="true" />
-            </summary>
-            <div className="skills-ticker__row skills-ticker__row--second pb-2">
-              {secondarySkills.map((skill) => renderSkill(skill))}
+
+        <div className="grid items-start gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {skillCategoryColumns.map((categories) => (
+            <div key={categories[0]} className="flex flex-col gap-4">
+              {categories.map((category) => {
+                const { Icon, accent, iconSurface, skillSurface } = categoryPresentation[category];
+                const skills = SKILLS.filter((skill) => skill.category === category);
+
+                return (
+                  <section
+                    key={category}
+                    data-skill-category={category}
+                    aria-labelledby={`skill-category-${category}`}
+                    className={cn(
+                      'rounded-2xl border border-white/10 bg-white/[0.035] p-4 sm:p-5',
+                      category === 'application-development' && 'dark:bg-lilac-950/60'
+                    )}
+                  >
+                    <div className="flex items-start gap-3">
+                      <span className={cn('flex h-9 w-9 shrink-0 items-center justify-center rounded-xl', iconSurface)}>
+                        <Icon className="h-4 w-4" aria-hidden="true" />
+                      </span>
+                      <div>
+                        <h3
+                          id={`skill-category-${category}`}
+                          className={cn('font-heading text-base font-bold leading-snug sm:text-lg', accent)}
+                        >
+                          {t(`categories.${category}`)}
+                        </h3>
+                        <p className="mt-1 text-xs leading-relaxed text-slate-300 sm:text-sm">
+                          {t(`categoryDescriptions.${category}`)}
+                        </p>
+                      </div>
+                    </div>
+
+                    <ul className="mt-4 flex flex-wrap gap-2">
+                      {skills.map((skill) => {
+                        const name = skillLabels(skill.id);
+
+                        return (
+                          <li key={skill.id}>
+                            <button
+                              type="button"
+                              data-skill-id={skill.id}
+                              data-project-slugs={skill.projectSlugs.join(' ')}
+                              onClick={() => router.push({ pathname: '/projects', query: { skill: skill.id } })}
+                              aria-label={t('filterAria', { skill: name })}
+                              title={skillDescriptions(skill.id)}
+                              className={cn(
+                                'group inline-flex min-h-10 items-center gap-2 rounded-full border px-3 py-2 text-left text-xs font-semibold text-white transition-colors sm:text-sm',
+                                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900',
+                                skillSurface
+                              )}
+                            >
+                              {skillLogos[skill.id] ? (
+                                <Image
+                                  src={`/skill-logos/${skillLogos[skill.id]}.svg`}
+                                  alt=""
+                                  aria-hidden="true"
+                                  width={16}
+                                  height={16}
+                                  unoptimized
+                                  className="h-4 w-4 shrink-0"
+                                />
+                              ) : (
+                                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-current" aria-hidden="true" />
+                              )}
+                              <span>{name}</span>
+                              <ArrowUpRight
+                                className="h-3.5 w-3.5 shrink-0 text-white/55 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                                aria-hidden="true"
+                              />
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </section>
+                );
+              })}
             </div>
-          </details>
-        )}
+          ))}
+        </div>
       </div>
     </section>
   );
-};
+}

@@ -91,27 +91,27 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <article
       className={cn(
-        'project-card group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-card transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-primary-300 hover:shadow-card-hover',
+        'project-card group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-card transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1.5 hover:border-primary-300 dark:hover:border-primary-700 hover:shadow-card-hover',
         'focus-within:outline-none focus-within:ring-2 focus-within:ring-primary-500 focus-within:ring-offset-2',
-        project.isFlagship && 'border-accent-300'
+        project.isFlagship && 'border-accent-300 dark:border-accent-700'
       )}
     >
       <div data-project-preview="true" className="shrink-0">
         <div
           data-project-labels="true"
-          className="flex min-h-12 flex-wrap items-center gap-x-2 gap-y-1.5 border-b border-slate-100 px-3 py-2 sm:px-4"
+          className="flex min-h-12 flex-wrap items-center gap-x-2 gap-y-1.5 border-b border-slate-100 dark:border-slate-800 px-3 py-2 sm:px-4"
         >
-          <span className="inline-flex min-h-8 max-w-full shrink-0 items-center rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold leading-snug text-ink">
+          <span className="inline-flex min-h-8 max-w-full shrink-0 items-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1.5 text-xs font-bold leading-snug text-ink">
             {categories(getCategorySlug(project.category))}
           </span>
           <div className="ml-auto flex shrink-0 items-center gap-1.5">
             {project.isFlagship && (
-              <span className="inline-flex min-h-8 items-center gap-1 rounded-full bg-white px-2.5 py-1.5 text-xs font-semibold text-ink">
+              <span className="inline-flex min-h-8 items-center gap-1 rounded-full bg-white dark:bg-slate-800 px-2.5 py-1.5 text-xs font-semibold text-ink border border-transparent dark:border-slate-700">
                 <Star className="h-3.5 w-3.5 fill-coral-500 text-coral-600" aria-hidden="true" />
                 {ui('flagship')}
               </span>
             )}
-            <span className="rounded-full bg-ink/85 px-2.5 py-1.5 font-mono text-[10px] font-semibold text-white">
+            <span className="rounded-full bg-ink/85 dark:bg-slate-800 px-2.5 py-1.5 font-mono text-[10px] font-semibold text-white dark:text-slate-200 border border-transparent dark:border-slate-700">
               {project.order.toString().padStart(2, '0')}
             </span>
           </div>
@@ -132,7 +132,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               alt={ui('imageAlt', { title })}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-contain p-1 transition-transform duration-500 group-hover:scale-[1.015] motion-reduce:group-hover:scale-100"
+              className="object-contain p-1 transition-transform duration-500 group-hover:scale-[1.035] motion-reduce:group-hover:scale-100"
             />
           ) : (
             <ProjectEditorialVisual project={project} title={title} />
@@ -141,11 +141,17 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </div>
 
       <div className="flex flex-1 flex-col p-4 sm:p-5">
-        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-primary-800">
+        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-primary-800 dark:text-coral-300">
           {copy(`${project.id}.context`)}
         </p>
         <h2 className="mt-2 font-heading text-xl font-extrabold leading-tight tracking-tight text-ink sm:text-[1.35rem]">
-          {title}
+          <Link
+            data-project-title
+            href={hasCaseStudy ? { pathname: '/projects/[slug]', params: { slug: project.slug } } : '/projects'}
+            className="rounded-sm transition-colors hover:text-primary-800 dark:hover:text-primary-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
+          >
+            {title}
+          </Link>
         </h2>
         <p className="mt-3 flex-1 text-sm leading-relaxed text-body sm:text-[0.925rem]">
           {copy(`${project.id}.summary`)}
@@ -155,7 +161,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           {project.skills.slice(0, 4).map((skill) => (
             <li
               key={skill}
-              className="rounded-full border border-slate-300 bg-paper px-2.5 py-1 font-mono text-xs font-medium text-slate-800"
+              className="rounded-full border border-slate-300 dark:border-slate-700 bg-paper px-2.5 py-1 font-mono text-xs font-medium text-slate-800 dark:text-slate-200"
             >
               {getSkillLabel(skill)}
             </li>
@@ -164,7 +170,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
         <Link
           href={hasCaseStudy ? { pathname: '/projects/[slug]', params: { slug: project.slug } } : '/projects'}
-          className="mt-5 inline-flex min-h-10 w-fit items-center gap-2 border-b border-primary-700 pb-1 text-sm font-bold text-primary-800 transition-colors hover:border-coral-600 hover:text-coral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
+          className="motion-control mt-5 inline-flex min-h-10 w-fit items-center gap-2 border-b border-primary-700 pb-1 text-sm font-bold text-primary-800 transition-colors hover:-translate-y-0.5 hover:border-coral-600 hover:text-coral-900 dark:border-coral-400 dark:text-coral-300 dark:hover:border-coral-300 dark:hover:text-coral-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 dark:focus-visible:ring-coral-400"
         >
           <span>{ui('caseStudy')}</span>
           <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />

@@ -85,11 +85,11 @@ export function ProjectFilters({
             aria-pressed={isActive}
             title={skillDescriptions(skill.id)}
             className={cn(
-              'min-h-9 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
+              'motion-control min-h-9 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors active:scale-95',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2',
               isActive
                 ? 'border-primary-700 bg-primary-700 font-semibold text-white'
-                : 'border-slate-200 bg-white text-slate-700 hover:border-primary-300 hover:bg-primary-50 hover:text-primary-900'
+                : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:border-primary-300 dark:hover:border-primary-600 hover:bg-primary-50 dark:hover:bg-primary-950/40 hover:text-primary-900 dark:hover:text-primary-200'
             )}
           >
             {skillLabels(skill.id)}
@@ -102,7 +102,7 @@ export function ProjectFilters({
           type="button"
           onClick={() => setShowAllSkills((current) => !current)}
           aria-expanded={showAllSkills}
-          className="inline-flex min-h-9 items-center gap-1 rounded-full border border-dashed border-slate-300 bg-paper px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:border-primary-400 hover:text-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
+          className="motion-control inline-flex min-h-9 items-center gap-1 rounded-full border border-dashed border-slate-300 dark:border-slate-700 bg-paper px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors hover:border-primary-400 dark:hover:border-primary-500 hover:text-primary-800 dark:hover:text-primary-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
         >
           {showAllSkills ? (
             <>
@@ -122,11 +122,11 @@ export function ProjectFilters({
 
   return (
     <section
-      className="rounded-2xl border border-slate-200/90 border-l-4 border-l-primary-600 bg-white p-4 shadow-card sm:p-5"
+      className="rounded-2xl border border-slate-200/90 dark:border-slate-800 border-l-4 border-l-primary-600 bg-white dark:bg-slate-900 p-4 shadow-card sm:p-5"
       aria-label={t('label')}
     >
       <div className="space-y-2">
-        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-600 sm:text-xs">
+        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-600 dark:text-slate-400 sm:text-xs">
           {t('categoriesHeading')}
         </p>
         <div className="flex flex-wrap gap-2" role="group" aria-label={t('categoryGroup')}>
@@ -135,11 +135,11 @@ export function ProjectFilters({
             onClick={() => updateParam('category', null)}
             aria-pressed={activeCategorySlug === null}
             className={cn(
-              'min-h-9 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors sm:text-sm',
+              'motion-control min-h-9 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors sm:text-sm active:scale-95',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2',
               activeCategorySlug === null
-                ? 'bg-ink text-white'
-                : 'border border-slate-200 bg-white text-slate-700 hover:border-primary-300 hover:text-primary-900'
+                ? 'bg-ink text-white dark:bg-primary-600 dark:text-white'
+                : 'border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:border-primary-300 dark:hover:border-primary-600 hover:text-primary-900 dark:hover:text-white'
             )}
           >
             {t('allCategories')}
@@ -154,11 +154,11 @@ export function ProjectFilters({
                 onClick={() => handleCategoryChange(category.slug)}
                 aria-pressed={isActive}
                 className={cn(
-                  'min-h-9 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors sm:text-sm',
+                  'motion-control min-h-9 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors sm:text-sm active:scale-95',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2',
                   isActive
-                    ? 'bg-ink text-white'
-                    : 'border border-slate-200 bg-white text-slate-700 hover:border-primary-300 hover:text-primary-900'
+                    ? 'bg-ink text-white dark:bg-primary-600 dark:text-white'
+                    : 'border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:border-primary-300 dark:hover:border-primary-600 hover:text-primary-900 dark:hover:text-white'
                 )}
               >
                 {categoryLabels(category.slug)}
@@ -169,14 +169,14 @@ export function ProjectFilters({
       </div>
 
       <details
-        className="group mt-3 border-t border-slate-100 pt-3 md:hidden"
+        className="group mt-3 border-t border-slate-100 dark:border-slate-800 pt-3 md:hidden"
       >
         <summary className="flex min-h-10 cursor-pointer list-none items-center justify-between gap-3 rounded-lg text-sm font-semibold text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden">
           <span className="inline-flex items-center gap-2">
-            <Filter className="h-4 w-4 text-primary-700" aria-hidden="true" />
+            <Filter className="h-4 w-4 text-primary-700 dark:text-primary-400" aria-hidden="true" />
             {t('skillsHeading')}
           </span>
-          <span className="flex items-center gap-2 text-xs font-medium text-slate-600">
+          <span className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400">
             {activeSkillId && skillLabels(activeSkillId)}
             <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" aria-hidden="true" />
           </span>
@@ -186,8 +186,8 @@ export function ProjectFilters({
         </div>
       </details>
 
-      <div className="mt-3 hidden border-t border-slate-100 pt-4 md:block">
-        <div className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-600">
+      <div className="mt-3 hidden border-t border-slate-100 dark:border-slate-800 pt-4 md:block">
+        <div className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
           <Filter className="h-3.5 w-3.5" aria-hidden="true" />
           {t('skillsHeading')}
         </div>
@@ -196,16 +196,16 @@ export function ProjectFilters({
         </div>
       </div>
 
-      <div className="mt-3 flex min-h-10 items-center justify-between gap-3 border-t border-slate-100 pt-3 text-xs sm:mt-4 sm:pt-4" aria-live="polite">
+      <div className="mt-3 flex min-h-10 items-center justify-between gap-3 border-t border-slate-100 dark:border-slate-800 pt-3 text-xs sm:mt-4 sm:pt-4" aria-live="polite">
         <strong className="text-ink">{t('resultCount', { count: totalResults })}</strong>
 
         <div className="flex items-center gap-3">
-          {isPending && <span className="font-medium text-primary-700">{t('updating')}</span>}
+          {isPending && <span className="font-medium text-primary-700 dark:text-primary-400">{t('updating')}</span>}
           {isFiltered && (
             <button
               type="button"
               onClick={handleReset}
-              className="inline-flex min-h-9 items-center gap-1.5 rounded-full px-2.5 font-semibold text-primary-800 transition-colors hover:bg-primary-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
+              className="motion-control inline-flex min-h-9 items-center gap-1.5 rounded-full px-2.5 font-semibold text-primary-800 dark:text-primary-300 transition-colors hover:bg-primary-50 dark:hover:bg-primary-950/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
             >
               <X className="h-3.5 w-3.5" aria-hidden="true" />
               {t('reset')}

@@ -14,9 +14,9 @@ export const Card: React.FC<CardProps> = ({
   ...props
 }) => {
   const variantStyles = {
-    default: 'bg-white border-slate-200/90 shadow-card',
-    muted: 'bg-slate-50 border-slate-200/70',
-    outline: 'bg-transparent border-slate-200',
+    default: 'bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 shadow-card',
+    muted: 'bg-slate-50 dark:bg-slate-800 border-slate-200/70 dark:border-slate-800',
+    outline: 'bg-transparent border-slate-200 dark:border-slate-800',
   };
 
   return (
@@ -24,7 +24,7 @@ export const Card: React.FC<CardProps> = ({
       className={cn(
         'rounded-card border transition-all duration-200 overflow-hidden',
         variantStyles[variant],
-        hoverEffect && 'hover:shadow-card-hover hover:border-slate-300 hover:-translate-y-0.5',
+        hoverEffect && 'hover:shadow-card-hover hover:border-slate-300 dark:hover:border-slate-700 hover:-translate-y-0.5',
         className
       )}
       {...props}
@@ -40,7 +40,7 @@ export const CardHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   ...props
 }) => {
   return (
-    <div className={cn('p-5 sm:p-6 border-b border-slate-100', className)} {...props}>
+    <div className={cn('p-5 sm:p-6 border-b border-slate-100 dark:border-slate-800', className)} {...props}>
       {children}
     </div>
   );
@@ -64,9 +64,8 @@ export const CardFooter: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   ...props
 }) => {
   return (
-    <div className={cn('p-5 sm:p-6 pt-0 border-t border-slate-100 mt-auto', className)} {...props}>
+    <div className={cn('p-5 sm:p-6 pt-0 border-t border-slate-100 dark:border-slate-800 mt-auto', className)} {...props}>
       {children}
     </div>
   );
 };
-

@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { filterProjects as applyProjectFilters, getAllProjects, PROJECTS } from '@/data/projects';
-import { SKILLS } from '@/data/skills';
+import { SKILLS, SKILL_CATEGORIES } from '@/data/skills';
+import frMessages from '../messages/fr.json';
+import enMessages from '../messages/en.json';
 
 // ---------- Helper: reproduce the same filtering logic as the page ----------
 function filterProjects({
@@ -107,13 +109,35 @@ describe('Projects Page - Empty State', () => {
     expect(results.length).toBe(PROJECTS.length);
   });
 
-  it('should return empty for Machine Learning category (no projects yet)', () => {
+  it('should return the pneumonia case study for the Machine Learning category', () => {
     const results = filterProjects({ categorySlug: 'machine-learning' });
-    expect(results.length).toBe(0);
+    expect(results.map(({ slug }) => slug)).toEqual(['pneumonia-detection']);
   });
 });
 
 describe('Projects Page - Skill ↔ Project Consistency', () => {
+  it('orders skill categories by relevance to the profile', () => {
+    const categoryOrder = [
+      'data-analysis',
+      'data-management',
+      'programming',
+      'application-development',
+      'development-tools',
+    ];
+    const actualOrder = [...new Set(SKILLS.map((skill) => skill.category))];
+
+    expect(actualOrder).toEqual(categoryOrder);
+    expect(SKILL_CATEGORIES).toEqual(categoryOrder);
+  });
+
+  it('provides the same translated category structure in French and English', () => {
+    const expectedKeys = [...SKILL_CATEGORIES].sort();
+    for (const messages of [frMessages, enMessages]) {
+      expect(Object.keys(messages.home.skills.categories).sort()).toEqual(expectedKeys);
+      expect(Object.keys(messages.home.skills.categoryDescriptions).sort()).toEqual(expectedKeys);
+    }
+  });
+
   it('every SKILLS entry id should be a valid identifier usable as URL param', () => {
     for (const skill of SKILLS) {
       // IDs should be lowercase, no spaces
@@ -121,17 +145,42 @@ describe('Projects Page - Skill ↔ Project Consistency', () => {
     }
   });
 
-  it('every skill referenced in project.skills should have a matching SKILLS entry', () => {
+  it('keeps each skill association synchronized between the catalog and project tags', () => {
     const skillNames = new Set(SKILLS.map((s) => s.name.toLowerCase()));
+
+    for (const skill of SKILLS) {
+      const taggedProjectSlugs = PROJECTS
+        .filter((project) => project.skills.some((name) => name.toLowerCase() === skill.name.toLowerCase()))
+        .map((project) => project.slug)
+        .sort();
+
+      expect([...skill.projectSlugs].sort()).toEqual(taggedProjectSlugs);
+      expect(filterProjects({ skillId: skill.id }).map((project) => project.slug).sort())
+        .toEqual(taggedProjectSlugs);
+    }
+
     for (const project of PROJECTS) {
       for (const skillName of project.skills) {
-        // Some project skills (like 'SVD') are techniques not in the SKILLS registry — that's OK
-        // But core skills should be present
-        if (['Python', 'Flask', 'NumPy', 'Pandas', 'MySQL', 'SciPy'].includes(skillName)) {
-          expect(skillNames.has(skillName.toLowerCase())).toBe(true);
+        if (skillNames.has(skillName.toLowerCase())) {
+          expect(SKILLS.some(
+            (skill) => skill.name.toLowerCase() === skillName.toLowerCase()
+              && skill.projectSlugs.includes(project.slug)
+          )).toBe(true);
         }
       }
     }
+  });
+
+  it('links additional CV skills only to projects that demonstrate them', () => {
+    const projectSlugsFor = (id: string) =>
+      SKILLS.find((skill) => skill.id === id)?.projectSlugs.slice().sort();
+
+    expect(projectSlugsFor('matplotlib')).toEqual(['acp', 'afc', 'olist', 'pneumonia-detection']);
+    expect(projectSlugsFor('seaborn')).toEqual(['acp', 'afc', 'olist']);
+    expect(projectSlugsFor('scipy')).toEqual(['afc']);
+    expect(projectSlugsFor('object-oriented-programming')).toEqual(['afc', 'novastore']);
+    expect(projectSlugsFor('relational-modeling')).toEqual(['gtm', 'novastore', 'sante-scolaire']);
+    expect(projectSlugsFor('principal-component-analysis')).toEqual(['acp', 'gtm']);
   });
 });
 

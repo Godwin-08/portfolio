@@ -3,10 +3,7 @@ import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { buildLocalizedPageMetadata } from '@/lib/seo';
 import { getAllProjects, getProjectBySlug } from '@/data/projects';
-import { CaseStudySection } from '@/components/projects/CaseStudySection';
-import { GtmCaseStudy } from '@/components/projects/GtmCaseStudy';
-import { OlistCaseStudy } from '@/components/projects/OlistCaseStudy';
-import { AfcCaseStudy } from '@/components/projects/AfcCaseStudy';
+import { ProjectDetailPage } from '@/components/projects/ProjectDetailPage';
 
 interface CaseStudyPageProps {
   params: Promise<{
@@ -59,33 +56,9 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const previousProject = currentIndex > 0 ? allProjects[currentIndex - 1] : undefined;
   const nextProject = currentIndex < allProjects.length - 1 ? allProjects[currentIndex + 1] : undefined;
 
-  if (project.slug === 'gtm') {
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-        <GtmCaseStudy />
-      </div>
-    );
-  }
-
-  if (project.slug === 'olist') {
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-        <OlistCaseStudy />
-      </div>
-    );
-  }
-
-  if (project.slug === 'afc') {
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-        <AfcCaseStudy />
-      </div>
-    );
-  }
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-      <CaseStudySection
+      <ProjectDetailPage
         project={project}
         previousProject={previousProject}
         nextProject={nextProject}

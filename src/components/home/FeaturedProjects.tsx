@@ -9,17 +9,17 @@ import type { Project } from '@/types';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const FEATURED_ACCENT: Record<string, string> = {
-  gtm: 'border-accent-500',
-  olist: 'border-primary-600',
-  afc: 'border-lilac-500',
-};
-
 interface ProjectPreviewCopy {
   title: string;
   category: string;
   description: string;
 }
+
+const FEATURED_ACCENT: Record<string, string> = {
+  gtm: 'border-accent-500',
+  olist: 'border-primary-600',
+  afc: 'border-lilac-500',
+};
 
 const ProjectCard: React.FC<{
   project: Project;
@@ -34,16 +34,21 @@ const ProjectCard: React.FC<{
   const ordersAnalyzed = project.slug === 'olist' ? project.keyMetrics[0]?.value : undefined;
 
   return (
-    <article className={cn('project-card group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:shadow-card-hover', `border-t-4 ${surfaceClass}`)}>
+    <article
+      className={`${cn(
+        'project-card group flex h-full flex-col overflow-hidden rounded-xl border bg-white shadow-card transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-primary-300 hover:shadow-card-hover dark:border-slate-800 dark:bg-slate-900',
+        `border-t-4 ${surfaceClass}`
+      )} border-coral-500/30`}
+    >
       <div data-project-preview="true" className="shrink-0">
         <div
           data-project-labels="true"
-          className="flex min-h-12 flex-wrap items-center gap-x-2 gap-y-1.5 border-b border-slate-100 px-3 py-2 sm:px-4"
+          className="flex min-h-12 flex-wrap items-center gap-x-2 gap-y-1.5 border-b border-slate-100 dark:border-slate-800 px-3 py-2 sm:px-4"
         >
-          <span className="inline-flex min-h-8 max-w-full shrink-0 items-center rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold leading-snug text-ink">
+          <span className="inline-flex min-h-8 max-w-full shrink-0 items-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1.5 text-xs font-bold leading-snug text-ink">
             {copy.category}
           </span>
-          <span className="ml-auto rounded-full bg-ink/85 px-2.5 py-1.5 font-mono text-[10px] font-bold text-white">
+          <span className="ml-auto rounded-full bg-ink/85 dark:bg-slate-800 px-2.5 py-1.5 font-mono text-[10px] font-bold text-white dark:text-slate-200 border border-transparent dark:border-slate-700">
             {project.order.toString().padStart(2, '0')}
           </span>
         </div>
@@ -53,8 +58,8 @@ const ProjectCard: React.FC<{
           className={cn(
             'relative overflow-hidden',
             project.slug === 'afc'
-              ? 'aspect-[4/3] border border-slate-300 bg-slate-100'
-              : 'aspect-[16/10] bg-paper'
+              ? 'aspect-[4/3] border border-slate-200 bg-[var(--bg-surface-subtle)]'
+              : 'aspect-[16/10] bg-[var(--bg-surface-subtle)]'
           )}
         >
           {project.image ? (
@@ -63,7 +68,7 @@ const ProjectCard: React.FC<{
               alt={imageAlt}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-contain p-1 transition-transform duration-500 group-hover:scale-[1.015] motion-reduce:group-hover:scale-100"
+              className="object-contain p-1 transition-transform duration-500 group-hover:scale-[1.035] motion-reduce:group-hover:scale-100"
             />
           ) : (
             <div className="flex h-full items-center justify-center p-6 text-center font-heading text-xl font-bold text-ink">
@@ -75,11 +80,17 @@ const ProjectCard: React.FC<{
 
       <div className="flex flex-1 flex-col p-4 sm:p-5">
         <h3 className="font-heading text-xl font-extrabold leading-tight tracking-tight text-ink sm:text-2xl">
-          {copy.title}
+          <Link
+            data-project-title
+            href={{ pathname: '/projects/[slug]', params: { slug: project.slug } }}
+            className="rounded-sm transition-colors hover:text-primary-800 dark:hover:text-primary-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
+          >
+            {copy.title}
+          </Link>
         </h3>
 
         {ordersAnalyzed && (
-          <div className="mt-4 flex flex-wrap items-baseline gap-x-2 gap-y-0.5 border-l-[3px] border-coral-500 bg-coral-50 px-3 py-2">
+          <div className="mt-4 flex flex-wrap items-baseline gap-x-2 gap-y-0.5 border-l-[3px] border-coral-500 bg-coral-50 dark:bg-coral-950/40 px-3 py-2">
             <strong className="font-heading text-2xl font-extrabold tracking-tight text-ink">{ordersAnalyzed}</strong>
             <span className="text-xs font-semibold text-body sm:text-sm">{ordersAnalyzedLabel}</span>
           </div>
@@ -91,7 +102,7 @@ const ProjectCard: React.FC<{
 
         <ul className="mt-4 flex min-h-7 flex-wrap gap-1.5" aria-label={cardUi('technologiesLabel')}>
           {project.skills.slice(0, 3).map((tech) => (
-            <li key={tech} className="rounded-full border border-slate-300 bg-paper px-2.5 py-1 font-mono text-xs font-medium text-slate-800">
+            <li key={tech} className="rounded-full border border-slate-300 dark:border-slate-700 bg-paper px-2.5 py-1 font-mono text-xs font-medium text-slate-800 dark:text-slate-200">
               {tech}
             </li>
           ))}
@@ -99,7 +110,7 @@ const ProjectCard: React.FC<{
 
         <Link
           href={{ pathname: '/projects/[slug]', params: { slug: project.slug } }}
-          className="mt-4 inline-flex min-h-10 w-fit items-center gap-2 border-b border-primary-700 pb-1 text-sm font-bold text-primary-800 transition-colors hover:border-coral-600 hover:text-coral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2"
+          className="motion-control mt-4 inline-flex min-h-10 w-fit items-center gap-2 border-b border-primary-700 pb-1 text-sm font-bold text-primary-800 transition-colors hover:-translate-y-0.5 hover:border-coral-600 hover:text-coral-900 dark:border-coral-400 dark:text-coral-300 dark:hover:border-coral-300 dark:hover:text-coral-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2 dark:focus-visible:ring-coral-400"
         >
           <span>{caseStudyLabel}</span>
           <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
@@ -125,7 +136,7 @@ export const FeaturedProjects: React.FC = () => {
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <span className="h-1 w-8 bg-coral-500" aria-hidden="true" />
-              <span className="text-sm font-bold uppercase tracking-[0.16em] text-coral-900">
+              <span className="text-sm font-bold uppercase tracking-[0.16em] text-coral-900 dark:text-coral-300">
                 {t('eyebrow')}
               </span>
             </div>
@@ -141,7 +152,7 @@ export const FeaturedProjects: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-7">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 xl:grid-cols-4">
           {featured.map((project) => {
             const copy: ProjectPreviewCopy = {
               title: cards(`${project.id}.title`),
@@ -165,7 +176,7 @@ export const FeaturedProjects: React.FC = () => {
         <div className="pt-1 text-center">
           <Link
             href="/projects"
-            className="inline-flex min-h-11 items-center gap-2 border border-primary-800 px-5 py-2.5 text-sm font-bold text-primary-900 transition-colors hover:bg-primary-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2"
+            className="motion-control inline-flex min-h-11 items-center gap-2 border border-primary-800 dark:border-primary-400 px-5 py-2.5 text-sm font-bold text-primary-900 dark:text-primary-300 transition-colors hover:-translate-y-1 hover:bg-primary-800 hover:text-white dark:hover:bg-primary-700 hover:shadow-md active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2"
           >
             <span>{cta('viewAllProjects')}</span>
             <ArrowRight className="h-4 w-4" aria-hidden="true" />

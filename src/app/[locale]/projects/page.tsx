@@ -12,6 +12,7 @@ import {
 import { getSkillById } from '@/data/skills';
 import { ProjectCard } from '@/components/projects/ProjectCard';
 import { ProjectFilters } from '@/components/projects/ProjectFilters';
+import { EvidenceMatcher } from '@/components/projects/EvidenceMatcher';
 
 interface ProjectsPageProps {
   params: Promise<{ locale: 'fr' | 'en' }>;
@@ -31,8 +32,9 @@ export async function generateMetadata({ params }: ProjectsPageProps): Promise<M
   });
 }
 
-export default async function ProjectsPage({ searchParams }: ProjectsPageProps) {
-  const [query, t] = await Promise.all([
+export default async function ProjectsPage({ params, searchParams }: ProjectsPageProps) {
+  const [{ locale }, query, t] = await Promise.all([
+    params,
     searchParams,
     getTranslations('projects.list'),
   ]);
@@ -43,14 +45,14 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
   const filteredProjects = filterProjects(getAllProjects(), categorySlug, skillId);
 
   return (
-    <main className="mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-6 md:space-y-9 md:py-14 lg:px-8">
+    <div className="mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-6 md:space-y-9 md:py-14 lg:px-8">
       <header className="space-y-2.5">
         <div className="flex items-center gap-2">
           <FolderGit2
             className="h-5 w-5 text-primary-600"
             aria-hidden="true"
           />
-          <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary-800 sm:text-xs">
+          <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary-800 dark:text-primary-300 sm:text-xs">
             {t('eyebrow')}
           </span>
         </div>
@@ -76,21 +78,23 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
           ))}
         </div>
       ) : (
-        <div className="space-y-4 rounded-2xl border border-slate-200 border-l-4 border-l-coral-500 bg-white p-7 text-center sm:p-10">
+        <div className="space-y-4 rounded-2xl border border-slate-200 dark:border-slate-800 border-l-4 border-l-coral-500 bg-white dark:bg-slate-900 p-7 text-center sm:p-10">
           <SearchX
             className="mx-auto h-8 w-8 text-slate-400"
             aria-hidden="true"
           />
           <div className="space-y-1">
-            <h2 className="text-base font-bold text-slate-900">
+            <h2 className="text-base font-bold text-slate-900 dark:text-white">
               {t('emptyTitle')}
             </h2>
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
               {t('emptyDescription')}
             </p>
           </div>
         </div>
       )}
-    </main>
+
+      <EvidenceMatcher locale={locale} />
+    </div>
   );
 }

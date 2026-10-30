@@ -7,6 +7,7 @@ export default defineConfig({
   // Keep Playwright's cleanup isolated from other user-owned files in test-results.
   outputDir: './test-results/playwright',
   fullyParallel: false,
+  workers: 1,
   reporter: 'list',
   timeout: 30_000,
   expect: { timeout: 8_000 },
@@ -14,6 +15,8 @@ export default defineConfig({
     baseURL,
     browserName: 'chromium',
     locale: 'fr-FR',
-    trace: 'retain-on-failure',
+    screenshot: 'off',
+    video: 'off',
+    trace: 'off',
   },
 });

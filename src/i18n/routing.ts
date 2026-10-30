@@ -19,10 +19,17 @@ export const routing = defineRouting({
       fr: '/projets/[slug]',
       en: '/projects/[slug]'
     },
+    '/certifications': {
+      fr: '/certifications',
+      en: '/certifications'
+    },
+    '/certifications/[slug]': {
+      fr: '/certifications/[slug]',
+      en: '/certifications/[slug]'
+    },
     '/contact': '/contact'
   }
 });
 
 export const { Link, redirect, usePathname, useRouter, getPathname } =
   createNavigation(routing);
-

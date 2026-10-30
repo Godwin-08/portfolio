@@ -1,25 +1,24 @@
 /**
- * Palette de design — Portfolio Godwin Elie Nougbolo
- * Direction : cobalt éditorial, corail énergique et surfaces papier.
+ * Palette du portfolio : papier chaud, bleu encre et corail discret.
  */
 
 :root {
-  --bg-main: #f9f7f1;
-  --bg-surface: #ffffff;
-  --bg-surface-subtle: #f2f1ed;
-  --bg-blue-tint: #eef1ff;
-  --bg-green-tint: #edfbf3;
+  --bg-main: #f5f3ed;
+  --bg-surface: #fffdf8;
+  --bg-surface-subtle: #eeece5;
+  --bg-blue-tint: #e8eef5;
+  --bg-green-tint: #e8f0ec;
   --bg-coral-tint: #fff3ef;
-  --bg-lilac-tint: #f7f4ff;
+  --bg-lilac-tint: #efedf3;
 
-  --text-primary: #172033;
-  --text-secondary: #344057;
-  --text-muted: #4b5873;
+  --text-primary: #172534;
+  --text-secondary: #374655;
+  --text-muted: #596572;
 
-  --border-subtle: #d9dce5;
-  --border-hover: #aeb6ca;
-  --border-blue: #c6d0ff;
-  --border-green: #b3eccc;
+  --border-subtle: #d7dad6;
+  --border-hover: #aeb7b5;
+  --border-blue: #c2d0df;
+  --border-green: #bfd5ca;
   --border-coral: #ffc6b7;
 
   --color-blue-50: #eef1ff;
@@ -32,6 +31,7 @@
   --color-blue-700: #2c45cb;
   --color-blue-800: #263aa4;
   --color-blue-900: #202f7d;
+  --color-blue-950: #18235b;
 
   --color-green-50: #edfbf3;
   --color-green-100: #d4f5e2;
@@ -41,6 +41,9 @@
   --color-green-500: #2da96d;
   --color-green-600: #1f8557;
   --color-green-700: #186844;
+  --color-green-800: #145339;
+  --color-green-900: #124330;
+  --color-green-950: #0b2f22;
 
   --color-coral-50: #fff3ef;
   --color-coral-100: #ffe3db;
@@ -52,16 +55,57 @@
   --color-coral-700: #b83e2e;
   --color-coral-800: #91332c;
   --color-coral-900: #762d29;
+  --color-coral-950: #4a211e;
+
+  --color-lilac-50: #f3f1f6;
+  --color-lilac-100: #e8e4ed;
+  --color-lilac-200: #d5cfdf;
+  --color-lilac-300: #b8aecb;
+  --color-lilac-400: #9789b1;
+  --color-lilac-500: #786b96;
+  --color-lilac-600: #62567c;
+  --color-lilac-700: #4d4563;
+  --color-lilac-800: #3d374f;
+  --color-lilac-900: #302d3e;
+  --color-lilac-950: #1f1d29;
 
   --font-heading: 'Manrope', system-ui, -apple-system, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
 
-  --radius-card: 10px;
-  --radius-btn: 8px;
-  --radius-input: 8px;
+  --radius-card: 14px;
+  --radius-btn: 7px;
+  --radius-input: 7px;
   --radius-badge: 9999px;
 
-  --shadow-subtle: 0 1px 2px 0 rgb(23 32 51 / 0.06);
-  --shadow-card: 0 8px 22px -12px rgb(23 32 51 / 0.2);
-  --shadow-card-hover: 0 16px 32px -14px rgb(23 32 51 / 0.26);
+  --shadow-subtle: 0 1px 2px 0 rgb(23 37 52 / 0.06);
+  --shadow-card: 0 8px 22px -12px rgb(23 37 52 / 0.18);
+  --shadow-card-hover: 0 16px 32px -14px rgb(23 37 52 / 0.24);
+}
+
+.dark {
+  --bg-main: #0b1120;
+  --bg-surface: #131c31;
+  --bg-surface-subtle: #1a253c;
+  --bg-blue-tint: #142144;
+  --bg-green-tint: #0f2c22;
+  --bg-coral-tint: #4a211e;
+  --bg-lilac-tint: #231b3e;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --border-subtle: #1e293b;
+  --border-hover: #334155;
+  --border-blue: #233876;
+  --border-green: #1a4d36;
+  --border-coral: #91332c;
+
+  --color-paper: #0b1120;
+  --color-body: #cbd5e1;
+  --color-muted: #94a3b8;
+
+  --shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / 0.35);
+  --shadow-card: 0 8px 22px -12px rgb(0 0 0 / 0.55);
+  --shadow-card-hover: 0 16px 32px -14px rgb(0 0 0 / 0.7);
 }
