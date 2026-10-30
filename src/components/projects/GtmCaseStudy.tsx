@@ -1,14 +1,19 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useLocale } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import type { ReactNode } from 'react';
 import { ArrowLeft, BarChart3, Download, GitBranch, Github, LockKeyhole, ShieldCheck, TestTube2, UsersRound } from 'lucide-react';
 
+export const GTM_QUALITY_COPY = {
+  fr: 'La suite pytest couvre l’authentification, l’onboarding, les permissions RBAC, les filtres, les inscriptions, les exports, le tableau de bord, l’ACP et les erreurs API. Elle contient 166 tests automatisés ; les 166 réussissaient lors de la dernière exécution disponible.',
+  en: 'The pytest suite covers authentication, onboarding, RBAC permissions, filters, registrations, exports, the dashboard, PCA, and API errors. It contains 166 automated tests; all 166 passed in the latest available run.',
+} as const;
+
 const copy = {
   fr: {
-    back: 'Retour aux projets', eyebrow: 'Mission professionnelle individuelle',
+    back: 'Retour aux projets', eyebrow: 'Stage d’initiation · Galaxy Solutions · 2025–2026',
     title: 'GTM — Galaxy Training Manager',
     intro: 'Une application Flask pour centraliser la gestion des formations et rendre les données d’activité lisibles pour les équipes de Galaxy Solutions.',
     roleTitle: 'Mon rôle', role: 'J’ai pris en charge la conception et le développement de la solution : modèle de données, backend Flask, interfaces Jinja2, logique métier, exports, analyse et validation automatisée.',
@@ -21,13 +26,13 @@ const copy = {
     securityTitle: 'Accès et intégrité', security: 'Flask-Login gère les sessions ; les mots de passe sont hashés avec Werkzeug. Le code contient un parcours d’activation par token, des contrôles RBAC, des contraintes contre les doublons d’inscription et des protections contre les suppressions rompant les dépendances.',
     dashboardTitle: 'Dashboard et analyse', dashboard: 'Le screenshot montre le point d’entrée de pilotage : sessions actives, clients actifs, participants distincts, remplissage moyen, formations et formateurs mobilisés. L’ACP complète cette vue comme analyse exploratoire — non prédictive — des données Clients × Formations, calculée avec NumPy et Pandas puis projetée sur deux axes.',
     feedbackTitle: 'Feedback → correction → validation', feedback: 'Le dépôt documente un système de retours utilisateur via toasts de succès, erreur, avertissement et information. Les tests vérifient leur présence, le contrat d’erreur des API et la non-régression d’actions CRUD ; les réponses structurées distinguent notamment les erreurs 400 et conflits 409.',
-    qualityTitle: 'Tests et qualité', quality: 'La suite pytest couvre authentification, onboarding, permissions RBAC, filtres, inscriptions, exports, dashboard, ACP et erreurs API. Le README du dépôt indique 124 tests validés lors du dernier lancement documenté.',
+    qualityTitle: 'Tests et qualité', quality: GTM_QUALITY_COPY.fr,
     resultsTitle: 'Ce que la mission a livré', results: ['Un système centralisant les opérations de formation.', 'Des vues et indicateurs dépendants du rôle et du périmètre choisi.', 'Des exports exploitables en CSV, XLSX et PDF.', 'Une analyse ACP reliée aux données de l’application.'],
     reflectionTitle: 'Avec le recul', reflection: 'Le projet a relié conception d’un système d’information et analyse de données dans le même produit. Pour une montée en charge, le dépôt identifie la pagination serveur et des tests E2E comme suites pertinentes.',
     source: 'Voir le dépôt GTM', techTitle: 'Technologies mobilisées'
   },
   en: {
-    back: 'Back to projects', eyebrow: 'Individual professional assignment', title: 'GTM — Galaxy Training Manager',
+    back: 'Back to projects', eyebrow: 'Introductory internship · Galaxy Solutions · 2025–2026', title: 'GTM — Galaxy Training Manager',
     intro: 'A Flask application that centralizes training management and makes activity data readable for Galaxy Solutions teams.',
     roleTitle: 'My role', role: 'I designed and developed the solution: data model, Flask backend, Jinja2 interfaces, business logic, exports, analysis, and automated validation.',
     contextTitle: 'Context', context: 'Training information, session tracking, and reporting were spread across separate tools. GTM brings training courses, sessions, clients, learners, trainers, and registrations together in one application.',
@@ -37,18 +42,18 @@ const copy = {
     securityTitle: 'Access and integrity', security: 'Flask-Login handles sessions; passwords are hashed with Werkzeug. The code includes token-based activation, RBAC checks, registration-duplicate constraints, and protection against deletions that break dependencies.',
     dashboardTitle: 'Dashboard and analysis', dashboard: 'The screenshot shows the monitoring entry point: active sessions, active clients, distinct learners, average occupancy, training courses, and active trainers. PCA complements it as exploratory—not predictive—analysis of Client × Training data, computed with NumPy and Pandas and projected onto two axes.',
     feedbackTitle: 'Feedback → correction → validation', feedback: 'The repository documents user feedback through success, error, warning, and information toasts. Tests check their presence, API error contracts, and CRUD regression; structured responses distinguish, among others, 400 errors and 409 conflicts.',
-    qualityTitle: 'Testing and quality', quality: 'The pytest suite covers authentication, onboarding, RBAC permissions, filters, registrations, exports, dashboard, PCA, and API errors. The repository README documents 124 passing tests in its latest recorded run.',
+    qualityTitle: 'Testing and quality', quality: GTM_QUALITY_COPY.en,
     resultsTitle: 'What the assignment delivered', results: ['A system centralizing training operations.', 'Views and indicators scoped to the selected role and data perimeter.', 'Usable CSV, XLSX, and PDF exports.', 'PCA analysis connected to application data.'],
     reflectionTitle: 'In retrospect', reflection: 'This project connected information-system design and data analysis in one product. For further scale, the repository identifies server-side pagination and E2E testing as relevant next steps.', source: 'View the GTM repository', techTitle: 'Technologies used'
   }
 } as const;
 
 export function GtmCaseStudy() {
-  const isEnglish = usePathname().startsWith('/en');
+  const isEnglish = useLocale() === 'en';
   const t = copy[isEnglish ? 'en' : 'fr'];
   return <article className="max-w-5xl mx-auto pb-20 space-y-16">
-    <Link href={isEnglish ? '/en/projects' : '/projects'} className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded"><ArrowLeft className="w-4 h-4" aria-hidden="true" />{t.back}</Link>
-    <header className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center"><div className="lg:col-span-5 space-y-5"><p className="text-xs font-bold uppercase tracking-widest text-primary-700">{t.eyebrow}</p><h1 className="text-4xl sm:text-5xl font-heading font-extrabold tracking-tight text-slate-900">{t.title}</h1><p className="text-lg leading-relaxed text-slate-700">{t.intro}</p><a href="https://github.com/Godwin-08/GTM" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-btn border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"><Github className="w-4 h-4" aria-hidden="true" />{t.source}</a></div><figure className="lg:col-span-7 rounded-2xl overflow-hidden border border-slate-200 bg-white shadow-card"><Image src="/images/projects/gtm-dashboard.png" alt="GTM dashboard showing training activity indicators" width={1323} height={742} priority className="w-full h-auto" /><figcaption className="px-4 py-3 text-xs text-slate-500">Galaxy Training Manager — dashboard</figcaption></figure></header>
+    <Link href="/projects" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded"><ArrowLeft className="w-4 h-4" aria-hidden="true" />{t.back}</Link>
+    <header className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center"><div className="lg:col-span-5 space-y-5"><p className="text-xs font-bold uppercase tracking-widest text-primary-700">{t.eyebrow}</p><h1 className="text-4xl sm:text-5xl font-heading font-extrabold tracking-tight text-slate-900">{t.title}</h1><p className="text-lg leading-relaxed text-slate-700">{t.intro}</p><a href="https://github.com/Godwin-08/GTM" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-btn border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"><Github className="w-4 h-4" aria-hidden="true" />{t.source}</a></div><figure className="lg:col-span-7 rounded-2xl overflow-hidden border border-slate-200 bg-white shadow-card"><Image src="/images/projects/gtm-dashboard.png" alt={isEnglish ? 'GTM dashboard showing training activity indicators' : 'Tableau de bord GTM présentant les indicateurs de suivi des formations'} width={1323} height={742} priority className="w-full h-auto" /><figcaption className="px-4 py-3 text-xs text-slate-500">{isEnglish ? 'Galaxy Training Manager — dashboard' : 'Galaxy Training Manager — tableau de bord'}</figcaption></figure></header>
     <Section icon={<UsersRound />} title={t.contextTitle}><p>{t.context}</p><div className="mt-5 rounded-xl border border-primary-100 bg-primary-50/60 p-5"><h3 className="font-heading font-bold text-slate-900">{t.roleTitle}</h3><p className="mt-2">{t.role}</p></div></Section>
     <Section icon={<GitBranch />} title={t.builtTitle}><div className="grid md:grid-cols-3 gap-4">{t.built.map(([title, description]) => <div key={title} className="rounded-xl border border-slate-200 bg-white p-5"><h3 className="font-heading font-bold text-slate-900">{title}</h3><p className="mt-2 text-sm">{description}</p></div>)}</div></Section>
     <Section icon={<GitBranch />} title={t.architectureTitle}><p>{t.architecture}</p><figure className="mt-6 overflow-hidden rounded-xl border border-slate-200 bg-white"><Image src="/images/projects/gtm-mld.png" alt={isEnglish ? 'GTM logical data model' : 'Modèle logique de données de GTM'} width={1200} height={675} className="h-auto w-full" /><figcaption className="border-t border-slate-100 px-4 py-3 text-xs text-slate-500">{isEnglish ? 'Logical data model from the GTM repository.' : 'Modèle logique de données issu du dépôt GTM.'}</figcaption></figure><div className="mt-5 grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs font-semibold"><Flow label="Interface" /><Flow label="Flask" /><Flow label="Services" /><Flow label="SQLAlchemy" /><Flow label="MySQL" /></div></Section>
@@ -61,7 +66,7 @@ export function GtmCaseStudy() {
     <Section icon={<BarChart3 />} title={t.resultsTitle}><ul className="grid sm:grid-cols-2 gap-3">{t.results.map((result) => <li key={result} className="rounded-lg bg-slate-50 border border-slate-200 px-4 py-3 text-sm">{result}</li>)}</ul></Section>
     <Section icon={<GitBranch />} title={t.reflectionTitle}><p>{t.reflection}</p></Section>
     <section className="border-t border-slate-200 pt-8"><h2 className="font-heading text-xl font-bold text-slate-900">{t.techTitle}</h2><div className="mt-4 flex flex-wrap gap-2">{['Flask', 'SQLAlchemy', 'MySQL', 'Jinja2', 'Flask-Login', 'Tailwind CSS', 'Alpine.js', 'Chart.js', 'Pandas', 'NumPy', 'openpyxl', 'ReportLab', 'pytest'].map((item) => <span key={item} className="rounded-md border border-slate-200 bg-white px-2.5 py-1 font-mono text-xs text-slate-700">{item}</span>)}</div></section>
-    <nav className="flex items-center justify-between border-t border-slate-200 pt-8" aria-label={isEnglish ? 'Project navigation' : 'Navigation entre les projets'}><Link href={isEnglish ? '/en/projects/olist' : '/projects/olist'} className="text-sm font-semibold text-slate-600 hover:text-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded">← Olist</Link><Link href={isEnglish ? '/en/projects/afc' : '/projects/afc'} className="text-right text-sm font-semibold text-slate-600 hover:text-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded">AFC →</Link></nav>
+    <nav className="flex items-center justify-between border-t border-slate-200 pt-8" aria-label={isEnglish ? 'Project navigation' : 'Navigation entre les projets'}><Link href={{ pathname: '/projects/[slug]', params: { slug: 'olist' } }} className="text-sm font-semibold text-slate-600 hover:text-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded">← Olist</Link><Link href={{ pathname: '/projects/[slug]', params: { slug: 'afc' } }} className="text-right text-sm font-semibold text-slate-600 hover:text-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded">AFC →</Link></nav>
   </article>;
 }
 

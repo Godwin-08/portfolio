@@ -1,4 +1,5 @@
 import { Project } from '@/types';
+import { SKILLS } from '@/data/skills';
 
 export interface ProjectCategoryDefinition {
   name: Project['category'];
@@ -18,6 +19,26 @@ export const ALL_PROJECT_CATEGORIES = [
   { name: 'Data Engineering', slug: 'data-engineering' },
 ] as const satisfies readonly ProjectCategoryDefinition[];
 
+export function getCategorySlug(categoryName: Project['category']): string {
+  return ALL_PROJECT_CATEGORIES.find((category) => category.name === categoryName)?.slug ?? categoryName;
+}
+
+export function filterProjects(
+  projects: readonly Project[],
+  categorySlug: string | null,
+  skillId: string | null
+): Project[] {
+  const category = getCategoryBySlug(categorySlug);
+  const skill = skillId ? SKILLS.find((entry) => entry.id === skillId) : undefined;
+
+  return [...projects]
+    .filter((project) => !category || project.category === category.name)
+    .filter((project) => !skill || project.skills.some(
+      (projectSkill) => projectSkill.toLowerCase() === skill.name.toLowerCase()
+    ))
+    .sort((a, b) => a.order - b.order);
+}
+
 export const PROJECTS: Project[] = [
   {
     id: 'gtm',
@@ -29,10 +50,10 @@ export const PROJECTS: Project[] = [
     isFlagship: true,
     order: 1,
     context: 'Professionnel (Individuel)',
-    period: '2024 (PFA Individuel)',
+    period: '2025–2026',
     summary:
-      'Application de gestion et d’analyse des formations développée dans un contexte professionnel.',
-    skills: ['Python', 'Flask', 'SQLAlchemy', 'MySQL', 'Pandas', 'NumPy', 'JavaScript', 'HTML/CSS', 'Chart.js', 'Git', 'pytest', 'openpyxl', 'ReportLab'],
+      'Application de suivi des formations créée pendant mon stage d’initiation chez Galaxy Solutions. Les données de démonstration sont fictives.',
+    skills: ['Python', 'Flask', 'SQLAlchemy', 'MySQL', 'Pandas', 'NumPy', 'JavaScript', 'HTML/CSS', 'Chart.js', 'Business Intelligence', 'Git', 'pytest', 'openpyxl', 'ReportLab', 'SQL', 'Data Analysis', 'Backend', 'Bases de données', 'Relational Modeling', 'Statistiques', 'Systèmes d\'information', 'Jinja2', 'Tailwind CSS', 'Exploratory Data Analysis', 'Data Visualization', 'Principal Component Analysis (PCA)'],
     accentColor: '#059669', // Emerald Green
     image: '/images/projects/gtm-dashboard.png',
     keyMetrics: [
@@ -70,7 +91,7 @@ export const PROJECTS: Project[] = [
         },
       ],
       roleDescription:
-        'Concepteur et développeur unique de la solution (PFA individuel en contexte professionnel). Prise en charge complète du cycle : cadrage du besoin, modélisation de la base, développement backend/frontend, automatisation documentaire et rédaction de la suite de tests.',
+        'J’ai conçu et développé GTM pendant mon stage d’initiation chez Galaxy Solutions au cours de l’année universitaire 2025–2026 : modèle de données, application, exports et validation.',
       implementation:
         'Application construite avec Flask, SQLAlchemy et Jinja2, stylisée via Tailwind CSS pour un rendu professionnel épuré, avec une interactivité légère via Alpine.js et des graphiques Chart.js.',
       architectureHighlights: [
@@ -119,7 +140,7 @@ export const PROJECTS: Project[] = [
     id: 'olist',
     slug: 'olist',
     title: 'Audit de Données Commerciales — Olist',
-    tagline: 'Analyse exploratoire et audit de qualité sur 96 252 commandes e-commerce',
+    tagline: 'Analyse exploratoire du jeu final de 96 252 commandes e-commerce',
     category: 'Data Analysis',
     isFeatured: true,
     isFlagship: false,
@@ -127,14 +148,14 @@ export const PROJECTS: Project[] = [
     context: 'Académique (Binôme)',
     period: '2025–2026',
     summary:
-      'Audit complet d\'une marketplace : qualité des données, délais logistiques, performance des vendeurs et rentabilité des catégories sur 96 252 commandes.',
-    skills: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn'],
+      'Audit des données Olist : préparation, jointures et analyse des délais de livraison et des avis sur les 96 252 lignes du jeu d’analyse final.',
+    skills: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'Data Analysis', 'Statistiques', 'Jupyter', 'Git', 'Data Preparation', 'Data Cleaning', 'Exploratory Data Analysis', 'Data Visualization'],
     accentColor: '#0284c7', // Sky Blue
     image: '/images/projects/olist-delais-livraison.png',
     keyMetrics: [
-      { value: '96 252', label: 'Commandes analysées', detail: 'Nettoyage exhaustif multi-tables' },
-      { value: '99.4%', label: 'Intégrité des données', detail: 'Après traitement des valeurs aberrantes' },
-      { value: '14 jours', label: 'Délai moyen modélisé', detail: 'Identification des goulots logistiques' },
+      { value: '96 252', label: 'Jeu d’analyse final', detail: 'Après préparation et contrôles de qualité multi-tables' },
+      { value: '12,1 jours', label: 'Délai moyen', detail: '96 244 commandes avec une date de livraison valide' },
+      { value: '6,8 %', label: 'En retard', detail: '6 531 commandes sur 96 244 avec date valide' },
     ],
     caseStudy: {
       heroTagline: 'Transformer des données brutes hétérogènes en leviers de décision logistique et commerciale.',
@@ -191,7 +212,7 @@ export const PROJECTS: Project[] = [
         },
       ],
       results: [
-        { value: '96 252', label: 'Commandes consolidées', detail: 'Couverture 2016 - 2018' },
+        { value: '96 252', label: 'Jeu d’analyse final', detail: 'Commandes consolidées sur la période 2016–2018' },
         { value: '-68%', label: 'Score d\'avis en cas de retard', detail: 'La note moyenne passe de 4.2 à 1.4 sur 5' },
         { value: '3 régions', label: 'Goulots identifiés', detail: 'Nord et Nordeste présentant 2x plus de retards' },
       ],
@@ -224,7 +245,7 @@ export const PROJECTS: Project[] = [
     period: '2025–2026',
     summary:
       'Analyse factorielle des correspondances implémentée from scratch pour cartographier les relations statistiques entre domaines et compétences sur LinkedIn.',
-    skills: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'SciPy', 'Jupyter', 'Git', 'SVD'],
+    skills: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'SciPy', 'Jupyter', 'Git', 'SVD', 'Data Analysis', 'Statistiques', 'Data Preparation', 'Exploratory Data Analysis', 'Data Visualization', 'Object-Oriented Programming'],
     accentColor: '#6366f1', // Indigo
     image: '/images/projects/afc-biplot.png',
     keyMetrics: [
@@ -300,19 +321,107 @@ export const PROJECTS: Project[] = [
     },
   },
   {
+    id: 'acp',
+    slug: 'acp',
+    title: 'ACP — Analyse en composantes principales',
+    tagline: 'Analyse exploratoire de 169 pays à partir de neuf indicateurs socio-économiques et sanitaires',
+    category: 'Statistiques',
+    isFeatured: false,
+    order: 4,
+    context: 'Académique (Individuel)',
+    period: '2025–2026',
+    summary:
+      'Application de l’ACP à neuf indicateurs concernant 169 pays. Les deux premiers axes expliquent 63,86 % de l’inertie observée, sans résumer toute l’information.',
+    skills: [
+      'Python',
+      'Pandas',
+      'NumPy',
+      'Matplotlib',
+      'Seaborn',
+      'Jupyter',
+      'Statistiques',
+      'Data Preparation',
+      'Data Visualization',
+      'Principal Component Analysis (PCA)',
+    ],
+    accentColor: '#0f766e',
+    image: '/images/projects/acp-plan-factoriel-pays.png',
+    keyMetrics: [
+      { value: '169', label: 'pays analysés', detail: 'Après retrait des lignes contenant des valeurs manquantes.' },
+      { value: '9', label: 'indicateurs', detail: 'Données économiques et sanitaires exprimées dans des unités différentes.' },
+      { value: '63,86 %', label: 'inertie sur F1 et F2', detail: '47,25 % sur F1 et 16,61 % sur F2.' },
+    ],
+    caseStudy: {
+      heroTagline: 'Résumer et explorer des indicateurs socio-économiques avec l’ACP.',
+      problem:
+        'Neuf indicateurs économiques et sanitaires, exprimés dans des unités différentes, décrivent 169 pays. Le projet utilise l’ACP pour étudier leurs relations et comparer les profils sans transformer l’analyse exploratoire en prédiction.',
+      problemPoints: [
+        'Comparer des variables de nature et d’échelle différentes.',
+        'Examiner les relations entre indicateurs et les profils des pays.',
+        'Présenter les résultats en tenant compte de l’information non représentée par les deux premiers axes.',
+      ],
+      approach:
+        'Le notebook prépare les données, standardise les variables, calcule les composantes principales et produit des visualisations pour interpréter les axes et la représentation des observations.',
+      approachSteps: [
+        { step: '1. Préparer les données', description: 'Charger le tableau et retirer les lignes contenant des valeurs manquantes.' },
+        { step: '2. Standardiser les indicateurs', description: 'Centrer et réduire les variables afin de rendre leurs échelles comparables.' },
+        { step: '3. Calculer les composantes', description: 'Étudier la matrice de corrélation, les valeurs propres et les vecteurs propres.' },
+        { step: '4. Lire les résultats', description: 'Comparer les pays et les indicateurs sur les plans factoriels en tenant compte de la qualité de représentation.' },
+      ],
+      roleDescription:
+        'J’ai réalisé l’analyse et le notebook, puis documenté les résultats et leurs limites dans le dépôt du projet.',
+      implementation:
+        'Notebook Python fondé sur Pandas et NumPy pour le traitement et les calculs, avec Matplotlib et Seaborn pour les visualisations.',
+      keyDecisions: [
+        {
+          title: 'Standardiser les variables',
+          decision: 'Centrer et réduire les indicateurs avant l’ACP.',
+          rationale: 'Les variables sont exprimées dans des unités différentes et ne doivent pas contribuer uniquement selon leur échelle.',
+          impact: 'Les axes sont calculés à partir de variables rendues comparables.',
+        },
+        {
+          title: 'Présenter les limites de F1 × F2',
+          decision: 'Indiquer la part d’inertie expliquée et la qualité de représentation.',
+          rationale: 'Un plan factoriel en deux dimensions ne contient pas toute l’information du jeu de données.',
+          impact: 'Les graphiques restent interprétables sans présenter les projections comme une représentation complète.',
+        },
+      ],
+      results: [
+        { value: '47,25 %', label: 'inertie expliquée par F1', detail: 'Axe principalement lié au revenu, au PIB par habitant, à l’espérance de vie et à leurs oppositions.' },
+        { value: '16,61 %', label: 'inertie expliquée par F2', detail: 'Axe surtout associé aux indicateurs d’exportation et d’importation.' },
+        { value: '63,86 %', label: 'inertie cumulée F1 + F2', detail: '36,14 % de l’inertie reste portée par les axes suivants.' },
+      ],
+      validation:
+        'Les résultats sont documentés dans le notebook et comparés à travers les figures et les contributions des axes.',
+      validationPoints: [
+        'Vérifier les parts d’inertie expliquées par les axes.',
+        'Lire les pays et les variables en tenant compte de leur qualité de représentation.',
+      ],
+      reflection:
+        'Ce projet m’a permis de pratiquer l’analyse multivariée et la visualisation de résultats statistiques. L’ACP décrit les structures observées dans ces données ; elle ne démontre pas de relation causale.',
+      technologiesDetailed: [
+        { category: 'Analyse', items: ['Python', 'Pandas', 'NumPy'] },
+        { category: 'Visualisation', items: ['Matplotlib', 'Seaborn'] },
+        { category: 'Environnement', items: ['Jupyter Notebook'] },
+      ],
+      githubUrl: 'https://github.com/Godwin-08/ACP',
+    },
+  },
+  {
     id: 'revision-flow',
     slug: 'revision-flow',
     title: 'RevisionFlow',
     tagline: 'Planificateur de révisions intelligent, 100 % navigateur, avec recalcul en temps réel',
     category: 'Web / SI',
     isFeatured: false,
-    order: 4,
+    order: 5,
     context: 'Académique (Individuel)',
     period: '2025–2026',
     summary:
       'Planificateur de révisions 100 % navigateur qui recalcule le planning en temps réel selon l’avancement, avec timer Pomodoro et détection honnête de la surcharge.',
     skills: ['JavaScript', 'HTML/CSS', 'Web Audio API', 'localStorage', 'API REST'],
     accentColor: '#0ea5e9',
+    image: '/images/projects/revisionflow-planning.png',
     keyMetrics: [
       { value: '100%', label: 'Navigateur pur', detail: 'Aucune inscription, aucun backend' },
       { value: 'Temps réel', label: 'Recalcul du planning', detail: 'À chaque action validée ou reportée' },
@@ -393,13 +502,14 @@ export const PROJECTS: Project[] = [
     tagline: 'Système d\'information médical scolaire sécurisé : dossiers élèves, consultations, agenda et statistiques',
     category: 'Web / SI',
     isFeatured: false,
-    order: 5,
-    context: 'Projet Personnel',
+    order: 7,
+    context: 'Académique (Individuel)',
     period: '2025–2026',
     summary:
       'Plateforme Flask de digitalisation de l\'infirmerie scolaire : dossiers élèves, historique médical, consultations, agenda et statistiques, avec accès par rôle (admin, médecin, infirmier).',
-    skills: ['Python', 'Flask', 'SQLAlchemy', 'MySQL', 'JavaScript', 'HTML/CSS', 'Chart.js', 'Bases de données', 'pytest'],
+    skills: ['Python', 'Flask', 'SQLAlchemy', 'MySQL', 'JavaScript', 'HTML/CSS', 'Chart.js', 'Bases de données', 'Relational Modeling', 'pytest', 'SQL', 'Backend', 'Systèmes d\'information', 'Jinja2', 'Bootstrap', 'Data Visualization'],
     accentColor: '#10b981',
+    image: '/images/projects/sante-scolaire-dashboard-admin.png',
     keyMetrics: [
       { value: '3 rôles', label: 'Accès différenciés', detail: 'Admin · Médecin · Infirmier' },
       { value: 'Alembic', label: 'Migrations tracées', detail: 'Évolution du schéma sans rupture' },
@@ -478,13 +588,14 @@ export const PROJECTS: Project[] = [
     context: 'Académique (Équipe)',
     period: '2025–2026',
     summary:
-      'Application e-commerce Flask construite autour de la programmation orientée objet : catalogue, panier dynamique, gestion des commandes, facturation et back-office admin.',
-    skills: ['Python', 'Flask', 'SQLAlchemy', 'MySQL', 'JavaScript', 'HTML/CSS', 'Bases de données'],
+      'Prototype e-commerce réalisé par une équipe de cinq : catalogue, panier et facture imprimable. Le paiement est simulé et les commandes ne sont pas conservées durablement.',
+    skills: ['Python', 'Flask', 'Jinja2', 'JavaScript', 'HTML/CSS', 'Backend', 'Object-Oriented Programming', 'Relational Modeling'],
     accentColor: '#f59e0b',
+    image: '/images/projects/novastore-filtre-prix.png',
     keyMetrics: [
-      { value: 'POO', label: 'Logique métier objet', detail: 'Encapsulation, abstraction & persistance ORM' },
-      { value: 'End-to-end', label: 'Tunnel d\'achat', detail: 'Du panier à la facture' },
-      { value: '20+', label: 'Produits au catalogue', detail: 'Filtrage par catégorie et recherche' },
+      { value: '20 produits', label: 'Catalogue de démonstration', detail: 'Produits classés par catégorie.' },
+      { value: 'Panier → facture', label: 'Parcours prototype', detail: 'Une facture peut être affichée et imprimée.' },
+      { value: 'Paiement simulé', label: 'Aucune transaction réelle', detail: 'Les commandes ne sont pas conservées durablement.' },
     ],
     caseStudy: {
       heroTagline: 'Mettre en pratique les principes fondamentaux de la POO dans un cas d\'usage e-commerce complet.',
@@ -546,6 +657,90 @@ export const PROJECTS: Project[] = [
         { category: 'Frontend', items: ['HTML5', 'CSS3', 'JavaScript'] },
       ],
       githubUrl: 'https://github.com/Godwin-08/Novastore',
+    },
+  },
+  {
+    id: 'pneumonia-detection',
+    slug: 'pneumonia-detection',
+    title: 'Détection de Pneumonie par Radiographie — Deep Learning',
+    tagline: 'Classification binaire d’images médicales par CNN personnalisé et Transfer Learning DenseNet121',
+    category: 'Machine Learning',
+    isFeatured: true,
+    isFlagship: false,
+    order: 8,
+    context: 'Académique (Équipe)',
+    period: '2025–2026',
+    summary:
+      'Étude comparative de CNN et DenseNet121 sur 5 856 radiographies pédiatriques. Le rapport du dépôt indique environ 89 % d’accuracy et 92 % de recall PNEUMONIA pour DenseNet121.',
+    skills: ['Python', 'TensorFlow', 'Keras', 'DenseNet121', 'Deep Learning', 'Computer Vision', 'Data Visualization', 'NumPy', 'Matplotlib', 'Streamlit', 'Jupyter', 'Git', 'Scikit-learn'],
+    accentColor: '#0284c7',
+    image: '/images/projects/pneumonia-xray.png',
+    keyMetrics: [
+      { value: '≈89 %', label: 'Accuracy test (DenseNet121)', detail: 'Sur 624 images, au seuil 0,8' },
+      { value: '92 %', label: 'Recall PNEUMONIA', detail: '358/390 selon le tableau de seuils du notebook' },
+      { value: '5 856', label: 'Images médicales', detail: 'Dataset Chest X-Ray (Kaggle)' },
+    ],
+    caseStudy: {
+      heroTagline: 'Classification d’images médicales : comparer un CNN sur mesure et DenseNet121 avec une priorité clinique sur le rappel.',
+      problem:
+        'La pneumonie est une infection respiratoire aiguë nécessitant un diagnostic rapide et fiable. Dans les zones à ressources médicales limitées, l’accès à un radiologue expert est restreint. L’objectif algorithmique est de concevoir un système capable d’orienter le diagnostic avec un taux de faux négatifs minimal, car un cas infectieux manqué met en danger la vie du patient.',
+      problemPoints: [
+        'Déséquilibre de classe marqué : ~74 % d’images de pneumonie contre ~26 % d’images saines dans le jeu d’entraînement.',
+        'Forte disparité dimensionnelle : résolutions brutes variant de 384 × 127 px à 2 916 × 2 663 px.',
+        'Asymétrie des coûts cliniques : un faux négatif (pneumonie non détectée) est critique, alors qu’un faux positif déclenche simplement un examen de contrôle.',
+      ],
+      approach:
+        'Mise en œuvre d’un protocole expérimental rigoureux sous TensorFlow/Keras comparant deux approches : un CNN convolutionnel from scratch et un modèle DenseNet121 pré-entraîné sur ImageNet, avec optimisation du seuil de décision et interface de démonstration Streamlit.',
+      approachSteps: [
+        { step: '1. Pipeline de données & Normalisation', description: 'Redimensionnement uniforme à 224 × 224 px, normalisation [0, 1] et data augmentation ciblée (flips horizontaux, légères rotations et zooms).' },
+        { step: '2. CNN from scratch', description: 'Architecture séquentielle à blocs Conv2D, MaxPooling2D, Dropout et GlobalAveragePooling2D, régularisée par EarlyStopping (convergence à 13 epochs).' },
+        { step: '3. Transfer Learning DenseNet121', description: 'Phase d’extraction de features avec base ImageNet gelée, suivie de l’évaluation de la phase de fine-tuning.' },
+        { step: '4. Calibrage du seuil & Déploiement', description: 'Ajustement des seuils de décision (0.7 pour CNN, 0.8 pour DenseNet121) et intégration dans une interface web Streamlit.' },
+      ],
+      roleDescription:
+        'Projet académique réalisé en équipe de quatre étudiants à l’ENSA Khouribga, encadré par Pr. Safiny Yazid et Pr. Siham Ahmam. Les contributions individuelles ne sont pas détaillées.',
+      implementation:
+        'Les expériences s’appuient sur TensorFlow/Keras. Le projet comprend une interface Streamlit et utilise Pillow, NumPy, Matplotlib et Scikit-learn.',
+      architectureHighlights: [
+        'CNN from scratch : 4 blocs convolutionnels avec filtres croissants (32 à 256), MaxPooling, Dropout 0.3 et pooling moyen global.',
+        'DenseNet121 : architecture à connexions denses favorisant la réutilisation des caractéristiques visuelles pré-apprises.',
+        'Streamlit UI : inférence en temps réel avec sélection du modèle et visualisation des probabilités de prédiction.',
+      ],
+      keyDecisions: [
+        {
+          title: 'Priorité métrique au Recall plutôt qu’à l’Accuracy',
+          decision: 'Évaluer DenseNet121 au seuil de 0,8 et suivre le rappel de la classe PNEUMONIA.',
+          rationale: 'À ce seuil, le rappel mesuré est d’environ 92 % (358 cas détectés sur 390).',
+          impact: 'Le seuil et les résultats sont rapportés comme des résultats expérimentaux, pas comme une performance clinique.',
+        },
+        {
+          title: 'Comparer prudemment Feature Extraction et Fine-Tuning',
+          decision: 'Présenter les deux phases sans conclure que l’une surpasse l’autre.',
+          rationale: 'Les résultats consignés utilisent des seuils différents pour Feature Extraction (0,8) et le fine-tuning (0,9), ce qui ne permet pas une comparaison contrôlée.',
+          impact: 'Les résultats disponibles ne permettent pas une comparaison contrôlée entre les deux phases.',
+        },
+      ],
+      results: [
+        { value: '≈89 %', label: 'Accuracy test (DenseNet121)', detail: 'Sur 624 radiographies, au seuil 0,8' },
+        { value: '0,92', label: 'Recall PNEUMONIA', detail: '358 cas détectés sur 390 selon le tableau de seuils' },
+        { value: '0,91', label: 'F1-score PNEUMONIA', detail: 'F1 de la classe positive, pas F1 macro' },
+      ],
+      validation:
+        'Évaluation menée sur le jeu de test officiel Kaggle de 624 radiographies (234 NORMAL, 390 PNEUMONIA) non vues pendant l’entraînement, avec calcul des matrices de confusion, courbes ROC et rapports de classification complets.',
+      validationPoints: [
+        'Comparaison systématique des deux architectures sur les mêmes splits train / validation / test.',
+        'Suivi de la convergence sur les courbes de perte (loss) et de précision (accuracy) de l’entraînement et de la validation.',
+        'Le dépôt présente une interface Streamlit pour tester les modèles sur une image téléversée.',
+      ],
+      reflection:
+        'Les résultats illustrent l’intérêt du transfert d’apprentissage sur ce jeu de données, tout en rappelant que le recall, les erreurs restantes et la généralisation doivent être évalués séparément.',
+      technologiesDetailed: [
+        { category: 'Deep Learning & Vision', items: ['TensorFlow', 'Keras', 'DenseNet121', 'CNN', 'Transfer Learning', 'Image Augmentation'] },
+        { category: 'Traitement & Métriques', items: ['Python', 'NumPy', 'Scikit-learn', 'Pillow (PIL)', 'Matplotlib', 'Plotly'] },
+        { category: 'Déploiement & Environnement', items: ['Streamlit', 'Google Colab', 'Git', 'Jupyter Notebook'] },
+      ],
+      githubUrl: 'https://github.com/Godwin-08/Pneumonia-Detection-from-X-rays',
+      reportUrl: '/documents/projects/pneumonia-report-fr.pdf',
     },
   },
 ];

@@ -1,14 +1,27 @@
 import React from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { cn } from '@/lib/utils';
+import { EmailLink } from '@/components/ui/EmailLink';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+type LocalizedHref = React.ComponentProps<typeof Link>['href'];
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: 'primary' | 'secondary' | 'accent' | 'outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
-  href?: string;
-  isExternal?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+} & (
+  | { href?: undefined; isExternal?: false }
+  | { href: LocalizedHref; isExternal?: false }
+  | { href: string; isExternal?: false }
+  | { href: string; isExternal: true }
+);
+
+function isMailtoHref(href: LocalizedHref | string): href is string {
+  return typeof href === 'string' && href.startsWith('mailto:');
+}
+
+function isLocalizedHref(href: LocalizedHref | string): href is LocalizedHref {
+  return typeof href !== 'string' || href.startsWith('/');
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -23,7 +36,7 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    'inline-flex items-center justify-center font-medium rounded-btn transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none cursor-pointer';
+    'motion-control inline-flex items-center justify-center font-medium rounded-btn transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95 active:translate-y-0 disabled:opacity-50 disabled:pointer-events-none cursor-pointer';
 
   const sizeStyles = {
     sm: 'text-xs px-3.5 py-2 gap-1.5',
@@ -35,13 +48,13 @@ export const Button: React.FC<ButtonProps> = ({
     primary:
       'bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 shadow-sm hover:shadow-md hover:-translate-y-0.5',
     secondary:
-      'bg-slate-900 text-white hover:bg-slate-800 focus:ring-slate-700 shadow-sm hover:shadow-md hover:-translate-y-0.5',
+      'bg-slate-900 text-white hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 focus:ring-slate-700 shadow-sm hover:shadow-md hover:-translate-y-0.5',
     accent:
       'bg-accent-600 text-white hover:bg-accent-700 focus:ring-accent-500 shadow-sm hover:shadow-md hover:-translate-y-0.5',
     outline:
-      'bg-white text-slate-800 border border-slate-300 hover:bg-slate-50 hover:border-slate-400 focus:ring-primary-500 hover:-translate-y-0.5',
+      'bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 focus:ring-primary-500 hover:-translate-y-0.5',
     ghost:
-      'bg-transparent text-slate-700 hover:bg-slate-100 hover:text-slate-900 focus:ring-slate-400',
+      'bg-transparent text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white hover:-translate-y-0.5 focus:ring-slate-400',
   };
 
   const content = (
@@ -55,7 +68,7 @@ export const Button: React.FC<ButtonProps> = ({
   const combinedClasses = cn(baseStyles, sizeStyles[size], variantStyles[variant], className);
 
   if (href) {
-    if (isExternal) {
+    if (isExternal === true) {
       return (
         <a
           href={href}
@@ -67,11 +80,22 @@ export const Button: React.FC<ButtonProps> = ({
         </a>
       );
     }
-    return (
+    if (isMailtoHref(href)) {
+      return (
+        <EmailLink
+          email={href.slice('mailto:'.length)}
+          className={combinedClasses}
+        >
+          {content}
+        </EmailLink>
+      );
+    }
+    if (isLocalizedHref(href)) return (
       <Link href={href} className={combinedClasses}>
         {content}
       </Link>
     );
+    return <a href={href} className={combinedClasses}>{content}</a>;
   }
 
   return (
@@ -80,4 +104,3 @@ export const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
-

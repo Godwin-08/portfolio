@@ -1,20 +1,24 @@
 import { EducationItem } from '@/types';
 
 export const PROFILE = {
-  name: 'Godwin Elie Nougbolo',
-  shortName: 'Godwin Nougbolo',
+  name: 'Godwin Elie NOUGBOLO',
+  shortName: 'Godwin NOUGBOLO',
   title: 'Étudiant ingénieur en Informatique et Ingénierie des Données (IID)',
-  badge: 'Recherche PFA 2e année',
-  primaryFocus: 'Data Analysis',
-  growingFields: ['Data Engineering', 'Machine Learning'],
+  badge: 'Stage à partir de juillet 2027',
+  primaryFocus: 'Data Engineering · Data Analysis & Business Intelligence',
+  growingFields: ['Data Engineering', 'Data Science', 'Machine Learning', 'Deep Learning'],
   tagline: 'Comprendre → Analyser → Construire',
   corePhilosophy: 'Preuve > Affirmation',
   contact: {
     email: 'godwinelienougbolo@gmail.com',
+    phone: '+212 615 817 706',
     github: 'https://github.com/Godwin-08',
     linkedin: 'https://www.linkedin.com/in/godwin-elie-nougbolo',
-    location: 'Maroc',
-    cvPath: '/cv/CV_Godwin_Nougbolo.pdf',
+    location: {
+      fr: 'Khouribga, Maroc',
+      en: 'Khouribga, Morocco',
+    },
+    cvPath: null,
   },
   association: {
     current: {
@@ -28,28 +32,16 @@ export const PROFILE = {
   },
   education: [
     {
-      period: 'Depuis 2025',
-      degree: 'Cycle ingénieur — Informatique et Ingénierie des Données (IID)',
+      id: 'engineering',
       institution: 'ENSA Khouribga',
-      location: 'Khouribga, Maroc',
-      description: 'Formation d’ingénieur en informatique et ingénierie des données.',
-      specialties: [],
     },
     {
-      period: '2023–2025',
-      degree: 'DEUG Informatique Fondamentale',
+      id: 'deug',
       institution: 'Université Ibn Tofaïl',
-      location: 'Kénitra, Maroc',
-      description: 'Mention assez bien · 13/20.',
-      specialties: [],
     },
     {
-      period: '2022–2023',
-      degree: 'Baccalauréat Maths & SVT / Sciences de la Nature',
+      id: 'baccalaureate',
       institution: 'Collège Protestant Lomé Tokoin',
-      location: 'Togo',
-      description: 'Mention très bien.',
-      specialties: [],
     },
   ] as EducationItem[],
 };

@@ -1,62 +1,233 @@
-'use client';
-
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { ArrowLeft, BarChart3, BookOpenCheck, Database, Github, GitMerge, MapPinned, NotebookTabs } from 'lucide-react';
+import type { OlistAnalysisSections, ProjectDetailCopy, ProjectDetailImage } from '@/data/project-details';
+import { ProjectGallery, type ProjectGalleryLabels } from '@/components/projects/ProjectGallery';
+import { AlertTriangle, Database, ExternalLink, FileText, ListChecks, Star, Truck, Wallet } from 'lucide-react';
 
-const copy = {
-  fr: {
-    back: 'Retour aux projets', eyebrow: 'Projet académique · ENSA Khouribga', title: 'Olist — audit de données commerciales',
-    intro: 'Explorer la qualité, les délais de livraison et les signaux de satisfaction dans les données d’une marketplace e-commerce brésilienne.',
-    contextTitle: 'Contexte et question', context: 'Le projet étudie le jeu de données public Olist afin de relier les commandes, les livraisons, les avis, les clients et les vendeurs. Les questions centrales portent sur les retards, leur répartition géographique et leur association avec la satisfaction.',
-    roleTitle: 'Mon rôle dans le binôme', role: 'Projet académique réalisé à deux. L’historique audité du dépôt attribue 11 commits à Godwin-08, notamment autour de la structuration et de la génération des figures. Le notebook final reste la trace reproductible du travail partagé.',
-    dataTitle: 'Données et structure', data: 'Le notebook charge 9 tables relationnelles du dataset Olist : commandes, clients, articles, produits, vendeurs, paiements, avis, géolocalisation et traduction des catégories. Les données couvrent 2016 à 2018. Après les contrôles finaux, la table d’analyse compte 96 252 lignes.',
-    prepTitle: 'Préparer avant d’analyser', prep: 'Le travail commence par l’inspection des types, valeurs manquantes et clés. Les tables articles et paiements, qui contiennent plusieurs lignes par commande, sont agrégées avant les jointures. Les dates sont converties, les libellés géographiques normalisés, les doublons contrôlés et les avis ramenés à une observation par commande. Les tailles sont vérifiées après chaque jointure.',
-    analysisTitle: 'Questions, analyses, observations',
-    analyses: [['Le délai est-il associé à la note ?', 'La note moyenne est comparée par tranches de délai de livraison.', 'Dans les données étudiées, la note moyenne diminue lorsque le délai augmente.'], ['Les retards changent-ils la satisfaction observée ?', 'Les commandes à temps et en retard sont comparées sur leur note moyenne.', 'Le notebook obtient 4,29/5 à temps contre 2,27/5 en retard : une association nette, sans conclure à elle seule à une causalité.'], ['Où les retards se concentrent-ils ?', 'Le taux de retard est calculé par État client.', 'La visualisation met en évidence des écarts géographiques de taux de retard.']],
-    decisionsTitle: 'Choix de méthode', decisions: [['Agréger avant de joindre', 'Évite de multiplier artificiellement les lignes d’une commande lorsque paiements ou articles sont multi-lignes.'], ['Conserver une ligne par commande', 'Permet de comparer délais, frais, satisfaction et localisation dans une table d’analyse cohérente.'], ['Formuler les résultats avec prudence', 'Les graphiques montrent des associations dans les données historiques ; ils ne démontrent pas seuls une relation causale.']],
-    reproducibilityTitle: 'Reproductibilité', reproducibility: 'Le notebook project_notebook_final.ipynb documente le chargement, les contrôles, les transformations, les jointures et les figures. Il constitue le point d’entrée pour rejouer l’analyse avec les fichiers CSV du dépôt.',
-    resultsTitle: 'Résultats à retenir', results: ['96 252 lignes dans la table finale après les contrôles de cohérence.', 'Les commandes en retard ont une note moyenne observée plus faible que celles livrées à temps.', 'Les retards et notes diffèrent selon les zones géographiques étudiées.'],
-    reflectionTitle: 'Avec le recul', reflection: 'Le projet est une analyse académique de données historiques. Les résultats décrivent le dataset étudié et restent dépendants de sa couverture. Une suite possible serait d’évaluer un modèle prédictif séparé, avec une validation adaptée, plutôt que d’en inférer un à partir des seules visualisations.',
-    techTitle: 'Technologies', source: 'Voir le dépôt Olist'
-  },
-  en: {
-    back: 'Back to projects', eyebrow: 'Academic project · ENSA Khouribga', title: 'Olist — commercial data audit',
-    intro: 'Exploring data quality, delivery times, and satisfaction signals in a Brazilian e-commerce marketplace dataset.',
-    contextTitle: 'Context and question', context: 'The project studies the public Olist dataset to connect orders, deliveries, reviews, customers, and sellers. Its central questions focus on delays, their geographic distribution, and their association with satisfaction.',
-    roleTitle: 'My role in the pair project', role: 'An academic pair project. The audited repository history attributes 11 commits to Godwin-08, notably around structuring and generating figures. The final notebook is the reproducible record of the shared work.',
-    dataTitle: 'Data and structure', data: 'The notebook loads 9 relational tables from the Olist dataset: orders, customers, items, products, sellers, payments, reviews, geolocation, and category translations. The data spans 2016 to 2018. After final checks, the analysis table contains 96,252 rows.',
-    prepTitle: 'Prepare before analysing', prep: 'The work starts by inspecting types, missing values, and keys. Item and payment tables have multiple rows per order, so they are aggregated before joins. Dates are converted, geographic labels normalized, duplicates checked, and reviews reduced to one observation per order. Row counts are checked after every join.',
-    analysisTitle: 'Questions, analyses, observations', analyses: [['Is delivery time associated with ratings?', 'Average ratings are compared across delivery-time buckets.', 'In the studied data, average ratings decrease as delivery time increases.'], ['Do late deliveries change observed satisfaction?', 'On-time and late orders are compared through their average rating.', 'The notebook reports 4.29/5 on time versus 2.27/5 late: a clear association, without treating it alone as causation.'], ['Where are delays concentrated?', 'The late-delivery rate is calculated by customer state.', 'The chart highlights geographic variation in delivery-delay rates.']],
-    decisionsTitle: 'Method choices', decisions: [['Aggregate before joining', 'This prevents artificially multiplying order rows when payments or items contain multiple records.'], ['Keep one row per order', 'This makes delivery time, freight, satisfaction, and location comparable in one consistent analysis table.'], ['State results cautiously', 'The charts show associations in historical data; they do not independently establish causal relationships.']],
-    reproducibilityTitle: 'Reproducibility', reproducibility: 'The project_notebook_final.ipynb notebook documents loading, checks, transformations, joins, and figures. It is the entry point for rerunning the analysis with the repository CSV files.',
-    resultsTitle: 'Key findings', results: ['96,252 rows in the final table after consistency checks.', 'Late orders have a lower observed average rating than on-time orders.', 'Delays and ratings vary across the studied geographic areas.'],
-    reflectionTitle: 'In retrospect', reflection: 'This is an academic analysis of historical data. Results describe the studied dataset and depend on its coverage. A next step would be to evaluate a separate predictive model with appropriate validation, rather than infer one from visualizations alone.',
-    techTitle: 'Technologies', source: 'View the Olist repository'
-  }
-} as const;
+type OlistCopy = ProjectDetailCopy & { olistAnalysis: OlistAnalysisSections };
 
-export function OlistCaseStudy() {
-  const isEnglish = usePathname().startsWith('/en');
-  const t = copy[isEnglish ? 'en' : 'fr'];
-  const localePath = (slug: string) => isEnglish ? `/en/projects/${slug}` : `/projects/${slug}`;
-  return <article className="max-w-5xl mx-auto pb-20 space-y-16">
-    <Link href={isEnglish ? '/en/projects' : '/projects'} className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded"><ArrowLeft className="w-4 h-4" aria-hidden="true" />{t.back}</Link>
-    <header className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center"><div className="lg:col-span-5 space-y-5"><p className="text-xs font-bold uppercase tracking-widest text-primary-700">{t.eyebrow}</p><h1 className="text-4xl sm:text-5xl font-heading font-extrabold tracking-tight text-slate-900">{t.title}</h1><p className="text-lg leading-relaxed text-slate-700">{t.intro}</p><a href="https://github.com/Godwin-08/Projet-Traitement-des-donn-es-" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-btn border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"><Github className="w-4 h-4" aria-hidden="true" />{t.source}</a></div><Figure src="/images/projects/olist-delais-livraison.png" alt={isEnglish ? 'Olist delivery-time analysis chart' : 'Graphique d’analyse des délais de livraison Olist'} caption={isEnglish ? 'Delivery-time analysis generated by the project notebook.' : 'Analyse des délais de livraison générée par le notebook du projet.'} priority /></header>
-    <Section icon={<BookOpenCheck />} title={t.contextTitle}><p>{t.context}</p><div className="mt-5 rounded-xl border border-primary-100 bg-primary-50/60 p-5"><h3 className="font-heading font-bold text-slate-900">{t.roleTitle}</h3><p className="mt-2">{t.role}</p></div></Section>
-    <Section icon={<Database />} title={t.dataTitle}><p>{t.data}</p><Figure src="/images/projects/olist-schema-relations.png" alt={isEnglish ? 'Olist relational data schema' : 'Schéma relationnel des données Olist'} caption={isEnglish ? 'Relational schema used to frame the analysis.' : 'Schéma relationnel utilisé pour cadrer l’analyse.'} /></Section>
-    <Section icon={<GitMerge />} title={t.prepTitle}><p>{t.prep}</p></Section>
-    <Section icon={<BarChart3 />} title={t.analysisTitle}><div className="space-y-10">{t.analyses.map(([question, method, observation], index) => <div key={question} className="grid lg:grid-cols-2 gap-6 items-center"><div><p className="text-xs font-bold uppercase tracking-wider text-primary-700">{question}</p><p className="mt-3 text-sm">{method}</p><p className="mt-3 border-l-2 border-accent-500 pl-3 text-sm font-medium text-slate-800">{observation}</p></div>{index === 0 ? <Figure src="/images/projects/olist-delai-note.png" alt={isEnglish ? 'Average rating by delivery time' : 'Note moyenne selon le délai de livraison'} caption={isEnglish ? 'Rating by delivery-time bucket.' : 'Note selon les tranches de délai.'} /> : index === 1 ? <Figure src="/images/projects/olist-flux-etat-client-vendeur.png" alt={isEnglish ? 'Flow between customer and seller states' : 'Flux entre États clients et vendeurs'} caption={isEnglish ? 'Customer-to-seller state flow.' : 'Flux entre États clients et vendeurs.'} /> : <Figure src="/images/projects/olist-taux-retard-etat.png" alt={isEnglish ? 'Late delivery rate by customer state' : 'Taux de retard par État client'} caption={isEnglish ? 'Delay rate by customer state.' : 'Taux de retard par État client.'} />}</div>)}</div></Section>
-    <Section icon={<GitMerge />} title={t.decisionsTitle}><div className="grid md:grid-cols-3 gap-4">{t.decisions.map(([title, text]) => <div key={title} className="rounded-xl border border-slate-200 bg-white p-5"><h3 className="font-heading font-bold text-slate-900">{title}</h3><p className="mt-2 text-sm">{text}</p></div>)}</div></Section>
-    <Section icon={<NotebookTabs />} title={t.reproducibilityTitle}><p>{t.reproducibility}</p></Section>
-    <Section icon={<MapPinned />} title={t.resultsTitle}><ul className="grid sm:grid-cols-3 gap-3">{t.results.map((result) => <li key={result} className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm">{result}</li>)}</ul></Section>
-    <Section icon={<BookOpenCheck />} title={t.reflectionTitle}><p>{t.reflection}</p></Section>
-    <section className="border-t border-slate-200 pt-8"><h2 className="font-heading text-xl font-bold text-slate-900">{t.techTitle}</h2><div className="mt-4 flex flex-wrap gap-2">{['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'Jupyter'].map((item) => <span key={item} className="rounded-md border border-slate-200 bg-white px-2.5 py-1 font-mono text-xs text-slate-700">{item}</span>)}</div></section>
-    <nav className="flex items-center justify-between border-t border-slate-200 pt-8" aria-label={isEnglish ? 'Project navigation' : 'Navigation entre les projets'}><Link href={localePath('gtm')} className="text-sm font-semibold text-slate-600 hover:text-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded">← GTM</Link><Link href={localePath('afc')} className="text-right text-sm font-semibold text-slate-600 hover:text-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded">AFC →</Link></nav>
-  </article>;
+interface OlistCaseStudyProps {
+  copy: OlistCopy;
+  locale: 'fr' | 'en';
+  galleryLabels: ProjectGalleryLabels;
+  documentsTitle: string;
+  limitationsTitle: string;
 }
 
-function Section({ icon, title, children }: { icon: ReactNode; title: string; children: ReactNode }) { return <section className="space-y-4"><h2 className="flex items-center gap-2 font-heading text-2xl font-bold text-slate-900"><span className="text-primary-600">{icon}</span>{title}</h2><div className="text-base leading-relaxed text-slate-700">{children}</div></section>; }
-function Figure({ src, alt, caption, priority = false }: { src: string; alt: string; caption: string; priority?: boolean }) { return <figure className="mt-5 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xs"><Image src={src} alt={alt} width={1200} height={700} priority={priority} className="h-auto w-full" /><figcaption className="border-t border-slate-100 px-4 py-3 text-xs text-slate-500">{caption}</figcaption></figure>; }
+export function OlistCaseStudy({
+  copy,
+  locale,
+  galleryLabels,
+  documentsTitle,
+  limitationsTitle,
+}: OlistCaseStudyProps) {
+  const figures = copy.gallery;
+  const labels = locale === 'en'
+    ? {
+        question: 'Question',
+        reading: 'How to read it',
+        observation: 'What we see',
+        interpretation: 'Interpretation',
+        businessInterest: 'Why it matters',
+        limitation: 'Limit',
+        finalDataset: 'Final analysis table',
+      }
+    : {
+        question: 'Question étudiée',
+        reading: 'Comment lire la figure',
+        observation: 'Résultat observé',
+        interpretation: 'Interprétation',
+        businessInterest: 'À quoi ça sert',
+        limitation: 'Limite',
+        finalDataset: 'Table d’analyse finale',
+      };
+
+  return (
+    <div className="space-y-12" data-olist-case-study>
+      <section className="space-y-5" aria-labelledby="olist-data-model-title">
+        <SectionHeading
+          id="olist-data-model-title"
+          icon={<Database className="h-5 w-5" />}
+          title={copy.olistAnalysis.dataModel.title}
+        />
+        <p className="max-w-4xl text-base leading-relaxed text-slate-700 dark:text-slate-300">
+          {copy.olistAnalysis.dataModel.introduction}
+        </p>
+        <FigureAnalysis image={figures[0]} galleryId="olist-schema-gallery" labels={galleryLabels} analysisLabels={labels} />
+      </section>
+
+      <section className="space-y-5" aria-labelledby="olist-preparation-title">
+        <SectionHeading
+          id="olist-preparation-title"
+          icon={<ListChecks className="h-5 w-5" />}
+          title={copy.olistAnalysis.preparation.title}
+        />
+        <p className="max-w-4xl text-base leading-relaxed text-slate-700 dark:text-slate-300">
+          {copy.olistAnalysis.preparation.introduction}
+        </p>
+        <ol className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {copy.olistAnalysis.preparation.steps.map((step, index) => (
+            <li key={step.value} className="min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-xs dark:border-slate-700 dark:bg-slate-800">
+              <span data-project-accent className="font-mono text-xs font-bold">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <strong className="mt-2 block break-words font-heading text-2xl font-extrabold text-slate-900 dark:text-white">
+                {step.value}
+              </strong>
+              <span className="mt-1 block text-sm font-bold text-slate-800 dark:text-slate-200">{step.title}</span>
+              <span className="mt-2 block text-sm leading-relaxed text-slate-600 dark:text-slate-300">{step.description}</span>
+            </li>
+          ))}
+        </ol>
+        <p className="rounded-xl border border-primary-100 bg-primary-50/50 p-5 text-sm leading-relaxed text-slate-700 dark:border-primary-800 dark:bg-primary-900/30 dark:text-slate-300">
+          <strong className="text-slate-900 dark:text-white">{labels.finalDataset}: </strong>
+          {copy.olistAnalysis.preparation.conclusion}
+        </p>
+      </section>
+
+      <section className="space-y-5" aria-labelledby="olist-delivery-title">
+        <SectionHeading
+          id="olist-delivery-title"
+          icon={<Truck className="h-5 w-5" />}
+          title={copy.olistAnalysis.delivery.title}
+        />
+        <p className="max-w-4xl text-base leading-relaxed text-slate-700 dark:text-slate-300">
+          {copy.olistAnalysis.delivery.introduction}
+        </p>
+        <MetricGrid metrics={copy.olistAnalysis.delivery.metrics} />
+        <FigureAnalysis image={figures[1]} galleryId="olist-delivery-gallery" labels={galleryLabels} analysisLabels={labels} />
+      </section>
+
+      <section className="space-y-5" aria-labelledby="olist-satisfaction-title">
+        <SectionHeading
+          id="olist-satisfaction-title"
+          icon={<Star className="h-5 w-5" />}
+          title={copy.olistAnalysis.satisfaction.title}
+        />
+        <p className="max-w-4xl text-base leading-relaxed text-slate-700 dark:text-slate-300">
+          {copy.olistAnalysis.satisfaction.introduction}
+        </p>
+        <MetricGrid metrics={copy.olistAnalysis.satisfaction.metrics} />
+        <FigureAnalysis image={figures[2]} galleryId="olist-ratings-gallery" labels={galleryLabels} analysisLabels={labels} />
+      </section>
+
+      <section className="space-y-5" aria-labelledby="olist-financial-title">
+        <SectionHeading
+          id="olist-financial-title"
+          icon={<Wallet className="h-5 w-5" />}
+          title={copy.olistAnalysis.financial.title}
+        />
+        <p className="max-w-4xl text-base leading-relaxed text-slate-700 dark:text-slate-300">
+          {copy.olistAnalysis.financial.introduction}
+        </p>
+        <MetricGrid metrics={copy.olistAnalysis.financial.indicators} />
+        <p className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-relaxed text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
+          {copy.olistAnalysis.financial.note}
+        </p>
+      </section>
+
+      <section className="space-y-5" aria-labelledby="olist-limitations-title">
+        <SectionHeading
+          id="olist-limitations-title"
+          icon={<AlertTriangle className="h-5 w-5" />}
+          title={limitationsTitle}
+        />
+        <ul className="space-y-3 rounded-xl border border-amber-200 bg-amber-50/70 p-5 text-sm leading-relaxed text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
+          {copy.limitations.map((limitation) => (
+            <li key={limitation} className="flex items-start gap-3">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-700" aria-hidden="true" />
+              <span>{limitation}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {copy.documents && copy.documents.length > 0 && (
+        <section className="space-y-4" aria-labelledby="olist-documents-title">
+          <h2 id="olist-documents-title" className="font-heading text-xl font-bold text-slate-900 dark:text-white">
+            {documentsTitle}
+          </h2>
+          <ul className="flex flex-wrap gap-3">
+            {copy.documents.map((document) => (
+              <li key={document.href}>
+                <a
+                  href={document.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="project-detail__resource motion-control inline-flex min-h-11 items-center gap-2 rounded-btn border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+                  data-project-document
+                >
+                  <FileText className="h-4 w-4" aria-hidden="true" />
+                  {document.label}
+                  <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </div>
+  );
+}
+
+function FigureAnalysis({
+  image,
+  galleryId,
+  labels,
+  analysisLabels,
+}: {
+  image: ProjectDetailImage | undefined;
+  galleryId: string;
+  labels: ProjectGalleryLabels;
+  analysisLabels: Record<'question' | 'reading' | 'observation' | 'interpretation' | 'businessInterest' | 'limitation', string>;
+}) {
+  if (!image?.analysis) return null;
+
+  const analysis = image.analysis;
+  const items = [
+    [analysisLabels.question, analysis.question],
+    [analysisLabels.reading, analysis.reading],
+    [analysisLabels.observation, analysis.observation],
+    [analysisLabels.interpretation, analysis.interpretation],
+    [analysisLabels.businessInterest, analysis.businessInterest],
+    [analysisLabels.limitation, analysis.limitation],
+  ] as const;
+
+  return (
+    <div className="grid min-w-0 gap-5 lg:grid-cols-2 lg:items-start">
+      <ProjectGallery images={[image]} labels={labels} showTitle={false} headingId={`${galleryId}-title`} />
+      <dl className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-xs dark:border-slate-700 dark:bg-slate-800 sm:p-6">
+        {items.map(([term, description]) => (
+          <div key={term}>
+            <dt className="text-sm font-bold text-slate-900 dark:text-white">{term}</dt>
+            <dd className="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300">{description}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
+}
+
+function MetricGrid({ metrics }: { metrics: readonly { value: string; label: string; detail: string }[] }) {
+  return (
+    <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      {metrics.map((metric) => (
+        <li key={`${metric.value}-${metric.label}`} className="min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-xs dark:border-slate-700 dark:bg-slate-800">
+          <strong data-project-accent className="block break-words font-heading text-2xl font-extrabold leading-tight">
+            {metric.value}
+          </strong>
+          <span className="mt-2 block text-sm font-bold text-slate-800 dark:text-slate-200">{metric.label}</span>
+          <span className="mt-1 block text-sm leading-relaxed text-slate-600 dark:text-slate-300">{metric.detail}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function SectionHeading({ id, icon, title }: { id: string; icon: ReactNode; title: string }) {
+  return (
+    <h2 id={id} className="flex items-center gap-2 font-heading text-2xl font-bold text-slate-900 dark:text-white">
+      <span data-project-accent aria-hidden="true">{icon}</span>
+      {title}
+    </h2>
+  );
+}

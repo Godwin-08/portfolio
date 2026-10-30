@@ -1,10 +1,12 @@
-'use client';
-
 import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowUpRight, Star } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
+import { ArrowUpRight, CalendarDays, HeartPulse, ShoppingBag, Star } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
-import { Project } from '@/types';
+import type { Project } from '@/types';
+import { getCategorySlug } from '@/data/projects';
+import { SKILLS } from '@/data/skills';
 import { cn } from '@/lib/utils';
 
 interface ProjectCardProps {
@@ -12,149 +14,166 @@ interface ProjectCardProps {
   featured?: boolean;
 }
 
-export function ProjectCard({
-  project,
-  featured = false,
-}: ProjectCardProps) {
+const EDITORIAL_VISUALS: Record<
+  string,
+  { mark: string; Icon: LucideIcon; surface: string; ink: string; accent: string }
+> = {
+  'revision-flow': {
+    mark: 'RF',
+    Icon: CalendarDays,
+    surface: 'bg-lilac-100',
+    ink: 'text-lilac-900',
+    accent: 'text-primary-700',
+  },
+  'sante-scolaire': {
+    mark: 'SS',
+    Icon: HeartPulse,
+    surface: 'bg-green-100',
+    ink: 'text-accent-900',
+    accent: 'text-coral-700',
+  },
+  novastore: {
+    mark: 'NS',
+    Icon: ShoppingBag,
+    surface: 'bg-coral-100',
+    ink: 'text-coral-900',
+    accent: 'text-primary-700',
+  },
+};
+
+function ProjectEditorialVisual({ project, title }: { project: Project; title: string }) {
+  const ui = useTranslations('projects.card');
+  const visual = EDITORIAL_VISUALS[project.slug];
+
+  if (!visual) {
+    return (
+      <div className="flex h-full items-center justify-center bg-paper p-6 text-center font-heading text-xl font-extrabold text-ink">
+        {title}
+      </div>
+    );
+  }
+
+  const { Icon } = visual;
+
+  return (
+    <div
+      className={cn('relative flex h-full items-center justify-center overflow-hidden', visual.surface, visual.ink)}
+      aria-hidden="true"
+    >
+      <span className="absolute -right-10 -top-16 h-52 w-52 rounded-full border-[24px] border-white/45" />
+      <span className="absolute -bottom-24 -left-10 h-56 w-56 rounded-full border border-current/15" />
+      <div className="relative flex items-center gap-4 sm:gap-6">
+        <Icon className={cn('h-10 w-10 shrink-0 sm:h-14 sm:w-14', visual.accent)} strokeWidth={1.5} />
+        <span className="font-heading text-6xl font-extrabold leading-none tracking-[-0.08em] sm:text-8xl">
+          {visual.mark}
+        </span>
+      </div>
+      <span className="absolute bottom-4 left-4 rounded-full bg-white/80 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.16em] text-ink">
+        {ui('editorialVisual')}
+      </span>
+      <span className="absolute bottom-5 right-5 h-2.5 w-2.5 rounded-full bg-coral-500" />
+    </div>
+  );
+}
+
+export function ProjectCard({ project }: ProjectCardProps) {
+  const copy = useTranslations('projects.cards');
+  const ui = useTranslations('projects.card');
+  const categories = useTranslations('projects.categories');
+  const skillLabels = useTranslations('skills.names');
+  const title = copy(`${project.id}.title`);
+  const getSkillLabel = (name: string) => {
+    const skill = SKILLS.find((entry) => entry.name.toLowerCase() === name.toLowerCase());
+    return skill ? skillLabels(skill.id) : name;
+  };
   const hasCaseStudy = Boolean(project.caseStudy);
 
   return (
     <article
       className={cn(
-        'group relative flex h-full flex-col overflow-hidden rounded-card border border-slate-200/90 bg-white shadow-card transition-all duration-300 hover:shadow-card-hover',
-        'focus-within:ring-2 focus-within:ring-primary-500/30',
-        project.isFlagship && 'ring-1 ring-accent-500/30',
-        featured && 'md:col-span-2'
+        'project-card group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-card transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1.5 hover:border-primary-300 dark:hover:border-primary-700 hover:shadow-card-hover',
+        'focus-within:outline-none focus-within:ring-2 focus-within:ring-primary-500 focus-within:ring-offset-2',
+        project.isFlagship && 'border-accent-300 dark:border-accent-700'
       )}
     >
-      {/* Visual */}
-      <div
-        className={cn(
-          'relative overflow-hidden bg-slate-100',
-          featured ? 'aspect-[16/9]' : 'aspect-[16/10]'
-        )}
-      >
-        {project.image ? (
-          <Image
-            src={project.image}
-            alt={`Aperçu du projet ${project.title}`}
-            fill
-            sizes={
-              featured
-                ? '(max-width: 768px) 100vw, 66vw'
-                : '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-            }
-            className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-          />
-        ) : (
-          <div
-            className="absolute inset-0"
-            style={{ backgroundColor: project.accentColor }}
-            aria-hidden="true"
-          />
-        )}
+      <div data-project-preview="true" className="shrink-0">
+        <div
+          data-project-labels="true"
+          className="flex min-h-12 flex-wrap items-center gap-x-2 gap-y-1.5 border-b border-slate-100 dark:border-slate-800 px-3 py-2 sm:px-4"
+        >
+          <span className="inline-flex min-h-8 max-w-full shrink-0 items-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1.5 text-xs font-bold leading-snug text-ink">
+            {categories(getCategorySlug(project.category))}
+          </span>
+          <div className="ml-auto flex shrink-0 items-center gap-1.5">
+            {project.isFlagship && (
+              <span className="inline-flex min-h-8 items-center gap-1 rounded-full bg-white dark:bg-slate-800 px-2.5 py-1.5 text-xs font-semibold text-ink border border-transparent dark:border-slate-700">
+                <Star className="h-3.5 w-3.5 fill-coral-500 text-coral-600" aria-hidden="true" />
+                {ui('flagship')}
+              </span>
+            )}
+            <span className="rounded-full bg-ink/85 dark:bg-slate-800 px-2.5 py-1.5 font-mono text-[10px] font-semibold text-white dark:text-slate-200 border border-transparent dark:border-slate-700">
+              {project.order.toString().padStart(2, '0')}
+            </span>
+          </div>
+        </div>
 
         <div
-          className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent"
-          aria-hidden="true"
-        />
-
-        {/* Top information */}
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-3 p-3 sm:p-4">
-          <span className="rounded-md bg-white/90 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-700 shadow-sm backdrop-blur-sm">
-            {project.category}
-          </span>
-
-          {project.isFlagship && (
-            <span className="inline-flex items-center gap-1.5 rounded-md bg-white/90 px-2 py-1 text-[10px] font-semibold text-slate-800 shadow-sm backdrop-blur-sm">
-              <Star
-                className="h-3 w-3 fill-accent-500 text-accent-500"
-                aria-hidden="true"
-              />
-              Référence
-            </span>
+          data-project-visual="true"
+          className={cn(
+            'relative overflow-hidden',
+            project.slug === 'afc'
+              ? 'aspect-[4/3] border border-slate-300 bg-slate-100'
+              : 'aspect-[16/10] bg-paper'
           )}
-        </div>
-
-        {/* Bottom visible information */}
-        <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
-          <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-white/75">
-            {project.context}
-          </p>
-
-          <h2 className="line-clamp-2 font-heading text-lg font-bold text-white sm:text-xl">
-            {project.title}
-          </h2>
-        </div>
-
-        {/* Desktop / keyboard reveal */}
-        <div className="absolute inset-0 flex translate-y-full flex-col justify-end bg-slate-950/94 p-5 text-white transition-transform duration-300 group-hover:translate-y-0 group-focus-within:translate-y-0 sm:p-6">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-white/65">
-            {project.category}
-          </p>
-
-          <h3 className="mt-1 font-heading text-lg font-bold sm:text-xl">
-            {project.title}
-          </h3>
-
-          <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-slate-200">
-            {project.summary}
-          </p>
-
-          <div className="mt-4 flex flex-wrap gap-1.5">
-            {project.skills.slice(0, 4).map((skill) => (
-              <span
-                key={skill}
-                className="rounded-md bg-white/10 px-2 py-1 font-mono text-[10px] text-slate-100"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-
-          <Link
-            href={hasCaseStudy ? `/projects/${project.slug}` : '/projects'}
-            className="mt-5 inline-flex w-fit items-center gap-1.5 rounded-btn bg-primary-600 px-3.5 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300"
-          >
-            <span>
-              {hasCaseStudy ? 'Lire l’étude de cas' : 'Voir le projet'}
-            </span>
-            <ArrowUpRight
-              className="h-3.5 w-3.5"
-              aria-hidden="true"
+        >
+          {project.image ? (
+            <Image
+              src={project.image}
+              alt={ui('imageAlt', { title })}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-contain p-1 transition-transform duration-500 group-hover:scale-[1.035] motion-reduce:group-hover:scale-100"
             />
-          </Link>
+          ) : (
+            <ProjectEditorialVisual project={project} title={title} />
+          )}
         </div>
       </div>
 
-      {/* Mobile / non-hover fallback */}
-      <div className="flex flex-1 flex-col p-4 sm:hidden">
-        <p className="line-clamp-2 text-xs leading-relaxed text-slate-600">
-          {project.tagline}
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
+        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-primary-800 dark:text-coral-300">
+          {copy(`${project.id}.context`)}
+        </p>
+        <h2 className="mt-2 font-heading text-xl font-extrabold leading-tight tracking-tight text-ink sm:text-[1.35rem]">
+          <Link
+            data-project-title
+            href={hasCaseStudy ? { pathname: '/projects/[slug]', params: { slug: project.slug } } : '/projects'}
+            className="rounded-sm transition-colors hover:text-primary-800 dark:hover:text-primary-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
+          >
+            {title}
+          </Link>
+        </h2>
+        <p className="mt-3 flex-1 text-sm leading-relaxed text-body sm:text-[0.925rem]">
+          {copy(`${project.id}.summary`)}
         </p>
 
-        <div className="mt-3 flex flex-wrap gap-1.5">
+        <ul className="mt-4 flex flex-wrap gap-1.5" aria-label={ui('technologiesLabel')}>
           {project.skills.slice(0, 4).map((skill) => (
-            <span
+            <li
               key={skill}
-              className="rounded-md border border-slate-200/70 bg-slate-50 px-2 py-0.5 font-mono text-[10px] text-slate-600"
+              className="rounded-full border border-slate-300 dark:border-slate-700 bg-paper px-2.5 py-1 font-mono text-xs font-medium text-slate-800 dark:text-slate-200"
             >
-              {skill}
-            </span>
+              {getSkillLabel(skill)}
+            </li>
           ))}
-        </div>
+        </ul>
 
         <Link
-          href={hasCaseStudy ? `/projects/${project.slug}` : '/projects'}
-          className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-btn bg-slate-900 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-primary-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+          href={hasCaseStudy ? { pathname: '/projects/[slug]', params: { slug: project.slug } } : '/projects'}
+          className="motion-control mt-5 inline-flex min-h-10 w-fit items-center gap-2 border-b border-primary-700 pb-1 text-sm font-bold text-primary-800 transition-colors hover:-translate-y-0.5 hover:border-coral-600 hover:text-coral-900 dark:border-coral-400 dark:text-coral-300 dark:hover:border-coral-300 dark:hover:text-coral-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 dark:focus-visible:ring-coral-400"
         >
-          <span>
-            {hasCaseStudy ? 'Lire l’étude de cas' : 'Voir le projet'}
-          </span>
-          <ArrowUpRight
-            className="h-3.5 w-3.5"
-            aria-hidden="true"
-          />
+          <span>{ui('caseStudy')}</span>
+          <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
         </Link>
       </div>
     </article>

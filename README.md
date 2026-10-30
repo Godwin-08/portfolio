@@ -1,102 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-# Portfolio Professionnel — Godwin Elie Nougbolo
+# Godwin Elie NOUGBOLO — Portfolio
 
-## Getting Started
-Portfolio personnel et professionnel de **Godwin Elie Nougbolo**, étudiant ingénieur en 2e année en *Informatique et Ingénierie des Données (IID)*.
+Portfolio professionnel de Godwin Elie NOUGBOLO, étudiant ingénieur en Informatique et Ingénierie des Données à l’ENSA Khouribga. Il présente son parcours, ses compétences et ses projets à travers une identité visuelle contrastée et expressive : tons encre et papier, accents cobalt et corail, typographie éditoriale et visuels issus des projets.
 
-First, run the development server:
-## 🚀 Stack Technique
+## Contenu
+
+- Accueil, présentation et contact, disponibles en français et en anglais.
+- Projets filtrables par catégorie et compétence, avec leurs études de cas.
+- Métadonnées localisées, navigation accessible au clavier et prise en charge de la préférence de réduction des animations.
+- Présentation adaptée aux écrans mobiles et de bureau.
+
+Le français est la langue par défaut; les pages anglaises utilisent le préfixe `/en`. Les métadonnées canoniques et sociales absolues nécessitent `NEXT_PUBLIC_SITE_URL` lorsqu’un domaine de production est défini.
+
+## Technologies
+
+- Next.js 16.4.2 (App Router), React 19 et TypeScript
+- Tailwind CSS 4
+- `next-intl` pour les traductions et le routage FR/EN
+- Motion (`motion/react`) pour les animations
+- MDX, Lucide React
+- Vitest, Testing Library et Playwright (Chromium)
+
+## Installation et développement
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-- **Framework** : Next.js 14 (App Router)
-- **Langage** : TypeScript
-- **Styling** : Tailwind CSS
-- **Animations** : Framer Motion (respect de `prefers-reduced-motion`)
-- **Icônes** : Lucide React
-- **Internationalisation (i18n)** : `next-intl` (FR / EN)
-- **Contenu** : MDX & Data Layer typé
-- **Tests** : Vitest
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-## 📁 Arborescence du Projet
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-```
-portofolio/
-├── messages/               # Fichiers de traductions (fr.json, en.json)
-├── public/                 # Assets statiques
-│   ├── cv/                 # CV téléchargeable
-│   ├── icons/              # Icônes et favicons
-│   └── images/             # Images et portraits
-├── src/
-│   ├── app/                # App Router Next.js
-│   │   ├── about/          # Page À Propos
-│   │   ├── contact/        # Page Contact
-│   │   ├── projects/       # Page Projets et [slug] études de cas
-│   │   ├── globals.css     # Styles globaux Tailwind
-│   │   ├── layout.tsx      # Layout racine
-│   │   └── page.tsx        # Page d'accueil
-│   ├── components/         # Composants UI réutilisables
-│   │   ├── home/           # Sections Hero, Skills, Projets Phares, Méthode
-│   │   ├── layout/         # Navbar, Footer
-│   │   ├── projects/       # Cartes projets, Filtres, Études de cas
-│   │   └── ui/             # Primitives UI (Button, Badge, etc.)
-│   ├── content/            # Contenu MDX des projets
-│   │   └── projects/       # gtm.mdx, olist.mdx, afc.mdx
-│   ├── data/               # Source de données découplée
-│   │   ├── profile.ts      # Profil, bio, parcours, philosophie
-│   │   ├── projects.ts     # Données des projets et métriques
-│   │   └── skills.ts       # Compétences et mapping vers les projets
-│   ├── i18n/               # Configuration de routage next-intl
-│   │   ├── routing.ts      # Locales supportées (fr, en)
-│   │   └── request.ts      # Chargement dynamique des messages
-│   ├── lib/                # Utilitaires (cn, helpers)
-│   ├── styles/             # Tokens CSS
-│   └── types/              # Définitions TypeScript
-├── tests/                  # Tests unitaires Vitest
-├── tailwind.config.ts      # Configuration Tailwind (couleurs, polices)
-├── tsconfig.json           # Configuration TypeScript & alias
-└── package.json            # Scripts et dépendances
 ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-## 🛠️ Commandes Principales
+Le serveur de développement est disponible à l’adresse [http://localhost:3000](http://localhost:3000).
 
-## Learn More
+## Vérifications
+
 ```bash
-# Lancer le serveur de développement
-npm run dev
-
-To learn more about Next.js, take a look at the following resources:
-# Exécuter les vérifications de lint
-npm run lint
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-# Lancer la suite de tests unitaires
-npm test
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-# Compiler pour la production (SSG / Build Next.js)
-npm run build
-
-## Deploy on Vercel
-# Démarrer en mode production
-npm start
+npm test                 # tests unitaires
+npm run type-check       # TypeScript
+npm run lint             # ESLint
+npm run build            # build de production
+npx playwright install chromium  # installation initiale du navigateur
+npm run start            # démarrer le serveur de production dans un terminal
+npm run test:e2e         # lancer Chromium dans un autre terminal
 ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-## 🎯 Principes Clés
+Les tests E2E ciblent le serveur à `http://localhost:3000`. Lancez `npm run build`, puis `npm run start` dans un terminal avant `npm run test:e2e` dans un second. Pour utiliser une autre adresse, définissez `PLAYWRIGHT_BASE_URL` avant de lancer les tests.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-1. **Preuve > Affirmation** : Valorisation des projets, décisions techniques documentées et métriques réelles plutôt que des adjectifs vagues.
-2. **Fil rouge** : *Comprendre → Analyser → Construire*.
-3. **Thème clair uniquement** : Interface sobre, éditoriale et lisible.
+## Déploiement Vercel et assistant IA
+
+L’assistant appelle Cloudflare Workers AI côté serveur. Les identifiants Cloudflare ne doivent jamais être préfixés par `NEXT_PUBLIC_`, ajoutés au dépôt ou affichés dans les journaux. Sans identifiants, l’application conserve le moteur local de secours.
+
+| Variable | Production | Preview | Development |
+| --- | --- | --- | --- |
+| `CLOUDFLARE_ACCOUNT_ID` | À configurer si l’IA Cloudflare est activée | Facultative; utiliser un compte de test séparé ou laisser le moteur local | Facultative dans le `.env.local` ignoré par Git |
+| `CLOUDFLARE_API_TOKEN` | Secret Vercel, avec les permissions minimales nécessaires à Workers AI | Secret de test distinct, ou non configuré | Secret local uniquement dans le `.env.local` ignoré |
+| `CLOUDFLARE_AI_MODEL` | `@cf/meta/llama-3.2-3b-instruct` | Même modèle si les appels de Preview sont autorisés | Facultative; le code utilise ce modèle par défaut |
+| `NEXT_PUBLIC_SITE_URL` | Origine HTTPS canonique du site | URL stable de Preview si les métadonnées de cette version doivent être absolues | `http://localhost:3000` |
+
+Dans **Vercel → projet → Settings → Environment Variables**, affectez chaque variable uniquement aux environnements indiqués. Les deux variables `CLOUDFLARE_*` sensibles restent côté serveur. Séparez les identifiants Production et Preview, surveillez les quotas Cloudflare et ne fournissez pas de jeton de production aux previews non fiables.
+
+### Limitation des requêtes
+
+La route limite également chaque adresse suivie à 15 requêtes par minute dans la mémoire de chaque instance. Sur Vercel, elle utilise l’en-tête `x-vercel-forwarded-for` fourni par la plateforme plutôt que l’en-tête transféré contrôlable par le client. C’est une protection complémentaire, **pas une limite globale** : les instances serverless n’en partagent pas l’état et cette mémoire peut être réinitialisée.
+
+Avant d’activer l’IA Cloudflare en production, configurer et publier une règle Vercel WAF :
+
+1. Dans le tableau de bord Vercel, ouvrir le projet puis **Firewall → Configure → + New Rule**.
+2. Ajouter les conditions **Path equals `/api/ai/match`** et **Method equals `POST`**.
+3. Choisir l’action **Rate Limit**, l’algorithme **Fixed Window**, une clé de comptage **IP**, une fenêtre initiale de **60 secondes** et une limite initiale de **15 requêtes**. Garder l’action de dépassement **429**. Voir la [documentation Vercel sur le rate limiting WAF](https://vercel.com/docs/vercel-firewall/vercel-waf/rate-limiting).
+4. Enregistrer les changements avec **Review Changes → Publish** puis observer la règle dans la vue Firewall et vérifier les dépassements avant d’ouvrir le trafic.
+
+Selon la documentation Vercel consultée le 30 octobre 2026, le rate limiting WAF est proposé sur tous les plans; Hobby autorise une règle et inclut un quota de requêtes autorisées, tandis que Pro est facturé à l’usage. Vérifier les conditions et tarifs affichés dans le compte avant publication. Les compteurs sont **par région** : une même source répartie sur plusieurs régions peut dépasser la limite configurée. Cette règle réduit le trafic à l’edge, mais ne constitue pas un plafond strict et global pour toutes les régions. Une limite globale stricte nécessiterait un compteur partagé; aucun stockage ni service externe n’est inclus dans cette application.
+
+Jusqu’à publication et vérification de la règle WAF, ne pas considérer la limitation edge comme active. Même après activation, maintenir des plafonds de dépense/quotas côté Cloudflare et surveiller les appels à l’API.
+
+## Organisation
+
+- `src/app/[locale]` : pages localisées et métadonnées
+- `src/components` : composants de mise en page, d’accueil et de projets
+- `src/data` : profil, projets et compétences
+- `messages` : traductions françaises et anglaises
+- `src/content/projects` : contenu des études de cas en MDX
+- `tests` : tests unitaires et scénarios Playwright

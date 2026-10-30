@@ -65,17 +65,17 @@ export interface Project {
   isFlagship?: boolean;
 }
 
-export type SkillCategory = 
-  | 'Data & Analyse'
-  | 'Développement & Backend'
-  | 'Statistiques & Modélisation'
-  | 'Outils & Ingénierie';
+export type SkillCategory =
+  | 'data-analysis'
+  | 'data-management'
+  | 'programming'
+  | 'application-development'
+  | 'development-tools';
 
 export interface Skill {
   id: string;
   name: string;
   category: SkillCategory;
-  description: string;
   projectSlugs: string[];
   isTopSkill?: boolean;
 }
@@ -91,10 +91,6 @@ export interface ExperienceItem {
 }
 
 export interface EducationItem {
-  period: string;
-  degree: string;
+  id: 'engineering' | 'deug' | 'baccalaureate';
   institution: string;
-  location: string;
-  description: string;
-  specialties: string[];
 }

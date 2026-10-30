@@ -1,0 +1,164 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[a4paper, top=1cm, bottom=1cm, left=1.5cm, right=1.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{array}
+
+\definecolor{bleu}{HTML}{000000}
+\definecolor{gris}{HTML}{333333}
+\definecolor{grisClair}{HTML}{666666}
+\definecolor{lien}{HTML}{174A7E}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=lien,
+  linkcolor=bleu,
+  pdfauthor={Godwin Elie NOUGBOLO},
+  pdftitle={CV — Godwin Elie NOUGBOLO}
+}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{0pt}
+\urlstyle{same}
+
+\titleformat{\section}
+  {\normalsize\bfseries\color{bleu}}
+  {}{0em}{}
+  [\vspace{-5pt}\textcolor{bleu}{\rule{\linewidth}{0.7pt}}\vspace{1pt}]
+\titlespacing{\section}{0pt}{3pt}{1pt}
+
+\newcommand{\entryHeader}[3]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}X r@{}}
+    \textbf{#1} & \textcolor{grisClair}{\small\textit{#3}} \\
+    \textcolor{gris}{\textit{\small #2}} & \\
+  \end{tabularx}%
+  \vspace{1pt}%
+}
+
+\newcommand{\projectEntry}[3]{%
+  \noindent\textbf{#1}\par
+  {\small\textcolor{gris}{\textit{#2} · #3}}\par
+  \vspace{2pt}%
+}
+
+\newcommand{\compactListStart}{%
+  \begin{itemize}[topsep=1pt,itemsep=0pt,parsep=0pt,partopsep=0pt,leftmargin=1.3em]
+}
+\newcommand{\compactListEnd}{\end{itemize}}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries\color{bleu} GODWIN ELIE NOUGBOLO}\\[2pt]
+  {\small\color{gris}
+    Étudiant ingénieur en Informatique et Ingénierie des Données
+    \enspace|\enspace Recherche un stage PFA en Data Engineering, juillet 2027
+  }\\[3pt]
+  {\small\color{gris}
+    Khouribga, Maroc — ouvert à la mobilité
+    \enspace|\enspace \href{tel:+212615817706}{+212 615 817 706}
+    \enspace|\enspace \href{mailto:godwinelienougbolo@gmail.com}{godwinelienougbolo@gmail.com}
+  }\\[2pt]
+  {\small
+    \href{https://www.linkedin.com/in/godwin-elie-nougbolo}{LinkedIn}
+    \enspace|\enspace
+    \href{https://github.com/Godwin-08}{GitHub}
+  }
+\end{center}
+
+\vspace{2pt}
+
+\section{Profil}
+
+{\small Étudiant ingénieur en 2\textsuperscript{e} année. Je travaille avec Python, SQL et Pandas, en stage et en projets. Je bénéficie d’un accès de 12 mois à DataCamp grâce à une bourse (depuis octobre 2026). Je cherche un stage PFA en Data Engineering en juillet 2027. D’ici là, je prévois de suivre le parcours Data Engineer et de faire des projets.}
+
+\section{Expérience professionnelle}
+
+\entryHeader
+  {Stagiaire en développement d’application web — Galaxy Solutions}
+  {Galaxy Training Manager (GTM)}
+  {Juillet–août 2026 · 2 mois}
+\compactListStart
+  \item Conçu le modèle relationnel et défini les règles de gestion de l’application avec MySQL et Flask-SQLAlchemy.
+  \item Développé un tableau de bord filtrable pour suivre les sessions et les inscriptions, avec exports CSV et Excel, feuilles d’émargement et synthèses PDF.
+  \item Réalisé un module d’ACP exploratoire avec Pandas et NumPy pour comparer les profils de clients et de formations.
+  \item Mis en place des accès par rôle et des contrôles d’inscription pour éviter les doublons et respecter la capacité des sessions.
+\compactListEnd
+{\footnotesize\textit{Les exemples de l’application reposent sur des données de démonstration fictives.}
+\hfill \href{https://github.com/Godwin-08/GTM}{Dépôt GitHub}}
+
+\section{Formation}
+
+\entryHeader
+  {Cycle ingénieur en Informatique et Ingénierie des Données}
+  {ENSA Khouribga, Université Sultan Moulay Slimane · Khouribga, Maroc · 2\textsuperscript{e} année}
+  {Depuis 2025}
+\entryHeader
+  {Mathématiques, Informatique et Physique}
+  {Université Ibn Tofaïl · Kénitra · Mention Assez bien}
+  {2023–2025}
+\entryHeader
+  {Baccalauréat — Mathématiques et Sciences de la Nature}
+  {Collège Protestant Lomé Tokoin · Mention Très bien}
+  {2022–2023}
+
+\section{Formations en ligne}
+
+{\small DataCamp : parcours SQL Data Analyst (8/11 cours terminés), examen Data Analyst Associate en préparation.}
+
+\section{Compétences}
+
+{\small
+\textbf{Analyse de données :} Pandas, NumPy, nettoyage, agrégations, jointures, statistiques descriptives, ACP\\
+\textbf{Programmation et web :} Python, Java, HTML, CSS, JavaScript\\
+\textbf{Bases de données :} SQL (CTE, fonctions de fenêtre), MySQL, modélisation relationnelle, SQLAlchemy\\
+\textbf{Visualisation :} Matplotlib, Seaborn, Chart.js\\
+\textbf{Outils :} Jinja2, Git, GitHub, Jupyter Notebook\\
+\textbf{Langues :} Français (C1), anglais (B1)
+}
+
+\section{Projets}
+
+\projectEntry
+  {Olist — préparation et analyse de données}
+  {Projet académique en binôme}
+  {Données publiques de 2016–2018 · 9 tables · Python, Pandas, NumPy}
+\compactListStart
+  \item Préparé et nettoyé neuf tables ; agrégé articles et paiements avant les jointures concernées pour limiter le double comptage.
+  \item Sur environ 96\,000 commandes : délai médian de 10 jours, 6,8\,\% de retards.
+\compactListEnd
+{\footnotesize\href{https://github.com/Godwin-08/Projet-Traitement-des-donn-es-}{Dépôt GitHub}}
+
+\projectEntry
+  {SantéScolaire — application de gestion}
+  {Projet individuel · encadré par Yassir Rochd}
+  {Python, Flask, MySQL}
+\compactListStart
+  \item Développé seul une application de gestion des dossiers élèves, consultations, rendez-vous et prescriptions, avec trois rôles d’accès.
+\compactListEnd
+{\footnotesize\textit{Données de démonstration fictives.}
+\hfill \href{https://github.com/Godwin-08/SanteScolaire}{Dépôt GitHub}}
+
+\section{Expériences associatives}
+
+{\small
+\textbf{Secrétaire général — CESTOM Khouribga (septembre 2026–aujourd’hui) :} coordination, accueil des nouveaux étudiants et suivi des membres.\\
+\textbf{Trésorier local — CESTOM Kénitra (2024–2025) :} suivi du budget et des dépenses, appui aux événements.\\
+\textbf{Bénévole — CESTOM Ben Guerir (2025) :} accueil et logistique des journées d’intégration.
+}
+
+\section{Centres d’intérêt}
+
+{\small Théâtre \enspace|\enspace Lecture}
+
+\end{document}

@@ -1,21 +1,527 @@
 {
   "common": {
-    "name": "Godwin Elie Nougbolo",
-    "role": "Computer Science & Data Engineering Student",
-    "badge": "Seeking 2nd-Year Engineering Internship (PFA)",
+    "name": "Godwin Elie NOUGBOLO",
+    "role": "Computer Science and Data Engineering",
+    "badge": "Internship from July 2027",
     "tagline": "Understand → Analyze → Build",
     "philosophy": "Proof > Claim",
+    "primaryFocus": "Data Engineering · Data Analysis & BI",
     "nav": {
       "home": "Home",
       "about": "About",
       "projects": "Projects",
-      "contact": "Contact"
+      "certifications": "Certifications",
+      "contact": "Contact",
+      "mainLabel": "Main navigation",
+      "mobileLabel": "Mobile navigation",
+      "active": "Current page",
+      "aiTrigger": "Explore with AI"
     },
     "cta": {
       "viewProjects": "Explore my projects",
+      "viewAllProjects": "View all projects",
+      "readCaseStudy": "View case study",
       "downloadCv": "Download my CV",
       "contact": "Contact me"
+    },
+    "language": {
+      "label": "Language",
+      "selectorLabel": "Language selector",
+      "switchToFrench": "Switch to French",
+      "switchToEnglish": "Switch to English"
+    },
+    "theme": {
+      "label": "Theme",
+      "toggle": "Toggle theme",
+      "switchToDark": "Switch to dark mode",
+      "switchToLight": "Switch to light mode",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "footer": {
+      "label": "Links and contact",
+      "linksHeading": "Links and contact",
+      "invitation": "Have a question about a project or an internship opportunity? Get in touch.",
+      "contactCta": "Get in touch",
+      "profileHeading": "Profile",
+      "navigationHeading": "Navigation",
+      "contactHeading": "Contact",
+      "role": "Computer Science and Data Engineering student at ENSA Khouribga",
+      "locationMobility": "Based in Khouribga, Morocco · Open to relocating for an internship from July 2027",
+      "copyright": "All rights reserved."
+    },
+    "accessibility": {
+      "skipToContent": "Skip to main content",
+      "homeLink": "Home page - {name}",
+      "openMenu": "Open navigation menu",
+      "closeMenu": "Close menu",
+      "mobileMenu": "Mobile menu",
+      "linkedinProfile": "{name}'s LinkedIn profile (opens in a new tab)",
+      "githubProfile": "{name}'s GitHub profile (opens in a new tab)",
+      "externalNewTab": "(opens in a new tab)",
+      "backToTop": "Back to top"
+    }
+  },
+  "seo": {
+    "siteName": "Godwin Elie NOUGBOLO’s portfolio",
+    "home": {
+      "title": "Computer Science and Data Engineering student portfolio",
+      "description": "Second-year engineering student at ENSA Khouribga with a particular interest in Data Engineering. Olist and CA show practical data analysis experience; I am developing my skills in Data Engineering, Data Science, Machine Learning, and Deep Learning."
+    },
+    "about": {
+      "title": "About — background and approach",
+      "description": "Background of Godwin Elie NOUGBOLO, an engineering student at ENSA Khouribga: practical data analysis in Olist and CA, an interest in Data Engineering, and ongoing learning in Data Science, Machine Learning, and Deep Learning."
+    },
+    "projects": {
+      "title": "Data analysis, BI, and software projects",
+      "description": "Explore eight documented projects in data analysis, Business Intelligence, software development, applied statistics, and information systems."
+    },
+    "certifications": {
+      "title": "Certifications — SQL, PostgreSQL, and data analysis",
+      "description": "Eight documented certifications in SQL, PostgreSQL, and statistics. The issuing organisation is shown on each certification."
+    },
+    "contact": {
+      "title": "Contact — discuss a project",
+      "description": "Contact Godwin Elie NOUGBOLO about a data project or an internship starting in July 2027. Areas of interest include Data Engineering, Data Analysis, and BI."
+    }
+  },
+  "home": {
+    "hero": {
+      "studentBadge": "SECOND-YEAR ENGINEERING STUDENT · ENSA KHOURIBGA",
+      "degree": "Computer Science and Data Engineering",
+      "analysisTitle": "Data Analysis & BI",
+      "analysisDescription": "At Galaxy Solutions, I developed GTM, a Flask and MySQL application for training management, with a KPI dashboard and a PCA module. For Olist, I cleaned and analyzed data covering nearly 100,000 orders.",
+      "growingFieldsDescription": "I’m completing DataCamp’s SQL Data Analyst track and preparing for the Data Analyst Associate exam. I then plan to take the Data Engineer track and build projects to apply what I learn before my internship in July 2027.",
+      "growingFields": "Data Engineering — next",
+      "tagline": "From a business question to a working data tool.",
+      "viewProjects": "Explore my projects",
+      "downloadCv": "Download my CV",
+      "portraitAlt": "Portrait of Godwin Elie NOUGBOLO, engineering student at ENSA Khouribga",
+      "availability": "Seeking a Data Engineering internship · July 2027"
+    },
+    "skills": {
+      "sectionLabel": "Skills linked to projects",
+      "heading": "Skills",
+      "instruction": "Five technical areas, each linked to projects in this portfolio.",
+      "filterAria": "Show projects linked to the {skill} skill or practice",
+      "categories": {
+        "data-analysis": "Data analysis and visualisation",
+        "data-management": "Databases and data management",
+        "programming": "Programming",
+        "application-development": "Application development",
+        "development-tools": "Development tools and environment"
+      },
+      "categoryDescriptions": {
+        "data-analysis": "Prepare, explore, and interpret data, then present the findings.",
+        "data-management": "Structure, query, and work with relational data.",
+        "programming": "Write programs and interfaces with languages used in the projects.",
+        "application-development": "Connect user needs, business logic, and parts of web applications.",
+        "development-tools": "Organise, explore, and test work with suitable tools."
+      }
+    },
+    "projects": {
+      "eyebrow": "Selected work",
+      "heading": "Selected projects",
+      "description": "Practical projects in Data Analysis, Business Intelligence, and software development, grounded in careful analysis and documented decisions.",
+      "ordersAnalyzed": "orders in the final dataset"
+    },
+    "certifications": {
+      "eyebrow": "Continuous learning",
+      "heading": "Certifications",
+      "description": "These completion certificates document learning in SQL, PostgreSQL, and statistics. The issuing organisation is shown on each certification; my projects remain the main evidence of my skills.",
+      "featuredDescription": "Three certifications selected for their relevance to data analysis and SQL. Each page summarises the learning covered and shows the available completion evidence.",
+      "count": "{count, plural, one {# certification listed} other {# certifications listed}}",
+      "featuredCount": "{featured} featured out of {total}",
+      "rank": "Relevance rank: {rank}",
+      "filterLabel": "Filter certifications by subject",
+      "filterAll": "All",
+      "filterSql": "SQL",
+      "filterStatistics": "Statistics",
+      "viewAll": "View all {count} certifications",
+      "completedOn": "Completed on",
+      "reference": "Certificate no.",
+      "viewCertificate": "Open completion certificate",
+      "verifyCertificate": "Verify certificate on DataCamp",
+      "viewCertificateAria": "Open the completion certificate for {title} in a new tab",
+      "verifyCertificateAria": "Verify the completion certificate for {title} on DataCamp in a new tab",
+      "viewDetails": "View certificate details",
+      "viewDetailsAria": "View details for {title}",
+      "detail": {
+        "back": "Back to certifications",
+        "topics": "Topics studied",
+        "practice": "Practice within the course",
+        "certificate": "Completion certificate",
+        "openCertificate": "Open the completion certificate",
+        "noCertificateImage": "No local copy of the completion certificate is available. Use the verification link below to view it on DataCamp.",
+        "notAvailable": "Not provided"
+      }
+    },
+    "aboutTransition": {
+      "label": "Link to the About page",
+      "heading": "Explore the thinking behind the projects",
+      "description": "Academic background, projects, and approach to work.",
+      "link": "Explore my background"
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "heading": "Let’s talk about projects and internships",
+      "description": "I am building my Data Engineering skills and looking for a PFA internship from July 2027. I am happy to discuss my projects.",
+      "email": "Send me an email",
+      "linkedin": "Connect on LinkedIn",
+      "whatsapp": "Message me on WhatsApp"
+    }
+  },
+  "projects": {
+    "list": {
+      "eyebrow": "Projects and work",
+      "heading": "Technical projects",
+      "description": "Practical projects in data analysis, software development, and applied statistics.",
+      "emptyTitle": "No projects match these filters",
+      "emptyDescription": "Change the filters or reset the list."
+    },
+    "filters": {
+      "label": "Project filters",
+      "categoriesHeading": "Categories",
+      "categoryGroup": "Filter by category",
+      "allCategories": "All",
+      "skillsHeading": "Skills",
+      "skillGroup": "Filter by skill",
+      "reset": "Reset filters",
+      "showMore": "Show {count} more",
+      "showLess": "Show less",
+      "resultCount": "{count, plural, =0 {No projects} one {# project} other {# projects}}",
+      "updating": "Updating…"
+    },
+    "matcher": {
+      "eyebrow": "Hiring & Skills Match",
+      "title": "Evidence Matcher — Search by Requirement",
+      "description": "Describe your technical requirement or hiring criteria in natural language. The system highlights relevant projects, verifiable evidence, and transparent limitations.",
+      "placeholder": "E.g.: Relational SQL modeling and dashboards, or Pandas data cleaning…",
+      "searchButton": "Evaluate match",
+      "searching": "Analyzing requirement…",
+      "clearButton": "Clear search",
+      "resetButton": "Close search and view all projects",
+      "suggestionsLabel": "Common examples:",
+      "suggestions": {
+        "sql": "Relational SQL & Dashboards",
+        "data": "Data Cleaning & Visualization",
+        "flask": "Flask Web App & Architecture",
+        "roles": "Role Management & Access Control",
+        "education": "Academic Background & Degrees",
+        "certifications": "Certifications",
+        "learning": "Data Engineering (Skill in progress)"
+      },
+      "modes": {
+        "aiBadge": "Semantic AI Analysis (Workers AI — Free Tier)",
+        "keywordBadge": "Keyword Search (Local Fallback)",
+        "aiNotice": "If Cloudflare Workers AI is configured and available, your question may be sent for semantic processing. Otherwise, the local matcher takes over. Do not include sensitive information.",
+        "fallbackNotice": "The local deterministic engine took over (no network request or API key required)."
+      },
+      "levels": {
+        "strong": "Strong match",
+        "moderate": "Moderate match",
+        "indirect": "Indirect match"
+      },
+      "sections": {
+        "matchReason": "Why this project matches:",
+        "directAnswerTitle": "Verified synthesis answer:",
+        "relatedRecords": "Documented portfolio records & evidence:",
+        "facts": "Verified facts:",
+        "viewResource": "View resource",
+        "proofs": "Documented and verified evidence:",
+        "limitations": "Scope & Documented limitations:",
+        "viewCaseStudy": "View case study",
+        "growingFieldTitle": "Skill currently in active development",
+        "noMatchTitle": "No documented project matches this requirement",
+        "noMatchDesc": "No project in this portfolio demonstrates this specific skill yet. Review the full project catalog or try another requirement."
+      }
+    },
+    "categories": {
+      "data-analysis": "Data Analysis",
+      "web-si": "Web / Information Systems",
+      "statistiques": "Statistics",
+      "machine-learning": "Machine Learning",
+      "data-engineering": "Data Engineering"
+    },
+    "card": {
+      "caseStudy": "Read the case study",
+      "project": "View project",
+      "caseStudyAria": "Read case study: {title}",
+      "projectAria": "View project: {title}",
+      "flagship": "Key project",
+      "imageAlt": "Preview of the {title} project",
+      "editorialVisual": "Editorial illustration",
+      "technologiesLabel": "Technologies used"
+    },
+    "cards": {
+      "gtm": {
+        "title": "GTM — Galaxy Training Manager",
+        "tagline": "A training tracking app built during my introductory internship at Galaxy Solutions (2025–2026).",
+        "summary": "Track courses, sessions, and registrations with a dashboard and exports. Demo data are fictional.",
+        "context": "Introductory internship · Galaxy Solutions"
+      },
+      "olist": {
+        "title": "E-commerce Data Audit — Olist",
+        "tagline": "Final analysis dataset: 96,252 orders from a Brazilian marketplace.",
+        "summary": "A study of delivery times, customer reviews, and data quality in the Olist dataset.",
+        "context": "Academic · team of two"
+      },
+      "afc": {
+        "title": "Correspondence Analysis (CA)",
+        "tagline": "A study of links between professional fields and skills in LinkedIn job ads.",
+        "summary": "A descriptive statistical method applied with Python to job ads.",
+        "context": "Academic · team of two"
+      },
+      "acp": {
+        "title": "Principal Component Analysis (PCA)",
+        "tagline": "An exploratory analysis of 169 countries using nine socio-economic and health indicators.",
+        "summary": "PCA highlights the main contrasts between indicators, with 63.86% of inertia explained by the first two axes.",
+        "context": "Academic · individual project"
+      },
+      "revision-flow": {
+        "title": "RevisionFlow",
+        "tagline": "A web app to plan study time and track sessions.",
+        "summary": "An adjustable study plan with a calendar, backlog, and Pomodoro timer.",
+        "context": "Academic · individual project"
+      },
+      "sante-scolaire": {
+        "title": "SantéScolaire",
+        "tagline": "A school health app with different access roles.",
+        "summary": "Manage student records, visits, and appointments. Demo data are fictional.",
+        "context": "Individually developed"
+      },
+      "novastore": {
+        "title": "NovaStore",
+        "tagline": "An online-store prototype built by a team of five.",
+        "summary": "Product list, cart, and printable invoice. My main contribution was designing and implementing the app; payment is simulated.",
+        "context": "Academic · team of five"
+      },
+      "pneumonia-detection": {
+        "title": "Pneumonia Detection from Chest X-rays — Deep Learning",
+        "tagline": "Team academic project comparing a custom CNN with DenseNet121 transfer learning.",
+        "summary": "NORMAL / PNEUMONIA classification on 5,856 chest X-rays, with reported metrics and source discrepancies documented.",
+        "context": "Academic · team of four"
+      }
+    }
+  },
+  "caseStudies": {
+    "ui": {
+      "back": "Back to projects",
+      "flagship": "Featured project",
+      "source": "View source code",
+      "demo": "Live demo",
+      "metricsTitle": "Results and verified metrics",
+      "problemTitle": "1. Problem and business context",
+      "problemPointsTitle": "Initial challenges",
+      "approachTitle": "2. Approach and method",
+      "roleTitle": "3. Role and responsibilities",
+      "implementationTitle": "4. Technical implementation and architecture",
+      "architectureHighlightsTitle": "Architecture highlights",
+      "decisionsTitle": "5. Technical decisions and trade-offs",
+      "decisionLabel": "Decision:",
+      "rationaleLabel": "Engineering reason:",
+      "impactLabel": "Impact:",
+      "validationTitle": "6. Validation and tests",
+      "validationPointsTitle": "Quality checks",
+      "reflectionTitle": "7. Lessons learned",
+      "technologiesTitle": "Technologies and tools",
+      "previousProject": "Previous project",
+      "nextProject": "Next project",
+      "questionTitle": "Project question",
+      "methodTitle": "How I worked",
+      "contributionTitle": "My contribution",
+      "resultsTitle": "Key results",
+      "limitationsTitle": "Project limits",
+      "galleryTitle": "Project images",
+      "galleryOpen": "View larger image",
+      "galleryClose": "Close image",
+      "galleryPrevious": "Previous image",
+      "galleryNext": "Next image",
+      "galleryPosition": "of",
+      "galleryZoomControls": "Zoom controls",
+      "galleryZoomIn": "Zoom in on chart",
+      "galleryZoomOut": "Zoom out on chart",
+      "galleryZoomReset": "Reset zoom",
+      "documentsTitle": "Project documents",
+      "projectNavigation": "Browse projects"
+    }
+  },
+  "skills": {
+    "names": {
+      "python": "Python",
+      "sql": "SQL",
+      "pandas": "Pandas",
+      "numpy": "NumPy",
+      "business-intelligence": "Business Intelligence (BI)",
+      "statistiques": "Statistics",
+      "relational-modeling": "Relational modelling",
+      "mysql": "MySQL",
+      "sqlalchemy": "SQLAlchemy",
+      "javascript": "JavaScript",
+      "html-css": "HTML/CSS",
+      "flask": "Flask",
+      "object-oriented-programming": "Object-oriented programming",
+      "systemes-d-information": "Information Systems",
+      "git": "Git",
+      "jupyter": "Jupyter",
+      "data-preparation": "Data Preparation",
+      "data-cleaning": "Data Cleaning",
+      "data-visualization": "Data Visualization",
+      "matplotlib": "Matplotlib",
+      "seaborn": "Seaborn",
+      "scipy": "SciPy",
+      "principal-component-analysis": "Principal Component Analysis (PCA)",
+      "pytest": "pytest"
+    },
+    "descriptions": {
+      "data-preparation": "Structure, join, and shape data before analysis, especially in Olist and CA.",
+      "data-cleaning": "Find and handle inconsistencies and missing values in the Olist dataset.",
+      "statistiques": "Describe data in Olist and explore factorial methods in the CA and GTM projects.",
+      "data-visualization": "Present findings with charts and dashboards across several projects.",
+      "pandas": "Manipulate, filter, and aggregate datasets in Python projects.",
+      "numpy": "Perform numerical and matrix calculations in Python analyses.",
+      "matplotlib": "Create visualisations for the Olist and CA analyses.",
+      "seaborn": "Build statistical charts in the Olist and CA analyses.",
+      "principal-component-analysis": "Summarise nine indicators for 169 countries in the PCA project and explore client-training profiles in GTM.",
+      "scipy": "Carry out scientific calculations in the correspondence analysis implementation.",
+      "business-intelligence": "Present business indicators through the GTM dashboard.",
+      "sql": "Query and link relational data in GTM and SantéScolaire.",
+      "relational-modeling": "Structure relationships between data in GTM, NovaStore, and SantéScolaire.",
+      "mysql": "Use a MySQL database in GTM and SantéScolaire.",
+      "sqlalchemy": "Map application models to relational database tables.",
+      "python": "Program data analyses and server-side applications in the projects.",
+      "javascript": "Build browser interactions in web projects.",
+      "html-css": "Structure and style web application interfaces.",
+      "flask": "Build web routes and applications with Flask.",
+      "object-oriented-programming": "Use classes for NovaStore business logic and a reusable analysis module in CA.",
+      "systemes-d-information": "Connect business data and processes in management applications.",
+      "git": "Track and manage changes across projects.",
+      "jupyter": "Write and run documented analyses in notebooks.",
+      "pytest": "Check Python project behaviour with automated tests."
+    }
+  },
+  "about": {
+    "title": "About",
+    "intro": "I am a second-year engineering student in Computer Science and Data Engineering at ENSA Khouribga. Through my projects, I have prepared and analysed data, applied statistical methods, and developed web applications.",
+    "search": "I am looking for a Data Engineering end-of-year internship (PFA) starting in July 2027. I currently hold a one-year DataCamp scholarship, which I am using to deepen my skills and apply them to practical projects. I am also open to opportunities in BI, artificial intelligence, and software development.",
+    "education": {
+      "heading": "Education",
+      "engineering": {
+        "period": "Since 2025",
+        "degree": "Engineering Cycle — Computer Science and Data Engineering",
+        "location": "Khouribga, Morocco"
+      },
+      "deug": {
+        "period": "2023–2025",
+        "degree": "DEUG in Fundamental Computer Science",
+        "location": "Kénitra, Morocco",
+        "description": "French distinction: assez bien."
+      },
+      "baccalaureate": {
+        "period": "2022–2023",
+        "degree": "Baccalaureate in Mathematics and Life and Earth Sciences",
+        "location": "Togo",
+        "description": "Very good honours."
+      }
+    },
+    "professional": "Professional experience",
+    "galaxyLabel": "Introductory internship · Galaxy Solutions · 2025–2026",
+    "galaxy": "Galaxy Training Manager (GTM)",
+    "galaxyText": "During this internship, I designed and developed a training management app with a KPI dashboard and a principal component analysis (PCA) module. The demonstration uses fictional data.",
+    "galaxyLink": "View the GTM case study",
+    "association": "Community involvement",
+    "cestom": "CESTOM",
+    "currentEngagement": "Current involvement",
+    "currentRole": "Secretary General · CESTOM Khouribga",
+    "previousEngagements": "Previous involvement",
+    "previousTreasurer": "Local Treasurer · CESTOM Kénitra",
+    "previousVolunteer": "Volunteer · CESTOM Ben Guerir",
+    "cestomText": "I help coordinate the Khouribga section, welcome new Togolese students, and support members. I also relay information to the national office and help organise cultural, scientific, and sports activities.",
+    "method": "How I work",
+    "methodTitle": "Understand → Analyse → Build",
+    "steps": {
+      "understand": {
+        "title": "Understand",
+        "prefix": "For the ",
+        "project": "CA",
+        "suffix": " project, I rebuilt the calculation steps with Pandas, NumPy, and SciPy to understand how the method works."
+      },
+      "analyze": {
+        "title": "Analyse",
+        "prefix": "For ",
+        "project": "Olist",
+        "suffix": ", I prepared and joined data, built indicators, and examined delivery times. I learned to interpret results without claiming more than the data show."
+      },
+      "build": {
+        "title": "Build",
+        "prefix": "With ",
+        "project": "GTM",
+        "suffix": ", I turned a training-tracking need into a practical tool combining management features and indicators."
+      }
+    },
+    "cta": "Let’s continue the conversation."
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Let’s talk about a practical project.",
+    "intro": "I’m based in Khouribga, Morocco, and am willing to travel. Feel free to contact me about data projects or opportunities.",
+    "focus": "Internship search",
+    "email": "Email me",
+    "emailDetail": "The most direct way to discuss an opportunity or project.",
+    "phone": "Call me",
+    "whatsapp": "Message me on WhatsApp",
+    "linkedin": "View my LinkedIn profile",
+    "linkedinDetail": "Professional background and profile.",
+    "github": "View my GitHub profile",
+    "githubDetail": "Source code and public projects.",
+    "cv": "Download my CV",
+    "externalNewTab": "(opens in a new tab)",
+    "contactLinks": "Ways to get in touch",
+    "focusText": "I am seeking a PFA internship in Data Engineering starting in July 2027."
+  },
+  "aiAssistant": {
+    "trigger": "Explore with AI",
+    "eyebrow": "Portfolio & Evidence Assistant",
+    "title": "Explore with AI",
+    "description": "Ask questions about my profile, academic journey, skills, projects, certifications, or internship search.",
+    "placeholder": "E.g.: What is your academic background? or SQL projects…",
+    "sendButton": "Evaluate question",
+    "analyzing": "Analyzing…",
+    "clearButton": "Clear search",
+    "closeButton": "Close assistant",
+    "resetButton": "New search",
+    "suggestionsLabel": "Frequent questions:",
+    "suggestions": {
+      "education": "What is your academic background?",
+      "sql": "Which projects demonstrate SQL skills?",
+      "comparison": "What is the difference between GTM and SantéScolaire?",
+      "learning": "Which skills are currently in progress?",
+      "certifications": "Which certifications are documented?"
+    },
+    "modes": {
+      "aiBadge": "Semantic AI Analysis (Workers AI — Free Tier)",
+      "keywordBadge": "Local Deterministic Engine (Fallback)",
+      "aiNotice": "If Cloudflare Workers AI is configured and available, your question may be sent for semantic processing. Otherwise, the local matcher takes over. Do not include sensitive information.",
+      "fallbackNotice": "The local deterministic engine took over."
+    },
+    "sections": {
+      "directAnswerTitle": "Verified synthetic answer",
+      "facts": "Verified facts:",
+      "relatedRecords": "Documented portfolio records:",
+      "projects": "Relevant projects & Evidence:",
+      "matchReason": "Why this project matches:",
+      "proofs": "Documented and verified evidence:",
+      "limitations": "Scope & Transparent limitations:",
+      "viewCaseStudy": "View case study",
+      "viewResource": "View resource",
+      "growingFieldTitle": "Skill currently in active development",
+      "noMatchTitle": "No documented record matches this request",
+      "noMatchDesc": "This skill or information is not documented in this portfolio. Review the website sections or try another question."
+    },
+    "levels": {
+      "strong": "Strong match",
+      "moderate": "Moderate match",
+      "indirect": "Indirect match"
     }
   }
 }
-

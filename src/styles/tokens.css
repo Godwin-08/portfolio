@@ -1,60 +1,111 @@
 /**
- * Tokens de Design System — Godwin Elie Nougbolo Portfolio
- * Cible : Thème clair éditorial + engineering
- * Direction : Bleu clair (identitaire) + Vert doux (accent) + Neutres contrastés
+ * Palette du portfolio : papier chaud, bleu encre et corail discret.
  */
 
 :root {
-  /* Surfaces & Fonds */
-  --bg-main: #f8fafc;              /* Fond principal clair et doux */
-  --bg-surface: #ffffff;           /* Cartes et panneaux */
-  --bg-surface-subtle: #f1f5f9;    /* Composants secondaires */
-  --bg-blue-tint: #f0f9ff;         /* Fond teinté bleu très pâle */
-  --bg-green-tint: #ecfdf5;        /* Fond teinté vert très pâle */
+  --bg-main: #f5f3ed;
+  --bg-surface: #fffdf8;
+  --bg-surface-subtle: #eeece5;
+  --bg-blue-tint: #e8eef5;
+  --bg-green-tint: #e8f0ec;
+  --bg-coral-tint: #fff3ef;
+  --bg-lilac-tint: #efedf3;
 
-  /* Typographie & Texte (Haute lisibilité, WCAG AAA) */
-  --text-primary: #0f172a;         /* Titres et textes dominants */
-  --text-secondary: #334155;       /* Textes de corps et descriptifs */
-  --text-muted: #64748b;           /* Métadonnées et labels secondaires */
+  --text-primary: #172534;
+  --text-secondary: #374655;
+  --text-muted: #596572;
 
-  /* Bordures */
-  --border-subtle: #e2e8f0;        /* Bordures par défaut */
-  --border-hover: #cbd5e1;         /* Bordures au survol */
-  --border-blue: #bae6fd;          /* Bordures accent bleu clair */
-  --border-green: #a7f3d0;         /* Bordures accent vert doux */
+  --border-subtle: #d7dad6;
+  --border-hover: #aeb7b5;
+  --border-blue: #c2d0df;
+  --border-green: #bfd5ca;
+  --border-coral: #ffc6b7;
 
-  /* Bleu Clair (Couleur Identitaire) */
-  --color-blue-50: #f0f9ff;
-  --color-blue-100: #e0f2fe;
-  --color-blue-200: #bae6fd;
-  --color-blue-300: #7dd3fc;
-  --color-blue-400: #38bdf8;
-  --color-blue-500: #0ea5e9;
-  --color-blue-600: #0284c7;       /* Bleu azur identitaire */
-  --color-blue-700: #0369a1;
+  --color-blue-50: #eef1ff;
+  --color-blue-100: #e0e7ff;
+  --color-blue-200: #c6d0ff;
+  --color-blue-300: #aab8ff;
+  --color-blue-400: #8397ff;
+  --color-blue-500: #5f78ff;
+  --color-blue-600: #3453ed;
+  --color-blue-700: #2c45cb;
+  --color-blue-800: #263aa4;
+  --color-blue-900: #202f7d;
+  --color-blue-950: #18235b;
 
-  /* Vert Doux (Couleur Accent - Rigueur & Validation) */
-  --color-green-50: #ecfdf5;
-  --color-green-100: #d1fae5;
-  --color-green-200: #a7f3d0;
-  --color-green-300: #6ee7b7;
-  --color-green-400: #34d399;
-  --color-green-500: #10b981;      /* Vert doux principal */
-  --color-green-600: #059669;      /* Vert doux intermédiaire */
-  --color-green-700: #047857;
+  --color-green-50: #edfbf3;
+  --color-green-100: #d4f5e2;
+  --color-green-200: #b3eccc;
+  --color-green-300: #84ddae;
+  --color-green-400: #52c98c;
+  --color-green-500: #2da96d;
+  --color-green-600: #1f8557;
+  --color-green-700: #186844;
+  --color-green-800: #145339;
+  --color-green-900: #124330;
+  --color-green-950: #0b2f22;
 
-  /* Typographie */
+  --color-coral-50: #fff3ef;
+  --color-coral-100: #ffe3db;
+  --color-coral-200: #ffc6b7;
+  --color-coral-300: #fba08d;
+  --color-coral-400: #f27965;
+  --color-coral-500: #e65e4f;
+  --color-coral-600: #d34b3d;
+  --color-coral-700: #b83e2e;
+  --color-coral-800: #91332c;
+  --color-coral-900: #762d29;
+  --color-coral-950: #4a211e;
+
+  --color-lilac-50: #f3f1f6;
+  --color-lilac-100: #e8e4ed;
+  --color-lilac-200: #d5cfdf;
+  --color-lilac-300: #b8aecb;
+  --color-lilac-400: #9789b1;
+  --color-lilac-500: #786b96;
+  --color-lilac-600: #62567c;
+  --color-lilac-700: #4d4563;
+  --color-lilac-800: #3d374f;
+  --color-lilac-900: #302d3e;
+  --color-lilac-950: #1f1d29;
+
   --font-heading: 'Manrope', system-ui, -apple-system, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
 
-  /* Rayons de courbure */
   --radius-card: 14px;
-  --radius-btn: 11px;
-  --radius-input: 8px;
+  --radius-btn: 7px;
+  --radius-input: 7px;
   --radius-badge: 9999px;
 
-  /* Ombres légères */
-  --shadow-subtle: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
-  --shadow-card: 0 4px 6px -1px rgba(15, 23, 42, 0.04), 0 2px 4px -2px rgba(15, 23, 42, 0.03);
-  --shadow-card-hover: 0 12px 24px -4px rgba(15, 23, 42, 0.07), 0 4px 8px -2px rgba(15, 23, 42, 0.03);
+  --shadow-subtle: 0 1px 2px 0 rgb(23 37 52 / 0.06);
+  --shadow-card: 0 8px 22px -12px rgb(23 37 52 / 0.18);
+  --shadow-card-hover: 0 16px 32px -14px rgb(23 37 52 / 0.24);
+}
+
+.dark {
+  --bg-main: #0b1120;
+  --bg-surface: #131c31;
+  --bg-surface-subtle: #1a253c;
+  --bg-blue-tint: #142144;
+  --bg-green-tint: #0f2c22;
+  --bg-coral-tint: #4a211e;
+  --bg-lilac-tint: #231b3e;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --border-subtle: #1e293b;
+  --border-hover: #334155;
+  --border-blue: #233876;
+  --border-green: #1a4d36;
+  --border-coral: #91332c;
+
+  --color-paper: #0b1120;
+  --color-body: #cbd5e1;
+  --color-muted: #94a3b8;
+
+  --shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / 0.35);
+  --shadow-card: 0 8px 22px -12px rgb(0 0 0 / 0.55);
+  --shadow-card-hover: 0 16px 32px -14px rgb(0 0 0 / 0.7);
 }

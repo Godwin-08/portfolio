@@ -2,185 +2,135 @@
 
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { PROFILE } from '@/data/profile';
-import { FileText, ArrowRight, BarChart2, Database, Brain, CheckCircle2 } from 'lucide-react';
-import { motion } from 'motion/react';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
+import { ArrowRight, BarChart2, Database, Download, Mail } from 'lucide-react';
 
 export const HeroSection: React.FC = () => {
+  const t = useTranslations('home.hero');
+  const common = useTranslations('common');
+  const name = common('name').split(' ');
+
   return (
     <section
-      className="relative pt-10 pb-16 md:pt-16 md:pb-24 overflow-hidden"
+      className="relative isolate overflow-hidden bg-paper"
       aria-labelledby="hero-heading"
     >
-      {/* Teinture de fond subtile */}
       <div
-        className="absolute inset-0 -z-10 pointer-events-none"
+        className="absolute inset-y-0 right-0 hidden w-[38%] bg-[var(--bg-blue-tint)] lg:block"
         aria-hidden="true"
-      >
-        <div className="absolute top-0 left-0 right-0 h-[60%] bg-gradient-to-b from-primary-50/50 via-transparent to-transparent" />
-        <div className="absolute top-[-120px] right-[-80px] w-[480px] h-[480px] rounded-full bg-primary-100/30 blur-3xl" />
-        <div className="absolute bottom-0 left-[-80px] w-[320px] h-[320px] rounded-full bg-accent-100/20 blur-3xl" />
-      </div>
+      />
+      <div
+        className="absolute right-[8%] top-20 hidden h-10 w-10 rounded-full bg-coral-300 lg:block"
+        aria-hidden="true"
+      />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-
-          {/* ── GAUCHE (Texte, 7 cols) ── */}
-          <motion.div
-            className="lg:col-span-7 space-y-7"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45 }}
-          >
-            {/* Label supérieur & Badge PFA */}
-            <div className="flex flex-wrap items-center gap-2.5">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-primary-700 bg-primary-50 border border-primary-200 px-3 py-1 rounded-full">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary-600 shrink-0" aria-hidden="true" />
-                ÉTUDIANT INGÉNIEUR · IID
-              </span>
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent-700 bg-accent-50 border border-accent-200 px-3 py-1 rounded-full">
-                <CheckCircle2 className="w-3.5 h-3.5 text-accent-600" aria-hidden="true" />
-                PFA 2e année · Recherche actuellement
-              </span>
-            </div>
-
-            {/* Nom & Formation */}
-            <div>
-              <h1
-                id="hero-heading"
-                className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-[3.2rem] text-slate-900 tracking-tight leading-[1.1]"
-              >
-                {PROFILE.name}
-              </h1>
-              <p className="mt-2.5 text-lg sm:text-xl font-medium text-slate-600">
-                Informatique et{' '}
-                <span className="text-slate-900 font-semibold">Ingénierie des Données</span>
-              </p>
-            </div>
-
-            {/* Orientation & Essor */}
-            <div className="rounded-2xl border border-slate-200 bg-white shadow-card p-5 space-y-3">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                Orientation & Spécialisation
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {/* Majeure Data Analysis */}
-                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-primary-50/80 border border-primary-100">
-                  <BarChart2 className="w-5 h-5 text-primary-700 mt-0.5 shrink-0" aria-hidden="true" />
-                  <div>
-                    <span className="block text-xs font-extrabold text-primary-900">
-                      Data Analysis
-                    </span>
-                    <span className="text-[11px] text-primary-700/90 leading-relaxed">
-                      Exploration, modélisation & KPIs décisionnels
-                    </span>
-                  </div>
-                </div>
-                {/* Domaines en essor */}
-                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
-                  <div className="flex gap-0.5 mt-0.5 shrink-0" aria-hidden="true">
-                    <Database className="w-4 h-4 text-slate-500" />
-                    <Brain className="w-4 h-4 text-slate-500" />
-                  </div>
-                  <div>
-                    <span className="block text-xs font-bold text-slate-700">
-                      Data Engineering · Machine Learning
-                    </span>
-                    <span className="text-[11px] text-slate-500 leading-relaxed">
-                      En développement actif
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Phrase de méthode */}
-            <p className="text-base sm:text-lg text-slate-700 leading-relaxed max-w-lg">
-              Je comprends un problème, j&apos;identifie ce qui compte, puis je construis{' '}
-              <span className="text-slate-900 font-semibold">une réponse concrète.</span>
+      <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-3 px-4 py-5 sm:gap-4 sm:px-6 sm:py-9 lg:grid-cols-[minmax(0,1.12fr)_minmax(330px,0.88fr)] lg:gap-x-10 lg:gap-y-6 lg:px-8 lg:py-14">
+        <div className="hero-motion-entry hero-motion-entry--copy space-y-4 lg:col-start-1 lg:row-start-1 lg:space-y-6">
+          <div className="space-y-2">
+            <p className="flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.13em] text-primary-800 dark:text-primary-300 sm:text-sm">
+              <span className="h-1 w-7 shrink-0 bg-coral-500" aria-hidden="true" />
+              {t('studentBadge')}
+            </p>
+            <p className="text-sm font-medium leading-snug text-body">
+              {t('degree')}
             </p>
 
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-3 pt-1">
-              <Link
-                href="/projects"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-btn bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
-              >
-                Voir mes projets
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </Link>
-              <a
-                href={PROFILE.contact.cvPath}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-btn bg-white hover:bg-slate-50 text-slate-800 text-sm font-semibold border border-slate-300 hover:border-slate-400 shadow-xs hover:shadow-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
-              >
-                <FileText className="w-4 h-4 text-slate-500" aria-hidden="true" />
-                Télécharger mon CV
-              </a>
-            </div>
-          </motion.div>
+            <h1
+              id="hero-heading"
+              className="font-heading text-[clamp(2.8rem,6.8vw,5rem)] font-extrabold leading-[0.95] tracking-[-0.055em] text-ink"
+            >
+              <span className="block">{name.slice(0, -1).join(' ')}</span>
+              {' '}
+              <span className="block text-primary-700 dark:text-primary-400">{name[name.length - 1]}</span>
+            </h1>
 
-          {/* ── DROITE (Photo portrait, 5 cols) ── */}
-          <motion.div
-            className="lg:col-span-5 flex justify-center lg:justify-end"
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.45, delay: 0.1 }}
+            <p className="max-w-xl border-l-[3px] border-coral-500 pl-4 font-heading text-[clamp(1.25rem,2.1vw,1.65rem)] font-bold leading-snug tracking-tight text-ink">
+              {t('tagline')}
+            </p>
+            <p className="mt-3 flex w-fit max-w-full items-start gap-2 rounded-full border border-coral-200 bg-coral-50 px-3 py-1.5 text-xs font-bold leading-snug text-coral-900 dark:border-coral-800 dark:bg-coral-950/60 dark:text-coral-200 sm:py-2 sm:text-sm">
+              <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-coral-600" aria-hidden="true" />
+              <span className="min-w-0">{t('availability')}</span>
+            </p>
+          </div>
+        </div>
+
+        <div className="hero-motion-entry hero-motion-entry--portrait relative mx-auto mb-2 h-[190px] w-[155px] lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:mb-0 lg:h-auto lg:w-full lg:max-w-[390px] lg:-translate-y-12 lg:self-center">
+          <div
+            className="absolute -right-1 -top-1 h-[62%] w-[64%] bg-coral-300 lg:-right-4 lg:-top-4"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute -bottom-1 -left-1 h-[43%] w-[72%] bg-primary-800 lg:-bottom-4 lg:-left-4"
+            aria-hidden="true"
+          />
+          <div className="hero-portrait-frame group relative h-full w-full overflow-hidden rounded-lg border-2 border-white bg-slate-900 shadow-card dark:bg-slate-950 lg:mx-4 lg:my-4 lg:aspect-[4/5] lg:h-auto lg:w-auto lg:rounded-none lg:border-0 lg:shadow-card">
+            <Image
+              src="/images/godwin-portrait.jpg"
+              alt={t('portraitAlt')}
+              fill
+              priority
+              sizes="(max-width: 1023px) 155px, 460px"
+              className="hero-portrait-image object-cover object-top"
+              quality={75}
+            />
+          </div>
+        </div>
+
+        <div className="flex w-full flex-col gap-3 pt-0.5 sm:w-auto sm:flex-row lg:col-start-1 lg:row-start-3">
+          <Link
+            href="/projects"
+            className="motion-control inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-primary-700 px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-primary-800 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2 sm:w-auto"
           >
-            <div className="relative w-full max-w-[340px] sm:max-w-[380px]">
-              {/* Halo décoratif subtil */}
-              <div
-                className="absolute -inset-4 rounded-3xl bg-gradient-to-tr from-primary-200/40 to-accent-200/30 blur-2xl -z-10"
-                aria-hidden="true"
-              />
+            {t('viewProjects')}
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+          <Link
+            href="/contact"
+            className="motion-control inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-primary-700 bg-white/60 px-5 py-2.5 text-sm font-bold text-primary-800 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2 dark:border-primary-400 dark:bg-slate-900/70 dark:text-primary-200 dark:hover:bg-slate-800 sm:w-auto"
+          >
+            <Mail className="h-4 w-4" aria-hidden="true" />
+            {common('cta.contact')}
+          </Link>
+          <a
+            href="/cv/CV_Godwin_Nougbolo.pdf"
+            download
+            className="motion-control inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-coral-500 bg-white/60 px-5 py-2.5 text-sm font-bold text-coral-800 hover:bg-coral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 dark:bg-slate-900/70 dark:text-coral-200 dark:hover:bg-slate-800 sm:w-auto"
+          >
+            <Download className="h-4 w-4" aria-hidden="true" />
+            {t('downloadCv')}
+          </a>
+        </div>
 
-              {/* Cadre photo */}
-              <div className="relative rounded-2xl overflow-hidden border border-slate-200/80 bg-white shadow-card-hover">
-
-                {/* Badge PFA overlay */}
-                <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-accent-500/95 backdrop-blur-sm text-white text-[11px] font-bold shadow-md">
-                  <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" aria-hidden="true" />
-                  PFA 2e année
-                </div>
-
-                {/* Photo portrait vertical */}
-                <div className="relative aspect-[4/5] w-full">
-                  <Image
-                    src="/images/godwin-portrait.jpg"
-                    alt="Portrait de Godwin Elie Nougbolo, étudiant ingénieur IID"
-                    fill
-                    priority
-                    sizes="(max-width: 640px) 340px, (max-width: 1024px) 380px, 380px"
-                    className="object-cover object-top"
-                    quality={90}
-                  />
-                  <div
-                    className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-900/30 to-transparent"
-                    aria-hidden="true"
-                  />
-                </div>
-
-                {/* Micro-légende sous la photo */}
-                <div className="px-4 py-3 bg-white border-t border-slate-100 flex items-center justify-between">
-                  <div>
-                    <p className="text-xs font-bold text-slate-900">{PROFILE.name}</p>
-                    <p className="text-[11px] text-slate-500">IID · Data Analysis</p>
-                  </div>
-                  <div className="flex items-center gap-1 text-[11px] font-mono text-primary-700 font-semibold">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-accent-600" aria-hidden="true" />
-                    Disponible PFA
-                  </div>
-                </div>
-
+        <div className="space-y-4 lg:col-start-1 lg:row-start-2 lg:space-y-6">
+          <div className="grid max-w-2xl items-start gap-2 sm:grid-cols-2 sm:gap-3">
+            <div className="rounded-xl border border-slate-200 bg-white/70 p-3 shadow-subtle dark:border-slate-700 dark:bg-slate-900/70 sm:p-4">
+              <div className="flex items-center gap-2">
+                <BarChart2 className="h-4 w-4 shrink-0 text-primary-700 dark:text-primary-400" aria-hidden="true" />
+                <h2 className="font-heading text-base font-extrabold leading-snug text-ink sm:text-lg">
+                    {t('analysisTitle')}
+                </h2>
               </div>
+              <p className="mt-1.5 text-base leading-relaxed text-body sm:mt-2">
+                {t('analysisDescription')}
+              </p>
             </div>
-          </motion.div>
+
+            <div className="rounded-xl border border-slate-200 bg-white/70 p-3 shadow-subtle dark:border-slate-700 dark:bg-slate-900/70 sm:p-4">
+              <div className="flex items-center gap-2">
+                <Database className="h-4 w-4 shrink-0 text-coral-700" aria-hidden="true" />
+                <h2 className="font-heading text-base font-extrabold leading-snug text-ink sm:text-lg">
+                  {t('growingFields')}
+                </h2>
+              </div>
+              <p className="mt-1.5 text-base leading-relaxed text-body sm:mt-2">
+                {t('growingFieldsDescription')}
+              </p>
+            </div>
+          </div>
 
         </div>
       </div>
     </section>
   );
 };
-

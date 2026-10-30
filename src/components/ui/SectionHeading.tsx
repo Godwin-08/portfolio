@@ -36,12 +36,12 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         </div>
       )}
       
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-extrabold text-slate-900 tracking-tight leading-[1.2]">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.2]">
         {title}
       </h2>
 
       {description && (
-        <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+        <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
           {description}
         </p>
       )}
