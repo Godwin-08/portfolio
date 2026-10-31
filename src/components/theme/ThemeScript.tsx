@@ -13,8 +13,7 @@ export function ThemeScript() {
   } catch (error) {
     console.warn('Unable to read the saved theme preference.', error);
   }
-  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  if (stored === 'dark' || (!stored && prefersDark)) {
+  if (stored === 'dark') {
     document.documentElement.classList.add('dark');
   } else {
     document.documentElement.classList.remove('dark');
