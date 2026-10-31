@@ -508,6 +508,7 @@ describe('Technical Validation - i18n & next-intl', () => {
     expect(routing.locales).toEqual(['fr', 'en']);
     expect(routing.defaultLocale).toBe('fr');
     expect(routing.localePrefix).toBe('as-needed');
+    expect(routing.localeDetection).toBe(false);
   });
 
   it('should have consistent dictionary structure across fr and en', () => {
