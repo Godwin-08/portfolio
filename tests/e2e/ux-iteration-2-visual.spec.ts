@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import frMessages from '../../messages/fr.json';
 import enMessages from '../../messages/en.json';
 
-const projectIds = ['gtm', 'olist', 'afc', 'acp', 'revision-flow', 'novastore', 'sante-scolaire', 'pneumonia-detection'] as const;
+const projectIds = ['gtm', 'olist', 'afc', 'acp', 'revision-flow', 'novastore', 'sante-scolaire', 'pneumonia-detection', 'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health'] as const;
 const locales = [
   { locale: 'fr', projects: '/projets', messages: frMessages },
   { locale: 'en', projects: '/en/projects', messages: enMessages },
@@ -20,7 +20,7 @@ test('captures iteration 2 project, homepage, and skill category views', async (
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/projets');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-  await expect(page.locator('article')).toHaveCount(8);
+  await expect(page.locator('article')).toHaveCount(11);
   await expect(page.locator('article h2')).toHaveText(
     projectIds.map((slug) => frMessages.projects.cards[slug].title)
   );
@@ -54,7 +54,7 @@ test('captures iteration 2 project, homepage, and skill category views', async (
   for (const site of locales) {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(site.projects);
-    await expect(page.locator('article')).toHaveCount(8);
+    await expect(page.locator('article')).toHaveCount(11);
     await expect(page.locator('article h2')).toHaveText(
       projectIds.map((slug) => site.messages.projects.cards[slug].title)
     );
@@ -130,7 +130,7 @@ for (const site of locales) {
     await expect(page).toHaveURL(new RegExp(`${site.projects.replaceAll('/', '\\/')}\\?campaign=iteration-2$`));
     expect(new URL(page.url()).searchParams.get('category')).toBeNull();
     expect(new URL(page.url()).searchParams.get('skill')).toBeNull();
-    await expect(page.locator('article h2')).toHaveCount(8);
+    await expect(page.locator('article h2')).toHaveCount(11);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   });
 }

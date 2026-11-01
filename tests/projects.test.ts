@@ -17,9 +17,10 @@ describe('Data Layer - Projects', () => {
     expect(uniqueSlugs.size).toBe(slugs.length);
   });
 
-  it('should display the eight project cards in their configured order', () => {
+  it('should display all project cards in their configured order', () => {
     expect(getAllProjects().map(({ id }) => id)).toEqual([
       'gtm', 'olist', 'afc', 'acp', 'revision-flow', 'novastore', 'sante-scolaire', 'pneumonia-detection',
+      'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health',
     ]);
     for (const messages of [frMessages, enMessages]) {
       expect(Object.keys(messages.projects.cards).sort()).toEqual(
@@ -170,7 +171,7 @@ describe('Data Layer - Projects', () => {
 });
 
 describe('Localized case study content', () => {
-  it('provides clear French and English detail content for all eight projects', () => {
+  it('provides clear French and English detail content for all projects', () => {
     expect(Object.keys(PROJECT_DETAIL_COPY).sort()).toEqual(
       PROJECTS.map(({ slug }) => slug).sort()
     );
@@ -444,9 +445,39 @@ describe('Localized case study content', () => {
     }
   });
 
-  it('keeps all eight projects backed by a case-study route source', () => {
-    expect(PROJECTS).toHaveLength(8);
+  it('keeps all projects backed by a case-study route source', () => {
+    expect(PROJECTS).toHaveLength(11);
     expect(PROJECTS.every(({ slug, caseStudy }) => Boolean(slug && caseStudy))).toBe(true);
+  });
+
+  it('uses the verified DataCamp workspaces and notebook-supported results', () => {
+    const goodThought = getProjectDetailCopy('goodthought-sql-analysis', 'fr');
+    const motorcycle = getProjectDetailCopy('motorcycle-parts-sales', 'fr');
+    const mentalHealth = getProjectDetailCopy('students-mental-health', 'fr');
+    const goodThoughtProject = getProjectBySlug('goodthought-sql-analysis');
+    const motorcycleProject = getProjectBySlug('motorcycle-parts-sales');
+    const mentalHealthProject = getProjectBySlug('students-mental-health');
+
+    expect(goodThoughtProject?.image).toBe('/images/projects/goodthought-data-model.png');
+    expect(motorcycleProject?.image).toBe('/images/projects/motorcycle-parts-sales.jpg');
+    expect(goodThought?.documents?.[0].href).toBe(
+      'https://www.datacamp.com/datalab/w/f8f3f346-1000-46b8-8570-27be207896b3/edit',
+    );
+    expect(goodThought?.results.map(({ value }) => value)).toContain('Assignment_316');
+    expect(goodThought?.results.map(({ value }) => value)).toContain('3 840,66 $');
+    expect(motorcycle?.documents?.[0].href).toBe(
+      'https://www.datacamp.com/datalab/w/42a9134d-c268-458b-9a48-d7abf76d5365/edit',
+    );
+    expect(motorcycle?.results.map(({ value }) => value)).toContain('48');
+    expect(motorcycle?.limitations.join(' ')).toContain('payment_fee');
+    expect(mentalHealth?.documents?.[0].href).toBe(
+      'https://www.datacamp.com/datalab/w/92c8ef26-70ff-4f29-9282-69a8bed276ee/edit',
+    );
+    expect(mentalHealth?.results.map(({ value }) => value)).toContain('75,56 / 62,84');
+    expect(mentalHealth?.results.map(({ value }) => value)).toContain('8,04 / 8,61');
+    expect(getProjectDetailCopy('students-mental-health', 'en')?.results.map(({ value }) => value))
+      .toContain('75.56 / 62.84');
+    expect(mentalHealthProject?.image).toBe('/images/projects/students-mental-health.jpg');
   });
 });
 

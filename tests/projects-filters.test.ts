@@ -113,6 +113,11 @@ describe('Projects Page - Empty State', () => {
     const results = filterProjects({ categorySlug: 'machine-learning' });
     expect(results.map(({ slug }) => slug)).toEqual(['pneumonia-detection']);
   });
+
+  it('keeps the Machine Learning category label in English in both locales', () => {
+    expect(frMessages.projects.categories['machine-learning']).toBe('Machine Learning');
+    expect(enMessages.projects.categories['machine-learning']).toBe('Machine Learning');
+  });
 });
 
 describe('Projects Page - Skill ↔ Project Consistency', () => {

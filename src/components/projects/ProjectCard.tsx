@@ -132,7 +132,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
               alt={ui('imageAlt', { title })}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-contain p-1 transition-transform duration-500 group-hover:scale-[1.035] motion-reduce:group-hover:scale-100"
+              className={cn(
+                'object-contain p-1 transition-transform duration-500 group-hover:scale-[1.035] motion-reduce:group-hover:scale-100',
+                project.id === 'motorcycle-parts-sales' &&
+                  'object-cover object-[center_56%] p-0'
+              )}
             />
           ) : (
             <ProjectEditorialVisual project={project} title={title} />

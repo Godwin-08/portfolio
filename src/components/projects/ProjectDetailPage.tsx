@@ -126,7 +126,7 @@ export async function ProjectDetailPage({
       <ProjectGallery images={copy.gallery} labels={galleryLabels} />
     ) : null,
     method: (
-      <section className="space-y-5">
+      <section className="space-y-5" data-project-method>
         <SectionHeading icon={<ListChecks className="h-5 w-5" />} title={copy.methodTitle ?? t('methodTitle')} />
         <p className="max-w-4xl text-base leading-relaxed text-slate-700 dark:text-slate-300">{copy.methodIntro}</p>
         <ol className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -246,15 +246,17 @@ export async function ProjectDetailPage({
             </p>
           </div>
 
-          <a
-            href={copy.repository}
-            target="_blank"
-            rel="noreferrer"
-            className="project-detail__source motion-control inline-flex min-h-11 items-center gap-2 rounded-btn border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 dark:border-slate-600 dark:text-slate-100 dark:hover:bg-slate-800"
-          >
-            <Github className="h-4 w-4" aria-hidden="true" />
-            {t('source')}
-          </a>
+          {copy.repository && (
+            <a
+              href={copy.repository}
+              target="_blank"
+              rel="noreferrer"
+              className="project-detail__source motion-control inline-flex min-h-11 items-center gap-2 rounded-btn border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 dark:border-slate-600 dark:text-slate-100 dark:hover:bg-slate-800"
+            >
+              <Github className="h-4 w-4" aria-hidden="true" />
+              {t('source')}
+            </a>
+          )}
         </div>
 
         <aside className="project-detail__question min-w-0 rounded-2xl border p-5 sm:p-6 lg:col-span-4">

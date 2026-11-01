@@ -99,6 +99,33 @@ export const PROJECT_PAGE_CONFIG = {
       order: ['data', 'method', 'architecture', 'decisions', 'gallery', 'results', 'limitations', 'documents'],
     },
   },
+  'goodthought-sql-analysis': {
+    accent: '#168A72',
+    accentText: '#08705B',
+    accentDark: '#49C6A7',
+    layout: {
+      kind: 'sections',
+      order: ['data', 'method', 'results', 'limitations', 'documents'],
+    },
+  },
+  'motorcycle-parts-sales': {
+    accent: '#C77A24',
+    accentText: '#9A5712',
+    accentDark: '#F2A64F',
+    layout: {
+      kind: 'sections',
+      order: ['data', 'method', 'results', 'limitations', 'documents'],
+    },
+  },
+  'students-mental-health': {
+    accent: '#7762A8',
+    accentText: '#5D478F',
+    accentDark: '#B3A0E2',
+    layout: {
+      kind: 'sections',
+      order: ['data', 'method', 'results', 'limitations', 'documents'],
+    },
+  },
 } satisfies Record<ProjectPageSlug, ProjectPageConfig>;
 
 export function getProjectPageConfig(slug: string): ProjectPageConfig {

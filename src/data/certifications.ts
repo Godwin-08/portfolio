@@ -7,7 +7,9 @@ export interface CertificationCourseContent {
 export interface Certification {
   id: string;
   title: string;
-  category: 'sql' | 'statistics';
+  category: 'sql' | 'statistics' | 'data-analysis';
+  credentialType: 'certification' | 'track' | 'course';
+  courseIds?: readonly string[];
   importance: number;
   completedOn?: string;
   reference?: string;
@@ -26,6 +28,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
     id: 'introduction-to-statistics',
     title: 'Introduction to Statistics',
     category: 'statistics',
+    credentialType: 'course',
     importance: 6,
     completedOn: '2026-10-22',
     reference: '50,503,580',
@@ -65,6 +68,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
     id: 'introduction-to-sql',
     title: 'Introduction to SQL',
     category: 'sql',
+    credentialType: 'course',
     importance: 7,
     completedOn: '2026-10-09',
     reference: '647,099',
@@ -102,6 +106,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
     id: 'intermediate-sql',
     title: 'Intermediate SQL',
     category: 'sql',
+    credentialType: 'course',
     importance: 5,
     completedOn: '2026-10-09',
     reference: '50,322,153',
@@ -141,6 +146,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
     id: 'joining-data-in-sql',
     title: 'Joining Data in SQL',
     category: 'sql',
+    credentialType: 'course',
     importance: 2,
     completedOn: '2026-10-13',
     reference: '50,340,287',
@@ -180,6 +186,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
     id: 'data-manipulation-in-sql',
     title: 'Data Manipulation in SQL',
     category: 'sql',
+    credentialType: 'course',
     importance: 1,
     completedOn: '2026-10-16',
     reference: '50,413,441',
@@ -219,6 +226,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
     id: 'postgresql-summary-stats-and-window-functions',
     title: 'PostgreSQL Summary Stats and Window Functions',
     category: 'sql',
+    credentialType: 'course',
     importance: 3,
     completedOn: '2026-10-18',
     reference: '50,456,282',
@@ -259,6 +267,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
     id: 'functions-for-manipulating-data-in-postgresql',
     title: 'Functions for Manipulating Data in PostgreSQL',
     category: 'sql',
+    credentialType: 'course',
     importance: 4,
     completedOn: '2026-10-20',
     reference: '50,476,062',
@@ -299,6 +308,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
     id: 'exploratory-data-analysis-in-sql',
     title: 'Exploratory Data Analysis in SQL',
     category: 'sql',
+    credentialType: 'course',
     importance: 8,
     completedOn: '2026-10-27',
     reference: '50,562,081',
@@ -334,13 +344,168 @@ export const CERTIFICATIONS: readonly Certification[] = [
       },
     },
   },
+  {
+    id: 'associate-data-analyst-in-sql',
+    title: 'Associate Data Analyst in SQL',
+    category: 'sql',
+    credentialType: 'track',
+    courseIds: [
+      'introduction-to-statistics',
+      'introduction-to-sql',
+      'intermediate-sql',
+      'joining-data-in-sql',
+      'data-manipulation-in-sql',
+      'postgresql-summary-stats-and-window-functions',
+      'functions-for-manipulating-data-in-postgresql',
+      'exploratory-data-analysis-in-sql',
+      'data-communication-concepts',
+      'understanding-data-visualization',
+      'data-driven-decision-making-in-sql',
+    ],
+    importance: 9,
+    completedOn: '2026-11-01',
+    reference: '978,842',
+    documentPath: '/certifications/associate-data-analyst-in-sql.pdf',
+    verificationUrl:
+      'https://www.datacamp.com/completed/statement-of-accomplishment/track/792469f86f6275d924983bafc60c0de90da86477',
+    issuer: 'DataCamp',
+    accent: 'emerald',
+    content: {
+      fr: {
+        overview:
+          'Parcours DataCamp de 39 heures terminé sous le titre Associate Data Analyst in SQL.',
+        topics: ['Parcours DataCamp de 39 heures consacré à l’analyse de données avec SQL'],
+        practice: 'L’attestation documente le parcours DataCamp terminé.',
+      },
+      en: {
+        overview:
+          'Completed the 39-hour DataCamp track titled Associate Data Analyst in SQL.',
+        topics: ['A 39-hour DataCamp track focused on data analysis with SQL'],
+        practice: 'The certificate documents the completed DataCamp track.',
+      },
+    },
+  },
+  {
+    id: 'data-communication-concepts',
+    title: 'Data Communication Concepts',
+    category: 'data-analysis',
+    credentialType: 'course',
+    importance: 10,
+    completedOn: '2026-11-01',
+    reference: '50,676,087',
+    documentPath: '/certifications/data-communication-concepts.pdf',
+    issuer: 'DataCamp',
+    accent: 'emerald',
+    content: {
+      fr: {
+        overview:
+          'Cours consacré à la communication des résultats d’analyse : storytelling, choix des données et visualisations, rapports écrits et présentations orales adaptés au public.',
+        topics: [
+          'Storytelling avec les données et vulgarisation de résultats techniques',
+          'Choix des données, statistiques et visualisations adaptées au public',
+          'Structure, clarté et reproductibilité des rapports écrits',
+          'Préparation et présentation orale de résultats',
+        ],
+        practice:
+          'Les exercices abordent notamment la rédaction d’un rapport sur le risque de crédit et la préparation de présentations.',
+      },
+      en: {
+        overview:
+          'A course on communicating analysis results through data storytelling, appropriate data and visualisations, written reports, and audience-focused presentations.',
+        topics: [
+          'Data storytelling and explaining technical findings',
+          'Choosing data, statistics, and visualisations for an audience',
+          'Structure, clarity, and reproducibility in written reports',
+          'Preparing and delivering oral presentations',
+        ],
+        practice:
+          'Exercises include writing a credit-risk report and preparing presentations.',
+      },
+    },
+  },
+  {
+    id: 'understanding-data-visualization',
+    title: 'Understanding Data Visualization',
+    category: 'data-analysis',
+    credentialType: 'course',
+    importance: 11,
+    completedOn: '2026-10-31',
+    reference: '50,665,247',
+    documentPath: '/certifications/understanding-data-visualization.pdf',
+    issuer: 'DataCamp',
+    accent: 'emerald',
+    content: {
+      fr: {
+        overview:
+          'Cours d’introduction au choix et à l’interprétation de visualisations pour communiquer des données complexes.',
+        topics: [
+          'Histogrammes et diagrammes en boîte pour décrire des distributions',
+          'Nuages de points, courbes, diagrammes à barres et diagrammes en points',
+          'Couleur, forme et visualisation de plusieurs variables',
+          'Pièges courants : axes trompeurs, surcharge et graphiques difficiles à lire',
+        ],
+        practice:
+          'Les exercices explorent plus de 20 jeux de données et comparent différentes représentations graphiques.',
+      },
+      en: {
+        overview:
+          'An introductory course on choosing and interpreting visualisations to communicate complex data.',
+        topics: [
+          'Histograms and box plots for describing distributions',
+          'Scatter plots, line charts, bar charts, and dot plots',
+          'Colour, shape, and visualising multiple variables',
+          'Common pitfalls: misleading axes, clutter, and hard-to-read charts',
+        ],
+        practice:
+          'Exercises explore more than 20 datasets and compare different visual representations.',
+      },
+    },
+  },
+  {
+    id: 'data-driven-decision-making-in-sql',
+    title: 'Data-Driven Decision Making in SQL',
+    category: 'sql',
+    credentialType: 'course',
+    importance: 12,
+    completedOn: '2026-10-30',
+    reference: '50,652,560',
+    documentPath: '/certifications/data-driven-decision-making-in-sql.pdf',
+    issuer: 'DataCamp',
+    accent: 'emerald',
+    content: {
+      fr: {
+        overview:
+          'Cours sur l’utilisation de SQL pour éclairer les décisions métier, à partir d’une étude de cas sur une société de location de films en ligne.',
+        topics: [
+          'Requêtes SQL simples pour répondre à des questions métier',
+          'Requêtes SQL avancées appliquées à la prise de décision',
+          'Analyse de clients, évaluations de films, acteurs et ventes',
+          'Agrégations multidimensionnelles et requêtes OLAP',
+        ],
+        practice:
+          'L’étude de cas explore les préférences et l’engagement des clients ainsi que l’évolution des ventes dans une base de location de films.',
+      },
+      en: {
+        overview:
+          'A course on using SQL to support business decisions, built around an online film-rental company case study.',
+        topics: [
+          'Simple SQL queries for business questions',
+          'Advanced SQL queries for decision-making',
+          'Analysis of customers, film ratings, actors, and sales',
+          'Multidimensional aggregation and OLAP queries',
+        ],
+        practice:
+          'The case study explores customer preferences and engagement, as well as sales trends in a film-rental database.',
+      },
+    },
+  },
 ];
 
 export const CERTIFICATIONS_BY_IMPORTANCE = [...CERTIFICATIONS].sort(
   (first, second) => first.importance - second.importance
 );
 
-export const FEATURED_CERTIFICATION_COUNT = 3;
+export const FEATURED_COURSE_COUNT = 3;
 
 export function getCertificationById(id: string) {
   return CERTIFICATIONS.find((certification) => certification.id === id);

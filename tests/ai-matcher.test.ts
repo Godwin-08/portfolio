@@ -347,8 +347,12 @@ describe('Cloudflare Workers AI Client - Mock & Fallback Tests', () => {
   });
 
   it('should return null (triggering fallback) when Cloudflare credentials are missing', async () => {
+    const fetchSpy = vi.spyOn(global, 'fetch');
+
     const res = await queryCloudflareAI('Modélisation SQL', 'fr');
+
     expect(res).toBeNull();
+    expect(fetchSpy).not.toHaveBeenCalled();
   });
 
   it('should bypass Cloudflare for undocumented personal employment details', async () => {

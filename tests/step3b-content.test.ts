@@ -41,41 +41,51 @@ describe('step 3B targeted content corrections', () => {
     expect(englishAlts.join(' ')).not.toMatch(/social indicators/i);
   });
 
-  it('explains when Cloudflare may process questions and names the local fallback', () => {
+  it('explains Cloudflare Workers AI processing and the local fallback in both locales', () => {
     const frenchNotices = [fr.projects.matcher.modes.aiNotice, fr.aiAssistant.modes.aiNotice];
     const englishNotices = [en.projects.matcher.modes.aiNotice, en.aiAssistant.modes.aiNotice];
 
     for (const notice of frenchNotices) {
       expect(notice).toContain('Cloudflare Workers AI');
-      expect(notice).toContain('configuré et disponible');
-      expect(notice).toContain('le moteur local');
+      expect(notice).toContain('contexte documentaire pertinent');
+      expect(notice).toContain('le moteur local prend le relais');
       expect(notice).toContain('informations sensibles');
-      expect(notice).not.toMatch(/aucune donnée personnelle/i);
+      expect(fr.aiAssistant.modes.fallbackNotice).toContain('moteur local de secours');
     }
 
     for (const notice of englishNotices) {
       expect(notice).toContain('Cloudflare Workers AI');
-      expect(notice).toContain('configured and available');
-      expect(notice).toContain('local matcher');
+      expect(notice).toContain('relevant documented portfolio context');
+      expect(notice).toContain('local search engine takes over');
       expect(notice).toContain('sensitive information');
-      expect(notice).not.toMatch(/no personal data is stored/i);
+      expect(en.aiAssistant.modes.fallbackNotice).toContain('local keyword-search fallback');
     }
   });
 
-  it('labels DataCamp courses, completion certificates, and verification links separately', () => {
+  it('separates certification, track, and course evidence from course domains', () => {
     expect(fr.home.certifications.heading).toBe('Certifications');
-    expect(fr.home.certifications.count).toContain('certifications répertoriées');
+    expect(fr.home.certifications.count).toContain('cours répertoriés');
+    expect(fr.home.certifications.types.certification).toBe('Certification');
+    expect(fr.home.certifications.types.track).toBe('Parcours');
+    expect(fr.home.certifications.types.course).toBe('Cours');
+    expect(fr.home.certifications.proofsHeading).toBe('Parcours et certifications');
+    expect(fr.home.certifications.coursesHeading).toBe('Cours');
     expect(fr.home.certifications.detail.certificate).toBe('Attestation de réussite');
     expect(fr.home.certifications.viewCertificate).toContain('attestation');
     expect(fr.home.certifications.verifyCertificate).toContain('DataCamp');
-    expect(fr.home.certifications.viewAll).toContain('certifications');
+    expect(fr.home.certifications.viewAll).toContain('preuves');
 
     expect(en.home.certifications.heading).toBe('Certifications');
-    expect(en.home.certifications.count).toContain('certifications listed');
+    expect(en.home.certifications.count).toContain('courses listed');
+    expect(en.home.certifications.types.certification).toBe('Certification');
+    expect(en.home.certifications.types.track).toBe('Learning path');
+    expect(en.home.certifications.types.course).toBe('Course');
+    expect(en.home.certifications.proofsHeading).toBe('Tracks and certifications');
+    expect(en.home.certifications.coursesHeading).toBe('Courses');
     expect(en.home.certifications.detail.certificate).toBe('Completion certificate');
     expect(en.home.certifications.viewCertificate).toContain('completion certificate');
     expect(en.home.certifications.verifyCertificate).toContain('DataCamp');
-    expect(en.home.certifications.viewAll).toContain('certifications');
+    expect(en.home.certifications.viewAll).toContain('records');
 
     const frenchAnswer = runLocalMatcher(
       'Quels cours DataCamp et quelles attestations sont documentés ?',
@@ -86,12 +96,14 @@ describe('step 3B targeted content corrections', () => {
       'en'
     );
 
-    expect(frenchAnswer.directAnswer).toContain('cours DataCamp terminés');
-    expect(frenchAnswer.directAnswer).toContain('attestation de réussite');
-    expect(frenchAnswer.directAnswer).toContain('lien officiel de vérification');
-    expect(englishAnswer.directAnswer).toContain('completed DataCamp courses');
-    expect(englishAnswer.directAnswer).toContain('completion certificate');
-    expect(englishAnswer.directAnswer).toContain('official verification link');
+    expect(frenchAnswer.directAnswer).toContain(
+      '11 attestations de cours et 1 attestation de parcours'
+    );
+    expect(frenchAnswer.directAnswer).toContain('preuve disponible');
+    expect(englishAnswer.directAnswer).toContain(
+      '11 course completion certificates and 1 track completion certificate'
+    );
+    expect(englishAnswer.directAnswer).toContain('available evidence');
   });
 
   it('distinguishes the final Olist dataset from the delivery-date subset', () => {

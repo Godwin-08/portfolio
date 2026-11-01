@@ -90,7 +90,7 @@ export const SKILLS: Skill[] = [
     id: 'sql',
     name: 'SQL',
     category: 'data-management',
-    projectSlugs: ['gtm', 'sante-scolaire'],
+    projectSlugs: ['gtm', 'sante-scolaire', 'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health'],
     isTopSkill: true,
   },
   {
@@ -167,7 +167,7 @@ export const SKILLS: Skill[] = [
     id: 'jupyter',
     name: 'Jupyter',
     category: 'development-tools',
-    projectSlugs: ['olist', 'afc', 'acp', 'pneumonia-detection'],
+    projectSlugs: ['olist', 'afc', 'acp', 'pneumonia-detection', 'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health'],
     isTopSkill: false,
   },
   {

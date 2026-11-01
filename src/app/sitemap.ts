@@ -45,7 +45,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  // 3. Certification detail pages (7 DataCamp courses x 2 locales = 14 URLs)
+  // 3. Detail pages for every documented DataCamp record
   for (const cert of CERTIFICATIONS) {
     for (const locale of locales) {
       const pathname = getPathname({

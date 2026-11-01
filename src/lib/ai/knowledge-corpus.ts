@@ -318,6 +318,12 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
   // 7. CERTIFICATIONS (DataCamp SQL)
   for (const cert of CERTIFICATIONS_BY_IMPORTANCE) {
     const isPostgres = cert.title.toLowerCase().includes('postgresql');
+    const evidenceType =
+      cert.credentialType === 'certification'
+        ? { fr: 'Certification d’examen', en: 'Exam certification' }
+        : cert.credentialType === 'track'
+          ? { fr: 'Parcours', en: 'Learning path' }
+          : { fr: 'Cours', en: 'Course' };
     const evidence = cert.documentPath
       ? `Preuve documentaire : document ${cert.documentPath.endsWith('.pdf') ? 'PDF vectoriel' : 'image officielle'} accessible sur le portfolio.`
       : 'Aucune copie du certificat n’est hébergée sur le portfolio.';
@@ -333,15 +339,16 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
       },
       summary: {
         fr: cert.completedOn
-          ? `Cours DataCamp terminé le ${cert.completedOn}.`
-          : 'Cours DataCamp documenté dans le portfolio.',
+          ? `${evidenceType.fr} DataCamp terminé le ${cert.completedOn}.`
+          : `${evidenceType.fr} DataCamp documenté dans le portfolio.`,
         en: cert.completedOn
-          ? `DataCamp course completed on ${cert.completedOn}.`
-          : 'DataCamp course documented in the portfolio.',
+          ? `${evidenceType.en} completed on ${cert.completedOn}.`
+          : `${evidenceType.en} documented in the portfolio.`,
       },
       facts: {
         fr: [
           `Intitulé de la formation : ${cert.title}.`,
+          `Type de preuve : ${evidenceType.fr}.`,
           `Organisme formateur : DataCamp (plateforme d’apprentissage spécialisée dans la data).`,
           ...(cert.completedOn
             ? [`Date d’achèvement : ${cert.completedOn}.`]
@@ -359,7 +366,8 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
               : 'Aucun document ou lien officiel de vérification n’est renseigné.',
         ],
         en: [
-          `Course title: ${cert.title}.`,
+          `Learning title: ${cert.title}.`,
+          `Evidence type: ${evidenceType.en}.`,
           `Issuing organization: DataCamp (specialized data learning platform).`,
           ...(cert.completedOn
             ? [`Completion date: ${cert.completedOn}.`]
@@ -379,11 +387,15 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
       },
       limitations: {
         fr: [
-          'Cette fiche présente le cours suivi et ne constitue pas une évaluation indépendante du niveau professionnel.',
+          cert.credentialType === 'track'
+            ? 'Cette attestation documente l’achèvement d’un parcours, pas une certification d’examen ni une évaluation indépendante du niveau professionnel.'
+            : 'Cette fiche documente un cours terminé et ne constitue pas une évaluation indépendante du niveau professionnel.',
           `Cette formation porte sur ${isPostgres ? 'PostgreSQL' : cert.title.includes('Statistics') ? 'les statistiques' : 'le langage SQL'} et complète les projets pratiques, qui restent les preuves maîtresses des compétences de Godwin.`,
         ],
         en: [
-          'This course summary does not constitute an independent assessment of professional proficiency.',
+          cert.credentialType === 'track'
+            ? 'This record documents completion of a learning path, not an exam certification or an independent assessment of professional proficiency.'
+            : 'This record documents a completed course and is not an independent assessment of professional proficiency.',
           `This course focuses on ${isPostgres ? 'PostgreSQL' : cert.title.includes('Statistics') ? 'statistics' : 'SQL'} and complements applied projects, which remain the primary evidence of Godwin’s skills.`,
         ],
       },

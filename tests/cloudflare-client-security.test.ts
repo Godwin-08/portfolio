@@ -14,10 +14,29 @@ describe('Cloudflare AI client failure handling', () => {
     delete process.env.CLOUDFLARE_API_TOKEN;
   });
 
-  it('falls back when the provider returns an unsuccessful HTTP status', async () => {
-    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(new Response(null, { status: 503 }));
+  it.each([
+    ['HTTP 429 quota response', 429],
+    ['HTTP 402 response', 402],
+    ['HTTP 503 provider outage', 503],
+  ])('returns the local-fallback signal for %s without retrying', async (_label, status) => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(
+      new Response(JSON.stringify({ errors: [{ message: 'Workers AI quota exceeded' }] }), {
+        status,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    );
 
     await expect(queryCloudflareAI('A documented project', 'en')).resolves.toBeNull();
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('returns the local-fallback signal after a network error without retrying', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockRejectedValueOnce(
+      new TypeError('fetch failed')
+    );
+
+    await expect(queryCloudflareAI('A documented project', 'en')).resolves.toBeNull();
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
   });
 
   it('falls back when the provider response is not valid JSON', async () => {
@@ -34,7 +53,7 @@ describe('Cloudflare AI client failure handling', () => {
   it('aborts the provider request at the timeout and returns the local-fallback signal', async () => {
     vi.useFakeTimers();
     let aborted = false;
-    vi.spyOn(globalThis, 'fetch').mockImplementation(
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockImplementation(
       (_input, init) =>
         new Promise((_resolve, reject) => {
           const signal = init?.signal;
@@ -58,6 +77,7 @@ describe('Cloudflare AI client failure handling', () => {
 
     await expect(pending).resolves.toBeNull();
     expect(aborted).toBe(true);
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
   });
 
   it('keeps a valid provider no-match distinct from provider failure', async () => {

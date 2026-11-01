@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import {
   ArrowLeft,
+  ArrowRight,
   ArrowUpRight,
   Award,
   CalendarDays,
@@ -12,9 +13,12 @@ import type { Certification } from '@/data/certifications';
 
 interface CertificationDetailPageProps {
   certification: Certification;
+  courses: readonly Pick<Certification, 'id' | 'title'>[];
   locale: 'fr' | 'en';
   labels: {
     back: string;
+    type: string;
+    includedCourses: string;
     completedOn: string;
     reference: string;
     topics: string;
@@ -28,6 +32,7 @@ interface CertificationDetailPageProps {
 
 export function CertificationDetailPage({
   certification,
+  courses,
   locale,
   labels,
 }: CertificationDetailPageProps) {
@@ -54,6 +59,9 @@ export function CertificationDetailPage({
       <header className="space-y-5 border-l-[3px] border-emerald-600 pl-5 dark:border-emerald-400 sm:pl-7">
         <div className="flex items-center gap-2 text-sm font-bold text-emerald-800 dark:text-emerald-300">
           <Award className="h-5 w-5" aria-hidden="true" />
+          <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-900 dark:bg-emerald-950/60 dark:text-emerald-200">
+            {labels.type}
+          </span>
           <span>{certification.issuer}</span>
         </div>
         <h1 className="max-w-4xl break-words font-heading text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl md:text-5xl">
@@ -91,6 +99,37 @@ export function CertificationDetailPage({
           )}
         </dl>
       </header>
+
+      {courses.length > 0 && (
+        <section
+          aria-labelledby="certification-track-courses-heading"
+          className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900 sm:p-7"
+        >
+          <h2
+            id="certification-track-courses-heading"
+            className="font-heading text-xl font-bold text-ink sm:text-2xl"
+          >
+            {labels.includedCourses}
+          </h2>
+          <ul className="grid gap-3 sm:grid-cols-2">
+            {courses.map((course) => (
+              <li key={course.id}>
+                <Link
+                  data-track-course-id={course.id}
+                  href={{
+                    pathname: '/certifications/[slug]',
+                    params: { slug: course.id },
+                  }}
+                  className="inline-flex min-h-11 items-center gap-2 rounded-sm text-sm font-semibold text-emerald-800 underline decoration-emerald-300 underline-offset-4 hover:text-emerald-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 dark:text-emerald-300 dark:hover:text-emerald-200"
+                >
+                  {course.title}
+                  <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_minmax(17rem,0.72fr)] md:gap-8">
         <section

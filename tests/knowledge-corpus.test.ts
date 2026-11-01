@@ -111,7 +111,112 @@ describe('Authoritative Knowledge Corpus & Global Assistant Tests', () => {
         if (query.includes('projets') || query.includes('projects')) {
           expect(projectIds).toContain('gtm');
           expect(projectIds).toContain('sante-scolaire');
+          expect(projectIds).toContain('goodthought-sql-analysis');
+          expect(projectIds).toContain('motorcycle-parts-sales');
+          expect(projectIds).toContain('students-mental-health');
         }
+      }
+    });
+
+    it('should retrieve each guided DataCamp project and its verified results in French and English', () => {
+      const queries = [
+        {
+          locale: 'fr',
+          query: 'Quels résultats du projet GoodThought sur les dons sont consignés ?',
+          projectId: 'goodthought-sql-analysis',
+          result: '3 840,66 $',
+        },
+        {
+          locale: 'en',
+          query: 'What results did the GoodThought donation analysis report?',
+          projectId: 'goodthought-sql-analysis',
+          result: '$3,840.66',
+        },
+        {
+          locale: 'fr',
+          query: 'Quels résultats sont vérifiés dans l’analyse des ventes de pièces de moto ?',
+          projectId: 'motorcycle-parts-sales',
+          result: '48',
+        },
+        {
+          locale: 'en',
+          query: 'What results are verified in the motorcycle parts sales project?',
+          projectId: 'motorcycle-parts-sales',
+          result: '48',
+        },
+        {
+          locale: 'fr',
+          query: 'Quels résultats PHQ-9 et ASISS sont documentés dans le projet de santé mentale ?',
+          projectId: 'students-mental-health',
+          result: '75,56 / 62,84',
+        },
+        {
+          locale: 'en',
+          query: 'What PHQ-9 and ASISS results are documented in the student mental health project?',
+          projectId: 'students-mental-health',
+          result: '75.56 / 62.84',
+        },
+      ] as const;
+
+      for (const { locale, query, projectId, result } of queries) {
+        const response = runLocalMatcher(query, locale);
+        expect(response.status).toBe('success');
+        expect(response.directAnswer).toContain(result);
+        expect(response.matches).toHaveLength(1);
+        expect(response.matches[0].projectId).toBe(projectId);
+        expect(response.matches[0].verifiedProofs.length).toBeGreaterThan(0);
+        expect(response.relatedItems?.map((item) => item.id)).toContain(`proj-${projectId}`);
+        expect(response.matches[0].href).toBe(
+          `/${locale === 'fr' ? 'projets' : 'projects'}/${projectId}`
+        );
+      }
+    });
+
+    it('should return documented limitations for the guided projects in both languages', () => {
+      const queries = [
+        {
+          locale: 'fr',
+          query: 'Quelles sont les limites du projet GoodThought ?',
+          projectId: 'goodthought-sql-analysis',
+          limitation: 'jeu de formation DataCamp',
+        },
+        {
+          locale: 'en',
+          query: 'What are the limitations of GoodThought?',
+          projectId: 'goodthought-sql-analysis',
+          limitation: 'practice dataset',
+        },
+        {
+          locale: 'fr',
+          query: 'Quelles sont les limites de l’analyse des ventes de pièces de moto ?',
+          projectId: 'motorcycle-parts-sales',
+          limitation: 'payment_fee',
+        },
+        {
+          locale: 'en',
+          query: 'What are the limitations of the motorcycle parts sales analysis?',
+          projectId: 'motorcycle-parts-sales',
+          limitation: 'payment_fee',
+        },
+        {
+          locale: 'fr',
+          query: 'Quelles sont les limites du projet de santé mentale des étudiants ?',
+          projectId: 'students-mental-health',
+          limitation: 'causalité',
+        },
+        {
+          locale: 'en',
+          query: 'What are the limitations of the student mental health project?',
+          projectId: 'students-mental-health',
+          limitation: 'causation',
+        },
+      ] as const;
+
+      for (const { locale, query, projectId, limitation } of queries) {
+        const response = runLocalMatcher(query, locale);
+        expect(response.matches[0].projectId).toBe(projectId);
+        expect(response.directAnswer?.toLowerCase()).toContain(limitation.toLowerCase());
+        expect(response.matches[0].limitations.length).toBeGreaterThan(0);
       }
     });
 

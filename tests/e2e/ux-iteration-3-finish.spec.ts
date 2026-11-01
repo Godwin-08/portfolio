@@ -2,7 +2,7 @@ import { expect, test, type Locator, type Page } from '@playwright/test';
 import frMessages from '../../messages/fr.json';
 import enMessages from '../../messages/en.json';
 
-const projectIds = ['gtm', 'olist', 'afc', 'acp', 'revision-flow', 'novastore', 'sante-scolaire', 'pneumonia-detection'] as const;
+const projectIds = ['gtm', 'olist', 'afc', 'acp', 'revision-flow', 'novastore', 'sante-scolaire', 'pneumonia-detection', 'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health'] as const;
 const locales = [
   { locale: 'fr', projects: '/projets', messages: frMessages },
   { locale: 'en', projects: '/en/projects', messages: enMessages },
@@ -111,7 +111,7 @@ async function assertProjectListing(
   site: (typeof locales)[number]
 ) {
   await expect(page.locator('html')).toHaveAttribute('lang', site.locale);
-  await expect(page.locator('article')).toHaveCount(8);
+  await expect(page.locator('article')).toHaveCount(11);
   await expect(page.locator('article h2')).toHaveText(
     projectIds.map((slug) => site.messages.projects.cards[slug].title)
   );

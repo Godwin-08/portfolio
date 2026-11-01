@@ -2,7 +2,11 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { CertificationDetailPage } from '@/components/certifications/CertificationDetailPage';
-import { CERTIFICATIONS, getCertificationById } from '@/data/certifications';
+import {
+  CERTIFICATIONS,
+  CERTIFICATIONS_BY_IMPORTANCE,
+  getCertificationById,
+} from '@/data/certifications';
 import { routing } from '@/i18n/routing';
 import { buildLocalizedPageMetadata } from '@/lib/seo';
 
@@ -59,13 +63,28 @@ export default async function CertificationPage({
     getTranslations({ locale, namespace: 'home.certifications' }),
     getTranslations({ locale, namespace: 'home.certifications.detail' }),
   ]);
+  const includedCourses = certification.courseIds
+    ? CERTIFICATIONS_BY_IMPORTANCE.filter((course) =>
+        certification.courseIds?.includes(course.id)
+      )
+    : [];
 
   return (
     <CertificationDetailPage
       certification={certification}
+      courses={includedCourses}
       locale={locale}
       labels={{
         back: detail('back'),
+        type:
+          certification.credentialType === 'certification'
+            ? t('types.certification')
+            : certification.credentialType === 'track'
+              ? t('types.track')
+              : t('types.course'),
+        includedCourses: detail('includedCourses', {
+          count: includedCourses.length,
+        }),
         completedOn: t('completedOn'),
         reference: t('reference'),
         topics: detail('topics'),

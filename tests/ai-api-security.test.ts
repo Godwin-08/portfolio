@@ -1,6 +1,7 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { POST } from '@/app/api/ai/match/route';
 import { queryCloudflareAI } from '@/lib/ai/cloudflare-client';
+import { runLocalMatcher } from '@/lib/ai/local-matcher';
 
 vi.mock('@/lib/ai/cloudflare-client', () => ({
   queryCloudflareAI: vi.fn(),
@@ -35,23 +36,54 @@ function makeRequest(
 
 describe('POST /api/ai/match request security', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    vi.mocked(queryCloudflareAI).mockReset();
     vi.mocked(queryCloudflareAI).mockResolvedValue(null);
   });
 
-  it('accepts a valid JSON question and falls back to the local matcher', async () => {
-    const response = await POST(
-      makeRequest(JSON.stringify({ query: 'SQL et indicateurs', locale: 'fr' }))
-    );
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it.each([
+    ['French', 'fr', 'SQL et indicateurs'],
+    ['English', 'en', 'Which projects demonstrate SQL skills?'],
+  ] as const)('uses the local matcher for valid %s requests', async (_label, locale, query) => {
+    const response = await POST(makeRequest(JSON.stringify({ query, locale })));
 
     expect(response.status).toBe(200);
     expect(response.headers.get('cache-control')).toBe('no-store, max-age=0');
     expect(await response.json()).toMatchObject({
       mode: 'keyword',
       status: 'success',
-      locale: 'fr',
+      locale,
     });
-    expect(queryCloudflareAI).toHaveBeenCalledWith('SQL et indicateurs', 'fr');
+    expect(queryCloudflareAI).toHaveBeenCalledWith(query, locale);
+  });
+
+  it('returns and identifies a grounded Cloudflare response when available', async () => {
+    const query = 'SQL et indicateurs';
+    const localResult = runLocalMatcher(query, 'fr');
+    const aiResult = {
+      ...localResult,
+      mode: 'ai' as const,
+      providerInfo: {
+        model: '@cf/meta/llama-3.2-3b-instruct',
+        notice: 'Cloudflare Workers AI (Free Tier).',
+      },
+    };
+    vi.mocked(queryCloudflareAI).mockResolvedValueOnce(aiResult);
+    const fetchSpy = vi.spyOn(globalThis, 'fetch');
+
+    const response = await POST(makeRequest(JSON.stringify({ query, locale: 'fr' })));
+
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({
+      mode: 'ai',
+      providerInfo: { model: '@cf/meta/llama-3.2-3b-instruct' },
+      matches: localResult.matches,
+    });
+    expect(queryCloudflareAI).toHaveBeenCalledWith(query, 'fr');
+    expect(fetchSpy).not.toHaveBeenCalled();
   });
 
   it('rejects a body over the byte limit without a Content-Length header', async () => {
