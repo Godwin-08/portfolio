@@ -5,7 +5,7 @@ import { CertificationList } from '@/components/home/CertificationList';
 import {
   CERTIFICATIONS,
   CERTIFICATIONS_BY_IMPORTANCE,
-  FEATURED_CERTIFICATION_COUNT,
+  FEATURED_COURSE_COUNT,
 } from '@/data/certifications';
 
 interface CertificationsSectionProps {
@@ -16,9 +16,17 @@ export async function CertificationsSection({
   variant = 'featured',
 }: CertificationsSectionProps) {
   const isFeatured = variant === 'featured';
-  const certifications = isFeatured
-    ? CERTIFICATIONS_BY_IMPORTANCE.slice(0, FEATURED_CERTIFICATION_COUNT)
-    : CERTIFICATIONS_BY_IMPORTANCE;
+  const ZoneHeadingTag = isFeatured ? 'h3' : 'h2';
+  const CredentialHeadingTag = isFeatured ? 'h4' : 'h3';
+  const credentials = CERTIFICATIONS_BY_IMPORTANCE.filter(
+    (certification) => certification.credentialType !== 'course'
+  );
+  const courses = CERTIFICATIONS_BY_IMPORTANCE.filter(
+    (certification) => certification.credentialType === 'course'
+  );
+  const visibleCourses = isFeatured
+    ? courses.slice(0, FEATURED_COURSE_COUNT)
+    : courses;
   const [locale, t] = await Promise.all([
     getLocale(),
     getTranslations('home.certifications'),
@@ -64,36 +72,45 @@ export async function CertificationsSection({
           {isFeatured && (
             <p className="shrink-0 text-sm font-semibold text-muted">
               {t('featuredCount', {
-                featured: certifications.length,
+                featured: credentials.length,
                 total: CERTIFICATIONS.length,
               })}
             </p>
           )}
         </div>
 
-        {isFeatured ? <div
-          data-certifications-grid
-          className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5"
+        <section
+          aria-labelledby="featured-credentials-heading"
+          className="space-y-4"
         >
-          {certifications.map((certification) => (
-            <article
-              key={certification.id}
-              data-certification-id={certification.id}
-              data-certification-rank={certification.importance}
-              className="flex min-w-0 flex-col rounded-2xl border border-emerald-200 border-t-[3px] border-t-emerald-600 bg-white p-4 shadow-card transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-emerald-400 focus-within:ring-2 focus-within:ring-emerald-700 focus-within:ring-offset-2 motion-reduce:transition-none dark:border-emerald-900 dark:border-t-emerald-400 dark:bg-slate-900 dark:hover:border-emerald-600 sm:p-5"
-            >
+          <ZoneHeadingTag
+            id="featured-credentials-heading"
+            className="font-heading text-xl font-bold text-ink sm:text-2xl"
+          >
+            {t('proofsHeading')}
+          </ZoneHeadingTag>
+          <div
+            data-certifications-grid
+            data-certifications-zone="credentials"
+            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-5"
+          >
+            {credentials.map((certification) => (
+              <article
+                key={certification.id}
+                data-certification-id={certification.id}
+                data-certification-rank={certification.importance}
+                data-certification-type={certification.credentialType}
+                className="flex min-w-0 flex-col rounded-2xl border border-emerald-200 border-t-[3px] border-t-emerald-600 bg-white p-4 shadow-card transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-emerald-400 focus-within:ring-2 focus-within:ring-emerald-700 focus-within:ring-offset-2 motion-reduce:transition-none dark:border-emerald-900 dark:border-t-emerald-400 dark:bg-slate-900 dark:hover:border-emerald-600 sm:p-5"
+              >
               <div className="flex items-center justify-between gap-3">
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
                   <Award className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <div className="flex flex-wrap items-center justify-end gap-2">
-                  <span
-                    aria-label={t('rank', {
-                      rank: certification.importance,
-                    })}
-                    className="rounded-full bg-emerald-50 px-2.5 py-1.5 text-xs font-bold text-emerald-900 dark:bg-emerald-950/60 dark:text-emerald-200"
-                  >
-                    #{certification.importance}
+                  <span className="rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-900 dark:bg-emerald-950/60 dark:text-emerald-200">
+                    {certification.credentialType === 'certification'
+                      ? t('types.certification')
+                      : t('types.track')}
                   </span>
                   <span className="rounded-full bg-paper px-3 py-1.5 text-xs font-bold text-ink">
                     {certification.issuer}
@@ -101,7 +118,7 @@ export async function CertificationsSection({
                 </div>
               </div>
 
-              <h3 className="mt-4 min-h-12 break-words font-heading text-base font-extrabold leading-snug text-ink sm:text-lg">
+              <CredentialHeadingTag className="mt-4 min-h-12 break-words font-heading text-base font-extrabold leading-snug text-ink sm:text-lg">
                 <Link
                   data-certification-title
                   href={{
@@ -115,7 +132,7 @@ export async function CertificationsSection({
                 >
                   {certification.title}
                 </Link>
-              </h3>
+              </CredentialHeadingTag>
 
               {(certification.completedOn || certification.reference) && (
                 <dl className="mt-4 grid grid-cols-1 gap-3 border-t border-slate-100 pt-4 text-sm dark:border-slate-800 sm:grid-cols-2">
@@ -189,9 +206,27 @@ export async function CertificationsSection({
                   </a>
                 )}
               </div>
-            </article>
-          ))}
-        </div> : <CertificationList certifications={certifications} />}
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section
+          aria-labelledby="certification-courses-heading"
+          className="space-y-4"
+        >
+          <ZoneHeadingTag
+            id="certification-courses-heading"
+            className="font-heading text-xl font-bold text-ink sm:text-2xl"
+          >
+            {t('coursesHeading')}
+          </ZoneHeadingTag>
+          <CertificationList
+            certifications={visibleCourses}
+            headingLevel={isFeatured ? 'h4' : 'h3'}
+            showFilters={!isFeatured}
+          />
+        </section>
 
         {isFeatured && (
           <div className="flex justify-center pt-2">

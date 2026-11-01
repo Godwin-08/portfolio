@@ -78,7 +78,7 @@
     },
     "certifications": {
       "title": "Certifications — SQL, PostgreSQL, and data analysis",
-      "description": "Eight documented certifications in SQL, PostgreSQL, and statistics. The issuing organisation is shown on each certification."
+      "description": "One completed track and eleven documented DataCamp courses in SQL, PostgreSQL, statistics, and data analysis. The evidence type is shown separately from its subject."
     },
     "contact": {
       "title": "Contact — discuss a project",
@@ -91,7 +91,7 @@
       "degree": "Computer Science and Data Engineering",
       "analysisTitle": "Data Analysis & BI",
       "analysisDescription": "At Galaxy Solutions, I developed GTM, a Flask and MySQL application for training management, with a KPI dashboard and a PCA module. For Olist, I cleaned and analyzed data covering nearly 100,000 orders.",
-      "growingFieldsDescription": "I’m completing DataCamp’s SQL Data Analyst track and preparing for the Data Analyst Associate exam. I then plan to take the Data Engineer track and build projects to apply what I learn before my internship in July 2027.",
+      "growingFieldsDescription": "I’ve completed DataCamp’s Associate Data Analyst in SQL track. I then plan to take the Data Engineer track and build projects to apply what I learn before my internship in July 2027.",
       "growingFields": "Data Engineering — next",
       "tagline": "From a business question to a working data tool.",
       "viewProjects": "Explore my projects",
@@ -128,16 +128,24 @@
     "certifications": {
       "eyebrow": "Continuous learning",
       "heading": "Certifications",
-      "description": "These completion certificates document learning in SQL, PostgreSQL, and statistics. The issuing organisation is shown on each certification; my projects remain the main evidence of my skills.",
-      "featuredDescription": "Three certifications selected for their relevance to data analysis and SQL. Each page summarises the learning covered and shows the available completion evidence.",
-      "count": "{count, plural, one {# certification listed} other {# certifications listed}}",
-      "featuredCount": "{featured} featured out of {total}",
+      "description": "One completed track and eleven documented DataCamp courses in SQL, PostgreSQL, statistics, and data analysis. Evidence type and subject are shown separately; my projects remain the main evidence of my skills.",
+      "featuredDescription": "The completed track is highlighted first, followed by a selection of courses. Each card opens a detail page with the available evidence.",
+      "proofsHeading": "Tracks and certifications",
+      "coursesHeading": "Courses",
+      "count": "{count, plural, one {# course listed} other {# courses listed}}",
+      "featuredCount": "Key evidence: {featured} of {total}",
       "rank": "Relevance rank: {rank}",
-      "filterLabel": "Filter certifications by subject",
-      "filterAll": "All",
+      "filterLabel": "Filter courses by subject",
+      "filterAll": "All courses",
       "filterSql": "SQL",
       "filterStatistics": "Statistics",
-      "viewAll": "View all {count} certifications",
+      "filterDataAnalysis": "Data analysis",
+      "viewAll": "View all {count} records",
+      "types": {
+        "certification": "Certification",
+        "track": "Learning path",
+        "course": "Course"
+      },
       "completedOn": "Completed on",
       "reference": "Certificate no.",
       "viewCertificate": "Open completion certificate",
@@ -147,7 +155,8 @@
       "viewDetails": "View certificate details",
       "viewDetailsAria": "View details for {title}",
       "detail": {
-        "back": "Back to certifications",
+        "back": "Back to certifications and courses",
+        "includedCourses": "Courses in this track ({count})",
         "topics": "Topics studied",
         "practice": "Practice within the course",
         "certificate": "Completion certificate",
@@ -212,10 +221,10 @@
         "learning": "Data Engineering (Skill in progress)"
       },
       "modes": {
-        "aiBadge": "Semantic AI Analysis (Workers AI — Free Tier)",
-        "keywordBadge": "Keyword Search (Local Fallback)",
-        "aiNotice": "If Cloudflare Workers AI is configured and available, your question may be sent for semantic processing. Otherwise, the local matcher takes over. Do not include sensitive information.",
-        "fallbackNotice": "The local deterministic engine took over (no network request or API key required)."
+        "aiBadge": "AI-assisted answer (Cloudflare Workers AI — Workers Free)",
+        "keywordBadge": "Local fallback search",
+        "aiNotice": "Your question and relevant documented portfolio context may be sent to Cloudflare Workers AI for processing. If the provider is unavailable, the local search engine takes over. Do not include sensitive information.",
+        "fallbackNotice": "This response uses the local keyword-search fallback."
       },
       "levels": {
         "strong": "Strong match",
@@ -301,6 +310,24 @@
         "tagline": "Team academic project comparing a custom CNN with DenseNet121 transfer learning.",
         "summary": "NORMAL / PNEUMONIA classification on 5,856 chest X-rays, with reported metrics and source discrepancies documented.",
         "context": "Academic · team of four"
+      },
+      "goodthought-sql-analysis": {
+        "title": "SQL Analysis of Donations and Impact — GoodThought",
+        "tagline": "Guided DataCamp project exploring donations and impact scores by assignment and region.",
+        "summary": "SQL queries on assignments, donations, and donors in a practice case, using aggregations, CTEs, and regional rankings.",
+        "context": "Guided project · DataCamp"
+      },
+      "motorcycle-parts-sales": {
+        "title": "Motorcycle Parts Sales Analysis",
+        "tagline": "Guided DataCamp project analysing wholesale sales by product, month, and warehouse.",
+        "summary": "SQL queries on 1,000 practice orders, grouped by product line, month, and warehouse.",
+        "context": "Guided project · DataCamp"
+      },
+      "students-mental-health": {
+        "title": "Analyzing Students’ Mental Health",
+        "tagline": "Guided DataCamp project comparing scores by student status and length of stay.",
+        "summary": "SQL analysis of PHQ-9, SCS, and ASISS scores in a survey of students in Japan.",
+        "context": "Guided project · DataCamp"
       }
     }
   },
@@ -499,10 +526,10 @@
       "certifications": "Which certifications are documented?"
     },
     "modes": {
-      "aiBadge": "Semantic AI Analysis (Workers AI — Free Tier)",
-      "keywordBadge": "Local Deterministic Engine (Fallback)",
-      "aiNotice": "If Cloudflare Workers AI is configured and available, your question may be sent for semantic processing. Otherwise, the local matcher takes over. Do not include sensitive information.",
-      "fallbackNotice": "The local deterministic engine took over."
+      "aiBadge": "AI-assisted answer (Cloudflare Workers AI — Workers Free)",
+      "keywordBadge": "Local fallback search",
+      "aiNotice": "Your question and relevant documented portfolio context may be sent to Cloudflare Workers AI for processing. If the provider is unavailable, the local search engine takes over. Do not include sensitive information.",
+      "fallbackNotice": "This response uses the local keyword-search fallback."
     },
     "sections": {
       "directAnswerTitle": "Verified synthetic answer",

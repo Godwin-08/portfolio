@@ -216,8 +216,8 @@ function buildGroundedDirectAnswer(
         : `${topicsFact} ${practiceFact} The portfolio does not provide a detailed chapter-by-chapter syllabus.`;
     }
     return locale === 'fr'
-      ? `Le portfolio répertorie ${CERTIFICATIONS.length} cours DataCamp. Les fiches résument certains thèmes et exercices, mais les programmes détaillés par chapitres ne sont pas documentés.`
-      : `The portfolio lists ${CERTIFICATIONS.length} DataCamp courses. Their summaries document selected topics and practice, but detailed chapter-by-chapter syllabi are not available.`;
+      ? `Le portfolio répertorie ${CERTIFICATIONS.length} attestations de cours et de parcours DataCamp. Les fiches résument certains thèmes et exercices, mais les programmes détaillés par chapitres ne sont pas documentés.`
+      : `The portfolio lists ${CERTIFICATIONS.length} DataCamp course and track completion records. Their summaries document selected topics and practice, but detailed chapter-by-chapter syllabi are not available.`;
   }
 
   if (learningFields.length > 0) {

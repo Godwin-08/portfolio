@@ -20,10 +20,54 @@ const DOMAIN_RULES: KeywordRule[] = [
     projectWeights: {
       gtm: 10,
       'sante-scolaire': 8,
+      'goodthought-sql-analysis': 7,
+      'motorcycle-parts-sales': 7,
+      'students-mental-health': 7,
     },
     reasons: {
-      fr: 'Modélisation relationnelle (MCD/MLD 3NF), intégration SQLAlchemy et requêtes MySQL.',
-      en: 'Relational modeling (MCD/MLD 3NF), SQLAlchemy integration, and MySQL queries.',
+      fr: 'Requêtes SQL et analyse de données relationnelles documentées dans le projet.',
+      en: 'SQL queries and relational data analysis documented in the project.',
+    },
+  },
+  {
+    keywords: [
+      'goodthought', 'good thought', 'ngo donations', 'ngo impact',
+      'donation impact', 'donation amounts', 'donations', 'donation',
+      'donateurs', 'donor types', 'impact score', 'scores d impact',
+      'mission impact', 'missions ong', 'assignment_316',
+    ],
+    projectWeights: { 'goodthought-sql-analysis': 10 },
+    reasons: {
+      fr: 'Requêtes SQL sur les missions, les dons et les scores d’impact du cas d’exercice GoodThought.',
+      en: 'SQL queries on assignments, donations, and impact scores in the GoodThought practice case.',
+    },
+  },
+  {
+    keywords: [
+      'motorcycle', 'motorbike', 'motorcycle parts', 'motorbike parts',
+      'motorcycle sales', 'parts sales', 'pieces de moto', 'piece de moto',
+      'ventes de pieces', 'ventes moto', 'motorcycle warehouse',
+      'payment_fee',
+    ],
+    projectWeights: { 'motorcycle-parts-sales': 10 },
+    reasons: {
+      fr: 'Projet guidé DataCamp d’agrégation SQL des ventes de pièces par produit, mois et entrepôt.',
+      en: 'Guided DataCamp project using SQL to aggregate parts sales by product, month, and warehouse.',
+    },
+  },
+  {
+    keywords: [
+      'students mental health', 'student mental health',
+      'mental health survey', 'sante mentale des etudiants',
+      'sante mentale etudiants', 'phq-9', 'phq 9', 'todep',
+      'asiss', 'toas', 'tosc', 'acculturative stress',
+      'stress d acculturation', 'international students',
+      'etudiants internationaux',
+    ],
+    projectWeights: { 'students-mental-health': 10 },
+    reasons: {
+      fr: 'Projet guidé DataCamp comparant des scores PHQ-9, SCS et ASISS selon le statut étudiant et la durée du séjour.',
+      en: 'Guided DataCamp project comparing PHQ-9, SCS, and ASISS scores by student status and length of stay.',
     },
   },
 
@@ -242,6 +286,52 @@ function textContainsAny(text: string, keywords: string[]): boolean {
   return keywords.some((kw) => textContainsKeyword(text, kw));
 }
 
+function findGuidedProjectId(query: string): string | undefined {
+  const projectKeywords: Record<string, string[]> = {
+    'goodthought-sql-analysis': [
+      'goodthought',
+      'good thought',
+      'ngo donations',
+      'donation impact',
+      'dons goodthought',
+      'donateurs goodthought',
+      'assignment_316',
+    ],
+    'motorcycle-parts-sales': [
+      'motorcycle parts',
+      'motorbike parts',
+      'motorcycle sales',
+      'parts sales',
+      'pieces de moto',
+      'piece de moto',
+      'ventes de pieces de moto',
+      'analyse des ventes de pieces',
+      'motorcycle warehouse sales',
+      'payment_fee',
+    ],
+    'students-mental-health': [
+      'students mental health',
+      'student mental health',
+      'mental health survey',
+      'mental health',
+      'sante mentale des etudiants',
+      'sante mentale etudiants',
+      'sante mentale',
+      'phq-9',
+      'phq 9',
+      'asiss',
+      'acculturative stress',
+      'stress d acculturation',
+      'international students',
+      'etudiants internationaux',
+    ],
+  };
+
+  return Object.entries(projectKeywords).find(([, keywords]) =>
+    textContainsAny(query, keywords)
+  )?.[0];
+}
+
 /**
  * Deterministic matching engine (Option A) used as immediate local fallback.
  * Strictly honest, transparent, and auditable across all portfolio knowledge categories.
@@ -415,6 +505,14 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
     'resultat',
     'resultats',
     'results',
+    'finding',
+    'findings',
+    'score',
+    'scores',
+    'moyenne',
+    'moyennes',
+    'average',
+    'averages',
     'metrique',
     'metrics',
     'accuracy',
@@ -538,6 +636,55 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
           href: `/${locale === 'fr' ? 'projets' : 'projects'}/${project.slug}`,
         },
       ],
+    };
+  }
+
+  const guidedProjectId = findGuidedProjectId(normQuery);
+  if (guidedProjectId) {
+    const project = PROJECT_CORPUS[guidedProjectId];
+    const knowledge = getKnowledgeDocumentById(`proj-${guidedProjectId}`);
+    if (!project || !knowledge) {
+      throw new Error(`Guided project knowledge is missing for ${guidedProjectId}.`);
+    }
+
+    const proofs = knowledge.proofs?.[locale] ?? project[locale].verifiedProofs;
+    const limitations = knowledge.limitations?.[locale] ?? project[locale].limitations;
+    const directAnswer = asksForLimitations
+      ? limitations.length > 0
+        ? locale === 'fr'
+          ? `Limites documentées pour ${project.title} : ${limitations.join(' ')}`
+          : `Documented limitations for ${project.title}: ${limitations.join(' ')}`
+        : locale === 'fr'
+          ? `Aucune limite spécifique n’est documentée pour ${project.title} dans le portfolio.`
+          : `No specific limitations for ${project.title} are documented in the portfolio.`
+      : asksForResults && proofs.length > 0
+        ? proofs.join(' ')
+        : `${knowledge.summary[locale]} ${knowledge.facts[locale].slice(0, 3).join(' ')}`;
+
+    return {
+      status: 'success',
+      mode: 'keyword',
+      query,
+      locale,
+      intent: 'projects',
+      directAnswer,
+      matches: [
+        {
+          projectId: project.id,
+          projectSlug: project.slug,
+          projectTitle: project.title,
+          category: project.category,
+          level: 'strong',
+          reason:
+            locale === 'fr'
+              ? `Correspondance directe avec le projet ${project.title}.`
+              : `Direct match for the ${project.title} project.`,
+          verifiedProofs: proofs,
+          limitations,
+          href: `/${locale === 'fr' ? 'projets' : 'projects'}/${project.slug}`,
+        },
+      ],
+      relatedItems: [documentToRelatedItem(knowledge, locale)],
     };
   }
 
@@ -843,18 +990,45 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
         directAnswer =
           locale === 'fr'
             ? `La fiche de « ${requestedCertification.title} » recense notamment ${course.topics.join(', ')}. Mise en pratique décrite : ${course.practice}${asksDetailedSyllabus ? ' La source ne fournit pas de programme détaillé organisé par chapitres.' : ''}`
-            : `The course summary for “${requestedCertification.title}” lists ${course.topics.join(', ')}. Practice described: ${course.practice}${asksDetailedSyllabus ? ' The source does not provide a chapter-by-chapter syllabus.' : ''}`;
+            : `The record for “${requestedCertification.title}” lists ${course.topics.join(', ')}. Practice described: ${course.practice}${asksDetailedSyllabus ? ' The source does not provide a chapter-by-chapter syllabus.' : ''}`;
       } else {
+        const courseCount = CERTIFICATIONS.filter(
+          (certification) => certification.credentialType === 'course'
+        ).length;
+        const trackCount = CERTIFICATIONS.filter(
+          (certification) => certification.credentialType === 'track'
+        ).length;
+        const trackLabel = trackCount === 1 ? 'track' : 'tracks';
         directAnswer =
           locale === 'fr'
-            ? `Le portfolio présente ${CERTIFICATIONS.length} cours DataCamp, avec une fiche qui résume les notions étudiées et la mise en pratique de chaque cours. Les programmes détaillés par chapitres ne sont pas fournis.`
-            : `The portfolio presents ${CERTIFICATIONS.length} DataCamp courses, each with a summary of documented topics and practice. Detailed chapter-by-chapter syllabi are not provided.`;
+            ? `Le portfolio documente ${CERTIFICATIONS.length} preuves DataCamp, dont ${courseCount} cours et ${trackCount} parcours terminés. Chaque fiche résume les notions documentées et la mise en pratique ; les programmes détaillés par chapitres ne sont pas fournis.`
+            : `The portfolio documents ${CERTIFICATIONS.length} pieces of DataCamp evidence, including ${courseCount} completed courses and ${trackCount} completed ${trackLabel}. Each record summarises documented topics and practice; detailed chapter-by-chapter syllabi are not provided.`;
       }
     } else {
+      const courseCount = CERTIFICATIONS.filter(
+        (certification) => certification.credentialType === 'course'
+      ).length;
+      const trackCount = CERTIFICATIONS.filter(
+        (certification) => certification.credentialType === 'track'
+      ).length;
+      const courseLabelFr =
+        courseCount === 1 ? 'attestation de cours' : 'attestations de cours';
+      const trackLabelFr =
+        trackCount === 1
+          ? 'attestation de parcours'
+          : 'attestations de parcours';
+      const courseLabelEn =
+        courseCount === 1
+          ? 'course completion certificate'
+          : 'course completion certificates';
+      const trackLabelEn =
+        trackCount === 1
+          ? 'track completion certificate'
+          : 'track completion certificates';
       directAnswer =
         locale === 'fr'
-          ? `Le portfolio présente ${CERTIFICATIONS.length} cours DataCamp terminés en statistiques, SQL et PostgreSQL. Chaque fiche résume le cours et indique où consulter l’attestation de réussite ou le lien officiel de vérification.`
-          : `The portfolio presents ${CERTIFICATIONS.length} completed DataCamp courses in statistics, SQL, and PostgreSQL. Each page summarizes the course and provides the available completion certificate or official verification link.`;
+          ? `Le portfolio présente ${CERTIFICATIONS.length} preuves DataCamp : ${courseCount} ${courseLabelFr} et ${trackCount} ${trackLabelFr} en statistiques, SQL, PostgreSQL, analyse et communication des données. Chaque fiche résume les apprentissages et indique où consulter la preuve disponible.`
+          : `The portfolio presents ${CERTIFICATIONS.length} pieces of DataCamp evidence: ${courseCount} ${courseLabelEn} and ${trackCount} ${trackLabelEn} in statistics, SQL, PostgreSQL, data analysis, and communication. Each page summarizes the learning and links to the available evidence.`;
     }
 
     return {
@@ -1044,6 +1218,22 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
     scores[projectId].reasons.push(reason);
   }
 
+  const asksWhichProjects = textContainsAny(normQuery, [
+    'projet',
+    'projets',
+    'project',
+    'projects',
+  ]);
+  const asksAboutSqlProjects =
+    asksWhichProjects &&
+    textContainsAny(normQuery, [
+      'sql',
+      'mysql',
+      'requete sql',
+      'requetes sql',
+      'sql queries',
+    ]);
+
   const sortedProjects = Object.entries(scores)
     .sort((a, b) => b[1].weight - a[1].weight)
     .filter(
@@ -1059,7 +1249,7 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
     const maxScore = sortedProjects[0][1].weight;
     const matches: ProjectEvidenceMatch[] = [];
 
-    for (const [projectId, data] of sortedProjects.slice(0, 3)) {
+    for (const [projectId, data] of sortedProjects.slice(0, asksAboutSqlProjects ? 5 : 3)) {
       const project = PROJECT_CORPUS[projectId];
       if (!project) continue;
 

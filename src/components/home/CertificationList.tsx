@@ -11,12 +11,14 @@ type CertificationFilter = 'all' | Certification['category'];
 
 interface CertificationListProps {
   certifications: readonly Certification[];
-  headingLevel?: 'h2' | 'h3';
+  headingLevel?: 'h2' | 'h3' | 'h4';
+  showFilters?: boolean;
 }
 
 export function CertificationList({
   certifications,
   headingLevel = 'h2',
+  showFilters = true,
 }: CertificationListProps) {
   const HeadingTag = headingLevel;
   const t = useTranslations('home.certifications');
@@ -37,33 +39,40 @@ export function CertificationList({
     { id: 'all', label: t('filterAll') },
     { id: 'sql', label: t('filterSql') },
     { id: 'statistics', label: t('filterStatistics') },
+    { id: 'data-analysis', label: t('filterDataAnalysis') },
   ];
 
   return (
     <div className="space-y-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div role="group" aria-label={t('filterLabel')} className="flex flex-wrap gap-2">
-          {filters.map((filter) => {
-            const isActive = activeFilter === filter.id;
-            return (
-              <button
-                key={filter.id}
-                type="button"
-                aria-pressed={isActive}
-                onClick={() => setActiveFilter(filter.id)}
-                className={cn(
-                  'motion-control min-h-10 rounded-full border px-4 py-2 text-sm font-semibold transition-colors',
-                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2',
-                  isActive
-                    ? 'border-emerald-700 bg-emerald-700 text-white dark:border-emerald-400 dark:bg-emerald-400 dark:text-slate-950'
-                    : 'border-slate-200 bg-white text-slate-700 hover:border-emerald-400 hover:text-emerald-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-emerald-600 dark:hover:text-emerald-300'
-                )}
-              >
-                {filter.label}
-              </button>
-            );
-          })}
-        </div>
+        {showFilters && (
+          <div
+            role="group"
+            aria-label={t('filterLabel')}
+            className="flex flex-wrap gap-2"
+          >
+            {filters.map((filter) => {
+              const isActive = activeFilter === filter.id;
+              return (
+                <button
+                  key={filter.id}
+                  type="button"
+                  aria-pressed={isActive}
+                  onClick={() => setActiveFilter(filter.id)}
+                  className={cn(
+                    'motion-control min-h-10 rounded-full border px-4 py-2 text-sm font-semibold transition-colors',
+                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2',
+                    isActive
+                      ? 'border-emerald-700 bg-emerald-700 text-white dark:border-emerald-400 dark:bg-emerald-400 dark:text-slate-950'
+                      : 'border-slate-200 bg-white text-slate-700 hover:border-emerald-400 hover:text-emerald-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-emerald-600 dark:hover:text-emerald-300'
+                  )}
+                >
+                  {filter.label}
+                </button>
+              );
+            })}
+          </div>
+        )}
         <p className="text-sm font-semibold text-muted" aria-live="polite">
           {t('count', { count: visibleCertifications.length })}
         </p>
@@ -71,6 +80,7 @@ export function CertificationList({
 
       <div
         data-certifications-grid
+        data-certifications-zone="courses"
         className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5"
       >
         {visibleCertifications.map((certification) => (
@@ -79,6 +89,7 @@ export function CertificationList({
             data-certification-id={certification.id}
             data-certification-rank={certification.importance}
             data-certification-category={certification.category}
+            data-certification-type={certification.credentialType}
             className="flex min-w-0 flex-col rounded-2xl border border-emerald-200 border-t-[3px] border-t-emerald-600 bg-white p-4 shadow-card transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-emerald-400 focus-within:ring-2 focus-within:ring-emerald-700 focus-within:ring-offset-2 motion-reduce:transition-none dark:border-emerald-900 dark:border-t-emerald-400 dark:bg-slate-900 dark:hover:border-emerald-600 sm:p-5"
           >
             <div className="flex items-center justify-between gap-3">
@@ -86,11 +97,12 @@ export function CertificationList({
                 <Award className="h-5 w-5" aria-hidden="true" />
               </span>
               <div className="flex flex-wrap items-center justify-end gap-2">
-                <span
-                  aria-label={t('rank', { rank: certification.importance })}
-                  className="rounded-full bg-emerald-50 px-2.5 py-1.5 text-xs font-bold text-emerald-900 dark:bg-emerald-950/60 dark:text-emerald-200"
-                >
-                  #{certification.importance}
+                <span className="rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-900 dark:bg-emerald-950/60 dark:text-emerald-200">
+                  {certification.credentialType === 'certification'
+                    ? t('types.certification')
+                    : certification.credentialType === 'track'
+                      ? t('types.track')
+                      : t('types.course')}
                 </span>
                 <span className="rounded-full bg-paper px-3 py-1.5 text-xs font-bold text-ink">
                   {certification.issuer}

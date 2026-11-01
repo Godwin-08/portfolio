@@ -63,22 +63,23 @@ test.describe('Step 5B: Responsive, theme and accessibility non-regression tests
       const h1Count = await page.locator('main h1').count();
       expect(h1Count, `${route} should have exactly one h1`).toBe(1);
 
-      // Certification cards must use h2 under page h1
-      const cardHeadings = page.locator('[data-certifications-grid] article h2');
+      // Cards use h3 beneath their zone headings.
+      const cardHeadings = page.locator('[data-certifications-grid] article h3');
       const count = await cardHeadings.count();
-      expect(count, `${route} should display certification cards with h2 headings`).toBe(8);
+      expect(count, `${route} should display all 12 credential and course cards`).toBe(12);
 
-      // Ensure no skipped h3 headings exist at the card level
-      const invalidCardH3 = page.locator('[data-certifications-grid] article > h3');
-      expect(await invalidCardH3.count()).toBe(0);
+      const invalidCardH4 = page.locator('[data-certifications-grid] article > h4');
+      expect(await invalidCardH4.count()).toBe(0);
     }
 
     // Homepage featured certifications must use h3 under the section h2
     await page.goto('/');
     const homeSectionH2 = page.locator('section[aria-labelledby="certifications-heading"] h2#certifications-heading');
     await expect(homeSectionH2).toBeVisible();
-    const homeFeaturedH3 = page.locator('[data-certifications-grid] article h3');
-    expect(await homeFeaturedH3.count()).toBeGreaterThanOrEqual(3);
+    const homeFeaturedH4 = page.locator(
+      '[data-certifications-zone="courses"] article h4'
+    );
+    expect(await homeFeaturedH4.count()).toBe(3);
   });
 
   test('language switcher interactive targets meet WCAG touch target size recommendations', async ({ page }) => {

@@ -33,6 +33,9 @@ const projectSlugs = [
   'novastore',
   'sante-scolaire',
   'pneumonia-detection',
+  'goodthought-sql-analysis',
+  'motorcycle-parts-sales',
+  'students-mental-health',
 ] as const;
 
 function projectTitle(messages: Messages, slug: (typeof projectSlugs)[number]) {
@@ -205,6 +208,9 @@ for (const site of localizedRoutes) {
         novastore: ['collaborator'],
         'sante-scolaire': ['supervisor'],
         'pneumonia-detection': ['collaborator', 'supervisor'],
+        'goodthought-sql-analysis': [],
+        'motorcycle-parts-sales': [],
+        'students-mental-health': [],
       } as const;
       for (const kind of expectedPeoplePanels[slug]) {
         const panelTitle = kind === 'collaborator'
@@ -233,6 +239,9 @@ for (const site of localizedRoutes) {
         'sante-scolaire': 3,
         novastore: 3,
         'pneumonia-detection': 5,
+        'goodthought-sql-analysis': 0,
+        'motorcycle-parts-sales': 0,
+        'students-mental-health': 0,
       } as const;
       await expect(page.locator('[data-project-gallery] figure')).toHaveCount(expectedImageCounts[slug]);
       await expect(page.locator('[data-project-conclusion]')).toBeVisible();
@@ -289,6 +298,43 @@ for (const site of localizedRoutes) {
           name: site.messages.caseStudies.ui.limitationsTitle,
         })).toBeVisible();
         await expect(page.locator('[data-project-limitations]')).toContainText(/358.*359/);
+      }
+      if (slug === 'goodthought-sql-analysis') {
+        await expect(page.locator('[data-project-data]')).toContainText('Assignments');
+        await expect(page.locator('[data-project-method]')).toContainText('ROW_NUMBER()');
+        await expect(page.locator('[data-project-results]')).toContainText('Assignment_316');
+        await expect(page.locator('[data-project-document]')).toHaveAttribute(
+          'href',
+          'https://www.datacamp.com/datalab/w/f8f3f346-1000-46b8-8570-27be207896b3/edit',
+        );
+        await expect(page.locator('.project-detail__source')).toHaveCount(0);
+      }
+      if (slug === 'motorcycle-parts-sales') {
+        await expect(page.locator('[data-project-data]')).toContainText(
+          site.locale === 'fr' ? '1 000' : '1,000',
+        );
+        await expect(page.locator('[data-project-results]')).toContainText(
+          site.locale === 'fr' ? '3 entrepôts' : '3 warehouses',
+        );
+        await expect(page.locator('[data-project-limitations]')).toContainText('payment_fee');
+        await expect(page.locator('[data-project-document]')).toHaveAttribute(
+          'href',
+          'https://www.datacamp.com/datalab/w/42a9134d-c268-458b-9a48-d7abf76d5365/edit',
+        );
+        await expect(page.locator('.project-detail__source')).toHaveCount(0);
+      }
+      if (slug === 'students-mental-health') {
+        await expect(page.locator('[data-project-data]')).toContainText(
+          site.locale === 'fr' ? '286 lignes' : '286 rows',
+        );
+        await expect(page.locator('[data-project-results]')).toContainText(
+          site.locale === 'fr' ? '75,56 / 62,84' : '75.56 / 62.84',
+        );
+        await expect(page.locator('[data-project-document]')).toHaveAttribute(
+          'href',
+          'https://www.datacamp.com/datalab/w/92c8ef26-70ff-4f29-9282-69a8bed276ee/edit',
+        );
+        await expect(page.locator('.project-detail__source')).toHaveCount(0);
       }
       if (slug === 'novastore') {
         await expect(page.getByRole('heading', {
@@ -451,6 +497,7 @@ test('legacy French paths redirect to the localized canonical routes', async ({ 
 });
 
 test('project titles open every case study from the localized listing', async ({ page }) => {
+  test.setTimeout(60_000);
   const diagnostics = observeBrowser(page);
   await page.setViewportSize({ width: 1440, height: 900 });
   for (const site of localizedRoutes) {
@@ -479,9 +526,15 @@ test('project titles open every case study from the localized listing', async ({
         exact: true,
       });
       await expect(titleLink).toHaveAttribute('href', `${site.projects}/${slug}`);
-      const previewImage = card.locator('[data-project-visual] img');
-      await expect(previewImage).toBeVisible();
-      await expect.poll(() => previewImage.evaluate((image) => (image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+      const preview = card.locator('[data-project-visual]');
+      await expect(preview).toBeVisible();
+      const previewImage = preview.locator('img');
+      if (await previewImage.count() > 0) {
+        await expect(previewImage).toBeVisible();
+        await expect.poll(() => previewImage.evaluate((image) => (image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+      } else {
+        await expect(preview).toContainText(title);
+      }
       await titleLink.click();
       await expect(page).toHaveURL(new RegExp(`${site.projects}/${slug}$`));
       await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
@@ -806,6 +859,34 @@ for (const site of localizedRoutes) {
     expect(new URL(page.url()).searchParams.get('campaign')).toBe('acceptance');
     await expect(page.locator('article h2')).toHaveCount(4);
 
+    await page.goto(site.projects);
+    const machineLearningCategory = site.messages.projects.categories['machine-learning'];
+    expect(machineLearningCategory).toBe('Machine Learning');
+    await page.getByRole('button', { name: machineLearningCategory, exact: true }).click();
+    await expect(page).toHaveURL(/category=machine-learning/);
+    await expect(page.locator('article h2')).toHaveCount(1);
+    await expect(page.locator('article h2')).toHaveText(
+      site.messages.projects.cards['pneumonia-detection'].title,
+    );
+    await page.goto(`${site.projects}?category=data-analysis`);
+    const mentalHealthCard = page.locator('article').filter({
+      has: page.getByRole('heading', {
+        name: site.messages.projects.cards['students-mental-health'].title,
+        exact: true,
+      }),
+    });
+    const mentalHealthImage = mentalHealthCard.locator('[data-project-visual] img');
+    await mentalHealthImage.scrollIntoViewIfNeeded();
+    await expect(mentalHealthImage).toHaveAttribute(
+      'src',
+      /students-mental-health\.jpg/,
+    );
+    await expect.poll(() =>
+      mentalHealthImage.evaluate((image) =>
+        image instanceof HTMLImageElement ? image.naturalWidth : 0
+      )
+    ).toBeGreaterThan(0);
+
     await page.goto(`${site.projects}?skill=flask`);
     await expect(page.locator('article h2')).toHaveCount(3);
 
@@ -817,7 +898,7 @@ for (const site of localizedRoutes) {
     await expect(page.getByRole('heading', { name: site.messages.projects.list.emptyTitle })).toBeVisible();
     await page.getByRole('button', { name: site.messages.projects.filters.reset, exact: true }).click();
     await expect(page).toHaveURL(new RegExp(`${site.projects.replaceAll('/', '\\/')}$`));
-    await expect(page.locator('article h2')).toHaveCount(8);
+    await expect(page.locator('article h2')).toHaveCount(11);
 
     await page.goto(`${site.projects}?category=web-si&skill=flask`);
     const switchButton = site.locale === 'fr'

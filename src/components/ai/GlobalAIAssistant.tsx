@@ -280,7 +280,7 @@ export function GlobalAIAssistant() {
             ) : null}
 
             <p className="text-[11px] leading-relaxed text-slate-400 dark:text-slate-500">
-              {t('modes.aiNotice')}
+              {result?.mode === 'keyword' ? t('modes.fallbackNotice') : t('modes.aiNotice')}
             </p>
           </div>
 

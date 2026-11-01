@@ -6,6 +6,7 @@ const certificates = [
   {
     id: 'data-manipulation-in-sql',
     title: 'Data Manipulation in SQL',
+    credentialType: 'course',
     documentPath: '/certifications/data-manipulation-in-sql.pdf',
     contentType: 'application/pdf',
     verificationUrl:
@@ -14,6 +15,7 @@ const certificates = [
   {
     id: 'joining-data-in-sql',
     title: 'Joining Data in SQL',
+    credentialType: 'course',
     documentPath: '/certifications/joining-data-in-sql.jpg',
     contentType: 'image/jpeg',
     verificationUrl:
@@ -22,6 +24,7 @@ const certificates = [
   {
     id: 'postgresql-summary-stats-and-window-functions',
     title: 'PostgreSQL Summary Stats and Window Functions',
+    credentialType: 'course',
     documentPath:
       '/certifications/postgresql-summary-stats-and-window-functions.pdf',
     contentType: 'application/pdf',
@@ -31,6 +34,7 @@ const certificates = [
   {
     id: 'functions-for-manipulating-data-in-postgresql',
     title: 'Functions for Manipulating Data in PostgreSQL',
+    credentialType: 'course',
     reference: '50,476,062',
     documentPath:
       '/certifications/functions-for-manipulating-data-in-postgresql.pdf',
@@ -41,6 +45,7 @@ const certificates = [
   {
     id: 'intermediate-sql',
     title: 'Intermediate SQL',
+    credentialType: 'course',
     documentPath: '/certifications/intermediate-sql.jpg',
     contentType: 'image/jpeg',
     verificationUrl:
@@ -49,6 +54,7 @@ const certificates = [
   {
     id: 'introduction-to-statistics',
     title: 'Introduction to Statistics',
+    credentialType: 'course',
     completedOn: '2026-10-22',
     reference: '50,503,580',
     documentPath: '/certifications/introduction-to-statistics.pdf',
@@ -59,6 +65,7 @@ const certificates = [
   {
     id: 'introduction-to-sql',
     title: 'Introduction to SQL',
+    credentialType: 'course',
     documentPath: '/certifications/introduction-to-sql.jpg',
     contentType: 'image/jpeg',
     verificationUrl: null,
@@ -66,6 +73,7 @@ const certificates = [
   {
     id: 'exploratory-data-analysis-in-sql',
     title: 'Exploratory Data Analysis in SQL',
+    credentialType: 'course',
     completedOn: '2026-10-27',
     reference: '50,562,081',
     documentPath: '/certifications/exploratory-data-analysis-in-sql.pdf',
@@ -73,13 +81,54 @@ const certificates = [
     verificationUrl:
       'https://www.datacamp.com/statement-of-accomplishment/course/12c271d164bb6d6dc0000ef38e34a4dfdeda7d5e?raw=1',
   },
+  {
+    id: 'associate-data-analyst-in-sql',
+    title: 'Associate Data Analyst in SQL',
+    credentialType: 'track',
+    completedOn: '2026-11-01',
+    reference: '978,842',
+    documentPath: '/certifications/associate-data-analyst-in-sql.pdf',
+    contentType: 'application/pdf',
+    verificationUrl:
+      'https://www.datacamp.com/completed/statement-of-accomplishment/track/792469f86f6275d924983bafc60c0de90da86477',
+  },
+  {
+    id: 'data-communication-concepts',
+    title: 'Data Communication Concepts',
+    credentialType: 'course',
+    completedOn: '2026-11-01',
+    reference: '50,676,087',
+    documentPath: '/certifications/data-communication-concepts.pdf',
+    contentType: 'application/pdf',
+    verificationUrl: null,
+  },
+  {
+    id: 'understanding-data-visualization',
+    title: 'Understanding Data Visualization',
+    credentialType: 'course',
+    completedOn: '2026-10-31',
+    reference: '50,665,247',
+    documentPath: '/certifications/understanding-data-visualization.pdf',
+    contentType: 'application/pdf',
+    verificationUrl: null,
+  },
+  {
+    id: 'data-driven-decision-making-in-sql',
+    title: 'Data-Driven Decision Making in SQL',
+    credentialType: 'course',
+    completedOn: '2026-10-30',
+    reference: '50,652,560',
+    documentPath: '/certifications/data-driven-decision-making-in-sql.pdf',
+    contentType: 'application/pdf',
+    verificationUrl: null,
+  },
 ];
 
-test('eight certifications and their available completion evidence appear in French and English', async ({
+test('twelve records show their evidence types and documents in French and English', async ({
   page,
   request,
 }) => {
-  test.setTimeout(60_000);
+  test.setTimeout(120_000);
   for (const site of [
     {
       path: '/',
@@ -87,16 +136,22 @@ test('eight certifications and their available completion evidence appear in Fre
       locale: 'fr',
       sectionName: 'Certifications',
       navigationLinkName: 'Certifications',
-      featuredCountText: '3 mis en avant sur 8',
-      listCountText: '8 certifications répertoriées',
-      filterGroup: 'Filtrer les certifications par domaine',
-      filterAll: 'Tout',
+      featuredCountText: 'Preuves principales : 1 sur 12',
+      listCountText: '11 cours répertoriés',
+      filterGroup: 'Filtrer les cours par domaine',
+      filterAll: 'Tous les cours',
       filterSql: 'SQL',
       filterStatistics: 'Statistiques',
-      sqlCountText: '7 certifications répertoriées',
-      statisticsCountText: '1 certification répertoriée',
+      filterDataAnalysis: 'Analyse des données',
+      trackType: 'Parcours',
+      courseType: 'Cours',
+      trackOverviewFragment: 'Parcours DataCamp de 39 heures',
+      includedCoursesHeading: 'Cours de ce parcours (11)',
+      sqlCountText: '8 cours répertoriés',
+      statisticsCountText: '1 cours répertorié',
+      dataAnalysisCountText: '2 cours répertoriés',
       navigationLabel: 'Navigation principale',
-      backText: 'Retour aux certifications',
+      backText: 'Retour aux certifications et formations',
       detailPath: (id: string) => `/certifications/${id}`,
       topicsHeading: 'Notions étudiées',
       overviewFragment: 'Cours',
@@ -109,16 +164,22 @@ test('eight certifications and their available completion evidence appear in Fre
       locale: 'en',
       sectionName: 'Certifications',
       navigationLinkName: 'Certifications',
-      featuredCountText: '3 featured out of 8',
-      listCountText: '8 certifications listed',
-      filterGroup: 'Filter certifications by subject',
-      filterAll: 'All',
+      featuredCountText: 'Key evidence: 1 of 12',
+      listCountText: '11 courses listed',
+      filterGroup: 'Filter courses by subject',
+      filterAll: 'All courses',
       filterSql: 'SQL',
       filterStatistics: 'Statistics',
-      sqlCountText: '7 certifications listed',
-      statisticsCountText: '1 certification listed',
+      filterDataAnalysis: 'Data analysis',
+      trackType: 'Learning path',
+      courseType: 'Course',
+      trackOverviewFragment: 'Completed the 39-hour DataCamp track',
+      includedCoursesHeading: 'Courses in this track (11)',
+      sqlCountText: '8 courses listed',
+      statisticsCountText: '1 course listed',
+      dataAnalysisCountText: '2 courses listed',
       navigationLabel: 'Main navigation',
-      backText: 'Back to certifications',
+      backText: 'Back to certifications and courses',
       detailPath: (id: string) => `/en/certifications/${id}`,
       topicsHeading: 'Topics studied',
       overviewFragment: 'intermediate',
@@ -129,29 +190,41 @@ test('eight certifications and their available completion evidence appear in Fre
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto(site.path, { waitUntil: 'networkidle' });
 
-    const section = page.getByRole('region', { name: site.sectionName });
+    const section = page.getByRole('region', {
+      name: site.sectionName,
+      exact: true,
+    });
     await expect(page.locator('html')).toHaveAttribute('lang', site.locale);
     await expect(section).toBeVisible();
     await expect(section).toContainText(site.featuredCountText);
-    await expect(section.locator('[data-certification-id]')).toHaveCount(3);
+    await expect(section.locator('[data-certification-id]')).toHaveCount(4);
+    await expect(
+      section.locator('[data-certifications-zone="credentials"] [data-certification-id]')
+    ).toHaveCount(1);
+    await expect(
+      section.locator('[data-certifications-zone="courses"] [data-certification-id]')
+    ).toHaveCount(3);
     await expect(
       section.getByRole('group', { name: site.filterGroup })
     ).toHaveCount(0);
     await expect(
-      section.locator('[data-certification-id]').first()
+      section.locator('[data-certifications-zone="courses"] [data-certification-id]').first()
     ).toHaveAttribute('data-certification-rank', '1');
     await expect(
       section.locator('[data-certifications-all-link]')
     ).toHaveAttribute('href', site.listPath);
     const featuredIds = await section
-      .locator('[data-certification-id]')
+      .locator('[data-certifications-zone="credentials"] [data-certification-id]')
       .evaluateAll((cards) =>
         cards.map((card) => card.getAttribute('data-certification-id'))
       );
-    expect(featuredIds).toEqual(certificates.slice(0, 3).map(({ id }) => id));
+    expect(featuredIds).toEqual(['associate-data-analyst-in-sql']);
 
     await page.goto(site.listPath, { waitUntil: 'networkidle' });
-    const fullSection = page.getByRole('region', { name: site.sectionName });
+    const fullSection = page.getByRole('region', {
+      name: site.sectionName,
+      exact: true,
+    });
     await expect(fullSection.getByRole('heading', { level: 1 })).toBeVisible();
     await expect(
       page
@@ -159,34 +232,61 @@ test('eight certifications and their available completion evidence appear in Fre
         .getByRole('link', { name: site.navigationLinkName })
     ).toHaveAttribute('href', site.listPath);
     await expect(fullSection).toContainText(site.listCountText);
-    await expect(fullSection.locator('[data-certification-id]')).toHaveCount(8);
+    await expect(fullSection.locator('[data-certification-id]')).toHaveCount(12);
+    await expect(
+      fullSection.locator('[data-certification-type="track"]')
+    ).toHaveCount(1);
+    await expect(
+      fullSection.locator('[data-certification-type="course"]')
+    ).toHaveCount(11);
     const filters = fullSection.getByRole('group', { name: site.filterGroup });
+    const courseZone = fullSection.locator(
+      '[data-certifications-zone="courses"]'
+    );
     const allFilter = filters.getByRole('button', { name: site.filterAll });
     const sqlFilter = filters.getByRole('button', { name: site.filterSql });
     const statisticsFilter = filters.getByRole('button', {
       name: site.filterStatistics,
     });
+    const dataAnalysisFilter = filters.getByRole('button', {
+      name: site.filterDataAnalysis,
+    });
     await expect(allFilter).toHaveAttribute('aria-pressed', 'true');
     await sqlFilter.click();
     await expect(sqlFilter).toHaveAttribute('aria-pressed', 'true');
-    await expect(fullSection).toContainText(site.sqlCountText);
-    await expect(fullSection.locator('[data-certification-id]')).toHaveCount(7);
     await expect(
-      fullSection.locator('[data-certification-category="statistics"]')
+      fullSection.getByText(site.sqlCountText, { exact: true })
+    ).toBeVisible();
+    await expect(courseZone.locator('[data-certification-id]')).toHaveCount(8);
+    await expect(
+      courseZone.locator('[data-certification-category="statistics"], [data-certification-category="data-analysis"]')
     ).toHaveCount(0);
     await statisticsFilter.click();
-    await expect(fullSection).toContainText(site.statisticsCountText);
-    await expect(fullSection.locator('[data-certification-id]')).toHaveCount(1);
     await expect(
-      fullSection.locator('[data-certification-category="statistics"]')
+      fullSection.getByText(site.statisticsCountText, { exact: true })
+    ).toBeVisible();
+    await expect(courseZone.locator('[data-certification-id]')).toHaveCount(1);
+    await expect(
+      courseZone.locator('[data-certification-category="statistics"]')
     ).toHaveAttribute('data-certification-id', 'introduction-to-statistics');
+    await dataAnalysisFilter.click();
+    await expect(
+      fullSection.getByText(site.dataAnalysisCountText, { exact: true })
+    ).toBeVisible();
+    await expect(courseZone.locator('[data-certification-id]')).toHaveCount(2);
+    await expect(
+      courseZone.locator('[data-certification-category="data-analysis"]')
+    ).toHaveCount(2);
     await allFilter.click();
     await expect(allFilter).toHaveAttribute('aria-pressed', 'true');
-    await expect(fullSection).toContainText(site.listCountText);
-    await expect(fullSection.locator('[data-certification-id]')).toHaveCount(8);
-    await expect(fullSection.locator('[data-certification-document]')).toHaveCount(8);
-    await expect(fullSection.locator('[data-certification-verification]')).toHaveCount(7);
-    const cardsGrid = fullSection.locator('[data-certifications-grid]');
+    await expect(
+      fullSection.getByText(site.listCountText, { exact: true })
+    ).toBeVisible();
+    await expect(courseZone.locator('[data-certification-id]')).toHaveCount(11);
+    await expect(courseZone.locator('[data-certification-document]')).toHaveCount(11);
+    await expect(courseZone.locator('[data-certification-verification]')).toHaveCount(7);
+    await expect(fullSection.locator('[data-certification-type="track"]')).toBeVisible();
+    const cardsGrid = courseZone;
     const desktopColumns = await cardsGrid.evaluate((element) =>
       getComputedStyle(element).gridTemplateColumns.trim().split(/\s+/).length
     );
@@ -202,6 +302,18 @@ test('eight certifications and their available completion evidence appear in Fre
       );
       await expect(card.getByRole('heading', { name: certificate.title })).toBeVisible();
       await expect(card.getByText('DataCamp', { exact: true })).toBeVisible();
+      await expect(card).toHaveAttribute(
+        'data-certification-type',
+        certificate.credentialType
+      );
+      await expect(
+        card.getByText(
+          certificate.credentialType === 'track'
+            ? site.trackType
+            : site.courseType,
+          { exact: true }
+        )
+      ).toBeVisible();
       if (certificate.completedOn) {
         const completedDate = new Intl.DateTimeFormat(
           site.locale === 'fr' ? 'fr-FR' : 'en-US',
@@ -254,8 +366,15 @@ test('eight certifications and their available completion evidence appear in Fre
 
     }
 
+    const trackCertificate = certificates.find(
+      (certificate) => certificate.credentialType === 'track'
+    );
     const detailChecks =
-      site.locale === 'fr' ? certificates : [certificates[0]];
+      site.locale === 'fr'
+        ? certificates
+        : trackCertificate
+          ? [certificates[0], trackCertificate]
+          : [certificates[0]];
     for (const certificate of detailChecks) {
       const detailResponse = await page.goto(site.detailPath(certificate.id));
       expect(detailResponse?.status()).toBe(200);
@@ -264,14 +383,43 @@ test('eight certifications and their available completion evidence appear in Fre
         detailPage.getByRole('heading', { name: certificate.title, level: 1 })
       ).toBeVisible();
       await expect(
+        detailPage.getByText(
+          certificate.credentialType === 'track'
+            ? site.trackType
+            : site.courseType,
+          { exact: true }
+        )
+      ).toBeVisible();
+      await expect(
         detailPage.getByRole('heading', { name: site.topicsHeading })
       ).toBeVisible();
       await expect(
         detailPage.getByRole('link', { name: site.backText })
       ).toHaveAttribute('href', site.listPath);
       await expect(detailPage.locator('header')).toContainText(
-        site.overviewFragment
+        certificate.credentialType === 'track'
+          ? site.trackOverviewFragment
+          : site.overviewFragment
       );
+
+      if (certificate.credentialType === 'track') {
+        await expect(
+          detailPage.getByRole('heading', {
+            name: site.includedCoursesHeading,
+          })
+        ).toBeVisible();
+        const trackCourses = certificates.filter(
+          (course) => course.credentialType === 'course'
+        );
+        await expect(
+          detailPage.locator('[data-track-course-id]')
+        ).toHaveCount(trackCourses.length);
+        for (const course of trackCourses) {
+          await expect(
+            detailPage.locator(`[data-track-course-id="${course.id}"]`)
+          ).toHaveAttribute('href', site.detailPath(course.id));
+        }
+      }
 
       if (certificate.reference) {
         await expect(detailPage.locator('header dl')).toContainText(
@@ -302,7 +450,10 @@ test('eight certifications and their available completion evidence appear in Fre
     }
 
     await page.goto(site.path);
-    const homeSection = page.getByRole('region', { name: site.sectionName });
+    const homeSection = page.getByRole('region', {
+      name: site.sectionName,
+      exact: true,
+    });
     await expect(homeSection).toBeVisible();
     await expect(section).toBeVisible();
 
@@ -358,7 +509,7 @@ test('certification list language switching preserves the list route', async ({
   await expect(
     page.getByRole('heading', { name: 'Certifications', level: 1 })
   ).toBeVisible();
-  await expect(page.locator('[data-certification-id]')).toHaveCount(8);
+  await expect(page.locator('[data-certification-id]')).toHaveCount(12);
 });
 
 test('unknown certification slugs return not found', async ({ page }) => {

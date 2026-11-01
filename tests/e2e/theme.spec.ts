@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { THEME_STORAGE_KEY } from '../../src/components/theme/theme-constants';
+import frMessages from '../../messages/fr.json';
+import enMessages from '../../messages/en.json';
 
 const projectSlugs = [
   'gtm',
@@ -9,6 +11,9 @@ const projectSlugs = [
   'revision-flow',
   'novastore',
   'sante-scolaire',
+  'goodthought-sql-analysis',
+  'motorcycle-parts-sales',
+  'students-mental-health',
 ] as const;
 
 const publicRoutes = [
@@ -27,6 +32,46 @@ const publicRoutes = [
   ...projectSlugs.map((slug) => `/en/projects/${slug}`),
   '/en/certifications/introduction-to-statistics',
 ];
+
+test('DataCamp project details remain readable in light and dark themes on mobile', async ({ page }) => {
+  const localizedProjects = [
+    { locale: 'fr', projects: '/projets', messages: frMessages },
+    { locale: 'en', projects: '/en/projects', messages: enMessages },
+  ] as const;
+  const dataCampSlugs = ['goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health'] as const;
+
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.addInitScript((storageKey) => {
+    localStorage.setItem(storageKey, 'light');
+  }, THEME_STORAGE_KEY);
+
+  for (const site of localizedProjects) {
+    for (const slug of dataCampSlugs) {
+      await page.goto(`${site.projects}/${slug}`);
+      await expect(page.locator('html')).not.toHaveClass(/dark/);
+      await expect(page.locator('[data-project-page]')).toBeVisible();
+      await expect(page.locator('[data-project-data]')).toBeVisible();
+
+      const lightWidth = await page.evaluate(() => ({
+        page: document.documentElement.scrollWidth,
+        viewport: document.documentElement.clientWidth,
+      }));
+      expect(lightWidth.page).toBeLessThanOrEqual(lightWidth.viewport);
+
+      await page.getByRole('banner').getByRole('button', {
+        name: site.messages.common.theme.switchToDark,
+      }).click();
+      await expect(page.locator('html')).toHaveClass(/dark/);
+      await expect(page.locator('[data-project-page]')).toBeVisible();
+
+      const darkWidth = await page.evaluate(() => ({
+        page: document.documentElement.scrollWidth,
+        viewport: document.documentElement.clientWidth,
+      }));
+      expect(darkWidth.page).toBeLessThanOrEqual(darkWidth.viewport);
+    }
+  }
+});
 
 test('theme toggle persists and public routes remain readable and responsive in dark mode', async ({ page }) => {
   test.setTimeout(90_000);
@@ -82,11 +127,31 @@ test('theme toggle persists and public routes remain readable and responsive in 
 
     if (route === '/') {
       const skillsSection = page.locator('.skills-ticker');
-      const sectionBackgroundLightness = await skillsSection.evaluate((element) => {
+      const sectionBackgroundRelativeLuminance = await skillsSection.evaluate((element) => {
         const background = getComputedStyle(element).backgroundColor;
-        return Number(background.match(/^lab\(([\d.]+)/)?.[1]);
+        if (!CSS.supports('color', background)) {
+          throw new Error(`Unsupported computed background color: ${background}`);
+        }
+
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d', { willReadFrequently: true });
+        if (!context) throw new Error('Canvas 2D context is unavailable');
+
+        context.fillStyle = background;
+        context.fillRect(0, 0, 1, 1);
+        const [red, green, blue] = context.getImageData(0, 0, 1, 1).data;
+        const linearize = (channel: number) => {
+          const value = channel / 255;
+          return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+        };
+
+        return (
+          0.2126 * linearize(red) +
+          0.7152 * linearize(green) +
+          0.0722 * linearize(blue)
+        );
       });
-      expect(sectionBackgroundLightness).toBeLessThan(20);
+      expect(sectionBackgroundRelativeLuminance).toBeLessThan(0.032);
       await expect(skillsSection.getByRole('heading', { level: 2 })).toHaveCSS('color', 'rgb(255, 255, 255)');
       await expect(skillsSection.locator('[data-skill-id]').first()).toHaveCSS('color', 'rgb(255, 255, 255)');
       await expect(skillsSection.locator('[data-skill-id="python"]').first()).toHaveClass(/border-primary-300/);
@@ -152,7 +217,9 @@ test('theme toggle persists and public routes remain readable and responsive in 
     for (const width of [320, 360, 375, 390]) {
       await page.setViewportSize({ width, height: 812 });
       const overlappedControls = await page.evaluate(() => {
-        const fab = document.querySelector('button[aria-label*="IA"], button[aria-label*="AI"]');
+        const fab = document.querySelector(
+          'button[aria-label="Explorer avec l\'IA"], button[aria-label="Explore with AI"]'
+        );
         if (!fab) return ['FAB not found'];
         const fabRect = fab.getBoundingClientRect();
         return [...document.querySelectorAll('a, button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])')]

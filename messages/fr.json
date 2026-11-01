@@ -78,7 +78,7 @@
     },
     "certifications": {
       "title": "Certifications — SQL, PostgreSQL et analyse de données",
-      "description": "Huit certifications documentées en SQL, PostgreSQL et statistiques. L’organisme émetteur est indiqué sur chaque fiche."
+      "description": "Un parcours terminé et onze cours DataCamp documentés en SQL, PostgreSQL, statistiques et analyse des données. Le type de preuve et son domaine sont indiqués séparément."
     },
     "contact": {
       "title": "Contact — échanger sur un projet",
@@ -91,7 +91,7 @@
       "degree": "Informatique et Ingénierie des Données",
       "analysisTitle": "Data Analysis & BI",
       "analysisDescription": "Chez Galaxy Solutions, j’ai développé GTM, une application de gestion de formations réalisée avec Flask et MySQL, qui comprend un tableau de bord KPI et un module d’ACP. Pour Olist, j’ai nettoyé et analysé des données portant sur près de 100 000 commandes.",
-      "growingFieldsDescription": "Je termine le parcours SQL Data Analyst de DataCamp et prépare l’examen Data Analyst Associate. Ensuite, je prévois de suivre le parcours Data Engineer et de créer des projets pour mettre mes apprentissages en pratique avant mon stage de juillet 2027.",
+      "growingFieldsDescription": "J’ai terminé le parcours DataCamp Associate Data Analyst in SQL. Ensuite, je prévois de suivre le parcours Data Engineer et de créer des projets pour mettre mes apprentissages en pratique avant mon stage de juillet 2027.",
       "growingFields": "Data Engineering — la suite",
       "tagline": "D’une question métier à un outil de données qui fonctionne.",
       "viewProjects": "Voir mes projets",
@@ -128,16 +128,24 @@
     "certifications": {
       "eyebrow": "Apprentissage continu",
       "heading": "Certifications",
-      "description": "Ces attestations documentent des apprentissages en SQL, PostgreSQL et statistiques. L’organisme émetteur est indiqué sur chaque fiche ; mes projets restent les principales preuves de mes compétences.",
-      "featuredDescription": "Trois certifications sélectionnées pour leur lien avec l’analyse de données et le SQL. Chaque fiche présente les apprentissages concernés et les justificatifs disponibles.",
-      "count": "{count, plural, one {# certification répertoriée} other {# certifications répertoriées}}",
-      "featuredCount": "{featured} mis en avant sur {total}",
+      "description": "Un parcours terminé et onze cours DataCamp documentés en SQL, PostgreSQL, statistiques et analyse des données. Le type de preuve et son domaine sont indiqués séparément ; mes projets restent les principales preuves de mes compétences.",
+      "featuredDescription": "Le parcours terminé est mis en évidence en premier, suivi d’une sélection de cours. Chaque carte ouvre une page de détail avec les justificatifs disponibles.",
+      "proofsHeading": "Parcours et certifications",
+      "coursesHeading": "Cours",
+      "count": "{count, plural, one {# cours répertorié} other {# cours répertoriés}}",
+      "featuredCount": "Preuves principales : {featured} sur {total}",
       "rank": "Rang de pertinence : {rank}",
-      "filterLabel": "Filtrer les certifications par domaine",
-      "filterAll": "Tout",
+      "filterLabel": "Filtrer les cours par domaine",
+      "filterAll": "Tous les cours",
       "filterSql": "SQL",
       "filterStatistics": "Statistiques",
-      "viewAll": "Voir les {count} certifications",
+      "filterDataAnalysis": "Analyse des données",
+      "viewAll": "Voir les {count} preuves",
+      "types": {
+        "certification": "Certification",
+        "track": "Parcours",
+        "course": "Cours"
+      },
       "completedOn": "Terminé le",
       "reference": "N° du certificat",
       "viewCertificate": "Ouvrir l’attestation",
@@ -147,7 +155,8 @@
       "viewDetails": "Voir le détail du certificat",
       "viewDetailsAria": "Voir le détail de « {title} »",
       "detail": {
-        "back": "Retour aux certifications",
+        "back": "Retour aux certifications et formations",
+        "includedCourses": "Cours de ce parcours ({count})",
         "topics": "Notions étudiées",
         "practice": "Mise en pratique pendant le cours",
         "certificate": "Attestation de réussite",
@@ -212,10 +221,10 @@
         "learning": "Data Engineering (Axe en apprentissage)"
       },
       "modes": {
-        "aiBadge": "Analyse sémantique IA (Workers AI — Gratuit)",
-        "keywordBadge": "Recherche par mots-clés (Secours local)",
-        "aiNotice": "Si Cloudflare Workers AI est configuré et disponible, votre question peut être envoyée pour un traitement sémantique. Sinon, le moteur local prend le relais. Évitez d’y saisir des informations sensibles.",
-        "fallbackNotice": "Le moteur déterministe local a pris le relais (sans appel réseau ni clé API)."
+        "aiBadge": "Réponse assistée par IA (Cloudflare Workers AI — Workers Free)",
+        "keywordBadge": "Recherche locale de secours",
+        "aiNotice": "Votre question et le contexte documentaire pertinent du portfolio peuvent être transmis à Cloudflare Workers AI pour traitement. Si le fournisseur est indisponible, le moteur local prend le relais. N’y saisissez pas d’informations sensibles.",
+        "fallbackNotice": "Cette réponse utilise le moteur local de secours par mots-clés."
       },
       "levels": {
         "strong": "Adéquation forte",
@@ -240,7 +249,7 @@
       "data-analysis": "Analyse de données",
       "web-si": "Web / Systèmes d’information",
       "statistiques": "Statistiques",
-      "machine-learning": "Apprentissage automatique",
+      "machine-learning": "Machine Learning",
       "data-engineering": "Ingénierie des données"
     },
     "card": {
@@ -301,6 +310,24 @@
         "tagline": "Projet académique en équipe : comparaison d’un CNN from scratch et de DenseNet121.",
         "summary": "Classification NORMAL / PNEUMONIA sur 5 856 radiographies, avec résultats rapportés et écarts entre sources explicités.",
         "context": "Académique · équipe de quatre"
+      },
+      "goodthought-sql-analysis": {
+        "title": "Analyse SQL des dons et de l’impact — GoodThought",
+        "tagline": "Projet guidé DataCamp : exploration des dons et des scores d’impact par mission et région.",
+        "summary": "Requêtes SQL sur les missions, les dons et les donateurs d’un cas d’exercice, avec agrégations, CTE et classement par région.",
+        "context": "Projet guidé · DataCamp"
+      },
+      "motorcycle-parts-sales": {
+        "title": "Analyse des ventes de pièces de moto",
+        "tagline": "Projet guidé DataCamp : analyse des ventes en gros par produit, mois et entrepôt.",
+        "summary": "Requêtes SQL sur 1 000 commandes d’exercice, agrégées par ligne de produits, mois et entrepôt.",
+        "context": "Projet guidé · DataCamp"
+      },
+      "students-mental-health": {
+        "title": "Analyse de la santé mentale des étudiants",
+        "tagline": "Projet guidé DataCamp : comparaison des scores selon le statut étudiant et la durée du séjour.",
+        "summary": "Analyse SQL des scores PHQ-9, SCS et ASISS dans une enquête menée auprès d’étudiants au Japon.",
+        "context": "Projet guidé · DataCamp"
       }
     }
   },
@@ -499,10 +526,10 @@
       "certifications": "Quelles certifications sont documentées ?"
     },
     "modes": {
-      "aiBadge": "Analyse sémantique IA (Workers AI — Gratuit)",
-      "keywordBadge": "Moteur déterministe local (Secours)",
-      "aiNotice": "Si Cloudflare Workers AI est configuré et disponible, votre question peut être envoyée pour un traitement sémantique. Sinon, le moteur local prend le relais. Évitez d’y saisir des informations sensibles.",
-      "fallbackNotice": "Le moteur déterministe local a pris le relais."
+      "aiBadge": "Réponse assistée par IA (Cloudflare Workers AI — Workers Free)",
+      "keywordBadge": "Recherche locale de secours",
+      "aiNotice": "Votre question et le contexte documentaire pertinent du portfolio peuvent être transmis à Cloudflare Workers AI pour traitement. Si le fournisseur est indisponible, le moteur local prend le relais. N’y saisissez pas d’informations sensibles.",
+      "fallbackNotice": "Cette réponse utilise le moteur local de secours par mots-clés."
     },
     "sections": {
       "directAnswerTitle": "Réponse synthétique vérifiée",

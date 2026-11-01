@@ -226,7 +226,7 @@ test.describe('Global AI Assistant - E2E Tests', () => {
     await expect(fab).toBeFocused();
   });
 
-  test('should keep mocked result cards readable in dark mode without calling the AI service', async ({ page }) => {
+  test('should keep mocked local-search results readable in dark mode', async ({ page }) => {
     await page.addInitScript(() => {
       localStorage.setItem('portfolio-theme', 'dark');
     });
@@ -244,12 +244,44 @@ test.describe('Global AI Assistant - E2E Tests', () => {
   });
 
   for (const localeCase of [
+    {
+      locale: 'French',
+      home: '/',
+      trigger: "Explorer avec l'IA",
+      privacyNotice: /Cloudflare Workers AI/i,
+      fallbackNotice: /moteur local de secours par mots-clés/i,
+      query: 'SQL et indicateurs',
+      resultMode: 'Recherche locale de secours',
+    },
+    {
+      locale: 'English',
+      home: '/en',
+      trigger: 'Explore with AI',
+      privacyNotice: /Cloudflare Workers AI/i,
+      fallbackNotice: /local keyword-search fallback/i,
+      query: 'SQL dashboards',
+      resultMode: 'Local fallback search',
+    },
+  ]) {
+    test(`explains Cloudflare AI and local fallback (${localeCase.locale})`, async ({ page }) => {
+      await page.goto(localeCase.home);
+      await page.getByRole('button', { name: localeCase.trigger }).click();
+      const dialog = page.getByRole('dialog');
+      await expect(dialog.getByText(localeCase.privacyNotice)).toBeVisible();
+      await dialog.getByRole('textbox', { name: localeCase.trigger }).fill(localeCase.query);
+      await dialog.getByRole('button', { name: /Évaluer la question|Evaluate question/i }).click();
+      await expect(dialog.getByText(localeCase.resultMode)).toBeVisible();
+      await expect(dialog.getByText(localeCase.fallbackNotice)).toBeVisible();
+    });
+  }
+
+  for (const localeCase of [
     { locale: 'French', home: '/', localizedPage: '/certifications/introduction-to-sql' },
     { locale: 'English', home: '/en', localizedPage: '/en/certifications/introduction-to-sql' },
   ]) {
     test(`keeps public assets and certification routes correct in the assistant (${localeCase.locale})`, async ({ page }) => {
       await page.goto(localeCase.home);
-      await page.getByRole('button', { name: /Explorer avec|Explore with AI/i }).click();
+      await page.getByRole('button', { name: /Explorer avec l'IA|Explore with AI/i }).click();
 
       const dialog = page.getByRole('dialog');
       await dialog.getByRole('textbox').fill('asset link regression');

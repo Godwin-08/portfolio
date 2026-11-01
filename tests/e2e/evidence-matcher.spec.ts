@@ -80,7 +80,8 @@ test.describe('Evidence Matcher UI - E2E Tests', () => {
     await sqlSuggestion.click();
 
     // Result card
-    const resultCard = page.locator('article', { hasText: 'GTM — Galaxy Training Manager' });
+    const matcher = page.locator('section[aria-label*="Evidence Matcher"]');
+    const resultCard = matcher.locator('article', { hasText: 'GTM — Galaxy Training Manager' });
     await expect(resultCard).toBeVisible({ timeout: 15000 });
     await expect(resultCard.getByText(/Strong match/i)).toBeVisible({ timeout: 15000 });
     await expect.poll(() => aiMock.requests).toHaveLength(1);

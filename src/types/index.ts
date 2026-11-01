@@ -11,7 +11,8 @@ export type ProjectContextType =
   | 'Académique (Binôme)'
   | 'Académique (Équipe)'
   | 'Académique (Individuel)'
-  | 'Projet Personnel';
+  | 'Projet Personnel'
+  | 'Projet guidé DataCamp';
 
 export interface ProjectMetric {
   value: string;
