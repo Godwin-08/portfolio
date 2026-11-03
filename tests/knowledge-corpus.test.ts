@@ -49,9 +49,47 @@ describe('Authoritative Knowledge Corpus & Global Assistant Tests', () => {
       for (const cert of certDocs) {
         expect(cert.facts.fr.join(' ')).not.toContain('undefined');
         expect(cert.facts.en.join(' ')).not.toContain('undefined');
-        expect(cert.facts.fr.join(' ')).toContain('Notions recensées');
-        expect(cert.facts.en.join(' ')).toContain('Topics listed');
-        expect(cert.limitations?.fr.join(' ')).toContain('évaluation indépendante');
+        if (cert.id === 'cert-data-analyst-associate') {
+          expect(cert.facts.fr.join(' ')).toContain(
+            'Domaines évalués selon DataCamp (liste non exhaustive)'
+          );
+          expect(cert.facts.en.join(' ')).toContain(
+            'Competency domains assessed according to DataCamp (not exhaustive)'
+          );
+        } else {
+          expect(cert.facts.fr.join(' ')).toContain('Notions recensées');
+          expect(cert.facts.en.join(' ')).toContain('Topics listed');
+        }
+        if (cert.id === 'cert-data-analyst-associate') {
+          expect(cert.facts.fr.join(' ')).toContain('2028-11-02');
+          expect(cert.facts.en.join(' ')).toContain('2028-11-02');
+          expect(cert.limitations?.fr.join(' ')).toContain(
+            'réussite aux évaluations DataCamp'
+          );
+          expect(cert.limitations?.en.join(' ')).toContain(
+            'passing DataCamp assessments'
+          );
+          expect(cert.facts.fr.join(' ')).toContain(
+            '100 heures ou plus'
+          );
+          expect(cert.facts.en.join(' ')).toContain('100+ hours');
+          expect(cert.facts.fr.join(' ')).toContain(
+            'problème métier en nettoyant et validant des données'
+          );
+          expect(cert.facts.en.join(' ')).toContain(
+            'solve a business problem by cleaning and validating data'
+          );
+          expect(cert.facts.fr.join(' ')).toContain(
+            'pas de la durée de préparation de Godwin'
+          );
+          expect(cert.facts.en.join(' ')).toContain(
+            'not a claim about Godwin’s preparation time'
+          );
+        } else {
+          expect(cert.limitations?.fr.join(' ')).toContain(
+            'évaluation indépendante'
+          );
+        }
         expect(cert.source).toBe('src/data/certifications.ts');
       }
     });
@@ -293,7 +331,79 @@ describe('Authoritative Knowledge Corpus & Global Assistant Tests', () => {
       expect(res.status).toBe('answer');
       expect(res.intent).toBe('certifications');
       expect(res.directAnswer).toContain('DataCamp');
+      expect(res.directAnswer).toContain('certification d’examen');
+      expect(res.relatedItems?.map(({ id }) => id)).toContain(
+        'cert-data-analyst-associate'
+      );
       expect(res.relatedItems).toHaveLength(CERTIFICATIONS.length);
+    });
+
+    it('should include the verified Data Analyst Associate exam certification and expiry in both locales', () => {
+      for (const [locale, query, expectedDate] of [
+        [
+          'fr',
+          'Quand expire ma certification Data Analyst Associate ?',
+          '2028-11-02',
+        ],
+        [
+          'en',
+          'When does my Data Analyst Associate certification expire?',
+          '2028-11-02',
+        ],
+      ] as const) {
+        const result = runLocalMatcher(query, locale);
+        expect(result.intent).toBe('certifications');
+        expect(result.relatedItems?.map(({ id }) => id)).toContain(
+          'cert-data-analyst-associate'
+        );
+        const certification = result.relatedItems?.find(
+          ({ id }) => id === 'cert-data-analyst-associate'
+        );
+        expect(certification?.verifiedFacts.join(' ')).toContain(expectedDate);
+        expect(certification?.href).toBe(
+          'https://www.datacamp.com/certificate/DAA0010708616816'
+        );
+        expect(certification?.verifiedFacts.join(' ')).toContain(
+          '/certifications/data-analyst-associate.pdf'
+        );
+        expect(result.directAnswer).toContain(
+          locale === 'fr' ? '2 novembre 2028' : 'November 2, 2028'
+        );
+      }
+    });
+
+    it('should answer Data Analyst Associate competency-domain questions from the verified assessment description', () => {
+      for (const [locale, query, expectedDomains] of [
+        [
+          'fr',
+          'Quels domaines de compétences sont évalués pour Data Analyst Associate ?',
+          [
+            'Data Management',
+            'Exploratory Analysis',
+            'Statistical Experimentation',
+            'Communication and Visualization',
+          ],
+        ],
+        [
+          'en',
+          'Which competency domains are assessed for Data Analyst Associate?',
+          [
+            'Data Management',
+            'Exploratory Analysis',
+            'Statistical Experimentation',
+            'Communication and Visualization',
+          ],
+        ],
+      ] as const) {
+        const result = runLocalMatcher(query, locale);
+        expect(result.intent).toBe('certifications');
+        expect(result.relatedItems?.map(({ id }) => id)).toContain(
+          'cert-data-analyst-associate'
+        );
+        for (const domain of expectedDomains) {
+          expect(result.directAnswer).toContain(domain);
+        }
+      }
     });
 
     it('should use the documented course summary without inventing chapter comparisons', () => {

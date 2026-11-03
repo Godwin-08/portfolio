@@ -134,7 +134,9 @@ export async function CertificationsSection({
                 </Link>
               </CredentialHeadingTag>
 
-              {(certification.completedOn || certification.reference) && (
+              {(certification.completedOn ||
+                certification.expiresOn ||
+                certification.reference) && (
                 <dl className="mt-4 grid grid-cols-1 gap-3 border-t border-slate-100 pt-4 text-sm dark:border-slate-800 sm:grid-cols-2">
                   {certification.completedOn && (
                     <div>
@@ -144,6 +146,18 @@ export async function CertificationsSection({
                       <dd className="mt-1 font-semibold text-body">
                         {dateFormatter.format(
                           new Date(`${certification.completedOn}T00:00:00Z`)
+                        )}
+                      </dd>
+                    </div>
+                  )}
+                  {certification.expiresOn && (
+                    <div>
+                      <dt className="text-xs font-medium text-muted">
+                        {t('expiresOn')}
+                      </dt>
+                      <dd className="mt-1 font-semibold text-body">
+                        {dateFormatter.format(
+                          new Date(`${certification.expiresOn}T00:00:00Z`)
                         )}
                       </dd>
                     </div>

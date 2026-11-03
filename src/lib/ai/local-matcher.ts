@@ -967,6 +967,8 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
       'sujets etudies', 'sujets', 'programme detaille', 'chapitres', 'syllabus',
       'contenu detaille', 'notions abordees', 'topics studied', 'course content',
       'chapters',
+      'domaines evalues', 'domaines de competences', 'competency domains assessed',
+      'competency domains', 'assessed domains', 'domains assessed',
       'contenu de formation', 'contenus de formation', 'documented course content',
       'topics documented'
     ]);
@@ -974,12 +976,25 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
       'issuer', 'issuing organization', 'issued by', 'organisme formateur',
       'organisme certificateur', 'qui a delivre', 'who issued'
     ]);
+    const asksValidity = textContainsAny(normQuery, [
+      'expire', 'expiration', 'valid until', 'valid through', 'validity',
+      'valide jusqu', 'date d expiration'
+    ]);
     const asksDetailedSyllabus = textContainsAny(normQuery, [
       'programme detaille', 'chapitres', 'chapters', 'syllabus', 'detailed syllabus'
     ]);
 
     let directAnswer: string;
-    if (asksIssuer && requestedCertification) {
+    if (asksValidity && requestedCertification?.expiresOn) {
+      const expiry = new Intl.DateTimeFormat(
+        locale === 'fr' ? 'fr-FR' : 'en-US',
+        { day: 'numeric', month: 'long', timeZone: 'UTC', year: 'numeric' }
+      ).format(new Date(`${requestedCertification.expiresOn}T00:00:00Z`));
+      directAnswer =
+        locale === 'fr'
+          ? `La certification « ${requestedCertification.title} » est valable jusqu’au ${expiry}.`
+          : `The “${requestedCertification.title}” certification is valid through ${expiry}.`;
+    } else if (asksIssuer && requestedCertification) {
       directAnswer =
         locale === 'fr'
           ? `L’organisme qui a délivré « ${requestedCertification.title} » est ${requestedCertification.issuer}.`
@@ -998,11 +1013,14 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
         const trackCount = CERTIFICATIONS.filter(
           (certification) => certification.credentialType === 'track'
         ).length;
+        const certificationCount = CERTIFICATIONS.filter(
+          (certification) => certification.credentialType === 'certification'
+        ).length;
         const trackLabel = trackCount === 1 ? 'track' : 'tracks';
         directAnswer =
           locale === 'fr'
-            ? `Le portfolio documente ${CERTIFICATIONS.length} preuves DataCamp, dont ${courseCount} cours et ${trackCount} parcours terminés. Chaque fiche résume les notions documentées et la mise en pratique ; les programmes détaillés par chapitres ne sont pas fournis.`
-            : `The portfolio documents ${CERTIFICATIONS.length} pieces of DataCamp evidence, including ${courseCount} completed courses and ${trackCount} completed ${trackLabel}. Each record summarises documented topics and practice; detailed chapter-by-chapter syllabi are not provided.`;
+            ? `Le portfolio documente ${CERTIFICATIONS.length} preuves DataCamp, dont ${certificationCount} certification d’examen, ${trackCount} parcours et ${courseCount} cours terminés. Chaque fiche résume les notions documentées et la mise en pratique ; les programmes détaillés par chapitres ne sont pas fournis.`
+            : `The portfolio documents ${CERTIFICATIONS.length} pieces of DataCamp evidence, including ${certificationCount} exam certification, ${trackCount} completed ${trackLabel}, and ${courseCount} courses. Each record summarises documented topics and practice; detailed chapter-by-chapter syllabi are not provided.`;
       }
     } else {
       const courseCount = CERTIFICATIONS.filter(
@@ -1010,6 +1028,9 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
       ).length;
       const trackCount = CERTIFICATIONS.filter(
         (certification) => certification.credentialType === 'track'
+      ).length;
+      const certificationCount = CERTIFICATIONS.filter(
+        (certification) => certification.credentialType === 'certification'
       ).length;
       const courseLabelFr =
         courseCount === 1 ? 'attestation de cours' : 'attestations de cours';
@@ -1027,8 +1048,8 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
           : 'track completion certificates';
       directAnswer =
         locale === 'fr'
-          ? `Le portfolio présente ${CERTIFICATIONS.length} preuves DataCamp : ${courseCount} ${courseLabelFr} et ${trackCount} ${trackLabelFr} en statistiques, SQL, PostgreSQL, analyse et communication des données. Chaque fiche résume les apprentissages et indique où consulter la preuve disponible.`
-          : `The portfolio presents ${CERTIFICATIONS.length} pieces of DataCamp evidence: ${courseCount} ${courseLabelEn} and ${trackCount} ${trackLabelEn} in statistics, SQL, PostgreSQL, data analysis, and communication. Each page summarizes the learning and links to the available evidence.`;
+          ? `Le portfolio présente ${CERTIFICATIONS.length} preuves DataCamp : ${certificationCount} certification d’examen, ${courseCount} ${courseLabelFr} et ${trackCount} ${trackLabelFr} en statistiques, SQL, PostgreSQL, analyse et communication des données. Chaque fiche résume les apprentissages et indique où consulter la preuve disponible.`
+          : `The portfolio presents ${CERTIFICATIONS.length} pieces of DataCamp evidence: ${certificationCount} exam certification, ${courseCount} ${courseLabelEn}, and ${trackCount} ${trackLabelEn} in statistics, SQL, PostgreSQL, data analysis, and communication. Each page summarizes the learning and links to the available evidence.`;
     }
 
     return {

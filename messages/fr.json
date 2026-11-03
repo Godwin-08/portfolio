@@ -78,7 +78,7 @@
     },
     "certifications": {
       "title": "Certifications — SQL, PostgreSQL et analyse de données",
-      "description": "Un parcours terminé et onze cours DataCamp documentés en SQL, PostgreSQL, statistiques et analyse des données. Le type de preuve et son domaine sont indiqués séparément."
+      "description": "Une certification d’examen, un parcours terminé et onze cours DataCamp documentés en SQL, PostgreSQL, statistiques et analyse des données. Le type de preuve et son domaine sont indiqués séparément."
     },
     "contact": {
       "title": "Contact — échanger sur un projet",
@@ -128,8 +128,8 @@
     "certifications": {
       "eyebrow": "Apprentissage continu",
       "heading": "Certifications",
-      "description": "Un parcours terminé et onze cours DataCamp documentés en SQL, PostgreSQL, statistiques et analyse des données. Le type de preuve et son domaine sont indiqués séparément ; mes projets restent les principales preuves de mes compétences.",
-      "featuredDescription": "Le parcours terminé est mis en évidence en premier, suivi d’une sélection de cours. Chaque carte ouvre une page de détail avec les justificatifs disponibles.",
+      "description": "Une certification d’examen, un parcours terminé et onze cours DataCamp documentés en SQL, PostgreSQL, statistiques et analyse des données. Le type de preuve et son domaine sont indiqués séparément ; mes projets restent les principales preuves de mes compétences.",
+      "featuredDescription": "La certification d’examen et le parcours terminé sont mis en évidence, suivis d’une sélection de cours. Chaque carte ouvre une page de détail avec les justificatifs disponibles.",
       "proofsHeading": "Parcours et certifications",
       "coursesHeading": "Cours",
       "count": "{count, plural, one {# cours répertorié} other {# cours répertoriés}}",
@@ -147,6 +147,7 @@
         "course": "Cours"
       },
       "completedOn": "Terminé le",
+      "expiresOn": "Valide jusqu’au",
       "reference": "N° du certificat",
       "viewCertificate": "Ouvrir l’attestation",
       "verifyCertificate": "Vérifier le certificat sur DataCamp",
@@ -158,7 +159,10 @@
         "back": "Retour aux certifications et formations",
         "includedCourses": "Cours de ce parcours ({count})",
         "topics": "Notions étudiées",
+        "assessedDomains": "Domaines de compétences évalués",
+        "domainAssessment": "Évaluation de ce domaine",
         "practice": "Mise en pratique pendant le cours",
+        "practicalExam": "Épreuve pratique et modalités d’évaluation",
         "certificate": "Attestation de réussite",
         "openCertificate": "Ouvrir l’attestation",
         "noCertificateImage": "Aucune copie locale de l’attestation n’est disponible. Le lien de vérification ci-dessous permet de la consulter sur DataCamp.",

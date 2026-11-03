@@ -78,7 +78,7 @@
     },
     "certifications": {
       "title": "Certifications — SQL, PostgreSQL, and data analysis",
-      "description": "One completed track and eleven documented DataCamp courses in SQL, PostgreSQL, statistics, and data analysis. The evidence type is shown separately from its subject."
+      "description": "One exam certification, one completed track, and eleven documented DataCamp courses in SQL, PostgreSQL, statistics, and data analysis. The evidence type is shown separately from its subject."
     },
     "contact": {
       "title": "Contact — discuss a project",
@@ -128,8 +128,8 @@
     "certifications": {
       "eyebrow": "Continuous learning",
       "heading": "Certifications",
-      "description": "One completed track and eleven documented DataCamp courses in SQL, PostgreSQL, statistics, and data analysis. Evidence type and subject are shown separately; my projects remain the main evidence of my skills.",
-      "featuredDescription": "The completed track is highlighted first, followed by a selection of courses. Each card opens a detail page with the available evidence.",
+      "description": "One exam certification, one completed track, and eleven documented DataCamp courses in SQL, PostgreSQL, statistics, and data analysis. Evidence type and subject are shown separately; my projects remain the main evidence of my skills.",
+      "featuredDescription": "The exam certification and completed track are highlighted, followed by a selection of courses. Each card opens a detail page with the available evidence.",
       "proofsHeading": "Tracks and certifications",
       "coursesHeading": "Courses",
       "count": "{count, plural, one {# course listed} other {# courses listed}}",
@@ -147,6 +147,7 @@
         "course": "Course"
       },
       "completedOn": "Completed on",
+      "expiresOn": "Valid through",
       "reference": "Certificate no.",
       "viewCertificate": "Open completion certificate",
       "verifyCertificate": "Verify certificate on DataCamp",
@@ -158,7 +159,10 @@
         "back": "Back to certifications and courses",
         "includedCourses": "Courses in this track ({count})",
         "topics": "Topics studied",
+        "assessedDomains": "Competency domains assessed",
+        "domainAssessment": "How this domain was assessed",
         "practice": "Practice within the course",
+        "practicalExam": "Practical exam and assessment format",
         "certificate": "Completion certificate",
         "openCertificate": "Open the completion certificate",
         "noCertificateImage": "No local copy of the completion certificate is available. Use the verification link below to view it on DataCamp.",

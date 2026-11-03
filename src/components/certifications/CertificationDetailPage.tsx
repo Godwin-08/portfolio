@@ -5,6 +5,7 @@ import {
   ArrowUpRight,
   Award,
   CalendarDays,
+  ChevronDown,
   ExternalLink,
   Hash,
 } from 'lucide-react';
@@ -20,8 +21,10 @@ interface CertificationDetailPageProps {
     type: string;
     includedCourses: string;
     completedOn: string;
+    expiresOn: string;
     reference: string;
     topics: string;
+    domainAssessment: string;
     practice: string;
     certificate: string;
     openCertificate: string;
@@ -85,6 +88,20 @@ export function CertificationDetailPage({
               </dd>
             </div>
           )}
+          {certification.expiresOn && (
+            <div className="flex items-center gap-2">
+              <CalendarDays
+                className="h-4 w-4 text-emerald-700 dark:text-emerald-300"
+                aria-hidden="true"
+              />
+              <dt className="sr-only">{labels.expiresOn}</dt>
+              <dd className="font-semibold text-body">
+                {dateFormatter.format(
+                  new Date(`${certification.expiresOn}T00:00:00Z`)
+                )}
+              </dd>
+            </div>
+          )}
           {certification.reference && (
             <div className="flex items-center gap-2">
               <Hash
@@ -142,17 +159,48 @@ export function CertificationDetailPage({
           >
             {labels.topics}
           </h2>
-          <ul className="space-y-3">
-            {content.topics.map((topic) => (
-              <li key={topic} className="flex gap-3 text-sm leading-relaxed text-body sm:text-base">
-                <span
-                  className="mt-2 h-2 w-2 shrink-0 rounded-full bg-emerald-600 dark:bg-emerald-400"
-                  aria-hidden="true"
-                />
-                <span>{topic}</span>
-              </li>
-            ))}
-          </ul>
+          {content.assessedDomains ? (
+            <div className="divide-y divide-slate-200 dark:divide-slate-700">
+              {content.assessedDomains.map((domain) => (
+                <details
+                  key={domain.id}
+                  data-assessed-domain={domain.id}
+                  className="group py-1 first:pt-0 last:pb-0"
+                >
+                  <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 rounded-sm py-3 text-left font-semibold text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden">
+                    <span>{domain.title}</span>
+                    <ChevronDown
+                      className="h-5 w-5 shrink-0 text-emerald-700 transition-transform group-open:rotate-180 dark:text-emerald-300"
+                      aria-hidden="true"
+                    />
+                  </summary>
+                  <div className="space-y-3 pb-4 pr-8 text-sm leading-relaxed text-body sm:text-base">
+                    <p>{domain.description}</p>
+                    {domain.assessment && (
+                      <div>
+                        <h3 className="text-sm font-bold text-ink">
+                          {labels.domainAssessment}
+                        </h3>
+                        <p className="mt-1">{domain.assessment}</p>
+                      </div>
+                    )}
+                  </div>
+                </details>
+              ))}
+            </div>
+          ) : (
+            <ul className="space-y-3">
+              {content.topics.map((topic) => (
+                <li key={topic} className="flex gap-3 text-sm leading-relaxed text-body sm:text-base">
+                  <span
+                    className="mt-2 h-2 w-2 shrink-0 rounded-full bg-emerald-600 dark:bg-emerald-400"
+                    aria-hidden="true"
+                  />
+                  <span>{topic}</span>
+                </li>
+              ))}
+            </ul>
+          )}
           <div className="border-t border-slate-100 pt-4 dark:border-slate-800">
             <h3 className="text-sm font-bold text-ink">{labels.practice}</h3>
             <p className="mt-2 text-sm leading-relaxed text-body">

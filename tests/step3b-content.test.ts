@@ -101,7 +101,10 @@ describe('step 3B targeted content corrections', () => {
     );
     expect(frenchAnswer.directAnswer).toContain('preuve disponible');
     expect(englishAnswer.directAnswer).toContain(
-      '11 course completion certificates and 1 track completion certificate'
+      '11 course completion certificates'
+    );
+    expect(englishAnswer.directAnswer).toContain(
+      '1 track completion certificate'
     );
     expect(englishAnswer.directAnswer).toContain('available evidence');
   });
