@@ -1,7 +1,15 @@
 export interface CertificationCourseContent {
   overview: string;
   topics: readonly string[];
+  assessedDomains?: readonly CertificationAssessedDomain[];
   practice: string;
+}
+
+export interface CertificationAssessedDomain {
+  id: string;
+  title: string;
+  description: string;
+  assessment?: string;
 }
 
 export interface Certification {
@@ -12,6 +20,7 @@ export interface Certification {
   courseIds?: readonly string[];
   importance: number;
   completedOn?: string;
+  expiresOn?: string;
   reference?: string;
   documentPath?: string;
   verificationUrl?: string;
@@ -24,6 +33,107 @@ export interface Certification {
 }
 
 export const CERTIFICATIONS: readonly Certification[] = [
+  {
+    id: 'data-analyst-associate',
+    title: 'Data Analyst Associate',
+    category: 'data-analysis',
+    credentialType: 'certification',
+    importance: 0,
+    completedOn: '2026-11-03',
+    expiresOn: '2028-11-02',
+    documentPath: '/certifications/data-analyst-associate.pdf',
+    verificationUrl: 'https://www.datacamp.com/certificate/DAA0010708616816',
+    issuer: 'DataCamp',
+    accent: 'emerald',
+    content: {
+      fr: {
+        overview:
+          'Certification DataCamp Data Analyst Associate obtenue après la réussite d’évaluations chronométrées et d’une épreuve pratique. L’attestation officielle indique une validité jusqu’au 2 novembre 2028.',
+        topics: [
+          'Gestion des données (Data Management)',
+          'Analyse exploratoire (Exploratory Analysis)',
+          'Expérimentation statistique (Statistical Experimentation)',
+          'Communication et visualisation (Communication and Visualization)',
+        ],
+        assessedDomains: [
+          {
+            id: 'data-management',
+            title: 'Gestion des données (Data Management)',
+            description:
+              'Au niveau d’un analyste de données, la gestion porte surtout sur le nettoyage et le traitement des données. Cela comprend le repérage des problèmes de qualité, les transformations et le travail à partir de plusieurs sources, généralement plusieurs tables de base de données. Ces tâches sont principalement réalisées en SQL.',
+            assessment:
+              'Ce domaine a été évalué par un défi pratique de codage SQL portant sur des tâches précises de nettoyage et de transformation appliquées à une source de données.',
+          },
+          {
+            id: 'exploratory-analysis',
+            title: 'Analyse exploratoire (Exploratory Analysis)',
+            description:
+              'À partir de questions métier jusqu’à une exploration plus générale, il s’agit d’aborder un problème, de trouver les données adaptées et de les mettre au bon format. Cela comprend la création de synthèses et la transformation des données pour produire des rapports et des tableaux de bord.',
+            assessment:
+              'Ce domaine a été principalement évalué par un défi pratique en SQL, complété par un test en R ou en Python.',
+          },
+          {
+            id: 'statistical-experimentation',
+            title:
+              'Expérimentation statistique (Statistical Experimentation)',
+            description:
+              'Utiliser les données et des approches statistiques pertinentes pour mener des expérimentations.',
+          },
+          {
+            id: 'communication-visualization',
+            title:
+              'Communication et visualisation (Communication and Visualization)',
+            description:
+              'Le rôle d’analyste implique de communiquer efficacement les enseignements aux parties prenantes. Cela comprend la création de tableaux de bord, de rapports et de présentations, ainsi que la représentation des données par des tableaux et des visualisations clairs et l’explication des résultats.',
+          },
+        ],
+        practice:
+          'DataCamp décrit des examens chronométrés adaptatifs et une épreuve pratique où il faut résoudre un problème métier en nettoyant et validant des données, puis en calculant des indicateurs. DataCamp indique que l’acquisition des compétences de ce rôle peut généralement demander 100 heures ou plus ; il s’agit d’une estimation générale, pas de la durée de préparation de Godwin.',
+      },
+      en: {
+        overview:
+          'DataCamp Data Analyst Associate certification earned after passing timed assessments and a practical exam. The official certificate states that it is valid through November 2, 2028.',
+        topics: [
+          'Data Management',
+          'Exploratory Analysis',
+          'Statistical Experimentation',
+          'Communication and Visualization',
+        ],
+        assessedDomains: [
+          {
+            id: 'data-management',
+            title: 'Data Management',
+            description:
+              'At the data analyst level, data management focuses mostly on cleaning and processing data. This includes identifying data quality issues, performing transformations, and working with data from multiple sources, typically multiple database tables. These tasks are mostly performed in SQL.',
+            assessment:
+              'This domain was tested through a hands-on SQL coding challenge involving specific cleaning and transformation tasks applied to a given data source.',
+          },
+          {
+            id: 'exploratory-analysis',
+            title: 'Exploratory Analysis',
+            description:
+              'From specific business questions to broader exploration, this involves approaching a problem, finding the right data, and getting it into the right format. It includes creating data summaries and transforming data into formats suitable for reports and dashboards.',
+            assessment:
+              'This domain was primarily tested through a hands-on SQL coding challenge, supplemented by a test in either R or Python.',
+          },
+          {
+            id: 'statistical-experimentation',
+            title: 'Statistical Experimentation',
+            description:
+              'Using data and relevant statistical approaches to perform experiments.',
+          },
+          {
+            id: 'communication-visualization',
+            title: 'Communication and Visualization',
+            description:
+              'Data analysts act as a direct line between business stakeholders and data, so communicating insights effectively is essential. The role includes creating dashboards, reports, and presentations, representing data with clear tables and visualizations, and explaining findings.',
+          },
+        ],
+        practice:
+          'DataCamp describes adaptive timed exams and a practical exam in which candidates solve a business problem by cleaning and validating data, then calculating metrics. DataCamp says these skills can typically take candidates 100+ hours to acquire over time; this is a general estimate, not a claim about Godwin’s preparation time.',
+      },
+    },
+  },
   {
     id: 'introduction-to-statistics',
     title: 'Introduction to Statistics',

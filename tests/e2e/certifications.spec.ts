@@ -4,6 +4,16 @@ test.use({ screenshot: 'off', trace: 'off', video: 'off' });
 
 const certificates = [
   {
+    id: 'data-analyst-associate',
+    title: 'Data Analyst Associate',
+    credentialType: 'certification',
+    completedOn: '2026-11-03',
+    expiresOn: '2028-11-02',
+    documentPath: '/certifications/data-analyst-associate.pdf',
+    contentType: 'application/pdf',
+    verificationUrl: 'https://www.datacamp.com/certificate/DAA0010708616816',
+  },
+  {
     id: 'data-manipulation-in-sql',
     title: 'Data Manipulation in SQL',
     credentialType: 'course',
@@ -124,7 +134,7 @@ const certificates = [
   },
 ];
 
-test('twelve records show their evidence types and documents in French and English', async ({
+test('DataCamp certifications and courses show their verified records in French and English', async ({
   page,
   request,
 }) => {
@@ -136,7 +146,7 @@ test('twelve records show their evidence types and documents in French and Engli
       locale: 'fr',
       sectionName: 'Certifications',
       navigationLinkName: 'Certifications',
-      featuredCountText: 'Preuves principales : 1 sur 12',
+      featuredCountText: 'Preuves principales : 2 sur 13',
       listCountText: '11 cours répertoriés',
       filterGroup: 'Filtrer les cours par domaine',
       filterAll: 'Tous les cours',
@@ -144,8 +154,10 @@ test('twelve records show their evidence types and documents in French and Engli
       filterStatistics: 'Statistiques',
       filterDataAnalysis: 'Analyse des données',
       trackType: 'Parcours',
+      certificationType: 'Certification',
       courseType: 'Cours',
       trackOverviewFragment: 'Parcours DataCamp de 39 heures',
+      certificationOverviewFragment: 'Certification DataCamp Data Analyst Associate',
       includedCoursesHeading: 'Cours de ce parcours (11)',
       sqlCountText: '8 cours répertoriés',
       statisticsCountText: '1 cours répertorié',
@@ -154,6 +166,33 @@ test('twelve records show their evidence types and documents in French and Engli
       backText: 'Retour aux certifications et formations',
       detailPath: (id: string) => `/certifications/${id}`,
       topicsHeading: 'Notions étudiées',
+      assessedDomainsHeading: 'Domaines de compétences évalués',
+      practicalExamHeading: 'Épreuve pratique et modalités d’évaluation',
+      domainAssessmentHeading: 'Évaluation de ce domaine',
+      assessedDomains: [
+        {
+          id: 'data-management',
+          title: 'Gestion des données (Data Management)',
+          descriptionFragment: 'nettoyage et le traitement des données',
+          assessmentFragment: 'défi pratique de codage SQL',
+        },
+        {
+          id: 'exploratory-analysis',
+          title: 'Analyse exploratoire (Exploratory Analysis)',
+          descriptionFragment: 'questions métier jusqu’à une exploration plus générale',
+          assessmentFragment: 'test en R ou en Python',
+        },
+        {
+          id: 'statistical-experimentation',
+          title: 'Expérimentation statistique (Statistical Experimentation)',
+          descriptionFragment: 'approches statistiques pertinentes',
+        },
+        {
+          id: 'communication-visualization',
+          title: 'Communication et visualisation (Communication and Visualization)',
+          descriptionFragment: 'communiquer efficacement les enseignements',
+        },
+      ],
       overviewFragment: 'Cours',
       noCertificateText:
         'Aucune copie locale de l’attestation n’est disponible. Le lien de vérification ci-dessous permet de la consulter sur DataCamp.',
@@ -164,7 +203,7 @@ test('twelve records show their evidence types and documents in French and Engli
       locale: 'en',
       sectionName: 'Certifications',
       navigationLinkName: 'Certifications',
-      featuredCountText: 'Key evidence: 1 of 12',
+      featuredCountText: 'Key evidence: 2 of 13',
       listCountText: '11 courses listed',
       filterGroup: 'Filter courses by subject',
       filterAll: 'All courses',
@@ -172,8 +211,10 @@ test('twelve records show their evidence types and documents in French and Engli
       filterStatistics: 'Statistics',
       filterDataAnalysis: 'Data analysis',
       trackType: 'Learning path',
+      certificationType: 'Certification',
       courseType: 'Course',
       trackOverviewFragment: 'Completed the 39-hour DataCamp track',
+      certificationOverviewFragment: 'DataCamp Data Analyst Associate certification',
       includedCoursesHeading: 'Courses in this track (11)',
       sqlCountText: '8 courses listed',
       statisticsCountText: '1 course listed',
@@ -182,6 +223,33 @@ test('twelve records show their evidence types and documents in French and Engli
       backText: 'Back to certifications and courses',
       detailPath: (id: string) => `/en/certifications/${id}`,
       topicsHeading: 'Topics studied',
+      assessedDomainsHeading: 'Competency domains assessed',
+      practicalExamHeading: 'Practical exam and assessment format',
+      domainAssessmentHeading: 'How this domain was assessed',
+      assessedDomains: [
+        {
+          id: 'data-management',
+          title: 'Data Management',
+          descriptionFragment: 'cleaning and processing data',
+          assessmentFragment: 'hands-on SQL coding challenge',
+        },
+        {
+          id: 'exploratory-analysis',
+          title: 'Exploratory Analysis',
+          descriptionFragment: 'specific business questions to broader exploration',
+          assessmentFragment: 'a test in either R or Python',
+        },
+        {
+          id: 'statistical-experimentation',
+          title: 'Statistical Experimentation',
+          descriptionFragment: 'relevant statistical approaches to perform experiments',
+        },
+        {
+          id: 'communication-visualization',
+          title: 'Communication and Visualization',
+          descriptionFragment: 'communicating insights effectively is essential',
+        },
+      ],
       overviewFragment: 'intermediate',
       noCertificateText:
         'No local copy of the completion certificate is available. Use the verification link below to view it on DataCamp.',
@@ -197,10 +265,10 @@ test('twelve records show their evidence types and documents in French and Engli
     await expect(page.locator('html')).toHaveAttribute('lang', site.locale);
     await expect(section).toBeVisible();
     await expect(section).toContainText(site.featuredCountText);
-    await expect(section.locator('[data-certification-id]')).toHaveCount(4);
+    await expect(section.locator('[data-certification-id]')).toHaveCount(5);
     await expect(
       section.locator('[data-certifications-zone="credentials"] [data-certification-id]')
-    ).toHaveCount(1);
+    ).toHaveCount(2);
     await expect(
       section.locator('[data-certifications-zone="courses"] [data-certification-id]')
     ).toHaveCount(3);
@@ -218,7 +286,10 @@ test('twelve records show their evidence types and documents in French and Engli
       .evaluateAll((cards) =>
         cards.map((card) => card.getAttribute('data-certification-id'))
       );
-    expect(featuredIds).toEqual(['associate-data-analyst-in-sql']);
+    expect(featuredIds).toEqual([
+      'data-analyst-associate',
+      'associate-data-analyst-in-sql',
+    ]);
 
     await page.goto(site.listPath, { waitUntil: 'networkidle' });
     const fullSection = page.getByRole('region', {
@@ -232,7 +303,10 @@ test('twelve records show their evidence types and documents in French and Engli
         .getByRole('link', { name: site.navigationLinkName })
     ).toHaveAttribute('href', site.listPath);
     await expect(fullSection).toContainText(site.listCountText);
-    await expect(fullSection.locator('[data-certification-id]')).toHaveCount(12);
+    await expect(fullSection.locator('[data-certification-id]')).toHaveCount(13);
+    await expect(
+      fullSection.locator('[data-certification-type="certification"]')
+    ).toHaveCount(1);
     await expect(
       fullSection.locator('[data-certification-type="track"]')
     ).toHaveCount(1);
@@ -298,7 +372,9 @@ test('twelve records show their evidence types and documents in French and Engli
       );
       await expect(card).toHaveAttribute(
         'data-certification-rank',
-        String(index + 1)
+        certificate.credentialType === 'certification'
+          ? '0'
+          : String(index)
       );
       await expect(card.getByRole('heading', { name: certificate.title })).toBeVisible();
       await expect(card.getByText('DataCamp', { exact: true })).toBeVisible();
@@ -310,7 +386,9 @@ test('twelve records show their evidence types and documents in French and Engli
         card.getByText(
           certificate.credentialType === 'track'
             ? site.trackType
-            : site.courseType,
+            : certificate.credentialType === 'certification'
+              ? site.certificationType
+              : site.courseType,
           { exact: true }
         )
       ).toBeVisible();
@@ -320,6 +398,13 @@ test('twelve records show their evidence types and documents in French and Engli
           { day: 'numeric', month: 'short', timeZone: 'UTC', year: 'numeric' }
         ).format(new Date(`${certificate.completedOn}T00:00:00Z`));
         await expect(card).toContainText(completedDate);
+      }
+      if (certificate.expiresOn) {
+        const expirationDate = new Intl.DateTimeFormat(
+          site.locale === 'fr' ? 'fr-FR' : 'en-US',
+          { day: 'numeric', month: 'short', timeZone: 'UTC', year: 'numeric' }
+        ).format(new Date(`${certificate.expiresOn}T00:00:00Z`));
+        await expect(card).toContainText(expirationDate);
       }
 
       const titleLink = card.locator('[data-certification-title]');
@@ -384,20 +469,68 @@ test('twelve records show their evidence types and documents in French and Engli
       ).toBeVisible();
       await expect(
         detailPage.getByText(
-          certificate.credentialType === 'track'
+        certificate.credentialType === 'certification'
+          ? site.certificationType
+          : certificate.credentialType === 'track'
             ? site.trackType
             : site.courseType,
           { exact: true }
         )
       ).toBeVisible();
       await expect(
-        detailPage.getByRole('heading', { name: site.topicsHeading })
+        detailPage.getByRole('heading', {
+          name:
+            certificate.credentialType === 'certification'
+              ? site.assessedDomainsHeading
+              : site.topicsHeading,
+        })
       ).toBeVisible();
+      if (certificate.credentialType === 'certification') {
+        for (const domain of site.assessedDomains) {
+          const domainDetail = detailPage.locator(
+            `[data-assessed-domain="${domain.id}"]`
+          );
+          await expect(domainDetail.locator('summary')).toContainText(
+            domain.title
+          );
+          await expect(domainDetail).not.toHaveAttribute('open', '');
+          await domainDetail.locator('summary').click();
+          await expect(domainDetail).toHaveAttribute('open', '');
+          await expect(domainDetail).toContainText(domain.descriptionFragment);
+          if (domain.assessmentFragment) {
+            await expect(
+              domainDetail.getByRole('heading', {
+                name: site.domainAssessmentHeading,
+              })
+            ).toBeVisible();
+            await expect(domainDetail).toContainText(domain.assessmentFragment);
+          } else {
+            await expect(
+              domainDetail.getByRole('heading', {
+                name: site.domainAssessmentHeading,
+              })
+            ).toHaveCount(0);
+          }
+        }
+        await expect(
+          detailPage.getByRole('heading', { name: site.practicalExamHeading })
+        ).toBeVisible();
+        await expect(detailPage).toContainText(
+          site.locale === 'fr' ? '100 heures ou plus' : '100+ hours'
+        );
+        await expect(detailPage).toContainText(
+          site.locale === 'fr'
+            ? 'pas de la durée de préparation de Godwin'
+            : 'not a claim about Godwin’s preparation time'
+        );
+      }
       await expect(
         detailPage.getByRole('link', { name: site.backText })
       ).toHaveAttribute('href', site.listPath);
       await expect(detailPage.locator('header')).toContainText(
-        certificate.credentialType === 'track'
+      certificate.credentialType === 'certification'
+        ? site.certificationOverviewFragment
+        : certificate.credentialType === 'track'
           ? site.trackOverviewFragment
           : site.overviewFragment
       );
@@ -438,7 +571,18 @@ test('twelve records show their evidence types and documents in French and Engli
       } else {
         await expect(detailPage).toContainText(site.noCertificateText);
         await expect(detailPage.locator('header dl dd')).toHaveCount(
-          Number(Boolean(certificate.completedOn))
+          Number(Boolean(certificate.completedOn)) +
+            Number(Boolean(certificate.expiresOn))
+        );
+      }
+
+      if (certificate.expiresOn) {
+        const expirationDate = new Intl.DateTimeFormat(
+          site.locale === 'fr' ? 'fr-FR' : 'en-US',
+          { day: 'numeric', month: 'long', timeZone: 'UTC', year: 'numeric' }
+        ).format(new Date(`${certificate.expiresOn}T00:00:00Z`));
+        await expect(detailPage.locator('header dl')).toContainText(
+          expirationDate
         );
       }
 
@@ -509,7 +653,7 @@ test('certification list language switching preserves the list route', async ({
   await expect(
     page.getByRole('heading', { name: 'Certifications', level: 1 })
   ).toBeVisible();
-  await expect(page.locator('[data-certification-id]')).toHaveCount(12);
+  await expect(page.locator('[data-certification-id]')).toHaveCount(13);
 });
 
 test('unknown certification slugs return not found', async ({ page }) => {

@@ -325,10 +325,10 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
           ? { fr: 'Parcours', en: 'Learning path' }
           : { fr: 'Cours', en: 'Course' };
     const evidence = cert.documentPath
-      ? `Preuve documentaire : document ${cert.documentPath.endsWith('.pdf') ? 'PDF vectoriel' : 'image officielle'} accessible sur le portfolio.`
+      ? `Preuve documentaire : ${cert.documentPath.endsWith('.pdf') ? 'document PDF' : 'image officielle'} accessible sur le portfolio à l’adresse ${cert.documentPath}.`
       : 'Aucune copie du certificat n’est hébergée sur le portfolio.';
     const evidenceEn = cert.documentPath
-      ? `Documentary evidence: official ${cert.documentPath.endsWith('.pdf') ? 'PDF' : 'image'} document available on the portfolio.`
+      ? `Documentary evidence: official ${cert.documentPath.endsWith('.pdf') ? 'PDF' : 'image'} document available on the portfolio at ${cert.documentPath}.`
       : 'No certificate copy is hosted on the portfolio.';
     docs[`cert-${cert.id}`] = {
       id: `cert-${cert.id}`,
@@ -339,24 +339,39 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
       },
       summary: {
         fr: cert.completedOn
-          ? `${evidenceType.fr} DataCamp terminé le ${cert.completedOn}.`
+          ? cert.credentialType === 'certification'
+            ? `Certification DataCamp délivrée le ${cert.completedOn}.`
+            : `${evidenceType.fr} DataCamp terminé le ${cert.completedOn}.`
           : `${evidenceType.fr} DataCamp documenté dans le portfolio.`,
         en: cert.completedOn
-          ? `${evidenceType.en} completed on ${cert.completedOn}.`
+          ? cert.credentialType === 'certification'
+            ? `DataCamp certification issued on ${cert.completedOn}.`
+            : `${evidenceType.en} completed on ${cert.completedOn}.`
           : `${evidenceType.en} documented in the portfolio.`,
       },
       facts: {
         fr: [
-          `Intitulé de la formation : ${cert.title}.`,
+          `${cert.credentialType === 'certification' ? 'Intitulé de la certification' : 'Intitulé de la formation'} : ${cert.title}.`,
           `Type de preuve : ${evidenceType.fr}.`,
-          `Organisme formateur : DataCamp (plateforme d’apprentissage spécialisée dans la data).`,
+          cert.credentialType === 'certification'
+            ? 'Organisme certificateur : DataCamp.'
+            : 'Organisme formateur : DataCamp (plateforme d’apprentissage spécialisée dans la data).',
           ...(cert.completedOn
-            ? [`Date d’achèvement : ${cert.completedOn}.`]
+            ? [
+                cert.credentialType === 'certification'
+                  ? `Date de certification : ${cert.completedOn}.`
+                  : `Date d’achèvement : ${cert.completedOn}.`,
+              ]
+            : []),
+          ...(cert.expiresOn
+            ? [`Date d’expiration de la certification : ${cert.expiresOn}.`]
             : []),
           ...(cert.reference
             ? [`Numéro de référence officiel du certificat : #${cert.reference}.`]
             : []),
-          `Notions recensées dans la fiche : ${cert.content.fr.topics.join('; ')}.`,
+          cert.credentialType === 'certification'
+            ? `Domaines évalués selon DataCamp (liste non exhaustive) : ${cert.content.fr.assessedDomains?.map((domain) => `${domain.title} : ${domain.description}${domain.assessment ? ` Évaluation : ${domain.assessment}` : ''}`).join(' ')}`
+            : `Notions recensées dans la fiche : ${cert.content.fr.topics.join('; ')}.`,
           `Mise en pratique décrite : ${cert.content.fr.practice}`,
           evidence,
           cert.verificationUrl
@@ -366,16 +381,27 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
               : 'Aucun document ou lien officiel de vérification n’est renseigné.',
         ],
         en: [
-          `Learning title: ${cert.title}.`,
+          `${cert.credentialType === 'certification' ? 'Certification title' : 'Learning title'}: ${cert.title}.`,
           `Evidence type: ${evidenceType.en}.`,
-          `Issuing organization: DataCamp (specialized data learning platform).`,
+          cert.credentialType === 'certification'
+            ? 'Certifying organization: DataCamp.'
+            : 'Issuing organization: DataCamp (specialized data learning platform).',
           ...(cert.completedOn
-            ? [`Completion date: ${cert.completedOn}.`]
+            ? [
+                cert.credentialType === 'certification'
+                  ? `Certification date: ${cert.completedOn}.`
+                  : `Completion date: ${cert.completedOn}.`,
+              ]
+            : []),
+          ...(cert.expiresOn
+            ? [`Certification expiration date: ${cert.expiresOn}.`]
             : []),
           ...(cert.reference
             ? [`Official certificate reference: #${cert.reference}.`]
             : []),
-          `Topics listed in the course summary: ${cert.content.en.topics.join('; ')}.`,
+          cert.credentialType === 'certification'
+            ? `Competency domains assessed according to DataCamp (not exhaustive): ${cert.content.en.assessedDomains?.map((domain) => `${domain.title}: ${domain.description}${domain.assessment ? ` Assessment: ${domain.assessment}` : ''}`).join(' ')}`
+            : `Topics listed in the course summary: ${cert.content.en.topics.join('; ')}.`,
           `Practice described: ${cert.content.en.practice}`,
           evidenceEn,
           cert.verificationUrl
@@ -387,20 +413,38 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
       },
       limitations: {
         fr: [
-          cert.credentialType === 'track'
-            ? 'Cette attestation documente l’achèvement d’un parcours, pas une certification d’examen ni une évaluation indépendante du niveau professionnel.'
-            : 'Cette fiche documente un cours terminé et ne constitue pas une évaluation indépendante du niveau professionnel.',
-          `Cette formation porte sur ${isPostgres ? 'PostgreSQL' : cert.title.includes('Statistics') ? 'les statistiques' : 'le langage SQL'} et complète les projets pratiques, qui restent les preuves maîtresses des compétences de Godwin.`,
+          cert.credentialType === 'certification'
+            ? 'Cette certification atteste la réussite aux évaluations DataCamp dans les domaines indiqués ; elle ne garantit pas à elle seule une expérience professionnelle.'
+            : cert.credentialType === 'track'
+              ? 'Cette attestation documente l’achèvement d’un parcours, pas une certification d’examen ni une évaluation indépendante du niveau professionnel.'
+              : 'Cette fiche documente un cours terminé et ne constitue pas une évaluation indépendante du niveau professionnel.',
+          cert.credentialType === 'certification'
+            ? 'Les domaines évalués comprennent la gestion des données, l’analyse exploratoire, l’expérimentation statistique, ainsi que la communication et la visualisation.'
+            : `Cette formation porte sur ${isPostgres ? 'PostgreSQL' : cert.title.includes('Statistics') ? 'les statistiques' : 'le langage SQL'} et complète les projets pratiques, qui restent les preuves maîtresses des compétences de Godwin.`,
         ],
         en: [
-          cert.credentialType === 'track'
-            ? 'This record documents completion of a learning path, not an exam certification or an independent assessment of professional proficiency.'
-            : 'This record documents a completed course and is not an independent assessment of professional proficiency.',
-          `This course focuses on ${isPostgres ? 'PostgreSQL' : cert.title.includes('Statistics') ? 'statistics' : 'SQL'} and complements applied projects, which remain the primary evidence of Godwin’s skills.`,
+          cert.credentialType === 'certification'
+            ? 'This certification records passing DataCamp assessments in the listed competency areas; it does not by itself guarantee professional experience.'
+            : cert.credentialType === 'track'
+              ? 'This record documents completion of a learning path, not an exam certification or an independent assessment of professional proficiency.'
+              : 'This record documents a completed course and is not an independent assessment of professional proficiency.',
+          cert.credentialType === 'certification'
+            ? 'The assessed domains include data management, exploratory analysis, statistical experimentation, and communication and visualization.'
+            : `This course focuses on ${isPostgres ? 'PostgreSQL' : cert.title.includes('Statistics') ? 'statistics' : 'SQL'} and complements applied projects, which remain the primary evidence of Godwin’s skills.`,
         ],
       },
       href: cert.verificationUrl || cert.documentPath,
-      tags: ['certification', 'certificat', 'datacamp', 'sql', 'postgresql', cert.title.toLowerCase()],
+      tags: [
+        'certification',
+        'certificat',
+        'datacamp',
+        'sql',
+        'postgresql',
+        cert.title.toLowerCase(),
+        ...(cert.credentialType === 'certification'
+          ? ['data analyst associate', 'analyst associate', 'data analyst certification']
+          : []),
+      ],
       source: 'src/data/certifications.ts',
     };
   }

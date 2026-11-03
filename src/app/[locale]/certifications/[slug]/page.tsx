@@ -86,9 +86,17 @@ export default async function CertificationPage({
           count: includedCourses.length,
         }),
         completedOn: t('completedOn'),
+        expiresOn: t('expiresOn'),
         reference: t('reference'),
-        topics: detail('topics'),
-        practice: detail('practice'),
+        topics:
+          certification.credentialType === 'certification'
+            ? detail('assessedDomains')
+            : detail('topics'),
+        domainAssessment: detail('domainAssessment'),
+        practice:
+          certification.credentialType === 'certification'
+            ? detail('practicalExam')
+            : detail('practice'),
         certificate: detail('certificate'),
         openCertificate: detail('openCertificate'),
         verifyCertificate: t('verifyCertificate'),

@@ -205,7 +205,10 @@ function buildGroundedDirectAnswer(
       .filter((doc) => doc.category === 'certification')
       .flatMap((doc) => doc.facts[locale]);
     const topicsFact = courseFacts.find((fact) =>
-      locale === 'fr' ? fact.startsWith('Notions recensées') : fact.startsWith('Topics listed')
+      locale === 'fr'
+        ? fact.startsWith('Notions recensées') || fact.startsWith('Domaines évalués')
+        : fact.startsWith('Topics listed') ||
+          fact.startsWith('Competency domains assessed')
     );
     const practiceFact = courseFacts.find((fact) =>
       locale === 'fr' ? fact.startsWith('Mise en pratique décrite') : fact.startsWith('Practice described')
@@ -215,9 +218,18 @@ function buildGroundedDirectAnswer(
         ? `${topicsFact} ${practiceFact} Le portfolio ne fournit pas de programme détaillé organisé par chapitres.`
         : `${topicsFact} ${practiceFact} The portfolio does not provide a detailed chapter-by-chapter syllabus.`;
     }
+    const examCertificationCount = CERTIFICATIONS.filter(
+      (certification) => certification.credentialType === 'certification'
+    ).length;
+    const trackCount = CERTIFICATIONS.filter(
+      (certification) => certification.credentialType === 'track'
+    ).length;
+    const courseCount = CERTIFICATIONS.filter(
+      (certification) => certification.credentialType === 'course'
+    ).length;
     return locale === 'fr'
-      ? `Le portfolio répertorie ${CERTIFICATIONS.length} attestations de cours et de parcours DataCamp. Les fiches résument certains thèmes et exercices, mais les programmes détaillés par chapitres ne sont pas documentés.`
-      : `The portfolio lists ${CERTIFICATIONS.length} DataCamp course and track completion records. Their summaries document selected topics and practice, but detailed chapter-by-chapter syllabi are not available.`;
+      ? `Le portfolio répertorie ${CERTIFICATIONS.length} preuves DataCamp, dont ${examCertificationCount} certification d’examen, ${trackCount} parcours et ${courseCount} attestations de cours. Les fiches résument certains thèmes et exercices, mais les programmes détaillés par chapitres ne sont pas documentés.`
+      : `The portfolio lists ${CERTIFICATIONS.length} pieces of DataCamp evidence, including ${examCertificationCount} exam certification, ${trackCount} learning track, and ${courseCount} course completion records. Their summaries document selected topics and practice, but detailed chapter-by-chapter syllabi are not available.`;
   }
 
   if (learningFields.length > 0) {

@@ -66,7 +66,7 @@ test.describe('Step 5B: Responsive, theme and accessibility non-regression tests
       // Cards use h3 beneath their zone headings.
       const cardHeadings = page.locator('[data-certifications-grid] article h3');
       const count = await cardHeadings.count();
-      expect(count, `${route} should display all 12 credential and course cards`).toBe(12);
+      expect(count, `${route} should display all 13 credential and course cards`).toBe(13);
 
       const invalidCardH4 = page.locator('[data-certifications-grid] article > h4');
       expect(await invalidCardH4.count()).toBe(0);
