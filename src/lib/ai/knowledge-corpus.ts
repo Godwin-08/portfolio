@@ -1,6 +1,7 @@
 import { PROFILE } from '@/data/profile';
 import { PROJECTS } from '@/data/projects';
 import { PROJECT_DETAIL_COPY } from '@/data/project-details';
+import type { ProjectDetailCopy } from '@/data/project-details';
 import { SKILLS } from '@/data/skills';
 import { CERTIFICATIONS_BY_IMPORTANCE } from '@/data/certifications';
 import { KnowledgeCategory, KnowledgeDocument, RelatedKnowledgeItem } from './types';
@@ -67,13 +68,15 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
     facts: {
       fr: [
         `Disponibilité : stage à partir de juillet 2027 (${PROFILE.badge}).`,
-        `Domaines ciblés : Data Engineering, Data Analysis & Business Intelligence, ou développement logiciel orienté données.`,
+        `Domaine principal recherché : Data Analytics & BI, avec une orientation Analytics Engineering.`,
+        `Ouverture complémentaire : opportunités en Data Engineering.`,
         `Objectif : contribuer à un projet concret en entreprise tout en approfondissant les acquis techniques.`,
         `Moyen de contact privilégié pour un stage : ${PROFILE.contact.email}.`,
       ],
       en: [
         `Availability: internship starting July 2027 (${PROFILE.badge}).`,
-        `Target domains: Data Engineering, Data Analysis & Business Intelligence, or data-centric software development.`,
+        `Primary target: Data Analytics & BI, with an Analytics Engineering orientation.`,
+        `Also open to Data Engineering opportunities.`,
         `Goal: contribute to a real-world company project while deepening technical competencies.`,
         `Preferred contact for internship opportunities: ${PROFILE.contact.email}.`,
       ],
@@ -89,7 +92,7 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
       ],
     },
     href: '/contact',
-    tags: ['stage', 'disponibilite', 'juillet 2027', 'recherche', 'recrutement', 'internship', 'availability'],
+    tags: ['stage', 'pfa', 'data analytics', 'business intelligence', 'analytics engineering', 'data engineering', 'disponibilite', 'juillet 2027', 'recherche', 'recrutement', 'internship', 'availability'],
     source: 'src/data/profile.ts',
   };
 
@@ -451,7 +454,9 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
 
   // 8. PROJECTS & CASE STUDIES
   for (const p of PROJECTS) {
-    const detail = PROJECT_DETAIL_COPY[p.id as keyof typeof PROJECT_DETAIL_COPY];
+    const detail = PROJECT_DETAIL_COPY[p.id as keyof typeof PROJECT_DETAIL_COPY] as
+      | { fr?: ProjectDetailCopy; en?: ProjectDetailCopy }
+      | undefined;
     const frDetail = detail?.fr;
     const enDetail = detail?.en;
 
@@ -509,12 +514,6 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
       enFacts.push(
         'CNN approach: a project-built network trained from scratch without pre-trained weights.'
       );
-      if (frDetail && 'dataConstruction' in frDetail && frDetail.dataConstruction) {
-        frFacts.push(`Données et préparation : ${frDetail.dataConstruction}`);
-      }
-      if (enDetail && 'dataConstruction' in enDetail && enDetail.dataConstruction) {
-        enFacts.push(`Data and preparation: ${enDetail.dataConstruction}`);
-      }
       if (frDetail) {
         frFacts.push(`Démarche expérimentale : ${frDetail.methodIntro}`);
         frFacts.push(
@@ -565,6 +564,118 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
       }
       frProofs.push(...PNEUMONIA_NOTEBOOK_PROOFS.fr);
       enProofs.push(...PNEUMONIA_NOTEBOOK_PROOFS.en);
+    }
+
+    if (frDetail && enDetail) {
+      for (const [detail, facts] of [
+        [frDetail, frFacts],
+        [enDetail, enFacts],
+      ] as const) {
+        if (detail.featuredFinding) facts.push(detail.featuredFinding);
+        if (detail.dataTitle) facts.push(detail.dataTitle);
+        if (detail.dataConstruction) facts.push(detail.dataConstruction);
+        if (detail.methodTitle) facts.push(detail.methodTitle);
+        if (detail.resultsIntro) facts.push(detail.resultsIntro);
+
+        if (p.id !== 'pneumonia-detection') {
+          facts.push(detail.methodIntro);
+          facts.push(
+            ...detail.methodSteps.map((step) => `${step.title}: ${step.description}`)
+          );
+          if (detail.architecture) {
+            facts.push(`${detail.architecture.title}: ${detail.architecture.introduction}`);
+            facts.push(
+              ...detail.architecture.layers.map(
+                (layer) => `${layer.title}: ${layer.description}`
+              )
+            );
+          }
+          if (detail.keyDecisions) {
+            facts.push(
+              ...detail.keyDecisions.items.map(
+                (item) => `${item.title}: ${item.description}`
+              )
+            );
+          }
+          if (detail.conclusion) facts.push(detail.conclusion.description);
+
+          if (detail.olistAnalysis) {
+            const analysis = detail.olistAnalysis;
+            facts.push(`${analysis.dataModel.title}: ${analysis.dataModel.introduction}`);
+            facts.push(`${analysis.preparation.title}: ${analysis.preparation.introduction}`);
+            facts.push(
+              ...analysis.preparation.steps.map(
+                (step) => `${step.title} (${step.value}): ${step.description}`
+              )
+            );
+            facts.push(analysis.preparation.conclusion);
+            for (const section of [
+              analysis.delivery,
+              analysis.satisfaction,
+              analysis.financial,
+            ]) {
+              facts.push(`${section.title}: ${section.introduction}`);
+              if ('metrics' in section) {
+                facts.push(
+                  ...section.metrics.map(
+                    (metric) => `${metric.label} (${metric.value}): ${metric.detail}`
+                  )
+                );
+              }
+              if ('indicators' in section) {
+                facts.push(
+                  ...section.indicators.map(
+                    (indicator) =>
+                      `${indicator.label} (${indicator.value}): ${indicator.detail}`
+                  )
+                );
+                facts.push(section.note);
+              }
+            }
+          }
+        }
+
+        facts.push(`Contribution: ${detail.contribution}`);
+        facts.push(`Technologies: ${detail.technologies.join(', ')}`);
+        facts.push(
+          ...detail.results.map(
+            (result) => `${result.label} (${result.value}): ${result.detail}`
+          )
+        );
+        if (detail.repository) facts.push(`Repository: ${detail.repository}`);
+        facts.push(
+          ...(detail.documents ?? []).map(
+            (document) => `Public document: ${document.label} (${document.href})`
+          )
+        );
+        facts.push(
+          ...(detail.collaborators ?? []).map(
+            (person) => `Project collaborator: ${person.name}, ${person.role}.`
+          )
+        );
+        facts.push(
+          ...(detail.supervisors ?? []).map(
+            (person) => `Project supervisor: ${person.name}, ${person.role}.`
+          )
+        );
+        facts.push(
+          ...detail.gallery.map((image) =>
+            [
+              `Gallery item "${image.title}": ${image.caption}`,
+              image.analysis?.question && `Question: ${image.analysis.question}`,
+              image.analysis?.reading && `Reading: ${image.analysis.reading}`,
+              image.analysis?.observation && `Observation: ${image.analysis.observation}`,
+              image.analysis?.interpretation &&
+                `Interpretation: ${image.analysis.interpretation}`,
+              image.analysis?.businessInterest &&
+                `Business relevance: ${image.analysis.businessInterest}`,
+              image.analysis?.limitation && `Scope: ${image.analysis.limitation}`,
+            ]
+              .filter((fact): fact is string => Boolean(fact))
+              .join(' ')
+          )
+        );
+      }
     }
 
     docs[`proj-${p.id}`] = {
@@ -645,22 +756,87 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
         'Intitulé : Rapport de stage en français (PDF).',
         'Chemin d’accès public : /documents/projects/gtm-internship-report-fr.pdf.',
         'Langue : Français.',
-        'Sujet : conception et développement du SI de suivi des formations GTM pendant le stage chez Galaxy Solutions.',
+        'Le rapport présente GTM, développé chez Galaxy Solutions pour centraliser la gestion des formations professionnelles et faciliter le pilotage de l’activité.',
+        'Le périmètre couvre trois domaines de formation : Web & Data, Management Agile et Cybersécurité.',
+        'L’application associe Flask, SQLAlchemy et MySQL à une interface Jinja2, Tailwind CSS et Alpine.js. Les rôles Admin, Gestionnaire et Formateur sont contrôlés côté serveur.',
+        'Le rapport décrit trois volets : gestion opérationnelle, analyse par tableau de bord et graphiques filtrables, puis aide à la décision avec alertes et ACP des profils clients.',
+        'Les exports sont générés en CSV, Excel et PDF. Le rapport documente 166 tests automatisés réussis.',
+        'Le résumé du rapport mentionne une relecture finale portant sur la sécurité des accès, les seuils d’alerte et la fiabilisation de l’application.',
+        'L’ACP exploratoire du jeu de démonstration porte sur 30 clients, 12 formations et 484 inscriptions confirmées. Les deux premiers axes expliquent 18,5 % et 15,8 % de l’inertie, soit 34,3 % au total; cette analyse ne vise pas à prévoir les inscriptions futures.',
+        'Le rapport recense 166 tests Pytest répartis dans 22 fichiers, avec 100 % de réussite. Ils couvrent notamment l’authentification, les permissions RBAC, les règles métier, les imports/exports et les calculs d’ACP.',
       ],
       en: [
         'Title: Internship report in French (PDF).',
         'Public access path: /documents/projects/gtm-internship-report-fr.pdf.',
         'Language: French.',
-        'Topic: design and implementation of the GTM training management system during internship at Galaxy Solutions.',
+        'The report presents GTM, developed at Galaxy Solutions to centralize professional training management and support operational oversight.',
+        'Its scope covers three training areas: Web & Data, Agile Management, and Cybersecurity.',
+        'The application combines Flask, SQLAlchemy, and MySQL with a Jinja2, Tailwind CSS, and Alpine.js interface. Admin, Manager, and Trainer roles are checked server-side.',
+        'The report describes three areas: operational management, dashboard analysis with filterable charts, and decision support through alerts and PCA of client profiles.',
+        'CSV, Excel, and PDF exports are available. The report documents 166 successful automated tests.',
+        'The report summary mentions a final review of access security, alert thresholds, and application reliability.',
+        'The exploratory PCA on the demo dataset covers 30 clients, 12 courses, and 484 confirmed registrations. Its first two axes explain 18.5% and 15.8% of inertia (34.3% combined); the analysis is not intended to forecast future registrations.',
+        'The report lists 166 Pytest tests across 22 files, with a 100% pass rate. Coverage includes authentication, RBAC permissions, business rules, imports/exports, and PCA calculations.',
       ],
-    },
-    limitations: {
-      fr: ['Document rédigé en français. Son contenu textuel complet n’est pas transmis au modèle IA afin d’éviter toute hallucination.'],
-      en: ['Document written in French. Full text is not ingested into the LLM context to prevent hallucinated summarization.'],
     },
     href: '/documents/projects/gtm-internship-report-fr.pdf',
     tags: ['rapport', 'stage', 'gtm', 'galaxy solutions', 'pdf', 'document'],
-    source: 'src/data/project-details.ts (gtm.documents)',
+    source: 'public/documents/projects/gtm-internship-report-fr.pdf',
+  };
+
+  docs['doc-olist-report'] = {
+    id: 'doc-olist-report',
+    category: 'document',
+    title: {
+      fr: 'Rapport d’analyse de données Olist (PDF)',
+      en: 'Olist Data Analysis Report (PDF)',
+    },
+    summary: {
+      fr: 'Rapport de projet en français analysant le jeu public Brazilian E-Commerce by Olist et 96 252 commandes livrées entre 2016 et 2018.',
+      en: 'French-language project report analyzing the public Brazilian E-Commerce by Olist dataset and 96,252 delivered orders from 2016 to 2018.',
+    },
+    facts: {
+      fr: [
+        'Document : rapport PDF en français, réalisé par Godwin Elie Nougbolo et Maktou Azeddine dans le module Traitement de Données de la filière IID1 à l’ENSA Khouribga, année universitaire 2025–2026.',
+        'Chemin d’accès public : /documents/projects/olist-report-fr.pdf.',
+        'Source et périmètre : Brazilian E-Commerce Public Dataset by Olist (Kaggle), neuf tables couvrant septembre 2016 à août 2018.',
+        'Préparation : après nettoyage et six jointures, la table finale contient 96 252 commandes livrées et 30 colonnes. Aucune ligne n’a été perdue lors des jointures; 61 lignes avec des dates incohérentes ont été supprimées.',
+        'Détail du filtrage décrit dans le rapport : 99 441 commandes initiales, 166 anomalies chronologiques retirées, puis 96 313 commandes livrées; 61 dates incohérentes supplémentaires sont exclues pour obtenir les 96 252 commandes finales.',
+        'Indicateurs globaux rapportés : chiffre d’affaires de 13 195 594 BRL, panier moyen de 159,88 BRL, panier médian de 105,28 BRL, note moyenne de 4,16/5, taux de retard de 6,8 % et délai moyen de livraison de 12,1 jours.',
+        'Satisfaction : la note moyenne rapportée est de 4,29/5 pour les commandes livrées à temps et de 2,27/5 pour celles livrées en retard. Il s’agit d’une association observée dans les données, pas d’une preuve causale.',
+        'Logistique : les commandes entre états présentent un taux de retard de 8,1 % et un délai moyen de 14,7 jours, contre 4,5 % et 7,5 jours pour les commandes au sein d’un même état. La distance est approximée par la comparaison des états, pas calculée à partir des coordonnées GPS.',
+        'Autres analyses : évolution et répartition du chiffre d’affaires, satisfaction, délais logistiques, scores de vendeurs et catégories de produits; le rapport formule aussi des recommandations et des indicateurs de suivi.',
+        'Périmètre des résultats : seuls les commandes livrées sont analysées. Le jeu ne documente pas les marges ni les coûts, les distances sont approximées et les conclusions décrivent des associations sur la période 2016–2018.',
+      ],
+      en: [
+        'Document: French-language PDF report by Godwin Elie Nougbolo and Maktou Azeddine for the Data Processing course in the IID1 program at ENSA Khouribga, academic year 2025–2026.',
+        'Public access path: /documents/projects/olist-report-fr.pdf.',
+        'Source and scope: Brazilian E-Commerce Public Dataset by Olist (Kaggle), nine tables covering September 2016 to August 2018.',
+        'Preparation: after cleaning and six joins, the final table contains 96,252 delivered orders and 30 columns. No rows were lost during the joins; 61 rows with inconsistent dates were removed.',
+        'Filtering detail in the report: 99,441 initial orders, 166 chronological anomalies removed, then 96,313 delivered orders; 61 additional inconsistent dates are excluded to reach the final 96,252 orders.',
+        'Reported overall indicators: BRL 13,195,594 revenue, BRL 159.88 average order value, BRL 105.28 median order value, 4.16/5 average rating, 6.8% late-delivery rate, and 12.1-day average delivery time.',
+        'Satisfaction: the reported average rating is 4.29/5 for on-time orders and 2.27/5 for late orders. This is an observed association in the data, not proof of causation.',
+        'Logistics: cross-state orders have an 8.1% late-delivery rate and 14.7-day average delivery time, compared with 4.5% and 7.5 days for orders within one state. Distance is approximated by comparing states, not calculated from GPS coordinates.',
+        'Other analyses cover revenue trends and distribution, customer satisfaction, delivery times, seller scores, and product categories; the report also proposes recommendations and monitoring indicators.',
+        'Scope of findings: only delivered orders are analyzed. The dataset does not document margins or costs, distances are approximate, and findings describe associations over the 2016–2018 period.',
+      ],
+    },
+    href: '/documents/projects/olist-report-fr.pdf',
+    tags: [
+      'rapport',
+      'report',
+      'olist',
+      'brasile',
+      'brazilian ecommerce',
+      'e-commerce',
+      'marketplace',
+      'livraison',
+      'satisfaction',
+      'logistique',
+      'pdf',
+      'document',
+    ],
+    source: 'public/documents/projects/olist-report-fr.pdf',
   };
 
   docs['doc-afc-presentation'] = {
@@ -671,26 +847,34 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
       en: 'CA Methodology Presentation (PDF)',
     },
     summary: {
-      fr: 'Présentation méthodologique de l’Analyse Factorielle des Correspondances appliquée aux offres LinkedIn.',
-      en: 'Methodology slide presentation of Correspondence Analysis applied to LinkedIn job posts.',
+      fr: 'Support pédagogique expliquant les étapes de l’Analyse Factorielle des Correspondances à partir d’un exemple détaillé.',
+      en: 'Teaching presentation explaining the steps of Correspondence Analysis through a worked example.',
     },
     facts: {
       fr: [
         'Intitulé : Présentation méthodologique en français (PDF).',
         'Chemin d’accès public : /documents/projects/afc-methodology-presentation-fr.pdf.',
         'Langue : Français.',
-        'Sujet : formulation mathématique du chi-deux, profils-lignes et profils-colonnes, décomposition factorielle avec NumPy/SciPy.',
+        'Le support présente les étapes d’une AFC : tableau de contingence, fréquences et profils, test du chi-deux, inertie, décomposition en valeurs propres, coordonnées factorielles, biplot et cos².',
+        'Son exemple pédagogique croise trois catégories de personnes (étudiants, salariés, retraités) et trois loisirs (sport, cinéma, lecture), pour un total de 300 observations.',
+        'Dans cet exemple, le support rapporte χ² = 74,48 et une inertie totale de 0,248; les deux axes affichés expliquent respectivement 63 % et 37 % de l’inertie.',
+        'Ces nombres illustrent la méthode dans le support et ne sont pas présentés comme des résultats de l’étude AFC sur les offres LinkedIn.',
+        'Le support explique que le cos² évalue la qualité de représentation des modalités sur les axes affichés et aide à éviter de surinterpréter un point mal représenté.',
       ],
       en: [
         'Title: Methodology presentation in French (PDF).',
         'Public access path: /documents/projects/afc-methodology-presentation-fr.pdf.',
         'Language: French.',
-        'Topic: chi-square mathematical foundation, row/column profiles, and factorial decomposition with NumPy/SciPy.',
+        'The slides explain the CA workflow: contingency table, frequencies and profiles, chi-square test, inertia, eigenvalue decomposition, factor coordinates, biplot, and cos².',
+        'Their teaching example crosses three population groups (students, employees, retirees) with three leisure activities (sports, cinema, reading), for 300 observations.',
+        'For this example, the slides report χ² = 74.48 and total inertia of 0.248; the two displayed axes explain 63% and 37% of inertia, respectively.',
+        'These figures illustrate the method in the slides; they are not presented as results from the LinkedIn job-post CA study.',
+        'The slides explain that cos² measures how well categories are represented on the displayed axes and helps avoid overinterpreting poorly represented points.',
       ],
     },
     href: '/documents/projects/afc-methodology-presentation-fr.pdf',
     tags: ['presentation', 'afc', 'statistiques', 'methodologie', 'pdf', 'document'],
-    source: 'src/data/project-details.ts (afc.documents)',
+    source: 'public/documents/projects/afc-methodology-presentation-fr.pdf',
   };
 
   docs['doc-revisionflow-report'] = {
@@ -709,18 +893,30 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
         'Intitulé : Rapport complet de RevisionFlow (PDF).',
         'Chemin d’accès public : /documents/projects/revisionflow-report-fr.pdf.',
         'Langue : Français.',
-        'Sujet : formule du score de priorité logarithmique, alternance journalière, persistance locale et architecture modulaire.',
+        'Le rapport décrit un planificateur de révisions qui calcule une priorité à partir de la difficulté, du nombre de chapitres et du temps restant avant l’examen, avec une pondération logarithmique de l’urgence.',
+        'La formule documentée est Pᵢ = (difficultéᵢ × chapitresᵢ) × (1 + 1 / ln(Δtᵢ + 2)), où Δtᵢ désigne le nombre de jours avant l’examen.',
+        'Pour alterner les matières, le score d’un module déjà planifié k fois dans la journée est divisé par 2^k; l’exemple du rapport produit l’ordre A, B, A, B.',
+        'Lors d’un recalcul, les journées passées sont conservées et seules les journées futures sont régénérées. Les sessions impossibles à placer restent dans un backlog signalé à l’étudiant.',
+        'La pile présentée comprend HTML5, CSS3 et JavaScript ES6+, avec une architecture modulaire et un Store comme source unique de l’état.',
+        'Le rapport décrit une persistance locale via localStorage, une récupération des jours fériés via Nager.Date et un minuteur Pomodoro utilisant Web Audio API.',
+        'Selon sa conclusion, l’application fonctionne sans serveur ni inscription et conserve les données localement dans le navigateur.',
       ],
       en: [
         'Title: Full RevisionFlow technical report (PDF).',
         'Public access path: /documents/projects/revisionflow-report-fr.pdf.',
         'Language: French.',
-        'Topic: logarithmic priority score formula, daily subject alternation, local persistence, and modular architecture.',
+        'The report describes a revision planner that scores priorities using difficulty, chapter count, and time until the exam, with a logarithmic urgency factor.',
+        'The documented formula is Pᵢ = (difficultyᵢ × chaptersᵢ) × (1 + 1 / ln(Δtᵢ + 2)), where Δtᵢ is the number of days until the exam.',
+        'To alternate subjects, a module’s score is divided by 2^k after it has already been scheduled k times that day; the report’s example produces A, B, A, B.',
+        'When the plan is recalculated, past days are preserved and only future days are regenerated. Sessions that cannot fit remain in a backlog shown to the student.',
+        'The documented stack includes HTML5, CSS3, and JavaScript ES6+, with a modular architecture and a Store as the single source of state.',
+        'The report describes localStorage persistence, public-holiday retrieval through Nager.Date, and a Pomodoro timer using the Web Audio API.',
+        'Its conclusion states that the application runs without a server or sign-up and keeps data locally in the browser.',
       ],
     },
     href: '/documents/projects/revisionflow-report-fr.pdf',
     tags: ['rapport', 'revisionflow', 'algorithme', 'pdf', 'document'],
-    source: 'src/data/project-details.ts (revision-flow.documents)',
+    source: 'public/documents/projects/revisionflow-report-fr.pdf',
   };
 
   docs['doc-santescolaire-presentation'] = {
@@ -739,18 +935,72 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
         'Intitulé : Présentation du projet SantéScolaire en français (PDF).',
         'Chemin d’accès public : /documents/projects/santescolaire-project-presentation-fr.pdf.',
         'Langue : Français.',
-        'Sujet : modélisation relationnelle MySQL, contrôle d’accès pour 3 rôles (administrateur, médecin, infirmier), dashboard Chart.js.',
+        'Le support présente un système centralisé pour gérer les dossiers médicaux des élèves, les consultations, les prescriptions et les rendez-vous.',
+        'Les acteurs décrits sont les élèves, les médecins, les infirmiers et un responsable administratif. Ce dernier gère les comptes et les statistiques globales sans accès aux dossiers médicaux.',
+        'La démarche présentée passe par l’analyse des besoins et la modélisation Merise (MCD, MCT et MLD), puis par la conception de la base MySQL.',
+        'Le modèle logique présenté distingue six entités : élève, médecin, infirmier, consultation, prescription et rendez-vous, reliées par des identifiants et des clés étrangères.',
+        'Le parcours schématisé va de l’arrivée de l’élève et la vérification de son dossier à la consultation, la prescription éventuelle et la mise à jour du rendez-vous.',
+        'La conclusion du support met en avant le suivi individualisé des visites, l’historique des élèves et prescriptions, ainsi que l’intégrité par clés étrangères.',
       ],
       en: [
         'Title: SantéScolaire project presentation in French (PDF).',
         'Public access path: /documents/projects/santescolaire-project-presentation-fr.pdf.',
         'Language: French.',
-        'Topic: MySQL relational modeling, 3-role access control (admin, doctor, nurse), Chart.js dashboard.',
+        'The slides present a centralized system for managing student medical records, consultations, prescriptions, and appointments.',
+        'The actors are students, doctors, nurses, and an administrative manager. The manager handles accounts and aggregate statistics without access to medical records.',
+        'The documented process covers requirements analysis and Merise modeling (conceptual data, process, and logical models), followed by MySQL database design.',
+        'The logical model presents six entities: student, doctor, nurse, consultation, prescription, and appointment, linked through identifiers and foreign keys.',
+        'The illustrated workflow runs from a student arriving and their record being checked through consultation, any prescription, and appointment-status updates.',
+        'The presentation concludes with individual visit tracking, student and prescription history, and referential integrity through foreign keys.',
       ],
     },
     href: '/documents/projects/santescolaire-project-presentation-fr.pdf',
     tags: ['presentation', 'sante scolaire', 'rbac', 'pdf', 'document'],
-    source: 'src/data/project-details.ts (sante-scolaire.documents)',
+    source: 'public/documents/projects/santescolaire-project-presentation-fr.pdf',
+  };
+
+  docs['doc-pneumonia-report'] = {
+    id: 'doc-pneumonia-report',
+    category: 'document',
+    title: {
+      fr: 'Rapport technique Pneumonia Detection (PDF)',
+      en: 'Pneumonia Detection Technical Report (PDF)',
+    },
+    summary: {
+      fr: 'Rapport académique en français sur la comparaison d’un CNN construit pour le projet et de DenseNet121 pour classifier des radiographies thoraciques.',
+      en: 'French-language academic report comparing a project-built CNN and DenseNet121 for chest X-ray classification.',
+    },
+    facts: {
+      fr: [
+        'Document : rapport technique en français consacré au projet académique Pneumonia Detection.',
+        'Chemin d’accès public : /documents/projects/pneumonia-report-fr.pdf.',
+        'Le rapport décrit un CNN construit de zéro et une approche DenseNet121 pré-entraînée sur ImageNet, ainsi qu’une interface de démonstration Streamlit.',
+        'Le rapport et les notebooks sauvegardés sont des sources distinctes : les métriques détaillées présentées par l’assistant proviennent des sorties de notebooks indexées dans la fiche du projet.',
+        'Résumé du rapport, valeurs arrondies sur le jeu de test de 624 images : le CNN affiche 81 % d’accuracy, un F1 PNEUMONIA de 0,84 et un rappel de 0,81; DenseNet121 en Feature Extraction affiche respectivement 88,9 %, 0,91 et 0,92. Les sorties exactes des notebooks sont indexées séparément dans la fiche projet.',
+        'Le rapport indique que le fine-tuning DenseNet121 n’améliore pas les valeurs résumées de Feature Extraction; les deux configurations utilisent toutefois des seuils différents (0,9 et 0,8).',
+      ],
+      en: [
+        'Document: French-language technical report about the academic Pneumonia Detection project.',
+        'Public access path: /documents/projects/pneumonia-report-fr.pdf.',
+        'The report describes a CNN built from scratch, a DenseNet121 approach pre-trained on ImageNet, and a Streamlit demonstration interface.',
+        'The report and saved notebooks are separate sources: the detailed metrics presented by the assistant come from notebook outputs indexed in the project record.',
+        'Report summary, rounded values on the 624-image test set: the CNN shows 81% accuracy, a PNEUMONIA F1 of 0.84, and recall of 0.81; DenseNet121 Feature Extraction reports 88.9%, 0.91, and 0.92, respectively. Exact notebook outputs are indexed separately in the project record.',
+        'The report says DenseNet121 fine-tuning does not improve the summarized Feature Extraction values; the two configurations nevertheless use different thresholds (0.9 and 0.8).',
+      ],
+    },
+    href: '/documents/projects/pneumonia-report-fr.pdf',
+    tags: [
+      'rapport',
+      'report',
+      'pneumonia',
+      'pneumonie',
+      'radiographie',
+      'x-ray',
+      'densenet121',
+      'pdf',
+      'document',
+    ],
+    source: 'public/documents/projects/pneumonia-report-fr.pdf',
   };
 
   // 10. SKILLS (Core inventory)
@@ -791,6 +1041,63 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
 
 export const KNOWLEDGE_CORPUS = buildAuthoritativeCorpus();
 
+const MAX_SCOPED_PROMPT_CONTEXT_CHARS = 24_000;
+const PROMPT_QUERY_STOP_WORDS = new Set([
+  'an', 'and', 'are', 'as', 'at', 'be', 'can', 'describe', 'does', 'for', 'from',
+  'how', 'in', 'is', 'it', 'of', 'on', 'or', 'tell', 'the', 'to', 'what',
+  'which', 'who', 'with', 'your',
+  'aux', 'avec', 'comment', 'dans', 'des', 'est', 'et', 'les', 'mon', 'pour',
+  'projet', 'projets', 'project', 'projects', 'portfolio', 'quelle', 'quelles',
+  'quels', 'quel', 'que', 'qui', 'sur',
+]);
+
+function normalizePromptSearchText(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function containsPromptSearchTerm(text: string, term: string): boolean {
+  return ` ${normalizePromptSearchText(text)} `.includes(` ${term} `);
+}
+
+export function getRelevantKnowledgeDocumentIds(
+  query: string,
+  maxDocuments = 6
+): string[] {
+  const terms = normalizePromptSearchText(query)
+    .split(' ')
+    .filter((term) => term.length >= 3 && !PROMPT_QUERY_STOP_WORDS.has(term));
+
+  if (terms.length === 0) return [];
+
+  return Object.values(KNOWLEDGE_CORPUS)
+    .map((document, order) => {
+      const title = `${document.title.fr} ${document.title.en}`;
+      const summary = `${document.summary.fr} ${document.summary.en}`;
+      const tags = document.tags.join(' ');
+      const facts = [...document.facts.fr, ...document.facts.en].join(' ');
+      const score = terms.reduce(
+        (total, term) =>
+          total +
+          (containsPromptSearchTerm(tags, term) ? 5 : 0) +
+          (containsPromptSearchTerm(title, term) ? 4 : 0) +
+          (containsPromptSearchTerm(summary, term) ? 2 : 0) +
+          (containsPromptSearchTerm(facts, term) ? 1 : 0),
+        0
+      );
+      return { id: document.id, score, order };
+    })
+    .filter((document) => document.score > 0)
+    .sort((left, right) => right.score - left.score || left.order - right.order)
+    .slice(0, maxDocuments)
+    .map((document) => document.id);
+}
+
 export function getAllKnowledgeDocuments(): KnowledgeDocument[] {
   return Object.values(KNOWLEDGE_CORPUS);
 }
@@ -804,10 +1111,13 @@ export function getKnowledgeDocumentsByCategory(category: KnowledgeCategory): Kn
 }
 
 /**
- * Builds a compact, high-signal prompt context for Cloudflare Workers AI.
+ * Builds the complete verified portfolio context for Cloudflare Workers AI.
  * Only authoritative facts are included.
  */
-export function buildPromptKnowledgeContext(locale: 'fr' | 'en'): string {
+export function buildPromptKnowledgeContext(
+  locale: 'fr' | 'en',
+  documentIds?: readonly string[]
+): string {
   const lines: string[] = [
     `AUTHORITATIVE PORTFOLIO KNOWLEDGE BASE (${locale.toUpperCase()}):`,
     `Owner: ${PROFILE.name} (${PROFILE.title}, ${PROFILE.badge})`,
@@ -816,47 +1126,60 @@ export function buildPromptKnowledgeContext(locale: 'fr' | 'en'): string {
     'VERIFIED KNOWLEDGE DOCUMENTS:',
   ];
 
-  for (const doc of Object.values(KNOWLEDGE_CORPUS)) {
-    // Only pass major documents to prompt to keep it compact and ultra fast
-    if (doc.category === 'skill' && !doc.id.includes('python') && !doc.id.includes('sql') && !doc.id.includes('pandas') && !doc.id.includes('flask')) {
-      continue;
-    }
+  const documents =
+    documentIds === undefined
+      ? Object.values(KNOWLEDGE_CORPUS)
+      : [...new Set(['profile-identity', ...documentIds])]
+          .map((id) => KNOWLEDGE_CORPUS[id])
+          .filter((document): document is KnowledgeDocument => Boolean(document));
+  const maxDocumentContextChars =
+    documentIds === undefined ? Number.POSITIVE_INFINITY : MAX_SCOPED_PROMPT_CONTEXT_CHARS - 2_000;
+  let documentContextChars = lines.join('\n').length + 1;
+  let contextLimitReached = false;
 
-    lines.push(`- DOC_ID: "${doc.id}" [Category: ${doc.category}]`);
-    lines.push(`  Title: ${doc.title[locale]}`);
-    lines.push(`  Facts:`);
-    const isPneumoniaProject = doc.id === 'proj-pneumonia-detection';
-    const facts = isPneumoniaProject || doc.category === 'certification'
-      ? doc.facts[locale]
-      : doc.facts[locale].slice(0, 4);
-    for (const fact of facts) {
-      lines.push(`    * ${fact}`);
-    }
+  for (const doc of documents) {
+    const documentLines = [
+      `- DOC_ID: "${doc.id}" [Category: ${doc.category}]`,
+      `  Title: ${doc.title[locale]}`,
+      '  Facts:',
+      ...doc.facts[locale].map((fact) => `    * ${fact}`),
+    ];
     if (doc.proofs && doc.proofs[locale].length > 0) {
-      lines.push(`  Proofs:`);
-      const proofs = isPneumoniaProject
-        ? doc.proofs[locale]
-        : doc.proofs[locale].slice(0, 3);
-      for (const proof of proofs) {
-        lines.push(`    + ${proof}`);
-      }
+      documentLines.push('  Proofs:', ...doc.proofs[locale].map((proof) => `    + ${proof}`));
     }
     if (doc.limitations && doc.limitations[locale].length > 0) {
-      lines.push(`  Limitations:`);
-      const limitations = isPneumoniaProject
-        ? doc.limitations[locale]
-        : doc.limitations[locale].slice(0, 2);
-      for (const lim of limitations) {
-        lines.push(`    ! ${lim}`);
-      }
+      documentLines.push(
+        '  Limitations:',
+        ...doc.limitations[locale].map((limitation) => `    ! ${limitation}`)
+      );
     }
+
+    for (const line of documentLines) {
+      const addedChars = line.length + 1;
+      if (documentContextChars + addedChars > maxDocumentContextChars) {
+        contextLimitReached = true;
+        break;
+      }
+      lines.push(line);
+      documentContextChars += addedChars;
+    }
+    if (contextLimitReached) break;
   }
 
-  lines.push('');
-  lines.push('GROWING FIELDS (ACTIVE LEARNING IN PROGRESS, NOT PRODUCTION-DEPLOYED):');
-  lines.push('- Data Engineering: Primary growth area. Active training via ENSA Khouribga and DataCamp 1-year scholarship.');
-  lines.push('- Machine Learning & Deep Learning: Academic foundations at ENSA Khouribga. The portfolio includes an academic predictive classification experiment (Pneumonia Detection) and exploratory factorial analyses (PCA in the ACP project and GTM, CA in AFC); none is presented as a production-deployed medical system.');
-  lines.push('- Data Science: Data preparation and exploratory statistics (Olist, ACP, AFC). Advanced predictive modeling is currently in acquisition.');
+  if (documentIds !== undefined && documentContextChars >= maxDocumentContextChars) {
+    lines.push('Additional matching evidence is available in the portfolio corpus.');
+  } else {
+    lines.push('');
+    lines.push('GROWING FIELDS (ACTIVE LEARNING IN PROGRESS, NOT PRODUCTION-DEPLOYED):');
+    lines.push('- Data Analytics & BI: Primary field, with an Analytics Engineering orientation.');
+    lines.push('- Data Engineering: An additional area of interest; relevant pipeline and data-processing skills are in development.');
+    lines.push('- Machine Learning & Deep Learning: Academic foundations at ENSA Khouribga. The portfolio includes an academic predictive classification experiment (Pneumonia Detection) and exploratory factorial analyses (PCA in the ACP project and GTM, CA in AFC); none is presented as a production-deployed medical system.');
+    lines.push('- Data Science: Data preparation and exploratory statistics (Olist, ACP, AFC). Advanced predictive modeling is currently in acquisition.');
+  }
+
+  if (documentIds !== undefined && lines.join('\n').length > MAX_SCOPED_PROMPT_CONTEXT_CHARS) {
+    throw new Error('Scoped AI knowledge context exceeded its configured character budget.');
+  }
 
   return lines.join('\n');
 }

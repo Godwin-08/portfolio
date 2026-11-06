@@ -29,6 +29,12 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
     if (newLocale === currentLocale) return;
     const query = Object.fromEntries(new URLSearchParams(window.location.search).entries());
 
+    if (pathname === '/projects/[slug]/notebook') {
+      const slug = params.slug;
+      if (typeof slug !== 'string') return;
+      router.replace({ pathname, params: { slug }, query }, { locale: newLocale });
+      return;
+    }
     if (pathname === '/projects/[slug]') {
       const slug = params.slug;
       if (typeof slug !== 'string') return;

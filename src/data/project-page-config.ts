@@ -126,6 +126,15 @@ export const PROJECT_PAGE_CONFIG = {
       order: ['data', 'method', 'results', 'limitations', 'documents'],
     },
   },
+  'grocery-store-sales': {
+    accent: '#0D9488',
+    accentText: '#0F766E',
+    accentDark: '#2DD4BF',
+    layout: {
+      kind: 'sections',
+      order: ['data', 'method', 'gallery', 'results', 'limitations', 'documents'],
+    },
+  },
 } satisfies Record<ProjectPageSlug, ProjectPageConfig>;
 
 export function getProjectPageConfig(slug: string): ProjectPageConfig {

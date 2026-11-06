@@ -10,10 +10,11 @@ import { ProjectGallery } from '@/components/projects/ProjectGallery';
 import { OlistCaseStudy } from '@/components/projects/OlistCaseStudy';
 import { AfcCaseStudy } from '@/components/projects/AfcCaseStudy';
 import {
-  AlertTriangle,
   ArrowLeft,
   ArrowRight,
   BookOpenCheck,
+  Compass,
+  Download,
   ExternalLink,
   FileText,
   Github,
@@ -103,27 +104,156 @@ export async function ProjectDetailPage({
         <h2 id="project-documents-title" className="font-heading text-xl font-bold text-slate-900 dark:text-white">
           {t('documentsTitle')}
         </h2>
-        <ul className="flex flex-wrap gap-3">
-          {copy.documents.map((document) => (
-            <li key={document.href}>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {copy.documents.map((document) => {
+            const resource = (
+              <>
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-700 dark:bg-primary-950/60 dark:text-primary-300">
+                    {document.download
+                      ? <FileText className="h-5 w-5" aria-hidden="true" />
+                      : <BookOpenCheck className="h-5 w-5" aria-hidden="true" />}
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-slate-900 group-hover:text-primary-700 dark:text-white dark:group-hover:text-primary-400">
+                      {document.label}
+                    </p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      {document.description ?? (
+                        document.href.toLowerCase().endsWith('.pdf')
+                          ? (locale === 'en' ? 'PDF document' : 'Document PDF')
+                          : (locale === 'en' ? 'External resource' : 'Ressource externe')
+                      )}
+                    </p>
+                  </div>
+                </div>
+                {document.download ? (
+                  <Download className="h-4 w-4 shrink-0 text-slate-400 transition-colors group-hover:text-primary-600 dark:text-slate-500" aria-hidden="true" />
+                ) : document.internal ? (
+                  <ArrowRight className="h-4 w-4 shrink-0 text-slate-400 transition-colors group-hover:text-primary-600 dark:text-slate-500" aria-hidden="true" />
+                ) : (
+                  <ExternalLink className="h-4 w-4 shrink-0 text-slate-400 transition-colors group-hover:text-primary-600 dark:text-slate-500" aria-hidden="true" />
+                )}
+              </>
+            );
+            const className =
+              'project-detail__resource motion-control group flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-subtle transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:border-primary-500 hover:shadow-card dark:border-slate-700 dark:bg-slate-800/90 dark:hover:border-primary-400';
+
+            if (document.internal) {
+              return (
+                <Link
+                  key={document.href}
+                  href={{ pathname: '/projects/[slug]/notebook', params: { slug: project.slug } }}
+                  className={className}
+                  data-project-document
+                >
+                  {resource}
+                </Link>
+              );
+            }
+
+            return (
               <a
+                key={document.href}
                 href={document.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="project-detail__resource motion-control inline-flex min-h-11 items-center gap-2 rounded-btn border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+                target={document.download ? undefined : '_blank'}
+                rel={document.download ? undefined : 'noopener noreferrer'}
+                download={document.download}
+                className={className}
                 data-project-document
               >
-                <FileText className="h-4 w-4" aria-hidden="true" />
-                {document.label}
-                <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                {resource}
               </a>
-            </li>
-          ))}
-        </ul>
+            );
+          })}
+        </div>
       </section>
     ) : null,
     gallery: copy.gallery.length > 0 ? (
-      <ProjectGallery images={copy.gallery} labels={galleryLabels} />
+      copy.gallery.some((image) => image.analysis) ? (
+        <section className="space-y-10" aria-labelledby="project-gallery-title" data-project-gallery>
+          <h2 id="project-gallery-title" className="font-heading text-2xl font-bold text-slate-900 dark:text-white">
+            {galleryLabels.title}
+          </h2>
+          <div className="space-y-10">
+            {copy.gallery.map((image, index) => (
+              image.analysis ? (
+                <div key={image.src} className="grid min-w-0 gap-5 lg:grid-cols-2 lg:items-start">
+                  <ProjectGallery
+                    images={[image]}
+                    labels={galleryLabels}
+                    showTitle={false}
+                    headingId={`figure-analysis-${index}-title`}
+                  />
+                  <dl className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-xs dark:border-slate-700 dark:bg-slate-800 sm:p-6">
+                    <div>
+                      <dt className="text-sm font-bold text-slate-900 dark:text-white">
+                        {locale === 'en' ? 'Question' : 'Question étudiée'}
+                      </dt>
+                      <dd className="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                        {image.analysis.question}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm font-bold text-slate-900 dark:text-white">
+                        {locale === 'en' ? 'How to read it' : 'Comment lire la figure'}
+                      </dt>
+                      <dd className="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                        {image.analysis.reading}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm font-bold text-slate-900 dark:text-white">
+                        {locale === 'en' ? 'What we see' : 'Résultat observé'}
+                      </dt>
+                      <dd className="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                        {image.analysis.observation}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm font-bold text-slate-900 dark:text-white">
+                        {locale === 'en' ? 'Interpretation' : 'Interprétation'}
+                      </dt>
+                      <dd className="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                        {image.analysis.interpretation}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm font-bold text-slate-900 dark:text-white">
+                        {locale === 'en' ? 'Why it matters' : 'À quoi ça sert'}
+                      </dt>
+                      <dd className="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                        {image.analysis.businessInterest}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm font-bold text-slate-900 dark:text-white">
+                        {locale === 'en' ? 'Limit' : 'Limite'}
+                      </dt>
+                      <dd className="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                        {image.analysis.limitation}
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+              ) : (
+                <ProjectGallery
+                  key={image.src}
+                  images={[image]}
+                  labels={galleryLabels}
+                  showTitle={false}
+                  headingId={`figure-bare-${index}-title`}
+                />
+              )
+            ))}
+          </div>
+        </section>
+      ) : (
+        <ProjectGallery
+          images={copy.gallery}
+          labels={galleryLabels}
+        />
+      )
     ) : null,
     method: (
       <section className="space-y-5" data-project-method>
@@ -192,11 +322,11 @@ export async function ProjectDetailPage({
     ),
     limitations: (
       <section className="space-y-5" data-project-limitations>
-        <SectionHeading icon={<AlertTriangle className="h-5 w-5" />} title={t('limitationsTitle')} />
-        <ul className="space-y-3 rounded-xl border border-amber-200 bg-amber-50/70 p-5 text-sm leading-relaxed text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
+        <SectionHeading icon={<Compass className="h-5 w-5" />} title={t('limitationsTitle')} />
+        <ul className="space-y-3 rounded-xl border border-slate-200 bg-slate-50/70 p-5 text-sm leading-relaxed text-slate-800 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-200">
           {copy.limitations.map((limitation) => (
             <li key={limitation} className="flex items-start gap-3">
-              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-700" aria-hidden="true" />
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-600 dark:bg-primary-400" aria-hidden="true" />
               <span>{limitation}</span>
             </li>
           ))}

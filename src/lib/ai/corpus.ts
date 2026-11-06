@@ -127,15 +127,15 @@ export const GROWING_FIELDS_INFO: Record<string, { fr: GrowingFieldMatch; en: Gr
   'data-engineering': {
     fr: {
       field: 'Data Engineering',
-      label: 'Axe prioritaire en développement',
+      label: 'Domaine complémentaire en développement',
       description:
-        'Le Data Engineering est le principal axe de progression de Godwin. Actuellement en 2e année à l’ENSA Khouribga et bénéficiaire d’une bourse annuelle DataCamp, il approfondit les pipelines, SQL et Python appliqués aux données avant de livrer un projet dédié.',
+        'Le domaine principal de Godwin est la Data Analytics & BI, avec une orientation Analytics Engineering. Son cursus Ingénierie Informatique et des Données à l’ENSA Khouribga couvre également le Data Engineering. Il reste ouvert aux opportunités dans ce domaine et dispose d’une bourse annuelle DataCamp qu’il met à profit dans des projets concrets de préparation et d’analyse de données.',
     },
     en: {
       field: 'Data Engineering',
-      label: 'Core Focus in Progress',
+      label: 'Additional Area in Development',
       description:
-        'Data Engineering is Godwin’s primary growth area. Currently in his 2nd year of engineering at ENSA Khouribga with a one-year DataCamp scholarship, he is actively structuring pipelines, SQL, and data processing practices prior to publishing a production project.',
+        'Godwin’s primary field is Data Analytics & BI, with an Analytics Engineering orientation. His Computer Science and Data Engineering programme at ENSA Khouribga also covers Data Engineering. He is open to opportunities in that field and holds a one-year DataCamp scholarship, which he applies to practical data preparation and analysis projects.',
     },
   },
   'machine-learning': {

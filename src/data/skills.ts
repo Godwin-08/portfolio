@@ -13,14 +13,14 @@ export const SKILLS: Skill[] = [
     id: 'data-preparation',
     name: 'Data Preparation',
     category: 'data-analysis',
-    projectSlugs: ['olist', 'afc', 'acp'],
+    projectSlugs: ['olist', 'afc', 'acp', 'grocery-store-sales'],
     isTopSkill: true,
   },
   {
     id: 'data-cleaning',
     name: 'Data Cleaning',
     category: 'data-analysis',
-    projectSlugs: ['olist'],
+    projectSlugs: ['olist', 'grocery-store-sales'],
     isTopSkill: true,
   },
   {
@@ -90,14 +90,14 @@ export const SKILLS: Skill[] = [
     id: 'sql',
     name: 'SQL',
     category: 'data-management',
-    projectSlugs: ['gtm', 'sante-scolaire', 'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health'],
+    projectSlugs: ['gtm', 'sante-scolaire', 'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health', 'grocery-store-sales'],
     isTopSkill: true,
   },
   {
     id: 'relational-modeling',
     name: 'Relational Modeling',
     category: 'data-management',
-    projectSlugs: ['gtm', 'novastore', 'sante-scolaire'],
+    projectSlugs: ['gtm', 'sante-scolaire'],
     isTopSkill: false,
   },
   {
@@ -105,6 +105,13 @@ export const SKILLS: Skill[] = [
     name: 'MySQL',
     category: 'data-management',
     projectSlugs: ['gtm', 'sante-scolaire'],
+    isTopSkill: true,
+  },
+  {
+    id: 'postgresql',
+    name: 'PostgreSQL',
+    category: 'data-management',
+    projectSlugs: ['grocery-store-sales'],
     isTopSkill: true,
   },
   {
@@ -167,7 +174,7 @@ export const SKILLS: Skill[] = [
     id: 'jupyter',
     name: 'Jupyter',
     category: 'development-tools',
-    projectSlugs: ['olist', 'afc', 'acp', 'pneumonia-detection', 'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health'],
+    projectSlugs: ['olist', 'afc', 'acp', 'pneumonia-detection', 'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health', 'grocery-store-sales'],
     isTopSkill: false,
   },
   {

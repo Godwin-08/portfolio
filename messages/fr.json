@@ -1,11 +1,11 @@
 {
   "common": {
     "name": "Godwin Elie NOUGBOLO",
-    "role": "Informatique et Ingénierie des Données",
+    "role": "Élève-ingénieur Data · Data Analytics & BI",
     "badge": "Stage à partir de juillet 2027",
     "tagline": "Comprendre → Analyser → Construire",
     "philosophy": "Preuve > Affirmation",
-    "primaryFocus": "Data Engineering · Data Analysis & BI",
+    "primaryFocus": "Data Analytics & BI · Orientation Analytics Engineering",
     "nav": {
       "home": "Accueil",
       "about": "À Propos",
@@ -21,7 +21,7 @@
       "viewProjects": "Voir mes projets",
       "viewAllProjects": "Voir tous les projets",
       "readCaseStudy": "Voir l’étude de cas",
-      "downloadCv": "Télécharger mon CV",
+      "downloadCv": "Consulter mon CV",
       "contact": "Me contacter"
     },
     "language": {
@@ -66,11 +66,11 @@
     "siteName": "Portfolio de Godwin Elie NOUGBOLO",
     "home": {
       "title": "Portfolio d’étudiant en informatique et ingénierie des données",
-      "description": "Étudiant ingénieur en deuxième année à l’ENSA Khouribga, particulièrement intéressé par le Data Engineering. Ses projets Olist et AFC montrent une pratique de l’analyse de données ; il développe progressivement ses compétences en Data Engineering, Data Science, Machine Learning et Deep Learning."
+      "description": "Étudiant ingénieur à l’ENSA Khouribga, orienté Data Analytics & BI et Analytics Engineering. Ses projets documentent l’analyse de données, la modélisation SQL et le développement d’outils décisionnels ; il reste ouvert aux opportunités en Data Engineering."
     },
     "about": {
       "title": "À propos — parcours et méthode",
-      "description": "Parcours de Godwin Elie NOUGBOLO, étudiant ingénieur à l’ENSA Khouribga : pratique de l’analyse de données dans Olist et AFC, intérêt pour le Data Engineering et apprentissage en Data Science, Machine Learning et Deep Learning."
+      "description": "Parcours de Godwin Elie NOUGBOLO, étudiant ingénieur à l’ENSA Khouribga, positionné en Data Analytics & BI avec une orientation Analytics Engineering et une ouverture au Data Engineering."
     },
     "projects": {
       "title": "Projets en analyse de données, BI et développement",
@@ -82,22 +82,22 @@
     },
     "contact": {
       "title": "Contact — échanger sur un projet",
-      "description": "Contacter Godwin Elie NOUGBOLO pour un projet lié aux données ou un stage à partir de juillet 2027. Intérêts : Data Engineering, Data Analysis et BI."
+      "description": "Contacter Godwin Elie NOUGBOLO pour un projet ou un stage PFA en Data Analytics & BI à partir de juillet 2027, avec une orientation Analytics Engineering et une ouverture au Data Engineering."
     }
   },
   "home": {
     "hero": {
       "studentBadge": "ÉTUDIANT INGÉNIEUR EN 2E ANNÉE · ENSA KHOURIBGA",
-      "degree": "Informatique et Ingénierie des Données",
-      "analysisTitle": "Data Analysis & BI",
-      "analysisDescription": "Chez Galaxy Solutions, j’ai développé GTM, une application de gestion de formations réalisée avec Flask et MySQL, qui comprend un tableau de bord KPI et un module d’ACP. Pour Olist, j’ai nettoyé et analysé des données portant sur près de 100 000 commandes.",
-      "growingFieldsDescription": "J’ai terminé le parcours DataCamp Associate Data Analyst in SQL. Ensuite, je prévois de suivre le parcours Data Engineer et de créer des projets pour mettre mes apprentissages en pratique avant mon stage de juillet 2027.",
-      "growingFields": "Data Engineering — la suite",
-      "tagline": "D’une question métier à un outil de données qui fonctionne.",
+      "degree": "Élève-ingénieur Data · Data Analytics & BI",
+      "analysisTitle": "Data Analytics & Décisionnel",
+      "analysisDescription": "Chez Galaxy Solutions, j'ai conçu GTM (application Flask & MySQL 3NF avec tableau de bord décisionnel et module d'ACP). Pour Olist, audit et traitement de 100 000 commandes. Titulaire de la certification officielle DataCamp Data Analyst Associate.",
+      "growingFieldsDescription": "Orientation Analytics Engineering : modélisation relationnelle (3NF) et dimensionnelle (OLAP / BI), SQL avancé sous PostgreSQL et MySQL, et logique applicative Python (Flask). Ouvert également aux opportunités en Data Engineering.",
+      "growingFields": "Modélisation SQL & Ingénierie logicielle",
+      "tagline": "De la donnée brute aux analyses fiables et dashboards décisionnels.",
       "viewProjects": "Voir mes projets",
-      "downloadCv": "Télécharger mon CV",
+      "downloadCv": "Consulter mon CV",
       "portraitAlt": "Portrait de Godwin Elie NOUGBOLO, étudiant ingénieur à l’ENSA Khouribga",
-      "availability": "Stage Data Engineering recherché · Juillet 2027"
+      "availability": "Stage Data Analytics & BI recherché · Juillet 2027"
     },
     "skills": {
       "sectionLabel": "Compétences reliées aux projets",
@@ -121,8 +121,8 @@
     },
     "projects": {
       "eyebrow": "Projets sélectionnés",
-      "heading": "Projets sélectionnés",
-      "description": "Des projets concrets en Data Analysis, Business Intelligence et développement logiciel, avec une approche rigoureuse et des décisions documentées.",
+      "heading": "Projets",
+      "description": "Des projets concrets en Data Analysis, Business Intelligence et ingénierie logicielle, avec une approche rigoureuse et des décisions documentées.",
       "ordersAnalyzed": "commandes du jeu final"
     },
     "certifications": {
@@ -178,7 +178,7 @@
     "contact": {
       "eyebrow": "Contact",
       "heading": "Parlons de projets et de stages",
-      "description": "Je développe mes compétences en Data Engineering et recherche un stage PFA à partir de juillet 2027. Je suis disponible pour échanger sur mes projets.",
+      "description": "Orienté Data Analytics & BI et Analytics Engineering, je recherche un stage PFA à partir de juillet 2027. Je reste également ouvert aux opportunités en Data Engineering.",
       "email": "M’écrire",
       "linkedin": "Me retrouver sur LinkedIn",
       "whatsapp": "M’écrire sur WhatsApp"
@@ -251,7 +251,7 @@
     },
     "categories": {
       "data-analysis": "Analyse de données",
-      "web-si": "Web / Systèmes d’information",
+      "web-si": "Data Apps & Systèmes d’information",
       "statistiques": "Statistiques",
       "machine-learning": "Machine Learning",
       "data-engineering": "Ingénierie des données"
@@ -269,38 +269,38 @@
     "cards": {
       "gtm": {
         "title": "GTM — Galaxy Training Manager",
-        "tagline": "Application de suivi des formations créée pendant mon stage d’initiation chez Galaxy Solutions (2025–2026).",
-        "summary": "Suivi des formations, sessions et inscriptions avec un tableau de bord et des exports. Les données de démonstration sont fictives.",
+        "tagline": "Système d’information opérationnel & moteur décisionnel (Flask, MySQL 3NF, KPIs temps réel et module d’ACP).",
+        "summary": "Application de données d’entreprise développée chez Galaxy Solutions pour centraliser les formations B2B, automatiser les KPIs décisionnels et fiabiliser les flux. Validée par 166 tests Pytest.",
         "context": "Stage d’initiation · Galaxy Solutions"
       },
       "olist": {
-        "title": "Audit de données commerciales — Olist",
+        "title": "Audit & Pipeline de Données E-Commerce — Olist",
         "tagline": "Jeu d’analyse final : 96 252 commandes d’une marketplace brésilienne.",
-        "summary": "Étude des délais de livraison, des avis clients et de la qualité des données Olist.",
+        "summary": "Pipeline d’ingestion et d’audit sur 9 tables relationnelles : résolution d’anomalies temporelles, jointures sans perte, impact des retards sur la satisfaction et scoring de risque vendeur.",
         "context": "Académique · binôme"
       },
       "afc": {
-        "title": "Analyse factorielle des correspondances (AFC)",
-        "tagline": "Étude des liens entre domaines professionnels et compétences dans des offres LinkedIn.",
-        "summary": "Une méthode statistique descriptive mise en pratique avec Python sur des offres d’emploi.",
+        "title": "Analyse Factorielle des Correspondances (AFC) from scratch",
+        "tagline": "Implémentation mathématique complète en Python (NumPy/SciPy) et cartographie des compétences.",
+        "summary": "Algorithme d’AFC développé from scratch en 8 étapes matricielles : contingence, résidus standardisés, décomposition SVD, biplot 2D et validation sur 25 955 mentions d’offres LinkedIn.",
         "context": "Académique · binôme"
       },
       "acp": {
-        "title": "Analyse en composantes principales (ACP)",
-        "tagline": "Analyse exploratoire de 169 pays à partir de neuf indicateurs socio-économiques et sanitaires.",
-        "summary": "Une ACP met en évidence les principales oppositions entre indicateurs, avec 63,86 % de l’inertie expliquée par les deux premiers axes.",
+        "title": "Analyse en Composantes Principales (ACP)",
+        "tagline": "Analyse multivariée de 169 pays et 9 indicateurs socio-économiques sous Python.",
+        "summary": "Projet individuel d’analyse factorielle sous Python (Pandas/NumPy) : standardisation, diagonalisation spectrale, cercle des corrélations et projection factorielle expliquant 63,86 % de l’inertie.",
         "context": "Académique · projet individuel"
       },
       "revision-flow": {
         "title": "RevisionFlow",
-        "tagline": "Outil web pour planifier les révisions et suivre les séances.",
-        "summary": "Un planning de révision ajustable, avec calendrier, backlog et minuteur Pomodoro.",
+        "tagline": "Planificateur de révisions intelligent, 100 % navigateur, avec recalcul dynamique.",
+        "summary": "Application web de planification d’études avec moteur de recalcul en temps réel, détection de surcharge (backlog), minuteur Pomodoro audio et persistance locale.",
         "context": "Académique · projet individuel"
       },
       "sante-scolaire": {
         "title": "SantéScolaire",
-        "tagline": "Application de suivi de santé scolaire avec des accès par rôle.",
-        "summary": "Gestion des dossiers, consultations et rendez-vous. Les données de démonstration sont fictives.",
+        "tagline": "Application web de suivi de la santé scolaire avec accès différenciés selon les rôles (Flask & MySQL).",
+        "summary": "Application de gestion des dossiers élèves, consultations, rendez-vous, prescriptions, stock et indicateurs d’activité.",
         "context": "Développement individuel"
       },
       "novastore": {
@@ -332,6 +332,12 @@
         "tagline": "Projet guidé DataCamp : comparaison des scores selon le statut étudiant et la durée du séjour.",
         "summary": "Analyse SQL des scores PHQ-9, SCS et ASISS dans une enquête menée auprès d’étudiants au Japon.",
         "context": "Projet guidé · DataCamp"
+      },
+      "grocery-store-sales": {
+        "title": "Audit & Analyse SQL des ventes — FoodYum",
+        "tagline": "Examen pratique certifiant DataCamp : audit d'intégrité, nettoyage SQL avancé et ciblage des ventes.",
+        "summary": "Épreuve pratique officielle DataCamp (Data Analyst Associate) sous PostgreSQL : audit de bug d'intégrité, nettoyage par CTEs et médianes (PERCENTILE_CONT), et ciblage commercial des produits phares.",
+        "context": "Examen officiel · DataCamp"
       }
     }
   },
@@ -362,7 +368,7 @@
       "methodTitle": "Méthode",
       "contributionTitle": "Ma contribution",
       "resultsTitle": "Résultats clés",
-      "limitationsTitle": "Limites du projet",
+      "limitationsTitle": "Perspectives & Évolutions techniques",
       "galleryTitle": "Images du projet",
       "galleryOpen": "Agrandir l’image",
       "galleryClose": "Fermer l’image",
@@ -402,7 +408,8 @@
       "seaborn": "Seaborn",
       "scipy": "SciPy",
       "principal-component-analysis": "Analyse en composantes principales (ACP)",
-      "pytest": "pytest"
+      "pytest": "pytest",
+      "postgresql": "PostgreSQL"
     },
     "descriptions": {
       "data-preparation": "Structurer, joindre et mettre en forme des données avant l’analyse, notamment dans Olist et AFC.",
@@ -417,7 +424,7 @@
       "scipy": "Réaliser des calculs scientifiques dans l’implémentation de l’AFC.",
       "business-intelligence": "Présenter des indicateurs métier avec le tableau de bord du projet GTM.",
       "sql": "Interroger et relier des données relationnelles dans GTM et SantéScolaire.",
-      "relational-modeling": "Structurer les relations entre données dans GTM, NovaStore et SantéScolaire.",
+      "relational-modeling": "Structurer les relations entre données dans GTM et SantéScolaire.",
       "mysql": "Utiliser une base MySQL dans GTM et SantéScolaire.",
       "sqlalchemy": "Mapper des modèles applicatifs vers les tables d’une base relationnelle.",
       "python": "Programmer les analyses de données et les applications serveur des projets.",
@@ -428,13 +435,14 @@
       "systemes-d-information": "Relier les données et processus métier dans des applications de gestion.",
       "git": "Versionner et suivre les changements des projets.",
       "jupyter": "Documenter et exécuter des analyses dans des notebooks.",
-      "pytest": "Vérifier le comportement de projets Python avec des tests."
+      "pytest": "Vérifier le comportement de projets Python avec des tests.",
+      "postgresql": "Interroger et manipuler des données sous PostgreSQL (CTEs, fonctions de fenêtrage, nettoyage)."
     }
   },
   "about": {
     "title": "À propos",
-    "intro": "Je suis en deuxième année du cycle ingénieur en Informatique et Ingénierie des Données à l’ENSA Khouribga. Mes projets m’ont permis de préparer et d’analyser des données, d’appliquer des méthodes statistiques et de développer des applications web.",
-    "search": "Je recherche un stage PFA en Data Engineering à partir de juillet 2027. Je bénéficie d’une bourse DataCamp d’un an, que je mets à profit pour approfondir mes compétences et les appliquer à des projets concrets. Je suis également ouvert aux opportunités en BI, en intelligence artificielle et en développement logiciel.",
+    "intro": "Je suis en deuxième année du cycle ingénieur en Informatique et Ingénierie des Données à l’ENSA Khouribga. Mes projets m’ont permis de préparer et d’analyser des données, d’appliquer des méthodes statistiques et de développer des applications web. Mon domaine principal est la Data Analytics & BI, avec une orientation Analytics Engineering.",
+    "search": "Je recherche un stage PFA en Data Analytics & BI à partir de juillet 2027, avec un intérêt particulier pour l’Analytics Engineering : modélisation SQL, qualité et préparation des données pour l’analyse. Je reste également ouvert aux opportunités en Data Engineering. Titulaire de la certification officielle <certLink>DataCamp Data Analyst Associate</certLink> et du parcours certifiant <trackLink>Associate Data Analyst in SQL</trackLink>, je mets à profit mon accès annuel pour approfondir la modélisation sous PostgreSQL et les pipelines de données.",
     "education": {
       "heading": "Parcours académique",
       "engineering": {
@@ -458,7 +466,7 @@
     "professional": "Expérience professionnelle",
     "galaxyLabel": "Stage d’initiation · Galaxy Solutions · 2025–2026",
     "galaxy": "Galaxy Training Manager (GTM)",
-    "galaxyText": "Dans le cadre de ce stage, j’ai conçu et développé une application de suivi des formations, avec un tableau de bord d’indicateurs et un module d’analyse en composantes principales (ACP). Les données de démonstration sont fictives.",
+    "galaxyText": "Dans le cadre de ce stage d’initiation, j’ai conçu et développé une application de gestion et de suivi des formations. J’ai modélisé la base de données relationnelle (MySQL en 3NF), implémenté la logique applicative sous Flask et conçu un tableau de bord décisionnel intégrant un module d’Analyse en Composantes Principales (ACP). Les données de démonstration sont fictives.",
     "galaxyLink": "Voir l’étude de cas GTM",
     "association": "Engagement associatif",
     "cestom": "CESTOM",
@@ -505,44 +513,67 @@
     "linkedinDetail": "Parcours et profil professionnel.",
     "github": "Voir mon GitHub",
     "githubDetail": "Code source et projets publics.",
-    "cv": "Télécharger mon CV",
+    "cv": "Consulter mon CV",
     "externalNewTab": "(nouvel onglet)",
     "contactLinks": "Moyens de contact",
-    "focusText": "Je recherche un stage PFA en Data Engineering à partir de juillet 2027."
+    "focusText": "Je recherche un stage PFA en Data Analytics & BI à partir de juillet 2027, avec une orientation Analytics Engineering et une ouverture au Data Engineering.",
+    "cvDetail": "Ouvrir le CV dans un nouvel onglet (PDF)."
   },
   "aiAssistant": {
     "trigger": "Explorer avec l'IA",
     "eyebrow": "Assistant Portfolio & Preuves",
     "title": "Explorer avec l'IA",
-    "description": "Posez vos questions sur mon profil, mon parcours académique, mes compétences, mes projets, mes certifications ou ma recherche de stage.",
-    "placeholder": "Ex. : Quel est mon parcours académique ? ou Projets SQL…",
-    "sendButton": "Évaluer la question",
-    "analyzing": "Analyse en cours…",
+    "description": "Posez une question sur le parcours, les projets ou les compétences de Godwin.",
+    "placeholder": "Écrivez votre question…",
+    "sendButton": "Envoyer",
+    "analyzing": "Je prépare une réponse…",
     "clearButton": "Effacer la saisie",
     "closeButton": "Fermer l'assistant",
-    "resetButton": "Nouvelle recherche",
-    "suggestionsLabel": "Questions fréquentes :",
+    "resetButton": "Nouvelle conversation",
+    "suggestionsLabel": "Pour commencer, essayez :",
+    "followUpLabel": "Pour continuer :",
+    "followUps": {
+      "projectMethod": "Comment a-t-il été réalisé ?",
+      "projectResults": "Quels sont ses résultats ?",
+      "projectLimitations": "Quelles sont ses limites documentées ?",
+      "projectsComparison": "Quelles sont les différences entre ces projets ?",
+      "projectsResults": "Quels sont leurs résultats ?",
+      "projectsTechnologies": "Quelles sont leurs technologies ?",
+      "learningProjects": "Quels projets illustrent ces compétences ?",
+      "learningEvidence": "Quelles compétences sont déjà démontrées ?",
+      "educationSkills": "Quelles compétences développe cette formation ?",
+      "educationProjects": "Quels projets mettent ces études en pratique ?",
+      "experienceMissions": "Quelles étaient ses missions ?",
+      "experienceTools": "Quels outils a-t-il utilisés ?",
+      "certificationTopics": "Quels thèmes couvre cette formation ?",
+      "certificationProof": "Où consulter la preuve de cette certification ?",
+      "profileProjects": "Quels projets illustrent ce parcours ?",
+      "profileEducation": "Quel est son parcours académique ?",
+      "documentContents": "Que contient ce document ?",
+      "documentProject": "À quel projet ce document se rapporte-t-il ?"
+    },
+    "welcomeNotice": "En cas de relance, jusqu’à 4 questions précédentes et les preuves pertinentes peuvent être envoyées à Cloudflare Workers AI. L’historique n’est pas enregistré par le portfolio et s’efface à la fermeture. Évitez les informations sensibles.",
     "suggestions": {
-      "education": "Quel est mon parcours académique ?",
-      "sql": "Quels projets démontrent mes compétences en SQL ?",
-      "comparison": "Quelle différence existe entre GTM et SantéScolaire ?",
+      "education": "Quel est le parcours académique de Godwin ?",
+      "sql": "Quels projets démontrent ses compétences en SQL ?",
+      "comparison": "Quels sont ses projets clés (GTM, Olist, FoodYum) ?",
       "learning": "Quelles compétences sont encore en cours d'acquisition ?",
-      "certifications": "Quelles certifications sont documentées ?"
+      "certifications": "Quelles certifications officielles a-t-il validées ?"
     },
     "modes": {
       "aiBadge": "Réponse assistée par IA (Cloudflare Workers AI — Workers Free)",
       "keywordBadge": "Recherche locale de secours",
-      "aiNotice": "Votre question et le contexte documentaire pertinent du portfolio peuvent être transmis à Cloudflare Workers AI pour traitement. Si le fournisseur est indisponible, le moteur local prend le relais. N’y saisissez pas d’informations sensibles.",
+      "aiNotice": "Votre question et le contexte documentaire pertinent du portfolio peuvent être transmis à Cloudflare Workers AI pour traitement. En cas de relance, jusqu’à 4 questions précédentes peuvent aussi être transmises. Si le fournisseur est indisponible, le moteur local prend le relais. L’historique n’est pas enregistré par le portfolio et s’efface à la fermeture. N’y saisissez pas d’informations sensibles.",
       "fallbackNotice": "Cette réponse utilise le moteur local de secours par mots-clés."
     },
     "sections": {
-      "directAnswerTitle": "Réponse synthétique vérifiée",
+      "directAnswerTitle": "Réponse synthétique",
       "facts": "Faits vérifiés :",
       "relatedRecords": "Éléments et preuves documentés :",
       "projects": "Projets pertinents & Preuves :",
       "matchReason": "Pourquoi ce projet correspond :",
       "proofs": "Preuves documentées et vérifiées :",
-      "limitations": "Cadre & Limites transparentes :",
+      "limitations": "Périmètre technique",
       "viewCaseStudy": "Consulter l'étude de cas",
       "viewResource": "Consulter la ressource",
       "growingFieldTitle": "Axe de compétences en cours d'acquisition",

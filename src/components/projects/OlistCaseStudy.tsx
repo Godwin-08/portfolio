@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { OlistAnalysisSections, ProjectDetailCopy, ProjectDetailImage } from '@/data/project-details';
 import { ProjectGallery, type ProjectGalleryLabels } from '@/components/projects/ProjectGallery';
-import { AlertTriangle, Database, ExternalLink, FileText, ListChecks, Star, Truck, Wallet } from 'lucide-react';
+import { Compass, Database, Download, FileText, ListChecks, Star, Truck, Wallet } from 'lucide-react';
 
 type OlistCopy = ProjectDetailCopy & { olistAnalysis: OlistAnalysisSections };
 
@@ -125,16 +125,16 @@ export function OlistCaseStudy({
         </p>
       </section>
 
-      <section className="space-y-5" aria-labelledby="olist-limitations-title">
+      <section className="space-y-5" aria-labelledby="olist-limitations-title" data-project-limitations>
         <SectionHeading
           id="olist-limitations-title"
-          icon={<AlertTriangle className="h-5 w-5" />}
+          icon={<Compass className="h-5 w-5" />}
           title={limitationsTitle}
         />
-        <ul className="space-y-3 rounded-xl border border-amber-200 bg-amber-50/70 p-5 text-sm leading-relaxed text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
+        <ul className="space-y-3 rounded-xl border border-slate-200 bg-slate-50/70 p-5 text-sm leading-relaxed text-slate-800 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-200">
           {copy.limitations.map((limitation) => (
             <li key={limitation} className="flex items-start gap-3">
-              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-700" aria-hidden="true" />
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-600 dark:bg-primary-400" aria-hidden="true" />
               <span>{limitation}</span>
             </li>
           ))}
@@ -146,23 +146,35 @@ export function OlistCaseStudy({
           <h2 id="olist-documents-title" className="font-heading text-xl font-bold text-slate-900 dark:text-white">
             {documentsTitle}
           </h2>
-          <ul className="flex flex-wrap gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {copy.documents.map((document) => (
-              <li key={document.href}>
-                <a
-                  href={document.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="project-detail__resource motion-control inline-flex min-h-11 items-center gap-2 rounded-btn border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
-                  data-project-document
-                >
-                  <FileText className="h-4 w-4" aria-hidden="true" />
-                  {document.label}
-                  <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                </a>
-              </li>
+              <a
+                key={document.href}
+                href={document.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="project-detail__resource motion-control group flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-subtle transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:border-primary-500 hover:shadow-card dark:border-slate-700 dark:bg-slate-800/90 dark:hover:border-primary-400"
+                data-project-document
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-700 dark:bg-primary-950/60 dark:text-primary-300">
+                    <FileText className="h-5 w-5" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-slate-900 group-hover:text-primary-700 dark:text-white dark:group-hover:text-primary-400">
+                      {document.label}
+                    </p>
+                    <p className="text-xs text-slate-600 dark:text-slate-400">
+                      {locale === 'en' ? 'Official academic report · Full pipeline & analysis' : 'Rapport académique officiel · Pipeline & analyses'}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition-colors group-hover:bg-primary-100 group-hover:text-primary-700 dark:bg-slate-700 dark:text-slate-300 dark:group-hover:bg-primary-900/50 dark:group-hover:text-primary-300">
+                  <Download className="h-4 w-4" aria-hidden="true" />
+                </div>
+              </a>
             ))}
-          </ul>
+          </div>
         </section>
       )}
     </div>
@@ -199,7 +211,7 @@ function FigureAnalysis({
         {items.map(([term, description]) => (
           <div key={term}>
             <dt className="text-sm font-bold text-slate-900 dark:text-white">{term}</dt>
-            <dd className="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300">{description}</dd>
+            <dd className="mt-1 text-base leading-relaxed text-slate-700 dark:text-slate-300">{description}</dd>
           </div>
         ))}
       </dl>

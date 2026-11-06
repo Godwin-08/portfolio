@@ -21,6 +21,7 @@ const skillLogos: Record<string, string> = {
   pandas: 'pandas',
   numpy: 'numpy',
   mysql: 'mysql',
+  postgresql: 'postgresql',
   python: 'python',
   javascript: 'javascript',
   'html-css': 'html5',

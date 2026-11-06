@@ -3,18 +3,9 @@ import { THEME_STORAGE_KEY } from '../../src/components/theme/theme-constants';
 import frMessages from '../../messages/fr.json';
 import enMessages from '../../messages/en.json';
 
-const projectSlugs = [
-  'gtm',
-  'olist',
-  'afc',
-  'acp',
-  'revision-flow',
-  'novastore',
-  'sante-scolaire',
-  'goodthought-sql-analysis',
-  'motorcycle-parts-sales',
-  'students-mental-health',
-] as const;
+const projectSlugs = Object.keys(frMessages.projects.cards) as Array<
+  keyof typeof frMessages.projects.cards
+>;
 
 const publicRoutes = [
   '/',
@@ -160,7 +151,7 @@ test('theme toggle persists and public routes remain readable and responsive in 
       await expect(page.getByRole('link', { name: 'Découvrir mon parcours' })).toHaveClass(/dark:text-coral-300/);
       await expect(page.locator('[data-project-preview]').nth(1).locator('..')).toHaveClass(/border-coral-500/);
       await expect(page.locator('[data-certification-id]').first()).toHaveClass(/dark:border-t-emerald-400/);
-      await expect(page.locator('[data-certification-document]').first()).toHaveClass(/dark:text-emerald-300/);
+      await expect(page.locator('[data-certification-verification]').first()).toHaveClass(/dark:hover:text-emerald-300/);
       for (const selector of ['[class*="dark:bg-coral-950"]', '[class*="dark:bg-lilac-950"]']) {
         const surface = page.locator(`main ${selector}`).first();
         const background = await surface.evaluate((element) => getComputedStyle(element).backgroundColor);

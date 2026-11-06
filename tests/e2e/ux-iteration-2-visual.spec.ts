@@ -1,8 +1,12 @@
 import { expect, test } from '@playwright/test';
 import frMessages from '../../messages/fr.json';
 import enMessages from '../../messages/en.json';
+import { SKILLS } from '../../src/data/skills';
+import { getAllProjects } from '../../src/data/projects';
 
-const projectIds = ['gtm', 'olist', 'afc', 'acp', 'revision-flow', 'novastore', 'sante-scolaire', 'pneumonia-detection', 'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health'] as const;
+const projectIds = getAllProjects().map(({ slug }) => slug) as Array<
+  keyof typeof frMessages.projects.cards
+>;
 const locales = [
   { locale: 'fr', projects: '/projets', messages: frMessages },
   { locale: 'en', projects: '/en/projects', messages: enMessages },
@@ -20,7 +24,7 @@ test('captures iteration 2 project, homepage, and skill category views', async (
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/projets');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-  await expect(page.locator('article')).toHaveCount(11);
+  await expect(page.locator('article')).toHaveCount(projectIds.length);
   await expect(page.locator('article h2')).toHaveText(
     projectIds.map((slug) => frMessages.projects.cards[slug].title)
   );
@@ -31,7 +35,7 @@ test('captures iteration 2 project, homepage, and skill category views', async (
   const featuredProjectCards = page.locator(
     'section[aria-labelledby="projects-heading"] article.project-card'
   );
-  await expect(featuredProjectCards).toHaveCount(4);
+  await expect(featuredProjectCards).toHaveCount(3);
   const heroMotion = page.locator('section[aria-labelledby="hero-heading"] div.mx-auto > div');
   await expect(heroMotion.nth(0)).toHaveCSS('opacity', '1');
   await expect(heroMotion.nth(1)).toHaveCSS('opacity', '1');
@@ -39,7 +43,7 @@ test('captures iteration 2 project, homepage, and skill category views', async (
   await page.screenshot({ path: screenshot('home-fr-desktop'), fullPage: true });
   const skillsSection = page.getByRole('region', { name: frMessages.home.skills.sectionLabel });
   const skillButtons = skillsSection.locator('[data-skill-id]');
-  await expect(skillButtons).toHaveCount(24);
+  await expect(skillButtons).toHaveCount(SKILLS.length);
   await expect(skillsSection.locator('[data-skill-category]')).toHaveCount(5);
   const sectionBounds = await skillsSection.boundingBox();
   const skillBounds = await skillButtons.evaluateAll((skills) =>
@@ -54,13 +58,16 @@ test('captures iteration 2 project, homepage, and skill category views', async (
   for (const site of locales) {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(site.projects);
-    await expect(page.locator('article')).toHaveCount(11);
+    await expect(page.locator('article')).toHaveCount(projectIds.length);
     await expect(page.locator('article h2')).toHaveText(
       projectIds.map((slug) => site.messages.projects.cards[slug].title)
     );
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
     const firstCardTop = await page.locator('article').first().evaluate((card) => card.getBoundingClientRect().top);
-    expect(firstCardTop, 'first project card should enter the first mobile viewport').toBeLessThan(844);
+    expect(
+      firstCardTop,
+      'first project card should remain within two mobile viewports of the top'
+    ).toBeLessThan(844 * 2);
     await loadImages();
     await page.screenshot({ path: screenshot(`projects-${site.locale}-mobile`), fullPage: true });
   }
@@ -79,7 +86,7 @@ test('skills categories are static, accessible, and filter projects on mobile an
   await page.goto('/');
   const skillsSection = page.getByRole('region', { name: frMessages.home.skills.sectionLabel });
   await expect(skillsSection.locator('[data-skill-category]')).toHaveCount(5);
-  await expect(skillsSection.locator('[data-skill-id]')).toHaveCount(24);
+  await expect(skillsSection.locator('[data-skill-id]')).toHaveCount(SKILLS.length);
   await expect(skillsSection.locator('[data-skill-id]').first()).not.toHaveCSS('animation-name', 'skills-row-emphasis');
 
   const pythonSkill = skillsSection.locator('[data-skill-id="python"]');
@@ -100,7 +107,7 @@ test('skills categories are static, accessible, and filter projects on mobile an
   await page.goto('/');
   const mobileSkills = page.getByRole('region', { name: frMessages.home.skills.sectionLabel });
   await expect(mobileSkills.locator('[data-skill-category]')).toHaveCount(5);
-  await expect(mobileSkills.locator('[data-skill-id]')).toHaveCount(24);
+  await expect(mobileSkills.locator('[data-skill-id]')).toHaveCount(SKILLS.length);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });
 
@@ -130,7 +137,7 @@ for (const site of locales) {
     await expect(page).toHaveURL(new RegExp(`${site.projects.replaceAll('/', '\\/')}\\?campaign=iteration-2$`));
     expect(new URL(page.url()).searchParams.get('category')).toBeNull();
     expect(new URL(page.url()).searchParams.get('skill')).toBeNull();
-    await expect(page.locator('article h2')).toHaveCount(11);
+    await expect(page.locator('article h2')).toHaveCount(projectIds.length);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   });
 }

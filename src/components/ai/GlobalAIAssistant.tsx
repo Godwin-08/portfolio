@@ -4,21 +4,77 @@ import React, { useState, useEffect, useRef, useTransition, useCallback } from '
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import {
-  AlertTriangle,
-  ArrowRight,
-  BookOpen,
-  CheckCircle2,
+  Award,
+  Briefcase,
   Cpu,
+  Database,
   GraduationCap,
   Loader2,
   RotateCcw,
   Search,
+  Send,
   Sparkles,
   X,
 } from 'lucide-react';
-import type { EvidenceMatchResponse, MatchLevel, ProjectEvidenceMatch } from '@/lib/ai/types';
+import type { EvidenceMatchResponse } from '@/lib/ai/types';
 import { cn, isPublicAssetHref } from '@/lib/utils';
 import { useAIAssistant } from './AIAssistantContext';
+
+interface AssistantTurn {
+  id: number;
+  query: string;
+  result?: EvidenceMatchResponse;
+  error?: string;
+}
+
+type FollowUpSuggestionKey =
+  | 'projectMethod'
+  | 'projectResults'
+  | 'projectLimitations'
+  | 'projectsComparison'
+  | 'projectsResults'
+  | 'projectsTechnologies'
+  | 'learningProjects'
+  | 'learningEvidence'
+  | 'educationSkills'
+  | 'educationProjects'
+  | 'experienceMissions'
+  | 'experienceTools'
+  | 'certificationTopics'
+  | 'certificationProof'
+  | 'profileProjects'
+  | 'profileEducation'
+  | 'documentContents'
+  | 'documentProject';
+
+function getFollowUpSuggestionKeys(
+  result: EvidenceMatchResponse
+): FollowUpSuggestionKey[] {
+  if (result.matches.length > 1) {
+    return ['projectsComparison', 'projectsResults', 'projectsTechnologies'];
+  }
+  if (result.matches.length === 1) {
+    return ['projectMethod', 'projectResults', 'projectLimitations'];
+  }
+
+  switch (result.intent) {
+    case 'education':
+      return ['educationSkills', 'educationProjects'];
+    case 'internship':
+    case 'experience':
+      return ['experienceMissions', 'experienceTools'];
+    case 'certifications':
+      return ['certificationTopics', 'certificationProof'];
+    case 'documents':
+      return ['documentContents', 'documentProject'];
+    case 'skills':
+      return ['learningProjects', 'learningEvidence'];
+    case 'profile':
+      return ['profileProjects', 'profileEducation'];
+    default:
+      return ['profileProjects', 'educationSkills'];
+  }
+}
 
 export function GlobalAIAssistant() {
   const { isOpen, initialQuery, closeAssistant } = useAIAssistant();
@@ -27,27 +83,64 @@ export function GlobalAIAssistant() {
 
   const [query, setQuery] = useState('');
   const [isPending, startTransition] = useTransition();
-  const [result, setResult] = useState<EvidenceMatchResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [turns, setTurns] = useState<AssistantTurn[]>([]);
 
   const dialogRef = useRef<HTMLDivElement>(null);
+  const messagesRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const lastFocusedElementRef = useRef<HTMLElement | null>(null);
+  const nextTurnIdRef = useRef(0);
+  const handledInitialQueryRef = useRef('');
+  const requestControllerRef = useRef<AbortController | null>(null);
 
   const suggestions = [
-    { key: 'education', text: t('suggestions.education') },
-    { key: 'sql', text: t('suggestions.sql') },
-    { key: 'comparison', text: t('suggestions.comparison') },
-    { key: 'learning', text: t('suggestions.learning') },
-    { key: 'certifications', text: t('suggestions.certifications') },
+    {
+      key: 'education',
+      icon: GraduationCap,
+      label: locale === 'fr' ? 'Parcours académique' : 'Education',
+      query: t('suggestions.education'),
+    },
+    {
+      key: 'sql',
+      icon: Database,
+      label: locale === 'fr' ? 'Projets SQL' : 'SQL projects',
+      query: t('suggestions.sql'),
+    },
+    {
+      key: 'comparison',
+      icon: Briefcase,
+      label: locale === 'fr' ? 'Projets clés' : 'Key projects',
+      query: t('suggestions.comparison'),
+    },
+    {
+      key: 'certifications',
+      icon: Award,
+      label: locale === 'fr' ? 'Certifications DataCamp' : 'DataCamp certificates',
+      query: t('suggestions.certifications'),
+    },
   ];
 
   const handleSearch = useCallback((searchQuery: string) => {
     const trimmed = searchQuery.trim();
     if (!trimmed || trimmed.length < 2) return;
 
-    setResult(null);
-    setError(null);
+    const turnId = ++nextTurnIdRef.current;
+    const requestController = new AbortController();
+    requestControllerRef.current = requestController;
+    const conversationHistory = turns
+      .filter((turn) => turn.result)
+      .slice(-4)
+      .map((turn) => ({
+        query: turn.query.slice(0, 100),
+        documentIds: [
+          ...new Set([
+            ...(turn.result?.matches.map((match) => `proj-${match.projectId}`) ?? []),
+            ...(turn.result?.relatedItems?.map((item) => item.id) ?? []),
+          ]),
+        ].slice(0, 4),
+      }));
+    setTurns((currentTurns) => [...currentTurns, { id: turnId, query: trimmed }]);
+    setQuery('');
 
     startTransition(async () => {
       try {
@@ -56,7 +149,12 @@ export function GlobalAIAssistant() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ query: trimmed, locale }),
+          body: JSON.stringify({
+            query: trimmed,
+            locale,
+            ...(conversationHistory.length > 0 ? { conversationHistory } : {}),
+          }),
+          signal: requestController.signal,
         });
 
         if (!res.ok) {
@@ -64,72 +162,94 @@ export function GlobalAIAssistant() {
         }
 
         const data: EvidenceMatchResponse = await res.json();
-        setResult(data);
+        setTurns((currentTurns) =>
+          currentTurns.map((turn) => (turn.id === turnId ? { ...turn, result: data } : turn))
+        );
       } catch {
-        setError(
+        if (requestController.signal.aborted) return;
+        const message =
           locale === 'fr'
             ? 'Impossible de traiter la requête pour le moment. Veuillez réessayer.'
-            : 'Unable to process the request at this time. Please try again.'
+            : 'Unable to process the request at this time. Please try again.';
+        setTurns((currentTurns) =>
+          currentTurns.map((turn) => (turn.id === turnId ? { ...turn, error: message } : turn))
         );
       }
+      if (requestControllerRef.current === requestController) {
+        requestControllerRef.current = null;
+      }
     });
-  }, [locale]);
+  }, [locale, turns]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     handleSearch(query);
   };
 
-  const handleSelectSuggestion = (suggestionText: string) => {
-    setQuery(suggestionText);
-    handleSearch(suggestionText);
+  const handleSelectSuggestion = (suggestionQuery: string) => {
+    setQuery(suggestionQuery);
+    handleSearch(suggestionQuery);
   };
 
   const handleReset = () => {
     setQuery('');
-    setResult(null);
-    setError(null);
+    setTurns([]);
     inputRef.current?.focus();
   };
 
   // Synchronisation avec initialQuery
   useEffect(() => {
-    if (isOpen && initialQuery) {
+    if (isOpen && initialQuery && handledInitialQueryRef.current !== initialQuery) {
+      handledInitialQueryRef.current = initialQuery;
       setQuery(initialQuery);
       handleSearch(initialQuery);
     }
   }, [isOpen, initialQuery, handleSearch]);
 
-  // Gestion du focus et du verrouillage du défilement
+  useEffect(() => {
+    if (!isOpen) {
+      requestControllerRef.current?.abort();
+      requestControllerRef.current = null;
+      setTurns([]);
+      setQuery('');
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const messages = messagesRef.current;
+    if (messages) {
+      messages.scrollTop = messages.scrollHeight;
+    }
+  }, [turns, isPending, isOpen]);
+
+  // Focus management & inert body scroll
   useEffect(() => {
     if (isOpen) {
-      lastFocusedElementRef.current = document.activeElement as HTMLElement;
+      lastFocusedElementRef.current = document.activeElement as HTMLElement | null;
+
+      const previousOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
 
       const timer = setTimeout(() => {
         inputRef.current?.focus();
       }, 50);
 
-      const originalOverflow = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
-
       return () => {
         clearTimeout(timer);
-        document.body.style.overflow = originalOverflow;
+        document.body.style.overflow = previousOverflow;
+        if (lastFocusedElementRef.current && typeof lastFocusedElementRef.current.focus === 'function') {
+          lastFocusedElementRef.current.focus();
+        }
       };
-    } else {
-      if (lastFocusedElementRef.current && typeof lastFocusedElementRef.current.focus === 'function') {
-        lastFocusedElementRef.current.focus();
-      }
     }
   }, [isOpen]);
 
-  // Écoute de la touche Échap et piégeage du focus (Tab)
+  // Focus trap inside drawer
   useEffect(() => {
     if (!isOpen) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        e.preventDefault();
         closeAssistant();
         return;
       }
@@ -138,10 +258,10 @@ export function GlobalAIAssistant() {
         const focusableElements = dialogRef.current.querySelectorAll<HTMLElement>(
           'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         );
-        if (focusableElements.length === 0) return;
-
         const firstElement = focusableElements[0];
         const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (!firstElement || !lastElement) return;
 
         if (e.shiftKey) {
           if (document.activeElement === firstElement) {
@@ -162,27 +282,6 @@ export function GlobalAIAssistant() {
   }, [isOpen, closeAssistant]);
 
   if (!isOpen) return null;
-
-  const getLevelBadge = (level: MatchLevel) => {
-    switch (level) {
-      case 'strong':
-        return {
-          label: t('levels.strong'),
-          className: 'bg-emerald-50 text-emerald-800 border-emerald-300 dark:bg-emerald-950/50 dark:text-emerald-200 dark:border-emerald-800',
-        };
-      case 'moderate':
-        return {
-          label: t('levels.moderate'),
-          className: 'bg-blue-50 text-blue-800 border-blue-300 dark:bg-blue-950/50 dark:text-blue-200 dark:border-blue-800',
-        };
-      case 'indirect':
-      default:
-        return {
-          label: t('levels.indirect'),
-          className: 'bg-slate-50 text-slate-700 border-slate-300 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600',
-        };
-    }
-  };
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
@@ -212,14 +311,6 @@ export function GlobalAIAssistant() {
         {/* Entête du tiroir */}
         <header className="flex items-start justify-between border-b border-slate-200/80 px-5 py-4 dark:border-slate-700 sm:px-6">
           <div className="space-y-1 pr-4">
-            <div className="flex items-center gap-2">
-              <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-300">
-                <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-              </span>
-              <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-800 dark:text-primary-300">
-                {t('eyebrow')}
-              </span>
-            </div>
             <h2
               id="global-ai-title"
               className="font-heading text-lg font-bold tracking-tight text-slate-900 dark:text-white sm:text-xl"
@@ -245,304 +336,213 @@ export function GlobalAIAssistant() {
         </header>
 
         {/* Corps défilable */}
-        <div className="flex-1 overflow-y-auto px-5 py-4 sm:px-6 space-y-5">
-          {/* Badge du mode et notice de transparence */}
-          <div className="space-y-2">
-            {result ? (
-              <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-2 text-xs text-slate-700 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-200">
-                <div className="flex items-center gap-2">
-                  {result.mode === 'ai' ? (
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 font-semibold text-emerald-800 text-[11px] dark:border-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-200">
-                      <Sparkles className="h-3 w-3" aria-hidden="true" />
-                      {t('modes.aiBadge')}
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-2.5 py-0.5 font-semibold text-slate-700 text-[11px] dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200">
-                      <Cpu className="h-3 w-3" aria-hidden="true" />
-                      {t('modes.keywordBadge')}
-                    </span>
-                  )}
-                  <span className="hidden text-slate-400 dark:text-slate-500 sm:inline">•</span>
-                  <span className="font-medium text-slate-800 truncate max-w-[200px] dark:text-slate-100">
-                    « {result.query} »
-                  </span>
-                </div>
+        <div ref={messagesRef} className="flex-1 overflow-y-auto px-5 py-4 sm:px-6 space-y-5">
+          {/* État initial */}
+          {turns.length === 0 && !isPending && (
+            <div className="space-y-4">
+              <div
+                role="group"
+                aria-label={t('suggestionsLabel')}
+                className="flex flex-wrap gap-2"
+              >
+                {suggestions.map((sug) => {
+                  const Icon = sug.icon;
+                  return (
+                    <button
+                      key={sug.key}
+                      type="button"
+                      onClick={() => handleSelectSuggestion(sug.query)}
+                      disabled={isPending}
+                      aria-label={sug.query}
+                      className="inline-flex min-h-9 items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-left text-xs font-semibold text-slate-700 transition-colors hover:border-primary-400 hover:bg-primary-50 hover:text-primary-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-primary-500 dark:hover:bg-primary-950/40 dark:hover:text-primary-200"
+                    >
+                      <Icon className="h-3.5 w-3.5 shrink-0 text-primary-700 dark:text-primary-300" aria-hidden="true" />
+                      <span>{sug.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
 
+              <p className="text-[11px] leading-relaxed text-slate-400 dark:text-slate-500">
+                {t('welcomeNotice')}
+              </p>
+            </div>
+          )}
+
+          {turns.length > 0 && (
+            <section aria-label="Conversation" className="space-y-5">
+              <div className="flex justify-end">
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 rounded p-1 dark:text-slate-300 dark:hover:text-white"
+                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-500 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 rounded p-1 dark:text-slate-400 dark:hover:text-white"
                 >
                   <RotateCcw className="h-3 w-3" aria-hidden="true" />
                   <span>{t('resetButton')}</span>
                 </button>
               </div>
-            ) : null}
 
-            <p className="text-[11px] leading-relaxed text-slate-400 dark:text-slate-500">
-              {result?.mode === 'keyword' ? t('modes.fallbackNotice') : t('modes.aiNotice')}
-            </p>
-          </div>
+              <div aria-live="polite" aria-relevant="additions text" className="space-y-5">
+                {turns.map((turn) => {
+                  const result = turn.result;
+                  const relatedItems = result?.matches.length
+                    ? []
+                    : result?.relatedItems?.filter(
+                    (item) =>
+                      item.category !== 'project' ||
+                      !(result.matches ?? []).some((match) => item.id === `proj-${match.projectId}`)
+                  );
+                  const matchGroups = new Map<string, EvidenceMatchResponse['matches']>();
+                  result?.matches.forEach((match) => {
+                    const group = matchGroups.get(match.reason) ?? [];
+                    group.push(match);
+                    matchGroups.set(match.reason, group);
+                  });
 
-          {/* Suggestions concrètes */}
-          <div className="space-y-2 rounded-xl border border-slate-200/80 bg-slate-50/50 p-3.5 dark:border-slate-700 dark:bg-slate-800/60">
-            <span className="block text-xs font-semibold text-slate-700 dark:text-slate-200">
-              {t('suggestionsLabel')}
-            </span>
-            <div className="flex flex-wrap gap-1.5">
-              {suggestions.map((sug) => (
-                <button
-                  key={sug.key}
-                  type="button"
-                  onClick={() => handleSelectSuggestion(sug.text)}
-                  disabled={isPending}
-                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700 transition-colors hover:border-primary-400 hover:bg-primary-50 hover:text-primary-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 disabled:opacity-50 text-left dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-primary-500 dark:hover:bg-primary-900/40 dark:hover:text-primary-200"
-                >
-                  {sug.text}
-                </button>
-              ))}
-            </div>
-          </div>
+                  return (
+                    <div key={turn.id} className="space-y-3">
+                      <div className="flex justify-end">
+                        <p className="max-w-[85%] whitespace-pre-wrap rounded-2xl rounded-br-sm bg-primary-700 px-4 py-3 text-sm leading-relaxed text-white shadow-xs">
+                          {turn.query}
+                        </p>
+                      </div>
 
-          {/* Message d'erreur */}
-          {error && (
-            <div
-              role="alert"
-              className="rounded-xl border border-red-200 bg-red-50 p-3.5 text-xs text-red-800 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200"
-            >
-              {error}
-            </div>
-          )}
-
-          {/* Indicateur de chargement */}
-          {isPending && (
-            <div
-              aria-live="polite"
-              className="flex items-center justify-center gap-2.5 rounded-xl border border-slate-200 bg-white p-6 text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
-            >
-              <Loader2 className="h-5 w-5 animate-spin text-primary-600" aria-hidden="true" />
-              <span className="text-xs font-medium">{t('analyzing')}</span>
-            </div>
-          )}
-
-          {/* Résultats structurés */}
-          {!isPending && result && (
-            <div aria-live="polite" className="space-y-5">
-              {/* 1. Réponse synthétique vérifiée */}
-              {result.directAnswer && (
-                <div className="rounded-xl border border-primary-200 bg-primary-50/70 p-4 dark:border-primary-800 dark:bg-primary-900/30">
-                  <div className="flex items-start gap-2.5">
-                    <Sparkles className="h-4 w-4 text-primary-700 shrink-0 mt-0.5 dark:text-primary-300" aria-hidden="true" />
-                    <div className="space-y-1">
-                      <h3 className="text-xs font-bold uppercase tracking-wide text-primary-900 dark:text-primary-100">
-                        {t('sections.directAnswerTitle')}
-                      </h3>
-                      <p className="text-xs sm:text-sm leading-relaxed text-slate-800 dark:text-slate-100">
-                        {result.directAnswer}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* 2. Axe de compétences en cours d'acquisition */}
-              {result.growingFieldMatches && result.growingFieldMatches.length > 0 && (
-                <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-4 dark:border-amber-900 dark:bg-amber-950/30">
-                  <div className="flex items-start gap-2.5">
-                    <GraduationCap className="h-4 w-4 text-amber-700 shrink-0 mt-0.5 dark:text-amber-300" aria-hidden="true" />
-                    <div className="space-y-2">
-                      <h3 className="text-xs font-bold uppercase tracking-wide text-amber-900 dark:text-amber-200">
-                        {t('sections.growingFieldTitle')}
-                      </h3>
-                      {result.growingFieldMatches.map((gf) => (
-                        <div key={gf.field} className="space-y-0.5">
-                          <span className="inline-block rounded-md bg-amber-100 px-2 py-0.5 font-mono text-[11px] font-semibold text-amber-900 dark:bg-amber-900/40 dark:text-amber-100">
-                            {gf.field} — {gf.label}
-                          </span>
-                          <p className="text-xs leading-relaxed text-amber-900/90 dark:text-amber-100">
-                            {gf.description}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* 3. Aucun élément documenté */}
-              {result.status === 'no_match' && (
-                <div className="rounded-xl border border-slate-200 bg-white p-6 text-center space-y-2 dark:border-slate-700 dark:bg-slate-800">
-                  <AlertTriangle className="mx-auto h-6 w-6 text-slate-400" aria-hidden="true" />
-                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-                    {t('sections.noMatchTitle')}
-                  </h3>
-                  <p className="text-xs text-slate-500 leading-relaxed max-w-sm mx-auto dark:text-slate-300">
-                    {result.message || t('sections.noMatchDesc')}
-                  </p>
-                </div>
-              )}
-
-              {/* 4. Éléments documentés associés (formations, certifications, documents, association) */}
-              {result.relatedItems && result.relatedItems.length > 0 && (
-                <div className="space-y-2.5">
-                  <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
-                    {t('sections.relatedRecords')}
-                  </h4>
-                  <div className="space-y-3">
-                    {result.relatedItems.map((item) => (
-                      <article
-                        key={item.id}
-                        className="rounded-xl border border-slate-200 bg-white p-4 shadow-2xs space-y-2.5 dark:border-slate-700 dark:bg-slate-800"
-                      >
-                        <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2 dark:border-slate-700">
-                          <h5 className="font-heading text-sm font-bold text-slate-900 dark:text-white">
-                            {item.title}
-                          </h5>
-                          <span className="rounded-full bg-slate-100 px-2 py-0.5 font-mono text-[10px] font-bold uppercase text-slate-700 dark:bg-slate-700 dark:text-slate-200">
-                            {item.category}
-                          </span>
-                        </div>
-
-                        {item.summary && (
-                          <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-300">
-                            {item.summary}
-                          </p>
-                        )}
-
-                        {item.verifiedFacts && item.verifiedFacts.length > 0 && (
-                          <div className="space-y-1 pt-1">
-                            <span className="text-[11px] font-bold text-slate-700 dark:text-slate-200">
-                              {t('sections.facts')}
-                            </span>
-                            <ul className="list-disc space-y-0.5 pl-4 text-xs text-slate-600 dark:text-slate-300">
-                              {item.verifiedFacts.slice(0, 3).map((fact, idx) => (
-                                <li key={idx}>{fact}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-
-                        {item.limitations && item.limitations.length > 0 && (
-                          <div className="rounded-md border border-amber-200 bg-amber-50/60 p-2 text-[11px] text-amber-900 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
-                            <ul className="list-disc space-y-0.5 pl-3.5">
-                              {item.limitations.slice(0, 2).map((lim, idx) => (
-                                <li key={idx}>{lim}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-
-                        {item.href && (
-                          <div className="pt-2 border-t border-slate-100 dark:border-slate-700">
-                            {item.href.startsWith('/') && !isPublicAssetHref(item.href) ? (
-                              <Link
-                                href={item.href as '/about' | '/contact' | '/projects'}
-                                onClick={closeAssistant}
-                                className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-700 hover:text-primary-900 dark:text-primary-300 dark:hover:text-primary-200"
-                              >
-                                <span>{t('sections.viewResource')}</span>
-                                <ArrowRight className="h-3 w-3" aria-hidden="true" />
-                              </Link>
-                            ) : (
-                              <a
-                                href={item.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-700 hover:text-primary-900 dark:text-primary-300 dark:hover:text-primary-200"
-                              >
-                                <span>{t('sections.viewResource')}</span>
-                                <ArrowRight className="h-3 w-3" aria-hidden="true" />
-                              </a>
-                            )}
-                          </div>
-                        )}
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* 5. Projets pertinents & Preuves */}
-              {result.matches && result.matches.length > 0 && (
-                <div className="space-y-2.5">
-                  <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
-                    {t('sections.projects')}
-                  </h4>
-                  <div className="space-y-3">
-                    {result.matches.map((match: ProjectEvidenceMatch) => {
-                      const levelBadge = getLevelBadge(match.level);
-                      return (
-                        <article
-                          key={match.projectId}
-                          className="rounded-xl border border-slate-200 bg-white p-4 shadow-2xs space-y-2.5 dark:border-slate-700 dark:bg-slate-800"
+                      <div className="flex items-start gap-2.5">
+                        <span className="mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-700 dark:bg-primary-900/60 dark:text-primary-200">
+                          <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                        </span>
+                        <div
+                          className={cn(
+                            'min-w-0 max-w-[92%] space-y-3 rounded-2xl rounded-tl-sm border px-4 py-3 text-sm leading-relaxed shadow-xs',
+                            turn.error
+                              ? 'border-red-200 bg-red-50 text-red-800 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200'
+                              : 'border-slate-200 bg-white text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200'
+                          )}
+                          {...(turn.error ? { role: 'alert' } : {})}
                         >
-                          <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2 dark:border-slate-700">
-                            <span className="font-heading text-sm font-bold text-slate-900 dark:text-white">
-                              {match.projectTitle}
-                            </span>
-                            <span
-                              className={cn(
-                                'rounded-full border px-2 py-0.5 text-[10px] font-semibold',
-                                levelBadge.className
+                          {turn.error ? (
+                            <p>{turn.error}</p>
+                          ) : !result ? (
+                            <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                              <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                              <span>{t('analyzing')}</span>
+                            </div>
+                          ) : (
+                            <>
+                              <span className="inline-flex items-center gap-1.5 text-[10px] font-medium text-slate-400 dark:text-slate-500">
+                                {result.mode === 'ai' ? (
+                                  <>
+                                    <Sparkles className="h-3 w-3" aria-hidden="true" />
+                                    {t('modes.aiBadge')}
+                                  </>
+                                ) : (
+                                  <>
+                                    <Cpu className="h-3 w-3" aria-hidden="true" />
+                                    {t('modes.keywordBadge')}
+                                  </>
+                                )}
+                              </span>
+
+                              {result.status === 'no_match' ? (
+                                <p>{result.directAnswer || result.message || t('sections.noMatchDesc')}</p>
+                              ) : (
+                                result.directAnswer && <p>{result.directAnswer}</p>
                               )}
-                            >
-                              {levelBadge.label}
-                            </span>
-                          </div>
 
-                          <div className="rounded-lg bg-slate-50 p-2 text-xs leading-relaxed text-slate-700 dark:bg-slate-900 dark:text-slate-300">
-                            <span className="font-semibold text-slate-900 dark:text-slate-100">
-                              {t('sections.matchReason')}{' '}
-                            </span>
-                            {match.reason}
-                          </div>
+                              {result.status === 'learning_match' &&
+                                result.matches.length === 0 &&
+                                result.message && (
+                                <p>{result.message}</p>
+                              )}
 
-                          {match.verifiedProofs.length > 0 && (
-                            <div className="space-y-1">
-                              <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-800 dark:text-slate-200">
-                                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" aria-hidden="true" />
-                                <span>{t('sections.proofs')}</span>
+                              {result.status === 'learning_match' &&
+                                result.matches.length === 0 &&
+                                result.growingFieldMatches?.map((field) => (
+                                <p key={field.field}>{field.description}</p>
+                              ))}
+
+                              {[...matchGroups].map(([reason, matches]) => (
+                                <p key={reason}>
+                                  {reason}{' '}
+                                  {matches.map((match, index) => (
+                                    <React.Fragment key={match.projectId}>
+                                      {index > 0 ? ', ' : null}
+                                      <Link
+                                        href={{ pathname: '/projects/[slug]', params: { slug: match.projectSlug } }}
+                                        onClick={closeAssistant}
+                                        className="font-semibold text-primary-700 underline decoration-primary-300 underline-offset-2 hover:text-primary-900 dark:text-primary-300 dark:hover:text-primary-200"
+                                      >
+                                        {match.projectTitle}
+                                      </Link>
+                                    </React.Fragment>
+                                  ))}
+                                </p>
+                              ))}
+
+                              {relatedItems?.map((item) => (
+                                <p key={item.id}>
+                                  {item.summary || (!item.href ? item.title : null)}
+                                  {item.summary && item.href ? ' ' : null}
+                                  {item.href &&
+                                    (item.href.startsWith('/') && !isPublicAssetHref(item.href) ? (
+                                      <Link
+                                        href={item.href as '/about' | '/contact' | '/projects'}
+                                        onClick={closeAssistant}
+                                        className="font-semibold text-primary-700 underline decoration-primary-300 underline-offset-2 hover:text-primary-900 dark:text-primary-300 dark:hover:text-primary-200"
+                                      >
+                                        {item.title}
+                                      </Link>
+                                    ) : (
+                                      <a
+                                        href={item.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="font-semibold text-primary-700 underline decoration-primary-300 underline-offset-2 hover:text-primary-900 dark:text-primary-300 dark:hover:text-primary-200"
+                                      >
+                                        {item.title}
+                                      </a>
+                                    ))}
+                                </p>
+                              ))}
+
+                              <div
+                                role="group"
+                                aria-label={t('followUpLabel')}
+                                className="space-y-2 pt-1"
+                              >
+                                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                                    {t('followUpLabel')}
+                                </p>
+                                <div className="flex flex-wrap gap-2">
+                                    {getFollowUpSuggestionKeys(result).map((key) => {
+                                      const question = t(`followUps.${key}`);
+                                      return (
+                                        <button
+                                          key={key}
+                                          type="button"
+                                          onClick={() => handleSelectSuggestion(question)}
+                                          disabled={isPending}
+                                          className="inline-flex min-h-8 items-center rounded-full border border-primary-200 bg-primary-50 px-3 py-1 text-left text-xs font-medium text-primary-800 transition-colors hover:border-primary-400 hover:bg-primary-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 disabled:cursor-not-allowed disabled:opacity-50 dark:border-primary-800 dark:bg-primary-950/40 dark:text-primary-200 dark:hover:border-primary-600 dark:hover:bg-primary-900/50"
+                                        >
+                                          {question}
+                                        </button>
+                                      );
+                                    })}
+                                </div>
                               </div>
-                              <ul className="list-disc space-y-0.5 pl-4 text-xs text-slate-600 dark:text-slate-300">
-                                {match.verifiedProofs.map((proof, idx) => (
-                                  <li key={idx}>{proof}</li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
 
-                          {match.limitations.length > 0 && (
-                            <div className="rounded-md border border-amber-100 bg-amber-50/50 p-2 text-[11px] dark:border-amber-900 dark:bg-amber-950/30">
-                              <div className="flex items-center gap-1 font-bold text-amber-900 dark:text-amber-200">
-                                <AlertTriangle className="h-3 w-3 text-amber-600 shrink-0 dark:text-amber-300" aria-hidden="true" />
-                                <span>{t('sections.limitations')}</span>
-                              </div>
-                              <ul className="list-disc space-y-0.5 pl-4 text-amber-900/90 dark:text-amber-100">
-                                {match.limitations.map((lim, idx) => (
-                                  <li key={idx}>{lim}</li>
-                                ))}
-                              </ul>
-                            </div>
+                              <p className="text-[10px] text-slate-400 dark:text-slate-500">
+                                {result.mode === 'keyword' ? t('modes.fallbackNotice') : t('modes.aiNotice')}
+                              </p>
+                            </>
                           )}
-
-                          <div className="pt-2 border-t border-slate-100 dark:border-slate-700">
-                            <Link
-                              href={{ pathname: '/projects/[slug]', params: { slug: match.projectSlug } }}
-                              onClick={closeAssistant}
-                              className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-700 hover:text-primary-900 dark:text-primary-300 dark:hover:text-primary-200"
-                            >
-                              <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
-                              <span>{t('sections.viewCaseStudy')}</span>
-                              <ArrowRight className="h-3 w-3" aria-hidden="true" />
-                            </Link>
-                          </div>
-                        </article>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
           )}
         </div>
 
@@ -588,21 +588,23 @@ export function GlobalAIAssistant() {
               <button
                 type="submit"
                 disabled={isPending || query.trim().length < 2}
+                aria-label={t('sendButton')}
+                title={t('sendButton')}
                 className={cn(
-                  'inline-flex min-h-9 items-center justify-center gap-1.5 rounded-lg bg-primary-700 px-4 text-xs font-semibold text-white shadow-2xs transition-colors',
+                  'inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-primary-700 px-4 text-xs font-semibold text-white shadow-xs transition-all',
                   'hover:bg-primary-800 active:scale-95',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2',
-                  'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary-700'
+                  'disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-primary-700'
                 )}
               >
                 {isPending ? (
                   <>
-                    <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
                     <span>{t('analyzing')}</span>
                   </>
                 ) : (
                   <>
-                    <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                    <Send className="h-4 w-4" aria-hidden="true" />
                     <span>{t('sendButton')}</span>
                   </>
                 )}

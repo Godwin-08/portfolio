@@ -6,8 +6,12 @@ import {
   getKnowledgeDocumentById,
   getKnowledgeDocumentsByCategory,
   buildPromptKnowledgeContext,
+  getRelevantKnowledgeDocumentIds,
 } from '@/lib/ai/knowledge-corpus';
 import { CERTIFICATIONS } from '@/data/certifications';
+import { PROJECTS } from '@/data/projects';
+import { PROJECT_DETAIL_COPY } from '@/data/project-details';
+import { SKILLS } from '@/data/skills';
 
 describe('Authoritative Knowledge Corpus & Global Assistant Tests', () => {
   describe('1. Knowledge Corpus Structure & Verification', () => {
@@ -437,7 +441,7 @@ describe('Authoritative Knowledge Corpus & Global Assistant Tests', () => {
       expect(res.directAnswer).toContain('gtm-internship-report-fr.pdf');
       expect(res.relatedItems?.map((r) => r.id)).toContain('doc-cv');
       expect(res.relatedItems?.map((r) => r.id)).toContain('doc-gtm-report');
-      expect(res.relatedItems?.map((r) => r.id)).not.toContain('doc-olist-report');
+      expect(res.relatedItems?.map((r) => r.id)).toContain('doc-olist-report');
       expect(getKnowledgeDocumentById('doc-cv')?.href).toBe('/cv/CV_Godwin_Nougbolo.pdf');
       expect(resEn.directAnswer).toContain('/cv/CV_Godwin_Nougbolo.pdf');
       expect(resEn.relatedItems?.map((r) => r.id)).toContain('doc-cv');
@@ -615,7 +619,7 @@ describe('Authoritative Knowledge Corpus & Global Assistant Tests', () => {
         const result = runLocalMatcher(query, locale);
         expect(result.intent).toBe('documents');
         expect(result.relatedItems?.map((item) => item.id)).toContain('doc-gtm-report');
-        expect(result.relatedItems?.map((item) => item.id)).not.toContain('doc-olist-report');
+        expect(result.relatedItems?.map((item) => item.id)).toContain('doc-olist-report');
       }
 
       for (const [locale, query] of [
@@ -624,10 +628,11 @@ describe('Authoritative Knowledge Corpus & Global Assistant Tests', () => {
       ] as const) {
         const result = runLocalMatcher(query, locale);
         expect(result.intent).toBe('documents');
-        expect(result.directAnswer).toMatch(/CV final|Olist n’est pas inclus|not included/i);
+        expect(result.directAnswer).toMatch(/CV est également disponible|resume is also available/i);
         expect(result.directAnswer).toContain('/cv/CV_Godwin_Nougbolo.pdf');
-        expect(result.directAnswer).not.toContain('olist-report-fr.pdf');
+        expect(result.directAnswer).toContain('/documents/projects/olist-report-fr.pdf');
         expect(result.matches.map((match) => match.projectId)).toEqual(['olist']);
+        expect(result.relatedItems?.map((item) => item.id)).toContain('doc-olist-report');
       }
 
       for (const [locale, query] of [
@@ -655,13 +660,14 @@ describe('Authoritative Knowledge Corpus & Global Assistant Tests', () => {
       expect(res.status).toBe('no_match');
     });
 
-    it('should exclude unapproved documents and secrets from the prompt context sent to Cloudflare', () => {
+    it('should include the public Olist report and exclude private documents and secrets from the prompt context sent to Cloudflare', () => {
       const promptFr = buildPromptKnowledgeContext('fr');
       const promptEn = buildPromptKnowledgeContext('en');
 
-      // Must NOT contain unapproved documents
-      expect(promptFr).not.toContain('olist-report-fr.pdf');
-      expect(promptEn).not.toContain('olist-report-fr.pdf');
+      expect(promptFr).toContain('/documents/projects/olist-report-fr.pdf');
+      expect(promptEn).toContain('/documents/projects/olist-report-fr.pdf');
+      expect(promptFr).toContain('96 252 commandes livrées');
+      expect(promptEn).toContain('96,252 delivered orders');
 
       // Must NOT contain .env or secrets
       expect(promptFr).not.toContain('CLOUDFLARE_API_TOKEN');
@@ -671,6 +677,124 @@ describe('Authoritative Knowledge Corpus & Global Assistant Tests', () => {
       expect(promptFr).toContain('gtm-internship-report-fr.pdf');
       expect(promptFr).toContain('Statistiques descriptives et inférentielles');
       expect(promptEn).toContain('Descriptive and inferential statistics');
+    });
+
+    it('should index verified facts from every public project PDF', () => {
+      const expectedDocuments = [
+        {
+          id: 'doc-gtm-report',
+          href: '/documents/projects/gtm-internship-report-fr.pdf',
+          fact: '166 tests automatisés',
+        },
+        {
+          id: 'doc-olist-report',
+          href: '/documents/projects/olist-report-fr.pdf',
+          fact: '96 252 commandes livrées',
+        },
+        {
+          id: 'doc-afc-presentation',
+          href: '/documents/projects/afc-methodology-presentation-fr.pdf',
+          fact: 'χ² = 74,48',
+        },
+        {
+          id: 'doc-revisionflow-report',
+          href: '/documents/projects/revisionflow-report-fr.pdf',
+          fact: '2^k',
+        },
+        {
+          id: 'doc-santescolaire-presentation',
+          href: '/documents/projects/santescolaire-project-presentation-fr.pdf',
+          fact: 'sans accès aux dossiers médicaux',
+        },
+        {
+          id: 'doc-pneumonia-report',
+          href: '/documents/projects/pneumonia-report-fr.pdf',
+          fact: 'interface de démonstration Streamlit',
+        },
+      ];
+
+      for (const { id, href, fact } of expectedDocuments) {
+        const document = getKnowledgeDocumentById(id);
+        expect(document).toBeDefined();
+        expect(document?.href).toBe(href);
+        expect(document?.facts.fr.join(' ')).toContain(fact);
+        expect(document?.facts.en.join(' ')).not.toContain('undefined');
+      }
+
+      const promptFr = buildPromptKnowledgeContext('fr');
+      const promptEn = buildPromptKnowledgeContext('en');
+      for (const { id, href } of expectedDocuments) {
+        expect(promptFr).toContain(`DOC_ID: "${id}"`);
+        expect(promptEn).toContain(`DOC_ID: "${id}"`);
+        expect(promptFr).toContain(href);
+        expect(promptEn).toContain(href);
+      }
+    });
+
+    it('should index source-specific methodological and experimental details in both languages', () => {
+      const expectedFacts = [
+        {
+          id: 'doc-gtm-report',
+          fr: ['34,3 % au total', '22 fichiers', '100 % de réussite'],
+          en: ['34.3% combined', '22 files', '100% pass rate'],
+        },
+        {
+          id: 'doc-olist-report',
+          fr: ['99 441 commandes initiales', '96 313 commandes livrées'],
+          en: ['99,441 initial orders', '96,313 delivered orders'],
+        },
+        {
+          id: 'doc-afc-presentation',
+          fr: ['cos² évalue la qualité de représentation'],
+          en: ['cos² measures how well categories are represented'],
+        },
+        {
+          id: 'doc-revisionflow-report',
+          fr: ['ln(Δtᵢ + 2)', 'journées passées sont conservées', 'backlog'],
+          en: ['ln(Δtᵢ + 2)', 'past days are preserved', 'backlog'],
+        },
+        {
+          id: 'doc-santescolaire-presentation',
+          fr: ['six entités', 'mise à jour du rendez-vous'],
+          en: ['six entities', 'appointment-status updates'],
+        },
+        {
+          id: 'doc-pneumonia-report',
+          fr: ['valeurs arrondies', 'seuils différents (0,9 et 0,8)'],
+          en: ['rounded values', 'different thresholds (0.9 and 0.8)'],
+        },
+      ];
+
+      for (const { id, fr, en } of expectedFacts) {
+        const document = getKnowledgeDocumentById(id);
+        expect(document, id).toBeDefined();
+        for (const fact of fr) {
+          expect(document?.facts.fr.join(' '), `${id} FR`).toContain(fact);
+        }
+        for (const fact of en) {
+          expect(document?.facts.en.join(' '), `${id} EN`).toContain(fact);
+        }
+      }
+
+      const selectedContext = buildPromptKnowledgeContext(
+        'fr',
+        expectedFacts.map(({ id }) => id)
+      );
+      expect(selectedContext).toContain('34,3 % au total');
+      expect(selectedContext).toContain('96 313 commandes livrées');
+      expect(selectedContext).toContain('ln(Δtᵢ + 2)');
+      expect(selectedContext).toContain('valeurs arrondies');
+      expect(selectedContext.length).toBeLessThan(24_000);
+
+      const selectedEnglishContext = buildPromptKnowledgeContext(
+        'en',
+        expectedFacts.map(({ id }) => id)
+      );
+      expect(selectedEnglishContext).toContain('34.3% combined');
+      expect(selectedEnglishContext).toContain('96,313 delivered orders');
+      expect(selectedEnglishContext).toContain('ln(Δtᵢ + 2)');
+      expect(selectedEnglishContext).toContain('rounded values');
+      expect(selectedEnglishContext.length).toBeLessThan(24_000);
     });
 
     it('should include the full verified Pneumonia study and notebook results in both prompts', () => {
@@ -712,8 +836,144 @@ describe('Authoritative Knowledge Corpus & Global Assistant Tests', () => {
       expect(pneumoniaEn).toMatch(/external validation/i);
       expect(pneumoniaEn).toContain('358 or 359 out of 390');
 
-      expect(promptFr).not.toContain('olist-report-fr.pdf');
-      expect(promptEn).not.toContain('olist-report-fr.pdf');
+      expect(promptFr).toContain('/documents/projects/olist-report-fr.pdf');
+      expect(promptEn).toContain('/documents/projects/olist-report-fr.pdf');
+    });
+
+    it('should include every project case study and skill in both prompt contexts', () => {
+      const promptFr = buildPromptKnowledgeContext('fr');
+      const promptEn = buildPromptKnowledgeContext('en');
+
+      for (const project of PROJECTS) {
+        const detail = PROJECT_DETAIL_COPY[project.id as keyof typeof PROJECT_DETAIL_COPY];
+        expect(promptFr).toContain(`DOC_ID: "proj-${project.id}"`);
+        expect(promptEn).toContain(`DOC_ID: "proj-${project.id}"`);
+        if (detail) {
+          expect(promptFr).toContain(detail.fr.contribution);
+          expect(promptEn).toContain(detail.en.contribution);
+          for (const image of detail.fr.gallery) {
+            expect(promptFr).toContain(image.caption);
+          }
+          for (const image of detail.en.gallery) {
+            expect(promptEn).toContain(image.caption);
+          }
+        }
+      }
+
+      for (const skill of SKILLS) {
+        expect(promptFr).toContain(`DOC_ID: "skill-${skill.id}"`);
+        expect(promptEn).toContain(`DOC_ID: "skill-${skill.id}"`);
+        expect(promptFr).toContain(`Compétence : ${skill.name}.`);
+        expect(promptEn).toContain(`Skill: ${skill.name}.`);
+      }
+    });
+
+    it('should retrieve the requested public project document instead of listing every PDF', () => {
+      const queries = [
+        {
+          locale: 'fr',
+          query: 'Que contient le rapport de stage GTM ?',
+          documentId: 'doc-gtm-report',
+          fact: '166 tests automatisés',
+        },
+        {
+          locale: 'en',
+          query: 'What does the GTM internship report cover?',
+          documentId: 'doc-gtm-report',
+          fact: '166 successful automated tests',
+        },
+        {
+          locale: 'fr',
+          query: 'Que présente le rapport Olist ?',
+          documentId: 'doc-olist-report',
+          fact: '96 252 commandes livrées',
+        },
+        {
+          locale: 'en',
+          query: 'What does the Olist report analyze?',
+          documentId: 'doc-olist-report',
+          fact: '96,252 delivered orders',
+        },
+        {
+          locale: 'fr',
+          query: 'Que contient la présentation PDF AFC ?',
+          documentId: 'doc-afc-presentation',
+          fact: 'χ² = 74,48',
+        },
+        {
+          locale: 'en',
+          query: 'What is in the AFC presentation PDF?',
+          documentId: 'doc-afc-presentation',
+          fact: 'χ² = 74.48',
+        },
+        {
+          locale: 'fr',
+          query: 'Que décrit le rapport RevisionFlow ?',
+          documentId: 'doc-revisionflow-report',
+          fact: 'divisé par 2^k',
+        },
+        {
+          locale: 'en',
+          query: 'What does the RevisionFlow report describe?',
+          documentId: 'doc-revisionflow-report',
+          fact: 'divided by 2^k',
+        },
+        {
+          locale: 'fr',
+          query: 'Que contient la présentation PDF SantéScolaire ?',
+          documentId: 'doc-santescolaire-presentation',
+          fact: 'sans accès aux dossiers médicaux',
+        },
+        {
+          locale: 'en',
+          query: 'What is in the SantéScolaire presentation PDF?',
+          documentId: 'doc-santescolaire-presentation',
+          fact: 'without access to medical records',
+        },
+        {
+          locale: 'fr',
+          query: 'Que présente le rapport Pneumonia Detection ?',
+          documentId: 'doc-pneumonia-report',
+          fact: 'interface de démonstration Streamlit',
+        },
+        {
+          locale: 'en',
+          query: 'What does the Pneumonia Detection report describe?',
+          documentId: 'doc-pneumonia-report',
+          fact: 'Streamlit demonstration interface',
+        },
+      ] as const;
+
+      for (const { locale, query, documentId, fact } of queries) {
+        const result = runLocalMatcher(query, locale);
+        expect(result.intent, query).toBe('documents');
+        expect(result.relatedItems?.map((item) => item.id), query).toEqual([documentId]);
+        expect(result.directAnswer, query).toContain(fact);
+      }
+    });
+
+    it('should create a compact prompt with only the requested or query-relevant documents', () => {
+      const selectedContext = buildPromptKnowledgeContext('fr', ['doc-gtm-report']);
+      expect(selectedContext).toContain('DOC_ID: "profile-identity"');
+      expect(selectedContext).toContain('DOC_ID: "doc-gtm-report"');
+      expect(selectedContext).not.toContain('DOC_ID: "proj-olist"');
+      expect(selectedContext.length).toBeLessThan(24_000);
+
+      expect(getRelevantKnowledgeDocumentIds('What does the GTM internship report cover?'))
+        .toContain('doc-gtm-report');
+      expect(getRelevantKnowledgeDocumentIds('Que montre le rapport d’analyse Olist ?'))
+        .toContain('doc-olist-report');
+
+      const sqlMatches = runLocalMatcher(
+        'Which projects demonstrate my SQL skills?',
+        'en'
+      ).matches;
+      const sqlDocumentIds = sqlMatches.map((match) => `proj-${match.projectId}`);
+      const sqlContext = buildPromptKnowledgeContext('en', sqlDocumentIds);
+      for (const id of sqlDocumentIds) {
+        expect(sqlContext).toContain(`DOC_ID: "${id}"`);
+      }
+      expect(sqlContext.length).toBeLessThan(24_000);
     });
   });
 });

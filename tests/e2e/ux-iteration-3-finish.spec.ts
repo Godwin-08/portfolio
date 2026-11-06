@@ -1,13 +1,21 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import frMessages from '../../messages/fr.json';
 import enMessages from '../../messages/en.json';
+import { SKILLS } from '../../src/data/skills';
+import { getAllProjects } from '../../src/data/projects';
 
-const projectIds = ['gtm', 'olist', 'afc', 'acp', 'revision-flow', 'novastore', 'sante-scolaire', 'pneumonia-detection', 'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health'] as const;
+const projectIds = getAllProjects().map(({ slug }) => slug) as Array<
+  keyof typeof frMessages.projects.cards
+>;
 const locales = [
   { locale: 'fr', projects: '/projets', messages: frMessages },
   { locale: 'en', projects: '/en/projects', messages: enMessages },
 ] as const;
-const thumbnailFiles = ['gtm-dashboard.png', 'olist-delais-livraison.png', 'afc-biplot.png'];
+const thumbnailFiles = [
+  'gtm-dashboard.png',
+  'olist-delais-livraison.png',
+  'grocery-store-sales.png',
+];
 
 function linearSrgb(color: string): [number, number, number] {
   const lab = color.match(/^lab\(\s*([+-]?[\d.]+)(%?)\s+([+-]?[\d.]+)(%?)\s+([+-]?[\d.]+)(%?)\s*\)$/i);
@@ -111,7 +119,7 @@ async function assertProjectListing(
   site: (typeof locales)[number]
 ) {
   await expect(page.locator('html')).toHaveAttribute('lang', site.locale);
-  await expect(page.locator('article')).toHaveCount(11);
+  await expect(page.locator('article')).toHaveCount(projectIds.length);
   await expect(page.locator('article h2')).toHaveText(
     projectIds.map((slug) => site.messages.projects.cards[slug].title)
   );
@@ -145,7 +153,7 @@ async function assertProjectListing(
       expect(imageInfo.src).toContain(thumbnailFiles[index]);
 
       const visualRatio = visualBounds!.width / visualBounds!.height;
-      expect(visualRatio).toBeCloseTo(index === 2 ? 4 / 3 : 16 / 10, 1);
+      expect(visualRatio).toBeCloseTo(projectIds[index] === 'afc' ? 4 / 3 : 16 / 10, 1);
     }
   }
 
@@ -167,13 +175,13 @@ test('captures iteration 3 layouts in French and English after the Hero has sett
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
-  await expect(featuredProjectCards).toHaveCount(4);
+  await expect(featuredProjectCards).toHaveCount(3);
   await waitForStableHome(page);
   await assertTechnologyTagContrast(featuredProjectCards);
   await page.screenshot({ path: screenshot('home-fr-desktop'), fullPage: true });
 
   const skillsSection = page.getByRole('region', { name: frMessages.home.skills.sectionLabel });
-  await expect(skillsSection.locator('[data-skill-id]')).toHaveCount(24);
+  await expect(skillsSection.locator('[data-skill-id]')).toHaveCount(SKILLS.length);
   await expect(skillsSection.locator('[data-skill-category]')).toHaveCount(5);
   const headerBounds = await page.locator('[data-skills-header] > div').first().boundingBox();
   const firstCategoryBounds = await skillsSection.locator('[data-skill-category]').first().boundingBox();
@@ -191,7 +199,7 @@ test('captures iteration 3 layouts in French and English after the Hero has sett
 
   await page.goto('/en');
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-  await expect(featuredProjectCards).toHaveCount(4);
+  await expect(featuredProjectCards).toHaveCount(3);
   await waitForStableHome(page);
   await assertTechnologyTagContrast(featuredProjectCards);
   const englishSkillsSection = page.getByRole('region', { name: enMessages.home.skills.sectionLabel });

@@ -36,3 +36,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+debug.log
+/
+private-assets/
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.synctex.gz
+cv/*.pdf

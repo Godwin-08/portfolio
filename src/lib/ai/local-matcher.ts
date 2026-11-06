@@ -332,6 +332,26 @@ function findGuidedProjectId(query: string): string | undefined {
   )?.[0];
 }
 
+function findNamedProjectId(query: string): string | undefined {
+  const projects = Object.values(PROJECT_CORPUS)
+    .map((project) => ({
+      id: project.id,
+      aliases: [
+        project.id,
+        project.id.replace(/-/g, ' '),
+        project.slug,
+        project.slug.replace(/-/g, ' '),
+        project.title,
+      ],
+    }))
+    .sort((left, right) =>
+      Math.max(...right.aliases.map((alias) => normalizeString(alias).length)) -
+      Math.max(...left.aliases.map((alias) => normalizeString(alias).length))
+    );
+
+  return projects.find(({ aliases }) => textContainsAny(query, aliases))?.id;
+}
+
 /**
  * Deterministic matching engine (Option A) used as immediate local fallback.
  * Strictly honest, transparent, and auditable across all portfolio knowledge categories.
@@ -553,11 +573,12 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
     (hasPneumoniaProjectSignal ||
       textContainsAny(normQuery, ['deep learning', 'deep-learning']));
   const shouldMatchPneumonia =
-    hasPneumoniaProjectSignal ||
-    asksForProjectPresentation ||
-    asksModelComparison ||
-    (asksForResults && asksForInterpretation) ||
-    (asksForLimitations && refersToSingleProject);
+    !isDocumentRequest &&
+    (hasPneumoniaProjectSignal ||
+      asksForProjectPresentation ||
+      asksModelComparison ||
+      (asksForResults && asksForInterpretation) ||
+      (asksForLimitations && refersToSingleProject));
 
   if (shouldMatchPneumonia) {
     const project = PROJECT_CORPUS['pneumonia-detection'];
@@ -829,8 +850,8 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
       intent: 'internship',
       directAnswer:
         locale === 'fr'
-          ? 'Godwin recherche activement un stage à partir de juillet 2027 dans les domaines du Data Engineering, de la Data Analysis / Business Intelligence, ou du développement logiciel orienté données. Il est joignable via godwinelienougbolo@gmail.com.'
-          : 'Godwin is actively seeking an internship starting from July 2027 in Data Engineering, Data Analysis / Business Intelligence, or data-focused software development. He can be contacted at godwinelienougbolo@gmail.com.',
+          ? 'Godwin recherche un stage PFA en Data Analytics & BI à partir de juillet 2027, avec une orientation Analytics Engineering. Il reste ouvert aux opportunités en Data Engineering. Contact : godwinelienougbolo@gmail.com.'
+          : 'Godwin is seeking a Data Analytics & BI PFA internship from July 2027, with an Analytics Engineering orientation. He is also open to Data Engineering opportunities. Contact: godwinelienougbolo@gmail.com.',
       matches: [],
       relatedItems,
     };
@@ -858,8 +879,8 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
       intent: 'profile',
       directAnswer:
         locale === 'fr'
-          ? 'Godwin oriente son profil vers le Data Engineering et l’analyse de données. Sa démarche d’ingénierie repose sur trois étapes : 1. Comprendre le problème et les contraintes, 2. Analyser et vérifier la qualité des données, 3. Construire un livrable modulaire et testé, sous le principe « Preuve > Affirmation ».'
-          : 'Godwin focuses on Data Engineering and Data Analysis. His engineering approach follows three steps: 1. Understand the problem and constraints, 2. Analyze and verify data quality, 3. Build a modular, tested deliverable under the core rule "Proof > Claim".',
+          ? 'Godwin se positionne en Data Analytics & BI, avec une orientation Analytics Engineering et une ouverture au Data Engineering. Sa démarche d’ingénierie repose sur trois étapes : 1. Comprendre le problème et les contraintes, 2. Analyser et vérifier la qualité des données, 3. Construire un livrable modulaire et testé, sous le principe « Preuve > Affirmation ».'
+          : 'Godwin focuses on Data Analytics & BI, with an Analytics Engineering orientation and openness to Data Engineering. His engineering approach follows three steps: 1. Understand the problem and constraints, 2. Analyze and verify data quality, 3. Build a modular, tested deliverable under the core rule "Proof > Claim".',
       matches: [],
       relatedItems,
     };
@@ -1075,6 +1096,25 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
   ) {
     const docItems = getKnowledgeDocumentsByCategory('document');
     const relatedItems: RelatedKnowledgeItem[] = docItems.map((d) => documentToRelatedItem(d, locale));
+    const documentAliases: Record<string, string[]> = {
+      'doc-cv': ['cv', 'resume', 'curriculum vitae'],
+      'doc-gtm-report': ['gtm', 'galaxy solutions', 'galaxy training manager'],
+      'doc-olist-report': ['olist', 'brazilian ecommerce'],
+      'doc-afc-presentation': ['afc', 'analyse factorielle', 'correspondence analysis'],
+      'doc-revisionflow-report': ['revisionflow', 'revision flow'],
+      'doc-santescolaire-presentation': ['santescolaire', 'sante scolaire'],
+      'doc-pneumonia-report': [
+        'pneumonia',
+        'pneumonie',
+        'radiographie',
+        'x ray',
+        'xray',
+        'densenet121',
+      ],
+    };
+    const requestedDocuments = docItems.filter((document) =>
+      textContainsAny(normQuery, documentAliases[document.id] ?? [])
+    );
     const asksForOlistReport =
       textContainsKeyword(normQuery, 'olist') &&
       textContainsAny(normQuery, ['rapport', 'report', 'pdf', 'document']);
@@ -1084,6 +1124,14 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
     ]);
     const asksForResume = textContainsAny(normQuery, ['cv', 'resume', 'curriculum vitae']);
     const olistProject = PROJECT_CORPUS.olist;
+    let olistReportRelatedItem: RelatedKnowledgeItem | undefined;
+    if (asksForOlistReport && !asksForUnverifiedDocument) {
+      const olistReportDocument = getKnowledgeDocumentById('doc-olist-report');
+      if (!olistReportDocument) {
+        throw new Error('The public Olist report is missing from the AI knowledge corpus.');
+      }
+      olistReportRelatedItem = documentToRelatedItem(olistReportDocument, locale);
+    }
 
     return {
       status: 'answer',
@@ -1098,11 +1146,18 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
             : 'This resource is not identified among the portfolio’s verified public documents. I cannot confirm its availability or provide its contents.'
           : asksForOlistReport
           ? locale === 'fr'
-            ? `Le rapport Olist n’est pas inclus dans les sources documentaires que l’assistant peut consulter. Je ne peux donc pas en confirmer le lien ni en résumer le contenu.${asksForResume ? ' Le CV est disponible au téléchargement : /cv/CV_Godwin_Nougbolo.pdf.' : ''} La fiche publique du projet Olist reste consultable sur le portfolio.`
-            : `The Olist report is not included in the documentary sources available to this assistant. I therefore cannot verify its link or summarize its contents.${asksForResume ? ' The resume is available to download: /cv/CV_Godwin_Nougbolo.pdf.' : ''} The public Olist project page remains available on the portfolio.`
+            ? `Le rapport Olist en français est accessible ici : /documents/projects/olist-report-fr.pdf. Il présente l’analyse de 96 252 commandes livrées, dont les écarts de satisfaction selon le retard et les indicateurs logistiques.${asksForResume ? ' Le CV est également disponible : /cv/CV_Godwin_Nougbolo.pdf.' : ''}`
+            : `The Olist report is available in French at /documents/projects/olist-report-fr.pdf. It analyzes 96,252 delivered orders, including satisfaction differences by delivery status and logistics indicators.${asksForResume ? ' The resume is also available at /cv/CV_Godwin_Nougbolo.pdf.' : ''}`
+          : requestedDocuments.length > 0
+            ? requestedDocuments
+                .map(
+                  (document) =>
+                    `${document.summary[locale]} ${document.facts[locale].join(' ')}`
+                )
+                .join(' ')
           : locale === 'fr'
-          ? 'Le CV est disponible au téléchargement : /cv/CV_Godwin_Nougbolo.pdf. Les autres documents publics comprennent le rapport de stage GTM (/documents/projects/gtm-internship-report-fr.pdf), la présentation méthodologique AFC, le rapport RevisionFlow et la présentation SantéScolaire.'
-          : 'The resume is available to download: /cv/CV_Godwin_Nougbolo.pdf. Other public documents include the GTM internship report (/documents/projects/gtm-internship-report-fr.pdf), the CA methodology presentation, the RevisionFlow technical report, and the SantéScolaire presentation.',
+          ? 'Le CV est disponible au téléchargement : /cv/CV_Godwin_Nougbolo.pdf. Les documents publics comprennent aussi les rapports Pneumonia Detection, Olist (/documents/projects/olist-report-fr.pdf), GTM (/documents/projects/gtm-internship-report-fr.pdf) et RevisionFlow, ainsi que les présentations AFC et SantéScolaire.'
+          : 'The resume is available to download: /cv/CV_Godwin_Nougbolo.pdf. Other public documents include the Pneumonia Detection, Olist (/documents/projects/olist-report-fr.pdf), GTM (/documents/projects/gtm-internship-report-fr.pdf), and RevisionFlow reports, plus the CA and SantéScolaire presentations.',
       matches: asksForOlistReport && !asksForUnverifiedDocument
         ? [
             {
@@ -1113,16 +1168,21 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
               level: 'strong',
               reason:
                 locale === 'fr'
-                  ? 'Fiche du projet Olist; le rapport PDF n’est pas indexé par l’assistant.'
-                  : 'Olist project page; the PDF report is not indexed by the assistant.',
+                  ? 'Le rapport PDF et la fiche publique du projet Olist sont disponibles.'
+                  : 'The PDF report and public Olist project page are available.',
               verifiedProofs: olistProject[locale].verifiedProofs.slice(0, 3),
               limitations: olistProject[locale].limitations.slice(0, 3),
               href: `/${locale === 'fr' ? 'projets' : 'projects'}/${olistProject.slug}`,
             },
           ]
         : [],
-      relatedItems:
-        asksForOlistReport || asksForUnverifiedDocument ? undefined : relatedItems,
+      relatedItems: asksForUnverifiedDocument
+        ? undefined
+        : olistReportRelatedItem
+          ? [olistReportRelatedItem]
+          : requestedDocuments.length > 0
+            ? requestedDocuments.map((document) => documentToRelatedItem(document, locale))
+          : relatedItems,
     };
   }
 
@@ -1207,6 +1267,50 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
     }
   }
 
+  const namedProjectId = findNamedProjectId(normQuery);
+  const asksForSqlEvidence = textContainsAny(normQuery, [
+    'sql', 'mysql', 'sqlalchemy', 'database', 'relational', 'relationnel', 'mcd', 'mld',
+  ]);
+  if (namedProjectId && !(namedProjectId === 'novastore' && asksForSqlEvidence)) {
+    const project = PROJECT_CORPUS[namedProjectId];
+    const knowledge = getKnowledgeDocumentById(`proj-${namedProjectId}`);
+    if (!project || !knowledge) {
+      throw new Error(`Named project knowledge is missing for ${namedProjectId}.`);
+    }
+
+    const verifiedProofs = knowledge.proofs?.[locale].length
+      ? knowledge.proofs[locale].slice(0, 3)
+      : project[locale].verifiedProofs.length
+        ? project[locale].verifiedProofs.slice(0, 3)
+        : knowledge.facts[locale].slice(0, 3);
+
+    return {
+      status: 'success',
+      mode: 'keyword',
+      query,
+      locale,
+      intent: 'projects',
+      directAnswer: `${knowledge.summary[locale]} ${knowledge.facts[locale].slice(0, 3).join(' ')}`,
+      matches: [
+        {
+          projectId: project.id,
+          projectSlug: project.slug,
+          projectTitle: project.title,
+          category: project.category,
+          level: 'strong',
+          reason:
+            locale === 'fr'
+              ? `Correspondance directe avec le projet ${project.title}.`
+              : `Direct match for the ${project.title} project.`,
+          verifiedProofs,
+          limitations: knowledge.limitations?.[locale] ?? project[locale].limitations,
+          href: `/${locale === 'fr' ? 'projets' : 'projects'}/${project.slug}`,
+        },
+      ],
+      relatedItems: [documentToRelatedItem(knowledge, locale)],
+    };
+  }
+
   // 12. TECHNICAL DOMAIN RULES (Project scoring)
   const scores: Record<string, { weight: number; reasons: string[] }> = {};
   for (const rule of DOMAIN_RULES) {
@@ -1288,7 +1392,14 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
         projectTitle: project.title,
         category: project.category,
         level,
-        reason: data.reasons[0] || (locale === 'fr' ? 'Compétence technique validée.' : 'Validated technical match.'),
+        reason: asksAboutSqlProjects
+          ? `${loc.summary} ${
+              locale === 'fr' ? 'Technologies documentées' : 'Documented technologies'
+            }: ${project.skills
+              .filter((skill) => /sql|mysql|database|relational|relationnel/i.test(skill))
+              .join(', ')}.`
+          : data.reasons[0] ||
+            (locale === 'fr' ? 'Compétence technique validée.' : 'Validated technical match.'),
         verifiedProofs: loc.verifiedProofs.slice(0, 3),
         limitations: loc.limitations.slice(0, 3),
         href: `/${locale === 'fr' ? 'projets' : 'projects'}/${project.slug}`,
