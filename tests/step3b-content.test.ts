@@ -42,24 +42,20 @@ describe('step 3B targeted content corrections', () => {
   });
 
   it('explains Cloudflare Workers AI processing and the local fallback in both locales', () => {
-    const frenchNotices = [fr.projects.matcher.modes.aiNotice, fr.aiAssistant.modes.aiNotice];
-    const englishNotices = [en.projects.matcher.modes.aiNotice, en.aiAssistant.modes.aiNotice];
+    const frenchNotice = fr.aiAssistant.modes.aiNotice;
+    const englishNotice = en.aiAssistant.modes.aiNotice;
 
-    for (const notice of frenchNotices) {
-      expect(notice).toContain('Cloudflare Workers AI');
-      expect(notice).toContain('contexte documentaire pertinent');
-      expect(notice).toContain('le moteur local prend le relais');
-      expect(notice).toContain('informations sensibles');
-      expect(fr.aiAssistant.modes.fallbackNotice).toContain('moteur local de secours');
-    }
+    expect(frenchNotice).toContain('Cloudflare Workers AI');
+    expect(frenchNotice).toContain('contexte documentaire pertinent');
+    expect(frenchNotice).toContain('le moteur local prend le relais');
+    expect(frenchNotice).toContain('informations sensibles');
+    expect(fr.aiAssistant.modes.fallbackNotice).toContain('moteur local de secours');
 
-    for (const notice of englishNotices) {
-      expect(notice).toContain('Cloudflare Workers AI');
-      expect(notice).toContain('relevant documented portfolio context');
-      expect(notice).toContain('local search engine takes over');
-      expect(notice).toContain('sensitive information');
-      expect(en.aiAssistant.modes.fallbackNotice).toContain('local keyword-search fallback');
-    }
+    expect(englishNotice).toContain('Cloudflare Workers AI');
+    expect(englishNotice).toContain('relevant documented portfolio context');
+    expect(englishNotice).toContain('local search engine takes over');
+    expect(englishNotice).toContain('sensitive information');
+    expect(en.aiAssistant.modes.fallbackNotice).toContain('local keyword-search fallback');
   });
 
   it('separates certification, track, and course evidence from course domains', () => {

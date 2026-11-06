@@ -12,7 +12,6 @@ import {
 import { getSkillById } from '@/data/skills';
 import { ProjectCard } from '@/components/projects/ProjectCard';
 import { ProjectFilters } from '@/components/projects/ProjectFilters';
-import { EvidenceMatcher } from '@/components/projects/EvidenceMatcher';
 
 interface ProjectsPageProps {
   params: Promise<{ locale: 'fr' | 'en' }>;
@@ -32,9 +31,8 @@ export async function generateMetadata({ params }: ProjectsPageProps): Promise<M
   });
 }
 
-export default async function ProjectsPage({ params, searchParams }: ProjectsPageProps) {
-  const [{ locale }, query, t] = await Promise.all([
-    params,
+export default async function ProjectsPage({ searchParams }: ProjectsPageProps) {
+  const [query, t] = await Promise.all([
     searchParams,
     getTranslations('projects.list'),
   ]);
@@ -70,8 +68,6 @@ export default async function ProjectsPage({ params, searchParams }: ProjectsPag
         activeSkillId={activeSkill?.id ?? null}
         totalResults={filteredProjects.length}
       />
-
-      <EvidenceMatcher locale={locale} />
 
       {filteredProjects.length > 0 ? (
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-7">

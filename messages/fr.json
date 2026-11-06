@@ -205,50 +205,6 @@
       "resultCount": "{count, plural, =0 {Aucun projet} one {# projet} other {# projets}}",
       "updating": "Mise à jour…"
     },
-    "matcher": {
-      "eyebrow": "Recrutement & Adéquation",
-      "title": "Evidence Matcher — Recherche de preuves par besoin",
-      "description": "Décrivez votre besoin technique ou vos critères de recrutement. Le système identifie les projets pertinents, les preuves documentées et les limites associées.",
-      "placeholder": "Ex. : Modélisation SQL relationnelle et tableaux de bord, ou nettoyage de données Pandas…",
-      "searchButton": "Évaluer le besoin",
-      "searching": "Analyse en cours…",
-      "clearButton": "Effacer la saisie",
-      "resetButton": "Fermer la recherche et voir tous les projets",
-      "suggestionsLabel": "Exemples fréquents :",
-      "suggestions": {
-        "sql": "Modélisation SQL & Tableaux de bord",
-        "data": "Nettoyage & Visualisation de données",
-        "flask": "Application web Flask & Architecture",
-        "roles": "Gestion des rôles & Contrôles d'accès",
-        "education": "Parcours académique & Diplômes",
-        "certifications": "Certifications",
-        "learning": "Data Engineering (Axe en apprentissage)"
-      },
-      "modes": {
-        "aiBadge": "Réponse assistée par IA (Cloudflare Workers AI — Workers Free)",
-        "keywordBadge": "Recherche locale de secours",
-        "aiNotice": "Votre question et le contexte documentaire pertinent du portfolio peuvent être transmis à Cloudflare Workers AI pour traitement. Si le fournisseur est indisponible, le moteur local prend le relais. N’y saisissez pas d’informations sensibles.",
-        "fallbackNotice": "Cette réponse utilise le moteur local de secours par mots-clés."
-      },
-      "levels": {
-        "strong": "Adéquation forte",
-        "moderate": "Adéquation modérée",
-        "indirect": "Adéquation indirecte"
-      },
-      "sections": {
-        "matchReason": "Pourquoi ce projet correspond :",
-        "directAnswerTitle": "Réponse synthétique vérifiée :",
-        "relatedRecords": "Éléments et preuves documentés :",
-        "facts": "Faits vérifiés :",
-        "viewResource": "Consulter la ressource",
-        "proofs": "Preuves documentées et vérifiées :",
-        "limitations": "Cadre & Limites transparentes :",
-        "viewCaseStudy": "Consulter l'étude de cas",
-        "growingFieldTitle": "Axe de compétences en cours d'acquisition",
-        "noMatchTitle": "Aucun projet documenté ne correspond",
-        "noMatchDesc": "Aucun projet du portfolio ne démontre cette compétence spécifique. Consultez la liste complète ou testez un autre besoin."
-      }
-    },
     "categories": {
       "data-analysis": "Analyse de données",
       "web-si": "Data Apps & Systèmes d’information",

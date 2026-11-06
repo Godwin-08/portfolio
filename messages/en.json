@@ -205,50 +205,6 @@
       "resultCount": "{count, plural, =0 {No projects} one {# project} other {# projects}}",
       "updating": "Updating…"
     },
-    "matcher": {
-      "eyebrow": "Hiring & Skills Match",
-      "title": "Evidence Matcher — Search by Requirement",
-      "description": "Describe your technical requirement or hiring criteria in natural language. The system highlights relevant projects, verifiable evidence, and transparent limitations.",
-      "placeholder": "E.g.: Relational SQL modeling and dashboards, or Pandas data cleaning…",
-      "searchButton": "Evaluate match",
-      "searching": "Analyzing requirement…",
-      "clearButton": "Clear search",
-      "resetButton": "Close search and view all projects",
-      "suggestionsLabel": "Common examples:",
-      "suggestions": {
-        "sql": "Relational SQL & Dashboards",
-        "data": "Data Cleaning & Visualization",
-        "flask": "Flask Web App & Architecture",
-        "roles": "Role Management & Access Control",
-        "education": "Academic Background & Degrees",
-        "certifications": "Certifications",
-        "learning": "Data Engineering (Skill in progress)"
-      },
-      "modes": {
-        "aiBadge": "AI-assisted answer (Cloudflare Workers AI — Workers Free)",
-        "keywordBadge": "Local fallback search",
-        "aiNotice": "Your question and relevant documented portfolio context may be sent to Cloudflare Workers AI for processing. If the provider is unavailable, the local search engine takes over. Do not include sensitive information.",
-        "fallbackNotice": "This response uses the local keyword-search fallback."
-      },
-      "levels": {
-        "strong": "Strong match",
-        "moderate": "Moderate match",
-        "indirect": "Indirect match"
-      },
-      "sections": {
-        "matchReason": "Why this project matches:",
-        "directAnswerTitle": "Verified synthesis answer:",
-        "relatedRecords": "Documented portfolio records & evidence:",
-        "facts": "Verified facts:",
-        "viewResource": "View resource",
-        "proofs": "Documented and verified evidence:",
-        "limitations": "Scope & Documented limitations:",
-        "viewCaseStudy": "View case study",
-        "growingFieldTitle": "Skill currently in active development",
-        "noMatchTitle": "No documented project matches this requirement",
-        "noMatchDesc": "No project in this portfolio demonstrates this specific skill yet. Review the full project catalog or try another requirement."
-      }
-    },
     "categories": {
       "data-analysis": "Data Analysis",
       "web-si": "Data Apps & Information Systems",
