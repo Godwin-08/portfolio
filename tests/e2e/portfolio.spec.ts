@@ -146,6 +146,17 @@ for (const site of localizedRoutes) {
       return [...document.fonts].some((font) => font.family.toLowerCase() === 'manrope' && font.status === 'loaded');
     })).toBe(true);
     await expect(page.locator('[data-notebook-cell]')).toHaveCount(13);
+    const productIdDescription = page
+      .locator('[data-notebook-cell][data-cell-type="markdown"] table tbody tr')
+      .filter({ hasText: /^product_id/ })
+      .first()
+      .locator('td')
+      .nth(1);
+    await expect(productIdDescription).toContainText(
+      /unique identifier of the product\.\s+Missing values are not possible due to the database structure\./,
+    );
+    const notebookText = (await page.locator('[data-notebook-cell]').allTextContents()).join('\n');
+    expect(notebookText).not.toMatch(/<\/?br\s*\/?>/i);
     await expect(page.locator('[data-notebook-cell]').filter({ hasText: 'Task 4 returned 698' })).toBeVisible();
     await expect(page.locator('[data-notebook-cell][data-cell-type="code"]').nth(1)).toContainText('missing_year');
     await expect(page.locator('[data-notebook-cell][data-cell-type="code"]').nth(1)).toContainText('170');

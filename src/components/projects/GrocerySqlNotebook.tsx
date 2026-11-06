@@ -44,7 +44,7 @@ function parseTableRow(line: string): string[] {
     .replace(/^\|/, '')
     .replace(/\|$/, '')
     .split('|')
-    .map((cell) => cell.trim().replace(/<br\s*\/?>/gi, ' '));
+    .map((cell) => cell.trim().replace(/<\/?br\s*\/?>/gi, ' '));
 }
 
 function NotebookMarkdown({ source }: { source: string }) {
@@ -136,7 +136,7 @@ function NotebookMarkdown({ source }: { source: string }) {
     }
     blocks.push(
       <p key={`paragraph-${index}`} className="leading-relaxed text-slate-700 dark:text-slate-300">
-        {renderInline(paragraph.join(' ').replace(/<br\s*\/?>/gi, ' '))}
+        {renderInline(paragraph.join(' ').replace(/<\/?br\s*\/?>/gi, ' '))}
       </p>,
     );
   }
