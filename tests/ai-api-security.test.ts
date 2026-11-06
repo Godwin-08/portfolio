@@ -57,7 +57,7 @@ describe('POST /api/ai/match request security', () => {
       status: 'success',
       locale,
     });
-    expect(queryCloudflareAI).toHaveBeenCalledWith(query, locale);
+    expect(queryCloudflareAI).toHaveBeenCalledWith(query, locale, []);
   });
 
   it('returns and identifies a grounded Cloudflare response when available', async () => {
@@ -82,7 +82,7 @@ describe('POST /api/ai/match request security', () => {
       providerInfo: { model: '@cf/meta/llama-3.2-3b-instruct' },
       matches: localResult.matches,
     });
-    expect(queryCloudflareAI).toHaveBeenCalledWith(query, 'fr');
+    expect(queryCloudflareAI).toHaveBeenCalledWith(query, 'fr', []);
     expect(fetchSpy).not.toHaveBeenCalled();
   });
 
@@ -135,6 +135,46 @@ describe('POST /api/ai/match request security', () => {
     ['non-string locale', { query: 'SQL', locale: 1 }],
     ['unexpected field', { query: 'SQL', locale: 'fr', projectId: 'gtm' }],
   ])('rejects %s', async (_label, body) => {
+    const response = await POST(makeRequest(JSON.stringify(body)));
+
+    expect(response.status).toBe(400);
+    expect(queryCloudflareAI).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ['Et ses résultats ?', 'fr'],
+    ['Quels sont les résultats ?', 'fr'],
+    ['What were its results?', 'en'],
+  ] as const)('uses verified context for the follow-up "%s"', async (query, locale) => {
+    const conversationHistory = [
+      {
+        query: 'Présente le projet Pneumonia Detection.',
+        documentIds: ['proj-pneumonia-detection'],
+      },
+    ];
+    const response = await POST(
+      makeRequest(
+        JSON.stringify({
+          query,
+          locale,
+          conversationHistory,
+        })
+      )
+    );
+
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({
+      query,
+      matches: [{ projectId: 'pneumonia-detection' }],
+    });
+    expect(queryCloudflareAI).toHaveBeenCalledWith(query, locale, conversationHistory);
+  });
+
+  it.each([
+    ['too many turns', { query: 'SQL', locale: 'fr', conversationHistory: Array.from({ length: 5 }, () => ({ query: 'SQL', documentIds: [] })) }],
+    ['unknown document', { query: 'SQL', locale: 'fr', conversationHistory: [{ query: 'SQL', documentIds: ['not-a-portfolio-document'] }] }],
+    ['oversized history query', { query: 'SQL', locale: 'fr', conversationHistory: [{ query: 'x'.repeat(101), documentIds: [] }] }],
+  ])('rejects invalid conversation context: %s', async (_label, body) => {
     const response = await POST(makeRequest(JSON.stringify(body)));
 
     expect(response.status).toBe(400);

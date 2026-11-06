@@ -72,14 +72,17 @@ test.describe('Step 5B: Responsive, theme and accessibility non-regression tests
       expect(await invalidCardH4.count()).toBe(0);
     }
 
-    // Homepage featured certifications must use h3 under the section h2
+    // The homepage presents two credential cards; course cards are on the full listing.
     await page.goto('/');
     const homeSectionH2 = page.locator('section[aria-labelledby="certifications-heading"] h2#certifications-heading');
     await expect(homeSectionH2).toBeVisible();
-    const homeFeaturedH4 = page.locator(
-      '[data-certifications-zone="courses"] article h4'
+    const homeCredentialH4 = page.locator(
+      '[data-certifications-zone="credentials"] article h4'
     );
-    expect(await homeFeaturedH4.count()).toBe(3);
+    expect(await homeCredentialH4.count()).toBe(2);
+    await expect(
+      page.locator('[data-certifications-zone="courses"] article h4')
+    ).toHaveCount(0);
   });
 
   test('language switcher interactive targets meet WCAG touch target size recommendations', async ({ page }) => {

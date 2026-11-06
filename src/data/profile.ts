@@ -5,7 +5,7 @@ export const PROFILE = {
   shortName: 'Godwin NOUGBOLO',
   title: 'Étudiant ingénieur en Informatique et Ingénierie des Données (IID)',
   badge: 'Stage à partir de juillet 2027',
-  primaryFocus: 'Data Engineering · Data Analysis & Business Intelligence',
+  primaryFocus: 'Data Analytics & BI · Analytics Engineering orientation',
   growingFields: ['Data Engineering', 'Data Science', 'Machine Learning', 'Deep Learning'],
   tagline: 'Comprendre → Analyser → Construire',
   corePhilosophy: 'Preuve > Affirmation',

@@ -184,8 +184,25 @@ describe('Projects Page - Skill ↔ Project Consistency', () => {
     expect(projectSlugsFor('seaborn')).toEqual(['acp', 'afc', 'olist']);
     expect(projectSlugsFor('scipy')).toEqual(['afc']);
     expect(projectSlugsFor('object-oriented-programming')).toEqual(['afc', 'novastore']);
-    expect(projectSlugsFor('relational-modeling')).toEqual(['gtm', 'novastore', 'sante-scolaire']);
+    expect(projectSlugsFor('relational-modeling')).toEqual(['gtm', 'sante-scolaire']);
     expect(projectSlugsFor('principal-component-analysis')).toEqual(['acp', 'gtm']);
+  });
+
+  it('marks PostgreSQL as a key skill demonstrated by FoodYum', () => {
+    const postgres = SKILLS.find((skill) => skill.id === 'postgresql');
+    const foodYum = PROJECTS.find((project) => project.slug === 'grocery-store-sales');
+
+    expect(postgres).toMatchObject({
+      name: 'PostgreSQL',
+      category: 'data-management',
+      isTopSkill: true,
+      projectSlugs: ['grocery-store-sales'],
+    });
+    expect(foodYum?.skills).toEqual(
+      expect.arrayContaining(['PostgreSQL', 'SQL', 'Data Cleaning', 'Data Preparation', 'Jupyter']),
+    );
+    expect(filterProjects({ skillId: 'postgresql' }).map(({ slug }) => slug))
+      .toEqual(['grocery-store-sales']);
   });
 });
 

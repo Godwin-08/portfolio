@@ -10,7 +10,7 @@ export function AIAssistantFAB() {
   const t = useTranslations('aiAssistant');
 
   return (
-    <div className="fixed bottom-4 right-4 z-40 max-[359px]:bottom-2 max-[359px]:right-1 sm:bottom-6 sm:right-6">
+    <div className="fixed bottom-8 right-4 z-40 max-[359px]:bottom-4 max-[359px]:right-1 sm:bottom-6 sm:right-6">
       <button
         type="button"
         onClick={() => openAssistant()}

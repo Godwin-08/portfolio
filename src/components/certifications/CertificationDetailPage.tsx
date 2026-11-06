@@ -45,6 +45,12 @@ export function CertificationDetailPage({
     { day: 'numeric', month: 'long', timeZone: 'UTC', year: 'numeric' }
   );
 
+  const certImage =
+    certification.imagePath ??
+    (certification.documentPath?.endsWith('.jpg')
+      ? certification.documentPath
+      : undefined);
+
   return (
     <div
       data-certification-detail
@@ -191,7 +197,10 @@ export function CertificationDetailPage({
           ) : (
             <ul className="space-y-3">
               {content.topics.map((topic) => (
-                <li key={topic} className="flex gap-3 text-sm leading-relaxed text-body sm:text-base">
+                <li
+                  key={topic}
+                  className="flex gap-3 text-sm leading-relaxed text-body sm:text-base"
+                >
                   <span
                     className="mt-2 h-2 w-2 shrink-0 rounded-full bg-emerald-600 dark:bg-emerald-400"
                     aria-hidden="true"
@@ -206,12 +215,49 @@ export function CertificationDetailPage({
             <p className="mt-2 text-sm leading-relaxed text-body">
               {content.practice}
             </p>
+
+            {/* Passerelle directe vers le projet FoodYum pour la certification Data Analyst Associate */}
+            {certification.id === 'data-analyst-associate' && (
+              <div className="mt-5 rounded-xl border border-teal-200 bg-teal-50/70 p-4 dark:border-teal-900/80 dark:bg-teal-950/40">
+                <div className="flex items-start gap-3">
+                  <div className="rounded-lg bg-teal-600 p-2 text-white">
+                    <Award className="h-5 w-5" aria-hidden="true" />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-heading text-sm font-bold text-ink">
+                      {locale === 'fr'
+                        ? "Projet d'épreuve pratique : FoodYum Grocery Store Sales"
+                        : "Practical Exam Case Study: FoodYum Grocery Store Sales"}
+                    </h4>
+                    <p className="mt-1 text-xs leading-relaxed text-body sm:text-sm">
+                      {locale === 'fr'
+                        ? "Consultez l'étude de cas complète, les requêtes SQL (PostgreSQL), la modélisation et le notebook Jupyter associés à cette épreuve d'examen."
+                        : "Explore the complete case study, SQL queries (PostgreSQL), modeling, and Jupyter notebook associated with this practical exam."}
+                    </p>
+                    <Link
+                      href={{
+                        pathname: '/projects/[slug]',
+                        params: { slug: 'grocery-store-sales' },
+                      }}
+                      className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-teal-700 px-3.5 py-1.5 text-xs font-bold text-white transition-colors hover:bg-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-700 dark:bg-teal-600 dark:hover:bg-teal-500"
+                    >
+                      <span>
+                        {locale === 'fr'
+                          ? "Explorer l'étude de cas FoodYum"
+                          : "View FoodYum Case Study"}
+                      </span>
+                      <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </section>
 
         <aside
           aria-labelledby="certification-proof-heading"
-          className="space-y-4 rounded-2xl border border-emerald-200 bg-emerald-50/40 p-5 dark:border-emerald-900 dark:bg-emerald-950/20 sm:p-7"
+          className="md:sticky md:top-24 self-start space-y-5 rounded-2xl border border-emerald-200/90 bg-emerald-50/50 p-5 shadow-xs dark:border-emerald-900/80 dark:bg-emerald-950/25 sm:p-6"
         >
           <h2
             id="certification-proof-heading"
@@ -220,39 +266,39 @@ export function CertificationDetailPage({
             {labels.certificate}
           </h2>
 
-          {certification.documentPath?.endsWith('.jpg') && (
+          {certImage && (
             <a
-              href={certification.documentPath}
+              href={certification.documentPath ?? certImage}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={labels.openCertificate}
-              className="block rounded-xl bg-[#fffaf0] p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2"
+              className="group block overflow-hidden rounded-xl border border-emerald-200/80 bg-[#fffaf0] p-1.5 shadow-xs transition-all duration-200 hover:border-emerald-400 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 dark:border-emerald-900 dark:bg-slate-900"
             >
               <Image
-                src={certification.documentPath}
-                alt={`${certification.title} — ${certification.issuer}`}
+                src={certImage}
+                alt={`${certification.title} – ${certification.issuer}`}
                 width={1200}
                 height={780}
-                className="max-h-72 w-full object-contain"
+                className="h-auto w-full object-contain transition-transform duration-200 group-hover:scale-[1.01]"
               />
             </a>
           )}
 
-          <p className="text-sm leading-relaxed text-body">
-            {certification.documentPath
-              ? labels.openCertificate
-              : labels.noCertificateImage}
-          </p>
+          {!certification.documentPath && (
+            <p className="text-sm leading-relaxed text-body">
+              {labels.noCertificateImage}
+            </p>
+          )}
 
-          <div className="flex flex-col items-start gap-2">
+          <div className="flex flex-col items-start gap-2.5 pt-1">
             {certification.documentPath && (
               <a
                 href={certification.documentPath}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-emerald-700 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 dark:bg-emerald-600 dark:hover:bg-emerald-500"
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-bold text-white shadow-xs transition-colors hover:bg-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 dark:bg-emerald-600 dark:hover:bg-emerald-500 sm:w-auto"
               >
-                {labels.openCertificate}
+                <span>{labels.openCertificate}</span>
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
               </a>
             )}
@@ -261,9 +307,9 @@ export function CertificationDetailPage({
                 href={certification.verificationUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 items-center gap-2 rounded-sm text-sm font-semibold text-emerald-800 underline decoration-emerald-300 underline-offset-4 hover:text-emerald-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 dark:text-emerald-300 dark:decoration-emerald-700 dark:hover:text-emerald-200"
+                className="inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-emerald-800 underline decoration-emerald-300 underline-offset-4 transition-colors hover:text-emerald-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 dark:text-emerald-300 dark:decoration-emerald-700 dark:hover:text-emerald-200"
               >
-                {labels.verifyCertificate}
+                <span>{labels.verifyCertificate}</span>
                 <ExternalLink className="h-4 w-4" aria-hidden="true" />
               </a>
             )}

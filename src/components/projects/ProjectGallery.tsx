@@ -23,9 +23,16 @@ interface ProjectGalleryProps {
   labels: ProjectGalleryLabels;
   showTitle?: boolean;
   headingId?: string;
+  captionTextClassName?: string;
 }
 
-export function ProjectGallery({ images, labels, showTitle = true, headingId = 'project-gallery-title' }: ProjectGalleryProps) {
+export function ProjectGallery({
+  images,
+  labels,
+  showTitle = true,
+  headingId = 'project-gallery-title',
+  captionTextClassName = 'text-base leading-relaxed',
+}: ProjectGalleryProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [zoomLevel, setZoomLevel] = useState(1);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -89,7 +96,7 @@ export function ProjectGallery({ images, labels, showTitle = true, headingId = '
                 <span className="block font-heading text-base font-bold text-slate-900">
                   {image.title}
                 </span>
-                <span className="mt-1 block text-sm leading-relaxed text-slate-600">
+                <span className={`mt-1 block ${captionTextClassName} text-slate-600`}>
                   {image.caption}
                 </span>
               </span>
@@ -204,7 +211,7 @@ export function ProjectGallery({ images, labels, showTitle = true, headingId = '
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
-            <p className="min-w-0 flex-1 text-sm leading-relaxed text-slate-700">
+            <p className={`min-w-0 flex-1 ${captionTextClassName} text-slate-700`}>
               {selectedImage.caption}
             </p>
             {images.length > 1 && (

@@ -169,6 +169,30 @@ describe('Evidence Matcher - Quality & Grounding Tests', () => {
     }
   });
 
+  it('should retrieve each portfolio project by its slug in French and English', () => {
+    for (const project of PROJECTS) {
+      for (const locale of ['fr', 'en'] as const) {
+        const query =
+          locale === 'fr'
+            ? `Présente le projet ${project.slug}.`
+            : `Tell me about the ${project.slug} project.`;
+        const result = runLocalMatcher(query, locale);
+
+        expect(result.status, `${locale}: ${project.id}`).toBe('success');
+        expect(result.matches.map((match) => match.projectId), `${locale}: ${project.id}`)
+          .toContain(project.id);
+        const relatedItem = result.relatedItems?.find(
+          (item) => item.id === `proj-${project.id}`
+        );
+        expect(relatedItem, `${locale}: ${project.id}`).toBeDefined();
+        expect(relatedItem?.verifiedFacts.length, `${locale}: ${project.id}`).toBeGreaterThan(0);
+        expect(result.matches[0].verifiedProofs.length, `${locale}: ${project.id}`)
+          .toBeGreaterThan(0);
+        expect(result.directAnswer, `${locale}: ${project.id}`).toBeTruthy();
+      }
+    }
+  });
+
   it('should ensure all verified proofs and limitations come from the authentic corpus', () => {
     const result = runLocalMatcher('SQL et Flask', 'fr');
     expect(result.status).toBe('success');
@@ -187,6 +211,22 @@ describe('Evidence Matcher - Quality & Grounding Tests', () => {
         expect(corpusEntry.fr.limitations).toContain(lim);
       }
     }
+  });
+
+  it('should give distinct, project-specific explanations for SQL project questions', () => {
+    const result = runLocalMatcher(
+      'Quels projets démontrent ses compétences en SQL ?',
+      'fr'
+    );
+
+    expect(result.status).toBe('success');
+    expect(result.intent).toBe('projects');
+    expect(result.matches.length).toBeGreaterThan(1);
+    expect(result.matches.every((match) => match.reason.includes('Technologies documentées:'))).toBe(true);
+    expect(new Set(result.matches.map((match) => match.reason)).size).toBe(
+      result.matches.length
+    );
+    expect(result.growingFieldMatches).toBeUndefined();
   });
 
   it('should never output arbitrary numeric percentages', () => {
@@ -355,6 +395,41 @@ describe('Cloudflare Workers AI Client - Mock & Fallback Tests', () => {
     expect(fetchSpy).not.toHaveBeenCalled();
   });
 
+  it('uses recent questions only to resolve a follow-up and adds verified context documents', async () => {
+    process.env.CLOUDFLARE_ACCOUNT_ID = 'test-account-id';
+    process.env.CLOUDFLARE_API_TOKEN = 'test-api-token';
+    const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        result: {
+          response: JSON.stringify({
+            intent: 'projects',
+            matchedDocumentIds: ['proj-pneumonia-detection'],
+            projectMatches: [],
+            learningFieldKeys: [],
+            noMatch: false,
+          }),
+        },
+      }),
+    } as Response);
+
+    await queryCloudflareAI('Et ses résultats ?', 'fr', [
+      {
+        query: 'Présente le projet Pneumonia Detection.',
+        documentIds: ['proj-pneumonia-detection'],
+      },
+    ]);
+
+    const requestBody = JSON.parse(String(fetchSpy.mock.calls[0]?.[1]?.body)) as {
+      messages: Array<{ role: string; content: string }>;
+    };
+    expect(requestBody.messages[0]?.content).toContain('DOC_ID: "proj-pneumonia-detection"');
+    expect(requestBody.messages[1]?.content).toContain(
+      'Présente le projet Pneumonia Detection.'
+    );
+    expect(requestBody.messages[1]?.content).toContain('Current query: "Et ses résultats ?"');
+  });
+
   it('should bypass Cloudflare for undocumented personal employment details', async () => {
     process.env.CLOUDFLARE_ACCOUNT_ID = 'test-account-id';
     process.env.CLOUDFLARE_API_TOKEN = 'test-api-token';
@@ -505,13 +580,18 @@ describe('Cloudflare Workers AI Client - Mock & Fallback Tests', () => {
           response: JSON.stringify({
             intent: 'skills',
             directAnswer: 'NovaStore demonstrates SQL persistence and relational modeling.',
-            matchedDocumentIds: ['proj-novastore', 'proj-gtm', 'proj-sante-scolaire'],
+            matchedDocumentIds: [
+              'proj-novastore',
+              'proj-gtm',
+              'proj-sante-scolaire',
+              'profile-identity',
+            ],
             projectMatches: [
               { projectId: 'novastore', level: 'strong', reason: 'SQL persistence' },
               { projectId: 'gtm', level: 'strong', reason: 'SQL modeling' },
               { projectId: 'sante-scolaire', level: 'strong', reason: 'SQL modeling' },
             ],
-            learningFieldKeys: [],
+            learningFieldKeys: ['data-science'],
           }),
         },
       }),
@@ -527,9 +607,13 @@ describe('Cloudflare Workers AI Client - Mock & Fallback Tests', () => {
       'gtm',
       'sante-scolaire',
     ]);
-    expect(result?.directAnswer).toContain('GTM');
-    expect(result?.directAnswer).toContain('SantéScolaire');
+    expect(result?.intent).toBe('projects');
+    expect(result?.directAnswer).toContain('following projects');
     expect(result?.directAnswer).not.toMatch(/NovaStore|relational modeling/i);
+    expect(result?.growingFieldMatches).toBeUndefined();
+    expect(result?.relatedItems).toBeUndefined();
+    expect(new Set(result?.matches.map((match) => match.reason)).size).toBe(2);
+    expect(result?.matches[0].reason).not.toBe(result?.matches[1].reason);
   });
 
   it('should send complete Pneumonia facts and retain notebook evidence in mocked AI responses', async () => {
@@ -579,6 +663,33 @@ describe('Cloudflare Workers AI Client - Mock & Fallback Tests', () => {
     expect(systemPrompt).toContain('threshold 0.7');
     expect(systemPrompt).toContain('trained from scratch');
     expect(systemPrompt).toMatch(/external validation/i);
+  });
+
+  it('should send a query-scoped knowledge context to Cloudflare instead of the full corpus', async () => {
+    process.env.CLOUDFLARE_ACCOUNT_ID = 'test-account-id';
+    process.env.CLOUDFLARE_API_TOKEN = 'test-api-token';
+    const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        result: {
+          response: JSON.stringify({
+            intent: 'projects',
+            matchedDocumentIds: ['proj-gtm'],
+            projectMatches: [{ projectId: 'gtm', level: 'strong' }],
+            learningFieldKeys: [],
+          }),
+        },
+      }),
+    } as Response);
+
+    await queryCloudflareAI('Present the GTM project', 'en');
+
+    const requestBody = fetchSpy.mock.calls[0]?.[1]?.body;
+    expect(typeof requestBody).toBe('string');
+    const systemPrompt = JSON.parse(String(requestBody)).messages[0].content as string;
+    expect(systemPrompt).toContain('DOC_ID: "proj-gtm"');
+    expect(systemPrompt).not.toContain('DOC_ID: "proj-olist"');
+    expect(systemPrompt.length).toBeLessThan(26_000);
   });
 
   it('should reject unknown Cloudflare references and fall back instead of trusting their answer', async () => {

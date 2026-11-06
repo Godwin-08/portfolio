@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { Inter, Manrope } from 'next/font/google';
+import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
 import {notFound} from 'next/navigation';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, getTranslations, setRequestLocale} from 'next-intl/server';
@@ -23,10 +24,11 @@ const inter = Inter({
   display: 'swap',
 });
 
-const manrope = Manrope({
-  subsets: ['latin'],
+const manrope = localFont({
+  src: '../fonts/manrope-latin.woff2',
   variable: '--font-manrope',
   display: 'swap',
+  weight: '200 800',
 });
 
 interface LocaleLayoutProps {

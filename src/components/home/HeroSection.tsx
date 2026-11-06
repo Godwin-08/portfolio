@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
-import { ArrowRight, BarChart2, Database, Download, Mail } from 'lucide-react';
+import { ArrowRight, BarChart2, Database, FileText, Mail } from 'lucide-react';
 
 export const HeroSection: React.FC = () => {
   const t = useTranslations('home.hero');
@@ -16,119 +16,125 @@ export const HeroSection: React.FC = () => {
       className="relative isolate overflow-hidden bg-paper"
       aria-labelledby="hero-heading"
     >
+      {/* Background tint aligned to content grid container to avoid ultrawide overflow */}
       <div
-        className="absolute inset-y-0 right-0 hidden w-[38%] bg-[var(--bg-blue-tint)] lg:block"
+        className="pointer-events-none absolute inset-0 mx-auto max-w-7xl overflow-hidden"
         aria-hidden="true"
-      />
-      <div
-        className="absolute right-[8%] top-20 hidden h-10 w-10 rounded-full bg-coral-300 lg:block"
-        aria-hidden="true"
-      />
+      >
+        <div className="absolute inset-y-0 right-0 hidden w-[36%] bg-[var(--bg-blue-tint)] md:block" />
+      </div>
 
-      <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-3 px-4 py-5 sm:gap-4 sm:px-6 sm:py-9 lg:grid-cols-[minmax(0,1.12fr)_minmax(330px,0.88fr)] lg:gap-x-10 lg:gap-y-6 lg:px-8 lg:py-14">
-        <div className="hero-motion-entry hero-motion-entry--copy space-y-4 lg:col-start-1 lg:row-start-1 lg:space-y-6">
-          <div className="space-y-2">
-            <p className="flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.13em] text-primary-800 dark:text-primary-300 sm:text-sm">
-              <span className="h-1 w-7 shrink-0 bg-coral-500" aria-hidden="true" />
-              {t('studentBadge')}
-            </p>
-            <p className="text-sm font-medium leading-snug text-body">
-              {t('degree')}
-            </p>
+      <div className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-12">
+        {/* Top Section: Intro (Left) & Portrait (Right) */}
+        <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-[minmax(0,1.25fr)_minmax(260px,0.75fr)] md:gap-x-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:gap-x-12">
+          {/* Intro copy */}
+          <div className="hero-motion-entry hero-motion-entry--copy space-y-5">
+            <div className="space-y-3 sm:space-y-3.5">
+              <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.12em] text-primary-800 dark:text-primary-300 sm:text-xs">
+                <span className="h-1 w-6 shrink-0 bg-coral-500" aria-hidden="true" />
+                {t('studentBadge')}
+              </p>
+              <p className="text-sm font-semibold tracking-wide text-primary-700 dark:text-primary-400 sm:text-base">
+                {t('degree')}
+              </p>
 
-            <h1
-              id="hero-heading"
-              className="font-heading text-[clamp(2.8rem,6.8vw,5rem)] font-extrabold leading-[0.95] tracking-[-0.055em] text-ink"
-            >
-              <span className="block">{name.slice(0, -1).join(' ')}</span>
-              {' '}
-              <span className="block text-primary-700 dark:text-primary-400">{name[name.length - 1]}</span>
-            </h1>
+              <h1
+                id="hero-heading"
+                className="font-heading text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl lg:text-5xl"
+              >
+                <span>{name.slice(0, -1).join(' ')}</span>{' '}
+                <span className="text-primary-700 dark:text-primary-400">{name[name.length - 1]}</span>
+              </h1>
 
-            <p className="max-w-xl border-l-[3px] border-coral-500 pl-4 font-heading text-[clamp(1.25rem,2.1vw,1.65rem)] font-bold leading-snug tracking-tight text-ink">
-              {t('tagline')}
-            </p>
-            <p className="mt-3 flex w-fit max-w-full items-start gap-2 rounded-full border border-coral-200 bg-coral-50 px-3 py-1.5 text-xs font-bold leading-snug text-coral-900 dark:border-coral-800 dark:bg-coral-950/60 dark:text-coral-200 sm:py-2 sm:text-sm">
-              <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-coral-600" aria-hidden="true" />
-              <span className="min-w-0">{t('availability')}</span>
-            </p>
+              <p className="max-w-xl border-l-[3px] border-coral-500 pl-3.5 font-heading text-lg font-bold leading-snug tracking-tight text-ink sm:text-xl lg:text-2xl">
+                {t('tagline')}
+              </p>
+
+              <div className="pt-1.5 sm:pt-2">
+                <span className="inline-flex items-center gap-2 rounded-full border border-coral-200 bg-coral-50 px-3 py-1.5 text-xs font-bold leading-snug text-coral-900 dark:border-coral-800 dark:bg-coral-950/60 dark:text-coral-200 sm:text-sm">
+                  <span className="h-2 w-2 shrink-0 rounded-full bg-coral-600" aria-hidden="true" />
+                  <span>{t('availability')}</span>
+                </span>
+              </div>
+            </div>
+
+            {/* CTA Buttons - Immediately visible under the pitch */}
+            <div className="flex flex-wrap items-center gap-2.5 pt-3 sm:gap-3 sm:pt-4">
+              <Link
+                href="/projects"
+                className="motion-control inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-primary-700 px-4 py-2 text-sm font-bold text-white shadow-sm hover:bg-primary-800 hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2 sm:px-5 sm:py-2.5"
+              >
+                {t('viewProjects')}
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+              <a
+                href="/cv/CV_Godwin_Nougbolo.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="motion-control inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-coral-500 bg-white/80 px-4 py-2 text-sm font-bold text-coral-800 hover:bg-coral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 dark:bg-slate-900/80 dark:text-coral-200 dark:hover:bg-slate-800 sm:px-5 sm:py-2.5"
+              >
+                <FileText className="h-4 w-4" aria-hidden="true" />
+                {t('downloadCv')}
+              </a>
+              <Link
+                href="/contact"
+                className="motion-control inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white/60 px-3.5 py-2 text-sm font-semibold text-slate-800 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-200 dark:hover:bg-slate-800 sm:px-4 sm:py-2.5"
+              >
+                <Mail className="h-4 w-4" aria-hidden="true" />
+                {common('cta.contact')}
+              </Link>
+            </div>
           </div>
-        </div>
 
-        <div className="hero-motion-entry hero-motion-entry--portrait relative mx-auto mb-2 h-[190px] w-[155px] lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:mb-0 lg:h-auto lg:w-full lg:max-w-[390px] lg:-translate-y-12 lg:self-center">
-          <div
-            className="absolute -right-1 -top-1 h-[62%] w-[64%] bg-coral-300 lg:-right-4 lg:-top-4"
-            aria-hidden="true"
-          />
-          <div
-            className="absolute -bottom-1 -left-1 h-[43%] w-[72%] bg-primary-800 lg:-bottom-4 lg:-left-4"
-            aria-hidden="true"
-          />
-          <div className="hero-portrait-frame group relative h-full w-full overflow-hidden rounded-lg border-2 border-white bg-slate-900 shadow-card dark:bg-slate-950 lg:mx-4 lg:my-4 lg:aspect-[4/5] lg:h-auto lg:w-auto lg:rounded-none lg:border-0 lg:shadow-card">
-            <Image
-              src="/images/godwin-portrait.jpg"
-              alt={t('portraitAlt')}
-              fill
-              priority
-              sizes="(max-width: 1023px) 155px, 460px"
-              className="hero-portrait-image object-cover object-top"
-              quality={75}
+          {/* Portrait with decorative framing */}
+          <div className="hero-motion-entry hero-motion-entry--portrait relative mx-auto my-2 w-[190px] sm:w-[220px] md:my-0 md:w-full md:max-w-[280px] lg:max-w-[340px]">
+            <div
+              className="absolute -right-2 -top-2 h-[60%] w-[64%] bg-coral-300 md:-right-3 md:-top-3"
+              aria-hidden="true"
             />
+            <div
+              className="absolute -bottom-2 -left-2 h-[40%] w-[70%] bg-primary-800 md:-bottom-3 md:-left-3"
+              aria-hidden="true"
+            />
+            <div className="hero-portrait-frame group relative aspect-[4/5] w-full overflow-hidden rounded-lg border-2 border-white bg-slate-900 shadow-card dark:bg-slate-950 md:rounded-none md:border-0">
+              <Image
+                src="/images/godwin-portrait.jpg"
+                alt={t('portraitAlt')}
+                fill
+                priority
+                sizes="(max-width: 767px) 220px, (max-width: 1023px) 280px, 340px"
+                className="hero-portrait-image object-cover object-top"
+                quality={85}
+              />
+            </div>
           </div>
         </div>
 
-        <div className="flex w-full flex-col gap-3 pt-0.5 sm:w-auto sm:flex-row lg:col-start-1 lg:row-start-3">
-          <Link
-            href="/projects"
-            className="motion-control inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-primary-700 px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-primary-800 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2 sm:w-auto"
-          >
-            {t('viewProjects')}
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
-          <Link
-            href="/contact"
-            className="motion-control inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-primary-700 bg-white/60 px-5 py-2.5 text-sm font-bold text-primary-800 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2 dark:border-primary-400 dark:bg-slate-900/70 dark:text-primary-200 dark:hover:bg-slate-800 sm:w-auto"
-          >
-            <Mail className="h-4 w-4" aria-hidden="true" />
-            {common('cta.contact')}
-          </Link>
-          <a
-            href="/cv/CV_Godwin_Nougbolo.pdf"
-            download
-            className="motion-control inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-coral-500 bg-white/60 px-5 py-2.5 text-sm font-bold text-coral-800 hover:bg-coral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 dark:bg-slate-900/70 dark:text-coral-200 dark:hover:bg-slate-800 sm:w-auto"
-          >
-            <Download className="h-4 w-4" aria-hidden="true" />
-            {t('downloadCv')}
-          </a>
-        </div>
-
-        <div className="space-y-4 lg:col-start-1 lg:row-start-2 lg:space-y-6">
-          <div className="grid max-w-2xl items-start gap-2 sm:grid-cols-2 sm:gap-3">
-            <div className="rounded-xl border border-slate-200 bg-white/70 p-3 shadow-subtle dark:border-slate-700 dark:bg-slate-900/70 sm:p-4">
-              <div className="flex items-center gap-2">
-                <BarChart2 className="h-4 w-4 shrink-0 text-primary-700 dark:text-primary-400" aria-hidden="true" />
-                <h2 className="font-heading text-base font-extrabold leading-snug text-ink sm:text-lg">
-                    {t('analysisTitle')}
-                </h2>
-              </div>
-              <p className="mt-1.5 text-base leading-relaxed text-body sm:mt-2">
-                {t('analysisDescription')}
-              </p>
+        {/* Bottom Section: 2 Key Domain Cards spanning across the full width */}
+        <div className="mt-10 grid grid-cols-1 items-stretch gap-4 sm:mt-12 sm:grid-cols-2 lg:gap-6">
+          <div className="rounded-xl border border-slate-200 bg-white/75 p-4 shadow-subtle dark:border-slate-700 dark:bg-slate-900/75 sm:p-5">
+            <div className="flex items-center gap-2.5">
+              <BarChart2 className="h-5 w-5 shrink-0 text-primary-700 dark:text-primary-400" aria-hidden="true" />
+              <h2 className="font-heading text-lg font-bold leading-7 text-ink">
+                {t('analysisTitle')}
+              </h2>
             </div>
-
-            <div className="rounded-xl border border-slate-200 bg-white/70 p-3 shadow-subtle dark:border-slate-700 dark:bg-slate-900/70 sm:p-4">
-              <div className="flex items-center gap-2">
-                <Database className="h-4 w-4 shrink-0 text-coral-700" aria-hidden="true" />
-                <h2 className="font-heading text-base font-extrabold leading-snug text-ink sm:text-lg">
-                  {t('growingFields')}
-                </h2>
-              </div>
-              <p className="mt-1.5 text-base leading-relaxed text-body sm:mt-2">
-                {t('growingFieldsDescription')}
-              </p>
-            </div>
+            <p className="mt-2 text-sm leading-relaxed text-body sm:text-base">
+              {t('analysisDescription')}
+            </p>
           </div>
 
+          <div className="rounded-xl border border-slate-200 bg-white/75 p-4 shadow-subtle dark:border-slate-700 dark:bg-slate-900/75 sm:p-5">
+            <div className="flex items-center gap-2.5">
+              <Database className="h-5 w-5 shrink-0 text-coral-700 dark:text-coral-400" aria-hidden="true" />
+              <h2 className="font-heading text-lg font-bold leading-7 text-ink">
+                {t('growingFields')}
+              </h2>
+            </div>
+            <p className="mt-2 text-sm leading-relaxed text-body sm:text-base">
+              {t('growingFieldsDescription')}
+            </p>
+          </div>
         </div>
       </div>
     </section>

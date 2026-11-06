@@ -19,8 +19,8 @@ describe('Data Layer - Projects', () => {
 
   it('should display all project cards in their configured order', () => {
     expect(getAllProjects().map(({ id }) => id)).toEqual([
-      'gtm', 'olist', 'afc', 'acp', 'revision-flow', 'novastore', 'sante-scolaire', 'pneumonia-detection',
-      'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health',
+      'gtm', 'olist', 'grocery-store-sales', 'acp', 'afc', 'revision-flow', 'novastore', 'sante-scolaire',
+      'pneumonia-detection', 'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health',
     ]);
     for (const messages of [frMessages, enMessages]) {
       expect(Object.keys(messages.projects.cards).sort()).toEqual(
@@ -33,6 +33,27 @@ describe('Data Layer - Projects', () => {
         expect(card.summary.trim()).not.toBe('');
       }
     }
+  });
+
+  it('keeps SantéScolaire descriptions aligned with the repository evidence', () => {
+    const project = getProjectBySlug('sante-scolaire');
+    const french = getProjectDetailCopy('sante-scolaire', 'fr');
+    const english = getProjectDetailCopy('sante-scolaire', 'en');
+    const englishCaseStudy = getEnglishCaseStudyCopy('sante-scolaire');
+
+    expect(project?.keyMetrics.map(({ value }) => value)).toContain('13 tables');
+    expect(french?.contribution).toMatch(/13 tables dans la base présentée/);
+    expect(english?.contribution).toMatch(/13 tables in the presented database/);
+    expect(french?.limitations.join(' ')).toMatch(/13 tables.*referentiel_medicament.*schéma SQL.*12/);
+    expect(english?.limitations.join(' ')).toMatch(/13 tables.*referentiel_medicament.*SQL schema.*12/);
+    expect(french?.limitations.join(' ')).toMatch(/seul test pytest.*variables d’environnement/);
+    expect(english?.limitations.join(' ')).toMatch(/one pytest test.*environment variables/);
+    expect(project?.caseStudy?.validation).toMatch(/un test pytest.*variables d’environnement/);
+    expect(englishCaseStudy?.validation).toMatch(/one pytest test.*environment variables/);
+    expect(frMessages.projects.cards['sante-scolaire'].tagline).not.toMatch(/sécurisé|RBAC/i);
+    expect(enMessages.projects.cards['sante-scolaire'].tagline).not.toMatch(/secure|RBAC/i);
+    expect(frMessages.projects.cards['sante-scolaire'].summary).not.toMatch(/complet/i);
+    expect(enMessages.projects.cards['sante-scolaire'].summary).not.toMatch(/full/i);
   });
 
   it('should return featured projects with at least 3 items in defined order', () => {
@@ -98,6 +119,21 @@ describe('Data Layer - Projects', () => {
     expect(detail?.repository).toBe('https://github.com/Godwin-08/ACP');
     expect(detail?.gallery).toHaveLength(4);
     expect(getProjectDetailCopy('acp', 'en')?.gallery).toHaveLength(4);
+  });
+
+  it('keeps ACP interpretations aligned with the notebook outputs in both languages', () => {
+    const french = getProjectDetailCopy('acp', 'fr');
+    const english = getProjectDetailCopy('acp', 'en');
+
+    expect(french?.gallery[2]?.analysis?.observation).toMatch(/λ3 = 0,9986.*11,16 %.*75,02 %/);
+    expect(english?.gallery[2]?.analysis?.observation).toMatch(/λ3 = 0\.9986.*11\.16%.*75\.02%/);
+    expect(french?.gallery[2]?.analysis?.interpretation).toMatch(/divise par n.*168\/169.*règle de Kaiser ne justifie/);
+    expect(english?.gallery[2]?.analysis?.interpretation).toMatch(/divides by n.*168\/169.*Kaiser rule alone/);
+
+    for (const copy of [french, english]) {
+      const galleryCopy = copy?.gallery.map(({ analysis }) => Object.values(analysis ?? {}).join(' ')).join(' ');
+      expect(galleryCopy).not.toMatch(/12,9 %|76,8 %|12\.9%|76\.8%|without meaningful information loss|sans perte majeure/);
+    }
   });
 
   it('documents the pneumonia project using repository-backed facts and appropriately scoped limitations', () => {
@@ -304,12 +340,12 @@ describe('Localized case study content', () => {
     expect(en.keyDecisions?.items).toHaveLength(3);
     expect(fr.methodSteps[0].description).toMatch(/20 produits.*catégorie.*disponibilité.*promotion.*prix/);
     expect(en.methodSteps[0].description).toMatch(/20 demo products.*category.*stock.*promotion.*price/);
-    expect(fr.limitations.join(' ')).toMatch(/SQLAlchemy.*ne configure pas l’ORM/);
-    expect(en.limitations.join(' ')).toMatch(/SQLAlchemy.*does not set up the ORM/);
+    expect(fr.limitations.join(' ')).toMatch(/SQLAlchemy.*n’initialise pas l’ORM/);
+    expect(en.limitations.join(' ')).toMatch(/SQLAlchemy.*does not initialize the ORM/);
     expect(fr.limitations.join(' ')).toMatch(/commandes et les alertes.*listes en mémoire/);
     expect(en.limitations.join(' ')).toMatch(/Orders and alerts.*in-memory lists/);
-    expect(fr.contribution).toMatch(/équipe de cinq.*participé.*ne m’attribue donc pas seul/);
-    expect(en.contribution).toMatch(/team of five.*took part.*do not claim/);
+    expect(fr.contribution).toMatch(/équipe de cinq.*mon apport principal.*ne détaille pas la répartition/);
+    expect(en.contribution).toMatch(/five-person team.*my main contribution.*does not detail how work was divided/);
     expect(fr.gallery.map(({ src }) => src)).toEqual([
       '/images/projects/novastore-filtre-prix.png',
       '/images/projects/novastore-fiche-produit.png',
@@ -317,6 +353,20 @@ describe('Localized case study content', () => {
     ]);
     expect(en.gallery.map(({ src }) => src)).toEqual(fr.gallery.map(({ src }) => src));
     expect(en.technologies).not.toContain('SQLAlchemy');
+  });
+
+  it('does not claim NovaStore uses ORM persistence or automated tests', () => {
+    const project = getProjectBySlug('novastore');
+    const english = getEnglishCaseStudyCopy('novastore');
+
+    expect(project?.skills).not.toContain('Relational Modeling');
+    expect(project?.caseStudy?.approach).toMatch(/commandes et alertes restent en mémoire/);
+    expect(project?.caseStudy?.implementation).not.toMatch(/persistées par SQLAlchemy/i);
+    expect(project?.caseStudy?.validation).toMatch(/ne contient pas de suite de tests automatisés/);
+    expect(english?.approach).toMatch(/orders and alerts stay in memory/);
+    expect(english?.implementation).not.toMatch(/persisted through SQLAlchemy/i);
+    expect(english?.validation).toMatch(/no automated test suite/);
+    expect(ENGLISH_CASE_STUDY_COPY.novastore.roleDescription).toMatch(/my main contribution.*does not detail how work was divided/);
   });
 
   it('includes verified AFC results and a careful interpretation for every figure', () => {
@@ -446,7 +496,7 @@ describe('Localized case study content', () => {
   });
 
   it('keeps all projects backed by a case-study route source', () => {
-    expect(PROJECTS).toHaveLength(11);
+    expect(PROJECTS).toHaveLength(12);
     expect(PROJECTS.every(({ slug, caseStudy }) => Boolean(slug && caseStudy))).toBe(true);
   });
 
@@ -519,7 +569,7 @@ describe('Data Layer - Profile & Positioning', () => {
     expect(PROFILE.badge).toBe('Stage à partir de juillet 2027');
     expect(PROFILE.tagline).toBe('Comprendre → Analyser → Construire');
     expect(PROFILE.corePhilosophy).toBe('Preuve > Affirmation');
-    expect(PROFILE.primaryFocus).toBe('Data Engineering · Data Analysis & Business Intelligence');
+    expect(PROFILE.primaryFocus).toBe('Data Analytics & BI · Analytics Engineering orientation');
     expect(PROFILE.growingFields).toContain('Data Engineering');
     expect(PROFILE.growingFields).toContain('Data Science');
     expect(PROFILE.growingFields).toContain('Machine Learning');

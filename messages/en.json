@@ -1,11 +1,11 @@
 {
   "common": {
     "name": "Godwin Elie NOUGBOLO",
-    "role": "Computer Science and Data Engineering",
+    "role": "Engineering Student · Data Analytics & BI",
     "badge": "Internship from July 2027",
     "tagline": "Understand → Analyze → Build",
     "philosophy": "Proof > Claim",
-    "primaryFocus": "Data Engineering · Data Analysis & BI",
+    "primaryFocus": "Data Analytics & BI · Analytics Engineering orientation",
     "nav": {
       "home": "Home",
       "about": "About",
@@ -21,7 +21,7 @@
       "viewProjects": "Explore my projects",
       "viewAllProjects": "View all projects",
       "readCaseStudy": "View case study",
-      "downloadCv": "Download my CV",
+      "downloadCv": "View my CV",
       "contact": "Contact me"
     },
     "language": {
@@ -66,11 +66,11 @@
     "siteName": "Godwin Elie NOUGBOLO’s portfolio",
     "home": {
       "title": "Computer Science and Data Engineering student portfolio",
-      "description": "Second-year engineering student at ENSA Khouribga with a particular interest in Data Engineering. Olist and CA show practical data analysis experience; I am developing my skills in Data Engineering, Data Science, Machine Learning, and Deep Learning."
+      "description": "ENSA Khouribga engineering student focused on Data Analytics & BI, with an Analytics Engineering orientation. Documented projects show data analysis, SQL modelling, and decision-support applications; open to Data Engineering opportunities."
     },
     "about": {
       "title": "About — background and approach",
-      "description": "Background of Godwin Elie NOUGBOLO, an engineering student at ENSA Khouribga: practical data analysis in Olist and CA, an interest in Data Engineering, and ongoing learning in Data Science, Machine Learning, and Deep Learning."
+      "description": "Background of Godwin Elie NOUGBOLO, an ENSA Khouribga engineering student focused on Data Analytics & BI, oriented toward Analytics Engineering, and open to Data Engineering opportunities."
     },
     "projects": {
       "title": "Data analysis, BI, and software projects",
@@ -82,22 +82,22 @@
     },
     "contact": {
       "title": "Contact — discuss a project",
-      "description": "Contact Godwin Elie NOUGBOLO about a data project or an internship starting in July 2027. Areas of interest include Data Engineering, Data Analysis, and BI."
+      "description": "Contact Godwin Elie NOUGBOLO about a Data Analytics & BI PFA internship from July 2027, with an Analytics Engineering orientation and openness to Data Engineering."
     }
   },
   "home": {
     "hero": {
       "studentBadge": "SECOND-YEAR ENGINEERING STUDENT · ENSA KHOURIBGA",
-      "degree": "Computer Science and Data Engineering",
-      "analysisTitle": "Data Analysis & BI",
-      "analysisDescription": "At Galaxy Solutions, I developed GTM, a Flask and MySQL application for training management, with a KPI dashboard and a PCA module. For Olist, I cleaned and analyzed data covering nearly 100,000 orders.",
-      "growingFieldsDescription": "I’ve completed DataCamp’s Associate Data Analyst in SQL track. I then plan to take the Data Engineer track and build projects to apply what I learn before my internship in July 2027.",
-      "growingFields": "Data Engineering — next",
-      "tagline": "From a business question to a working data tool.",
+      "degree": "Engineering Student · Data Analytics & BI",
+      "analysisTitle": "Data Analytics & Decision Support",
+      "analysisDescription": "At Galaxy Solutions, I engineered GTM (Flask & 3NF MySQL application with executive KPI dashboard and PCA module). For Olist, audited and cleaned 100,000+ orders. Certified DataCamp Data Analyst Associate.",
+      "growingFieldsDescription": "Analytics Engineering orientation: relational (3NF) and dimensional (OLAP / BI) modelling, advanced SQL in PostgreSQL and MySQL, and Python application logic (Flask). Also open to Data Engineering opportunities.",
+      "growingFields": "SQL Modeling & Software Engineering",
+      "tagline": "From raw data to reliable analytics and decision dashboards.",
       "viewProjects": "Explore my projects",
-      "downloadCv": "Download my CV",
+      "downloadCv": "View my CV",
       "portraitAlt": "Portrait of Godwin Elie NOUGBOLO, engineering student at ENSA Khouribga",
-      "availability": "Seeking a Data Engineering internship · July 2027"
+      "availability": "Seeking a Data Analytics & BI internship · July 2027"
     },
     "skills": {
       "sectionLabel": "Skills linked to projects",
@@ -121,8 +121,8 @@
     },
     "projects": {
       "eyebrow": "Selected work",
-      "heading": "Selected projects",
-      "description": "Practical projects in Data Analysis, Business Intelligence, and software development, grounded in careful analysis and documented decisions.",
+      "heading": "Projects",
+      "description": "Practical projects in Data Analysis, Business Intelligence, and software engineering, grounded in careful analysis and documented decisions.",
       "ordersAnalyzed": "orders in the final dataset"
     },
     "certifications": {
@@ -178,7 +178,7 @@
     "contact": {
       "eyebrow": "Contact",
       "heading": "Let’s talk about projects and internships",
-      "description": "I am building my Data Engineering skills and looking for a PFA internship from July 2027. I am happy to discuss my projects.",
+      "description": "Focused on Data Analytics & BI with an Analytics Engineering orientation, I am seeking a PFA internship from July 2027. I am also open to Data Engineering opportunities.",
       "email": "Send me an email",
       "linkedin": "Connect on LinkedIn",
       "whatsapp": "Message me on WhatsApp"
@@ -251,7 +251,7 @@
     },
     "categories": {
       "data-analysis": "Data Analysis",
-      "web-si": "Web / Information Systems",
+      "web-si": "Data Apps & Information Systems",
       "statistiques": "Statistics",
       "machine-learning": "Machine Learning",
       "data-engineering": "Data Engineering"
@@ -269,38 +269,38 @@
     "cards": {
       "gtm": {
         "title": "GTM — Galaxy Training Manager",
-        "tagline": "A training tracking app built during my introductory internship at Galaxy Solutions (2025–2026).",
-        "summary": "Track courses, sessions, and registrations with a dashboard and exports. Demo data are fictional.",
+        "tagline": "Operational Information System & decision engine (Flask, 3NF MySQL, real-time KPIs, and PCA module).",
+        "summary": "Enterprise data application developed at Galaxy Solutions to centralize B2B training operations, automate decision KPIs, and ensure data integrity. Validated by 166 Pytest tests.",
         "context": "Introductory internship · Galaxy Solutions"
       },
       "olist": {
-        "title": "E-commerce Data Audit — Olist",
+        "title": "E-Commerce Data Pipeline & Audit — Olist",
         "tagline": "Final analysis dataset: 96,252 orders from a Brazilian marketplace.",
-        "summary": "A study of delivery times, customer reviews, and data quality in the Olist dataset.",
-        "context": "Academic · team of two"
+        "summary": "Data ingestion and audit pipeline across 9 relational tables: temporal anomaly resolution, zero-loss joins, delivery delay impact on satisfaction, and seller risk scoring.",
+        "context": "Academic · pair"
       },
       "afc": {
-        "title": "Correspondence Analysis (CA)",
-        "tagline": "A study of links between professional fields and skills in LinkedIn job ads.",
-        "summary": "A descriptive statistical method applied with Python to job ads.",
-        "context": "Academic · team of two"
+        "title": "Correspondence Analysis (CA) from Scratch",
+        "tagline": "Pure mathematical implementation in Python (NumPy/SciPy) & skill mapping.",
+        "summary": "CA algorithm implemented from scratch across 8 matrix steps: contingency table, standardized residuals, SVD diagonalization, 2D biplot, and validation on 25,955 LinkedIn job mentions.",
+        "context": "Academic · pair"
       },
       "acp": {
         "title": "Principal Component Analysis (PCA)",
-        "tagline": "An exploratory analysis of 169 countries using nine socio-economic and health indicators.",
-        "summary": "PCA highlights the main contrasts between indicators, with 63.86% of inertia explained by the first two axes.",
+        "tagline": "Multivariate analysis of 169 countries and 9 socio-economic indicators in Python.",
+        "summary": "Individual factorial analysis project in Python (Pandas/NumPy): feature standardization, spectral diagonalization, correlation circles, and factorial projection explaining 63.86% of total inertia.",
         "context": "Academic · individual project"
       },
       "revision-flow": {
         "title": "RevisionFlow",
-        "tagline": "A web app to plan study time and track sessions.",
-        "summary": "An adjustable study plan with a calendar, backlog, and Pomodoro timer.",
+        "tagline": "Smart study revision planner, 100% in-browser, with real-time recalculation.",
+        "summary": "Study planning web application featuring real-time rescheduling algorithms, workload overflow detection (backlog), audio Pomodoro timer, and local browser persistence.",
         "context": "Academic · individual project"
       },
       "sante-scolaire": {
         "title": "SantéScolaire",
-        "tagline": "A school health app with different access roles.",
-        "summary": "Manage student records, visits, and appointments. Demo data are fictional.",
+        "tagline": "School health tracking web application with role-based access (Flask & MySQL).",
+        "summary": "An application for managing student records, visits, appointments, prescriptions, stock, and activity indicators.",
         "context": "Individually developed"
       },
       "novastore": {
@@ -332,6 +332,12 @@
         "tagline": "Guided DataCamp project comparing scores by student status and length of stay.",
         "summary": "SQL analysis of PHQ-9, SCS, and ASISS scores in a survey of students in Japan.",
         "context": "Guided project · DataCamp"
+      },
+      "grocery-store-sales": {
+        "title": "FoodYum Grocery Store Sales SQL Analysis",
+        "tagline": "Official DataCamp practical exam: data integrity audit, advanced SQL cleaning, and sales targeting.",
+        "summary": "Official DataCamp practical exam (Data Analyst Associate) in PostgreSQL: integrity bug audit, CTE and median-based cleaning (PERCENTILE_CONT), and strategic sales targeting.",
+        "context": "Official exam · DataCamp"
       }
     }
   },
@@ -362,7 +368,7 @@
       "methodTitle": "How I worked",
       "contributionTitle": "My contribution",
       "resultsTitle": "Key results",
-      "limitationsTitle": "Project limits",
+      "limitationsTitle": "Perspectives & Engineering Next Steps",
       "galleryTitle": "Project images",
       "galleryOpen": "View larger image",
       "galleryClose": "Close image",
@@ -402,7 +408,8 @@
       "seaborn": "Seaborn",
       "scipy": "SciPy",
       "principal-component-analysis": "Principal Component Analysis (PCA)",
-      "pytest": "pytest"
+      "pytest": "pytest",
+      "postgresql": "PostgreSQL"
     },
     "descriptions": {
       "data-preparation": "Structure, join, and shape data before analysis, especially in Olist and CA.",
@@ -417,7 +424,7 @@
       "scipy": "Carry out scientific calculations in the correspondence analysis implementation.",
       "business-intelligence": "Present business indicators through the GTM dashboard.",
       "sql": "Query and link relational data in GTM and SantéScolaire.",
-      "relational-modeling": "Structure relationships between data in GTM, NovaStore, and SantéScolaire.",
+      "relational-modeling": "Structure relationships between data in GTM and SantéScolaire.",
       "mysql": "Use a MySQL database in GTM and SantéScolaire.",
       "sqlalchemy": "Map application models to relational database tables.",
       "python": "Program data analyses and server-side applications in the projects.",
@@ -428,13 +435,14 @@
       "systemes-d-information": "Connect business data and processes in management applications.",
       "git": "Track and manage changes across projects.",
       "jupyter": "Write and run documented analyses in notebooks.",
-      "pytest": "Check Python project behaviour with automated tests."
+      "pytest": "Check Python project behaviour with automated tests.",
+      "postgresql": "Query and process data using PostgreSQL (CTEs, window functions, data cleaning)."
     }
   },
   "about": {
     "title": "About",
-    "intro": "I am a second-year engineering student in Computer Science and Data Engineering at ENSA Khouribga. Through my projects, I have prepared and analysed data, applied statistical methods, and developed web applications.",
-    "search": "I am looking for a Data Engineering end-of-year internship (PFA) starting in July 2027. I currently hold a one-year DataCamp scholarship, which I am using to deepen my skills and apply them to practical projects. I am also open to opportunities in BI, artificial intelligence, and software development.",
+    "intro": "I am a second-year engineering student in Computer Science and Data Engineering at ENSA Khouribga. Through my projects, I have prepared and analysed data, applied statistical methods, and developed web applications. My primary field is Data Analytics & BI, with an Analytics Engineering orientation.",
+    "search": "I am seeking a Data Analytics & BI PFA internship starting in July 2027, with a particular interest in Analytics Engineering: SQL modelling, data quality, and data preparation for analysis. I also remain open to Data Engineering opportunities. Holding the official <certLink>DataCamp Data Analyst Associate</certLink> certification and the <trackLink>Associate Data Analyst in SQL</trackLink> track, I leverage my annual access to deepen PostgreSQL modelling and data pipelines.",
     "education": {
       "heading": "Education",
       "engineering": {
@@ -458,7 +466,7 @@
     "professional": "Professional experience",
     "galaxyLabel": "Introductory internship · Galaxy Solutions · 2025–2026",
     "galaxy": "Galaxy Training Manager (GTM)",
-    "galaxyText": "During this internship, I designed and developed a training management app with a KPI dashboard and a principal component analysis (PCA) module. The demonstration uses fictional data.",
+    "galaxyText": "During this introductory internship, I designed and developed a training management and tracking application. I modeled the relational database (MySQL in 3NF), implemented the application logic with Flask, and built an executive KPI dashboard featuring a Principal Component Analysis (PCA) module. The demonstration uses fictional data.",
     "galaxyLink": "View the GTM case study",
     "association": "Community involvement",
     "cestom": "CESTOM",
@@ -505,44 +513,67 @@
     "linkedinDetail": "Professional background and profile.",
     "github": "View my GitHub profile",
     "githubDetail": "Source code and public projects.",
-    "cv": "Download my CV",
+    "cv": "View my CV",
     "externalNewTab": "(opens in a new tab)",
     "contactLinks": "Ways to get in touch",
-    "focusText": "I am seeking a PFA internship in Data Engineering starting in July 2027."
+    "focusText": "I am seeking a Data Analytics & BI PFA internship from July 2027, with an Analytics Engineering orientation and openness to Data Engineering.",
+    "cvDetail": "Open CV in a new tab (PDF)."
   },
   "aiAssistant": {
     "trigger": "Explore with AI",
     "eyebrow": "Portfolio & Evidence Assistant",
     "title": "Explore with AI",
-    "description": "Ask questions about my profile, academic journey, skills, projects, certifications, or internship search.",
-    "placeholder": "E.g.: What is your academic background? or SQL projects…",
-    "sendButton": "Evaluate question",
-    "analyzing": "Analyzing…",
+    "description": "Ask about Godwin’s background, projects, or skills.",
+    "placeholder": "Type your question…",
+    "sendButton": "Send",
+    "analyzing": "Preparing a response…",
     "clearButton": "Clear search",
     "closeButton": "Close assistant",
-    "resetButton": "New search",
-    "suggestionsLabel": "Frequent questions:",
+    "resetButton": "New conversation",
+    "suggestionsLabel": "Try asking:",
+    "followUpLabel": "Keep exploring:",
+    "followUps": {
+      "projectMethod": "How was it built?",
+      "projectResults": "What were its results?",
+      "projectLimitations": "What limitations are documented?",
+      "projectsComparison": "How do these projects differ?",
+      "projectsResults": "What were their results?",
+      "projectsTechnologies": "Which technologies do they use?",
+      "learningProjects": "Which projects demonstrate these skills?",
+      "learningEvidence": "Which skills are already demonstrated?",
+      "educationSkills": "Which skills does this program develop?",
+      "educationProjects": "Which projects apply these studies?",
+      "experienceMissions": "What were his responsibilities?",
+      "experienceTools": "Which tools did he use?",
+      "certificationTopics": "What topics does this course cover?",
+      "certificationProof": "Where can I see the certification evidence?",
+      "profileProjects": "Which projects illustrate this background?",
+      "profileEducation": "What is his academic background?",
+      "documentContents": "What does this document cover?",
+      "documentProject": "Which project is this document about?"
+    },
+    "welcomeNotice": "For follow-ups, up to 4 previous questions and relevant portfolio evidence may be sent to Cloudflare Workers AI. The portfolio does not store the history, and it is cleared when you close the conversation. Avoid sharing sensitive information.",
     "suggestions": {
-      "education": "What is your academic background?",
-      "sql": "Which projects demonstrate SQL skills?",
-      "comparison": "What is the difference between GTM and SantéScolaire?",
+      "education": "What is Godwin’s academic background?",
+      "sql": "Which projects demonstrate his SQL skills?",
+      "comparison": "What are his key projects (GTM, Olist, FoodYum)?",
       "learning": "Which skills are currently in progress?",
-      "certifications": "Which certifications are documented?"
+      "certifications": "Which official certifications has he validated?"
     },
     "modes": {
       "aiBadge": "AI-assisted answer (Cloudflare Workers AI — Workers Free)",
       "keywordBadge": "Local fallback search",
-      "aiNotice": "Your question and relevant documented portfolio context may be sent to Cloudflare Workers AI for processing. If the provider is unavailable, the local search engine takes over. Do not include sensitive information.",
+      "aiNotice": "Your question and relevant documented portfolio context may be sent to Cloudflare Workers AI for processing. For follow-ups, up to 4 previous questions may also be sent. If the provider is unavailable, the local search engine takes over. The portfolio does not store the history, and it is cleared when you close the conversation. Do not include sensitive information.",
       "fallbackNotice": "This response uses the local keyword-search fallback."
     },
     "sections": {
-      "directAnswerTitle": "Verified synthetic answer",
+      "directAnswerTitle": "Summary answer",
       "facts": "Verified facts:",
       "relatedRecords": "Documented portfolio records:",
       "projects": "Relevant projects & Evidence:",
       "matchReason": "Why this project matches:",
       "proofs": "Documented and verified evidence:",
-      "limitations": "Scope & Transparent limitations:",
+      "limitations": "Technical scope",
       "viewCaseStudy": "View case study",
       "viewResource": "View resource",
       "growingFieldTitle": "Skill currently in active development",

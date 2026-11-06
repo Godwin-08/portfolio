@@ -1,12 +1,17 @@
 import { NextResponse } from 'next/server';
-import type { MatchRequestBody } from '@/lib/ai/types';
+import type { ConversationContextTurn, MatchRequestBody } from '@/lib/ai/types';
 import { queryCloudflareAI } from '@/lib/ai/cloudflare-client';
 import { runLocalMatcher } from '@/lib/ai/local-matcher';
+import { getFollowUpContext } from '@/lib/ai/conversation-context';
+import { getKnowledgeDocumentById } from '@/lib/ai/knowledge-corpus';
 
 const MAX_REQUEST_BODY_BYTES = 4_096;
 const RATE_LIMIT_MAX = 15;
 const RATE_LIMIT_WINDOW_MS = 60 * 1_000;
 const MAX_TRACKED_CLIENTS = 5_000;
+const MAX_CONVERSATION_TURNS = 4;
+const MAX_HISTORY_QUERY_LENGTH = 100;
+const MAX_DOCUMENT_IDS_PER_TURN = 4;
 const ipRequestWindow = new Map<string, number[]>();
 let requestsSinceCleanup = 0;
 
@@ -133,13 +138,50 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-function validateRequestBody(value: unknown): MatchRequestBody & { locale: 'fr' | 'en' } {
+function validateConversationHistory(value: unknown): ConversationContextTurn[] {
+  if (!Array.isArray(value) || value.length > MAX_CONVERSATION_TURNS) {
+    throw new RequestBodyError('Le contexte de conversation est invalide.', 400);
+  }
+
+  return value.map((entry) => {
+    if (!isRecord(entry) || Object.keys(entry).some((key) => key !== 'query' && key !== 'documentIds')) {
+      throw new RequestBodyError('Le contexte de conversation est invalide.', 400);
+    }
+
+    if (typeof entry.query !== 'string') {
+      throw new RequestBodyError('Le contexte de conversation est invalide.', 400);
+    }
+    const query = entry.query.trim();
+    if (query.length < 2 || query.length > MAX_HISTORY_QUERY_LENGTH) {
+      throw new RequestBodyError('Le contexte de conversation est invalide.', 400);
+    }
+
+    if (!Array.isArray(entry.documentIds) || entry.documentIds.length > MAX_DOCUMENT_IDS_PER_TURN) {
+      throw new RequestBodyError('Le contexte de conversation est invalide.', 400);
+    }
+    const documentIds = entry.documentIds.filter((id): id is string => typeof id === 'string');
+    if (
+      documentIds.length !== entry.documentIds.length ||
+      documentIds.some((id) => getKnowledgeDocumentById(id) === undefined)
+    ) {
+      throw new RequestBodyError('Le contexte de conversation est invalide.', 400);
+    }
+
+    return { query, documentIds: [...new Set(documentIds)] };
+  });
+}
+
+function validateRequestBody(
+  value: unknown
+): MatchRequestBody & { locale: 'fr' | 'en'; conversationHistory: ConversationContextTurn[] } {
   if (!isRecord(value)) {
     throw new RequestBodyError('Le format de requête est invalide.', 400);
   }
 
   const body = value;
-  if (Object.keys(body).some((key) => key !== 'query' && key !== 'locale')) {
+  if (Object.keys(body).some(
+    (key) => key !== 'query' && key !== 'locale' && key !== 'conversationHistory'
+  )) {
     throw new RequestBodyError('Le format de requête est invalide.', 400);
   }
 
@@ -160,7 +202,12 @@ function validateRequestBody(value: unknown): MatchRequestBody & { locale: 'fr' 
     throw new RequestBodyError('La requête ne peut pas dépasser 250 caractères.', 400);
   }
 
-  return { query, locale };
+  const conversationHistory =
+    body.conversationHistory === undefined
+      ? []
+      : validateConversationHistory(body.conversationHistory);
+
+  return { query, locale, conversationHistory };
 }
 
 function jsonResponse(body: unknown, status = 200): NextResponse {
@@ -186,20 +233,32 @@ export async function POST(request: Request) {
 
   try {
     const body = validateRequestBody(await readJsonBody(request));
-    const aiResult = await queryCloudflareAI(body.query, body.locale);
+    const followUpContext = getFollowUpContext(
+      body.query,
+      body.locale,
+      body.conversationHistory
+    );
+    const aiResult = await queryCloudflareAI(
+      body.query,
+      body.locale,
+      body.conversationHistory
+    );
 
     if (aiResult) {
-      const local = runLocalMatcher(body.query, body.locale);
+      const local = runLocalMatcher(followUpContext.query, body.locale);
       if (aiResult.matches.length === 0 && local.matches.length > 0) {
         aiResult.matches = local.matches;
         if (aiResult.status === 'no_match') {
           aiResult.status = 'success';
         }
       }
+      aiResult.query = body.query;
       return jsonResponse(aiResult);
     }
 
-    return jsonResponse(runLocalMatcher(body.query, body.locale));
+    const localResult = runLocalMatcher(followUpContext.query, body.locale);
+    localResult.query = body.query;
+    return jsonResponse(localResult);
   } catch (error) {
     if (error instanceof RequestBodyError) {
       return jsonResponse({ error: error.message }, error.status);

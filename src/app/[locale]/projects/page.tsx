@@ -71,6 +71,8 @@ export default async function ProjectsPage({ params, searchParams }: ProjectsPag
         totalResults={filteredProjects.length}
       />
 
+      <EvidenceMatcher locale={locale} />
+
       {filteredProjects.length > 0 ? (
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-7">
           {filteredProjects.map((project) => (
@@ -94,7 +96,6 @@ export default async function ProjectsPage({ params, searchParams }: ProjectsPag
         </div>
       )}
 
-      <EvidenceMatcher locale={locale} />
     </div>
   );
 }

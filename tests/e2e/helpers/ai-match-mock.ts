@@ -3,6 +3,7 @@ import type { EvidenceMatchResponse, MatchRequestBody, ProjectEvidenceMatch, Rel
 
 interface AiMatchMock {
   requests: MatchRequestBody[];
+  conversationHistories: unknown[];
 }
 
 function projectMatch(
@@ -150,6 +151,62 @@ function responseFor(query: string, locale: 'fr' | 'en') {
     };
   }
 
+  if (
+    normalizedQuery.includes('démontrent') ||
+    normalizedQuery.includes('demonstrate')
+  ) {
+    const sameSqlReason = locale === 'fr'
+      ? 'Les projets documentent des pratiques SQL.'
+      : 'The projects document SQL practices.';
+    const gtm = projectMatch(locale, 'gtm');
+    const school = projectMatch(locale, 'sante-scolaire');
+
+    return {
+      status: 200,
+      body: response(query, locale, {
+        status: 'learning_match',
+        intent: 'projects',
+        message: locale === 'fr'
+          ? 'Cette compétence est encore en cours d’apprentissage.'
+          : 'This skill is still being learned.',
+        growingFieldMatches: [{
+          field: 'Data Science',
+          label: locale === 'fr' ? 'En cours d’apprentissage' : 'Currently learning',
+          description: locale === 'fr'
+            ? 'Les modèles prédictifs avancés sont en cours d’apprentissage.'
+            : 'Advanced predictive models are being learned.',
+        }],
+        matches: [
+          { ...gtm, reason: sameSqlReason },
+          { ...school, reason: sameSqlReason },
+        ],
+        relatedItems: [{
+          id: 'unrelated-profile',
+          category: 'profile',
+          title: 'Unrelated profile detail',
+          summary: 'This profile information does not answer the SQL question.',
+          verifiedFacts: [],
+        }],
+      }),
+    };
+  }
+
+  if (
+    normalizedQuery.includes('ses résultats') ||
+    normalizedQuery.includes('ses resultats') ||
+    normalizedQuery.includes('its results')
+  ) {
+    return {
+      status: 200,
+      body: response(query, locale, {
+        directAnswer: locale === 'fr'
+          ? 'GTM suit des indicateurs de gestion des formations.'
+          : 'GTM tracks training management indicators.',
+        matches: [projectMatch(locale, 'gtm')],
+      }),
+    };
+  }
+
   if (normalizedQuery.includes('sql') || normalizedQuery.includes('tableaux de bord') ||
       normalizedQuery.includes('dashboards')) {
     return {
@@ -171,6 +228,7 @@ function responseFor(query: string, locale: 'fr' | 'en') {
 
 export async function installAiMatchMock(page: Page): Promise<AiMatchMock> {
   const requests: MatchRequestBody[] = [];
+  const conversationHistories: unknown[] = [];
 
   await page.route('**/api/ai/match', async (route) => {
     let requestData: unknown;
@@ -192,6 +250,9 @@ export async function installAiMatchMock(page: Page): Promise<AiMatchMock> {
 
     const locale = 'locale' in requestData && requestData.locale === 'en' ? 'en' : 'fr';
     requests.push({ query: requestData.query, locale });
+    conversationHistories.push(
+      'conversationHistory' in requestData ? requestData.conversationHistory : undefined
+    );
     const fixture = responseFor(requestData.query, locale);
 
     await route.fulfill({
@@ -201,5 +262,5 @@ export async function installAiMatchMock(page: Page): Promise<AiMatchMock> {
     });
   });
 
-  return { requests };
+  return { requests, conversationHistories };
 }

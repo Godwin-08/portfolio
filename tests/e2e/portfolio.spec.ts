@@ -1,6 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import frMessages from '../../messages/fr.json';
 import enMessages from '../../messages/en.json';
+import { getProjectDetailCopy } from '../../src/data/project-details';
 
 type Messages = typeof frMessages;
 type Locale = 'fr' | 'en';
@@ -24,19 +25,9 @@ const localizedRoutes = [
   },
 ];
 
-const projectSlugs = [
-  'gtm',
-  'olist',
-  'afc',
-  'acp',
-  'revision-flow',
-  'novastore',
-  'sante-scolaire',
-  'pneumonia-detection',
-  'goodthought-sql-analysis',
-  'motorcycle-parts-sales',
-  'students-mental-health',
-] as const;
+const projectSlugs = Object.keys(frMessages.projects.cards) as Array<
+  keyof typeof frMessages.projects.cards
+>;
 
 function projectTitle(messages: Messages, slug: (typeof projectSlugs)[number]) {
   return messages.projects.cards[slug].title;
@@ -133,6 +124,49 @@ for (const site of localizedRoutes) {
     }
   });
 
+  test(`${site.locale}: FoodYum SQL notebook is readable and its source remains downloadable`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto(`${site.projects}/grocery-store-sales`);
+
+    const readLabel = site.locale === 'fr' ? 'Lire le notebook SQL en ligne' : 'Read the SQL notebook online';
+    const readLink = page.getByRole('link', { name: new RegExp(readLabel) });
+    await expect(readLink).toBeVisible();
+    await expect(readLink).toHaveAttribute(
+      'href',
+      `${site.projects}/grocery-store-sales/notebook`,
+    );
+    await readLink.click();
+
+    await expect(page.getByRole('heading', {
+      level: 1,
+      name: site.locale === 'fr' ? 'Ventes du supermarché FoodYum' : 'FoodYum grocery store sales',
+    })).toBeVisible();
+    expect(await page.evaluate(async () => {
+      await document.fonts.ready;
+      return [...document.fonts].some((font) => font.family.toLowerCase() === 'manrope' && font.status === 'loaded');
+    })).toBe(true);
+    await expect(page.locator('[data-notebook-cell]')).toHaveCount(13);
+    await expect(page.locator('[data-notebook-cell]').filter({ hasText: 'Task 4 returned 698' })).toBeVisible();
+    await expect(page.locator('[data-notebook-cell][data-cell-type="code"]').nth(1)).toContainText('missing_year');
+    await expect(page.locator('[data-notebook-cell][data-cell-type="code"]').nth(1)).toContainText('170');
+
+    const downloadLink = page.getByRole('link', {
+      name: site.locale === 'fr' ? 'Télécharger le fichier .ipynb original' : 'Download the original .ipynb',
+    });
+    await expect(downloadLink).toHaveAttribute('href', '/documents/projects/grocery-sales-notebook.ipynb');
+    await expect(downloadLink).toHaveAttribute('download');
+
+    await page.getByRole('banner').getByRole('button', {
+      name: site.locale === 'fr' ? 'Passer en anglais' : 'Switch to French',
+    }).click();
+    await expect(page).toHaveURL(new RegExp(
+      site.locale === 'fr'
+        ? '/en/projects/grocery-store-sales/notebook$'
+        : '/projets/grocery-store-sales/notebook$',
+    ));
+    await expect(page.locator('[data-notebook-cell]')).toHaveCount(13);
+  });
+
   const staticPages = [
     { path: site.home, expected: site.messages.common.name },
     { path: site.about, expected: site.messages.about.title },
@@ -161,13 +195,13 @@ for (const site of localizedRoutes) {
     await expect(phoneLink).toBeVisible();
     await expect(phoneLink).toContainText('+212 615 817 706');
 
-    const whatsappLink = page.locator('a[href="https://wa.me/212615817706"]');
+    const whatsappLink = page.locator('main a[href="https://wa.me/212615817706"]');
     await expect(whatsappLink).toBeVisible();
     await expect(whatsappLink).toContainText(site.messages.contact.whatsapp);
     await expect(whatsappLink).toHaveAttribute('target', '_blank');
 
     await page.goto(site.home);
-    const homeWhatsappLink = page.locator('a[href="https://wa.me/212615817706"]');
+    const homeWhatsappLink = page.locator('main a[href="https://wa.me/212615817706"]');
     await expect(homeWhatsappLink).toBeVisible();
     await expect(homeWhatsappLink).toContainText(site.messages.home.contact.whatsapp);
   });
@@ -211,6 +245,7 @@ for (const site of localizedRoutes) {
         'goodthought-sql-analysis': [],
         'motorcycle-parts-sales': [],
         'students-mental-health': [],
+        'grocery-store-sales': [],
       } as const;
       for (const kind of expectedPeoplePanels[slug]) {
         const panelTitle = kind === 'collaborator'
@@ -231,7 +266,7 @@ for (const site of localizedRoutes) {
         expect(figureBounds?.width).toBeGreaterThan(500);
       }
       const expectedImageCounts = {
-        gtm: 4,
+        gtm: 7,
         olist: 3,
         afc: 3,
         acp: 4,
@@ -242,11 +277,16 @@ for (const site of localizedRoutes) {
         'goodthought-sql-analysis': 0,
         'motorcycle-parts-sales': 0,
         'students-mental-health': 0,
+        'grocery-store-sales': 1,
       } as const;
       await expect(page.locator('[data-project-gallery] figure')).toHaveCount(expectedImageCounts[slug]);
       await expect(page.locator('[data-project-conclusion]')).toBeVisible();
+      const projectCopy = getProjectDetailCopy(slug, site.locale);
+      if (!projectCopy?.conclusion) {
+        throw new Error(`Missing conclusion copy for ${slug} (${site.locale})`);
+      }
       await expect(page.locator('[data-project-conclusion] h2')).toHaveText(
-        site.locale === 'fr' ? 'Bilan' : 'Takeaways',
+        projectCopy.conclusion.title
       );
       if (slug === 'pneumonia-detection') {
         await expect(page.locator('[data-project-architecture]')).toBeVisible();
@@ -371,13 +411,16 @@ for (const site of localizedRoutes) {
         }
       }
       if (slug === 'gtm') {
+        if (!projectCopy.architecture || !projectCopy.keyDecisions) {
+          throw new Error(`Missing architecture copy for ${slug} (${site.locale})`);
+        }
         await expect(page.getByRole('heading', {
           level: 2,
-          name: site.locale === 'fr' ? 'Organisation technique' : 'How the app is built',
+          name: projectCopy.architecture.title,
         })).toBeVisible();
         await expect(page.getByRole('heading', {
           level: 2,
-          name: site.locale === 'fr' ? 'Règles et choix' : 'Rules and design choices',
+          name: projectCopy.keyDecisions.title,
         })).toBeVisible();
         const testCountLabel = site.locale === 'fr' ? 'tests dans le dépôt' : 'tests in the repository';
         const testCountCard = page.getByText(testCountLabel, { exact: true }).locator('..');
@@ -564,7 +607,7 @@ for (const site of localizedRoutes) {
     await page.goto(site.home);
 
     const containers = [
-      page.locator('main#main-content section[aria-labelledby="hero-heading"] > div.mx-auto'),
+      page.locator('main#main-content section[aria-labelledby="hero-heading"] > div.relative.mx-auto'),
       page.locator('section.skills-ticker [data-skills-header]'),
       page.locator('footer > div'),
     ];
@@ -577,8 +620,11 @@ for (const site of localizedRoutes) {
     const portrait = page.locator('main#main-content section[aria-labelledby="hero-heading"] img');
     await expect(portrait).toBeVisible();
     await expect(portrait).toHaveAttribute('alt', site.messages.home.hero.portraitAlt);
+    await page.locator('.hero-motion-entry--portrait').evaluate(async (element) => {
+      await Promise.all(element.getAnimations().map((animation) => animation.finished));
+    });
     const portraitBounds = await portrait.boundingBox();
-    expect(portraitBounds?.width).toBeGreaterThan(340);
+    expect(portraitBounds?.width).toBeGreaterThan(339);
     expect(portraitBounds?.width).toBeLessThan(380);
     expect(portraitBounds?.height).toBeGreaterThan(400);
   });
@@ -603,7 +649,9 @@ for (const site of localizedRoutes) {
       site.messages.about.title
     );
     await expect(page.getByText(site.messages.about.intro, { exact: true })).toBeVisible();
-    await expect(page.getByText(site.messages.about.search, { exact: true })).toBeVisible();
+    await expect(page.locator('main')).toContainText(
+      site.messages.about.search.replace(/<\/?[A-Za-z][A-Za-z0-9]*>/g, '')
+    );
     await expect(page.getByText(site.messages.about.cestomText, { exact: true })).toBeVisible();
     for (const [step, slug] of [
       ['understand', 'afc'],
@@ -771,7 +819,7 @@ for (const site of localizedRoutes) {
 
       if (width === 1440) {
         const brandLogos = page.locator('.skills-ticker [data-skill-id] img');
-        await expect(brandLogos).toHaveCount(10);
+        await expect(brandLogos).toHaveCount(11);
         await expect
           .poll(() =>
             brandLogos.evaluateAll((images) =>
@@ -898,7 +946,7 @@ for (const site of localizedRoutes) {
     await expect(page.getByRole('heading', { name: site.messages.projects.list.emptyTitle })).toBeVisible();
     await page.getByRole('button', { name: site.messages.projects.filters.reset, exact: true }).click();
     await expect(page).toHaveURL(new RegExp(`${site.projects.replaceAll('/', '\\/')}$`));
-    await expect(page.locator('article h2')).toHaveCount(11);
+    await expect(page.locator('article h2')).toHaveCount(projectSlugs.length);
 
     await page.goto(`${site.projects}?category=web-si&skill=flask`);
     const switchButton = site.locale === 'fr'

@@ -265,19 +265,16 @@ test('DataCamp certifications and courses show their verified records in French 
     await expect(page.locator('html')).toHaveAttribute('lang', site.locale);
     await expect(section).toBeVisible();
     await expect(section).toContainText(site.featuredCountText);
-    await expect(section.locator('[data-certification-id]')).toHaveCount(5);
+    await expect(section.locator('[data-certification-id]')).toHaveCount(2);
     await expect(
       section.locator('[data-certifications-zone="credentials"] [data-certification-id]')
     ).toHaveCount(2);
     await expect(
       section.locator('[data-certifications-zone="courses"] [data-certification-id]')
-    ).toHaveCount(3);
+    ).toHaveCount(0);
     await expect(
       section.getByRole('group', { name: site.filterGroup })
     ).toHaveCount(0);
-    await expect(
-      section.locator('[data-certifications-zone="courses"] [data-certification-id]').first()
-    ).toHaveAttribute('data-certification-rank', '1');
     await expect(
       section.locator('[data-certifications-all-link]')
     ).toHaveAttribute('href', site.listPath);
@@ -357,7 +354,7 @@ test('DataCamp certifications and courses show their verified records in French 
       fullSection.getByText(site.listCountText, { exact: true })
     ).toBeVisible();
     await expect(courseZone.locator('[data-certification-id]')).toHaveCount(11);
-    await expect(courseZone.locator('[data-certification-document]')).toHaveCount(11);
+    await expect(courseZone.locator('[data-certification-details]')).toHaveCount(11);
     await expect(courseZone.locator('[data-certification-verification]')).toHaveCount(7);
     await expect(fullSection.locator('[data-certification-type="track"]')).toBeVisible();
     const cardsGrid = courseZone;
@@ -418,13 +415,8 @@ test('DataCamp certifications and courses show their verified records in French 
       );
 
       const documentLink = card.locator('[data-certification-document]');
+      await expect(documentLink).toHaveCount(0);
       if (certificate.documentPath) {
-        await expect(documentLink).toHaveAttribute(
-          'href',
-          certificate.documentPath
-        );
-        await expect(documentLink).toHaveAttribute('target', '_blank');
-
         const documentResponse = await request.get(
           new URL(certificate.documentPath, page.url()).toString()
         );
@@ -432,8 +424,6 @@ test('DataCamp certifications and courses show their verified records in French 
         expect(documentResponse.headers()['content-type']).toContain(
           certificate.contentType
         );
-      } else {
-        await expect(documentLink).toHaveCount(0);
       }
 
       const verificationLink = card.locator(
@@ -593,6 +583,16 @@ test('DataCamp certifications and courses show their verified records in French 
       }
     }
 
+    const mobileWidth = 390;
+    await page.setViewportSize({ width: mobileWidth, height: 844 });
+    await page.goto(site.listPath);
+    const mobileColumns = await page.locator(
+      '[data-certifications-zone="courses"]'
+    ).evaluate((element) =>
+      getComputedStyle(element).gridTemplateColumns.trim().split(/\s+/).length
+    );
+    expect(mobileColumns).toBe(1);
+
     await page.goto(site.path);
     const homeSection = page.getByRole('region', {
       name: site.sectionName,
@@ -600,13 +600,6 @@ test('DataCamp certifications and courses show their verified records in French 
     });
     await expect(homeSection).toBeVisible();
     await expect(section).toBeVisible();
-
-    const mobileWidth = 390;
-    await page.setViewportSize({ width: mobileWidth, height: 844 });
-    const mobileColumns = await cardsGrid.evaluate((element) =>
-      getComputedStyle(element).gridTemplateColumns.trim().split(/\s+/).length
-    );
-    expect(mobileColumns).toBe(1);
     const sectionWidth = await homeSection.evaluate(
       (element) => element.scrollWidth <= element.clientWidth
     );

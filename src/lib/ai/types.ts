@@ -91,4 +91,10 @@ export interface EvidenceMatchResponse {
 export interface MatchRequestBody {
   query: string;
   locale?: 'fr' | 'en';
+  conversationHistory?: ConversationContextTurn[];
+}
+
+export interface ConversationContextTurn {
+  query: string;
+  documentIds: string[];
 }

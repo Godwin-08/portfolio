@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
-import { ArrowRight, ArrowUpRight, Award, ExternalLink } from 'lucide-react';
+import { ArrowRight, ExternalLink } from 'lucide-react';
 import type { Certification } from '@/data/certifications';
 import { cn } from '@/lib/utils';
 
@@ -44,12 +45,12 @@ export function CertificationList({
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
         {showFilters && (
           <div
             role="group"
             aria-label={t('filterLabel')}
-            className="flex flex-wrap gap-2"
+            className="flex flex-wrap gap-1.5"
           >
             {filters.map((filter) => {
               const isActive = activeFilter === filter.id;
@@ -60,7 +61,7 @@ export function CertificationList({
                   aria-pressed={isActive}
                   onClick={() => setActiveFilter(filter.id)}
                   className={cn(
-                    'motion-control min-h-10 rounded-full border px-4 py-2 text-sm font-semibold transition-colors',
+                    'motion-control min-h-9 rounded-full border px-3.5 py-1 text-xs font-semibold transition-colors sm:text-sm',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2',
                     isActive
                       ? 'border-emerald-700 bg-emerald-700 text-white dark:border-emerald-400 dark:bg-emerald-400 dark:text-slate-950'
@@ -73,7 +74,7 @@ export function CertificationList({
             })}
           </div>
         )}
-        <p className="text-sm font-semibold text-muted" aria-live="polite">
+        <p className="text-xs font-semibold text-muted sm:text-sm" aria-live="polite">
           {t('count', { count: visibleCertifications.length })}
         </p>
       </div>
@@ -81,7 +82,7 @@ export function CertificationList({
       <div
         data-certifications-grid
         data-certifications-zone="courses"
-        className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5"
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
       >
         {visibleCertifications.map((certification) => (
           <article
@@ -90,101 +91,107 @@ export function CertificationList({
             data-certification-rank={certification.importance}
             data-certification-category={certification.category}
             data-certification-type={certification.credentialType}
-            className="flex min-w-0 flex-col rounded-2xl border border-emerald-200 border-t-[3px] border-t-emerald-600 bg-white p-4 shadow-card transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-emerald-400 focus-within:ring-2 focus-within:ring-emerald-700 focus-within:ring-offset-2 motion-reduce:transition-none dark:border-emerald-900 dark:border-t-emerald-400 dark:bg-slate-900 dark:hover:border-emerald-600 sm:p-5"
+            className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-emerald-200 border-t-[3px] border-t-emerald-600 bg-white shadow-card transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-emerald-400 hover:shadow-md focus-within:ring-2 focus-within:ring-emerald-700 focus-within:ring-offset-2 motion-reduce:transition-none dark:border-emerald-900 dark:border-t-emerald-400 dark:bg-slate-900 dark:hover:border-emerald-600"
           >
-            <div className="flex items-center justify-between gap-3">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
-                <Award className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <div className="flex flex-wrap items-center justify-end gap-2">
-                <span className="rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-900 dark:bg-emerald-950/60 dark:text-emerald-200">
-                  {certification.credentialType === 'certification'
-                    ? t('types.certification')
-                    : certification.credentialType === 'track'
-                      ? t('types.track')
-                      : t('types.course')}
-                </span>
-                <span className="rounded-full bg-paper px-3 py-1.5 text-xs font-bold text-ink">
-                  {certification.issuer}
-                </span>
-              </div>
-            </div>
-
-            <HeadingTag className="mt-4 min-h-12 break-words font-heading text-base font-extrabold leading-snug text-ink sm:text-lg">
+            {/* Aperçu visuel compact */}
+            {certification.imagePath && (
               <Link
-                data-certification-title
                 href={{
                   pathname: '/certifications/[slug]',
                   params: { slug: certification.id },
                 }}
-                aria-label={t('viewDetailsAria', { title: certification.title })}
-                className="rounded-sm transition-colors hover:text-emerald-800 dark:hover:text-emerald-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2"
+                tabIndex={-1}
+                aria-hidden="true"
+                className="relative block aspect-[21/9] sm:aspect-[16/8] w-full overflow-hidden bg-slate-100 dark:bg-slate-800"
               >
-                {certification.title}
+                <Image
+                  src={certification.imagePath}
+                  alt=""
+                  fill
+                  className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
               </Link>
-            </HeadingTag>
-
-            {(certification.completedOn || certification.reference) && (
-              <dl className="mt-4 grid grid-cols-1 gap-3 border-t border-slate-100 pt-4 text-sm dark:border-slate-800 sm:grid-cols-2">
-                {certification.completedOn && (
-                  <div>
-                    <dt className="text-xs font-medium text-muted">{t('completedOn')}</dt>
-                    <dd className="mt-1 font-semibold text-body">
-                      {dateFormatter.format(new Date(`${certification.completedOn}T00:00:00Z`))}
-                    </dd>
-                  </div>
-                )}
-                {certification.reference && (
-                  <div>
-                    <dt className="text-xs font-medium text-muted">{t('reference')}</dt>
-                    <dd className="mt-1 font-mono text-xs font-semibold text-body sm:text-sm">
-                      #{certification.reference}
-                    </dd>
-                  </div>
-                )}
-              </dl>
             )}
 
-            <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-5">
-              <Link
-                data-certification-details
-                href={{
-                  pathname: '/certifications/[slug]',
-                  params: { slug: certification.id },
-                }}
-                className="inline-flex min-h-11 items-center gap-1.5 text-sm font-bold text-emerald-800 hover:text-emerald-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 dark:text-emerald-300 dark:hover:text-emerald-200"
-              >
-                <span>{t('viewDetails')}</span>
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
+            <div className="flex flex-1 flex-col p-3.5 sm:p-4">
+              <div className="flex items-center justify-between gap-1.5">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-900 dark:bg-emerald-950/60 dark:text-emerald-200">
+                    {certification.credentialType === 'certification'
+                      ? t('types.certification')
+                      : certification.credentialType === 'track'
+                        ? t('types.track')
+                        : t('types.course')}
+                  </span>
+                  <span className="rounded-full bg-paper px-2 py-0.5 text-xs font-bold text-ink">
+                    {certification.issuer}
+                  </span>
+                </div>
 
-              {certification.documentPath && (
-                <a
-                  data-certification-document
-                  href={certification.documentPath}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={t('viewCertificateAria', { title: certification.title })}
-                  className="inline-flex min-h-11 items-center gap-2 border-b border-emerald-700 text-sm font-bold text-emerald-800 hover:border-emerald-500 hover:text-emerald-950 dark:border-emerald-400 dark:text-emerald-300 dark:hover:border-emerald-300 dark:hover:text-emerald-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 dark:focus-visible:ring-emerald-400"
+                {certification.verificationUrl && (
+                  <a
+                    data-certification-verification
+                    href={certification.verificationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={t('verifyCertificateAria', {
+                      title: certification.title,
+                    })}
+                    title={t('verifyCertificate')}
+                    className="inline-flex h-6 w-6 items-center justify-center rounded-lg text-muted transition-colors hover:bg-emerald-50 hover:text-emerald-800 dark:hover:bg-emerald-950/50 dark:hover:text-emerald-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700"
+                  >
+                    <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                  </a>
+                )}
+              </div>
+
+              <HeadingTag className="mt-2 line-clamp-2 min-h-[2.5rem] break-words font-heading text-sm font-extrabold leading-snug text-ink sm:text-base">
+                <Link
+                  data-certification-title
+                  href={{
+                    pathname: '/certifications/[slug]',
+                    params: { slug: certification.id },
+                  }}
+                  aria-label={t('viewDetailsAria', { title: certification.title })}
+                  className="rounded-sm transition-colors hover:text-emerald-800 dark:hover:text-emerald-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2"
                 >
-                  <span>{t('viewCertificate')}</span>
-                  <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-                </a>
+                  {certification.title}
+                </Link>
+              </HeadingTag>
+
+              {(certification.completedOn || certification.reference) && (
+                <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-0.5 border-t border-slate-100 pt-1.5 text-xs text-muted dark:border-slate-800">
+                  {certification.completedOn && (
+                    <span>
+                      {dateFormatter.format(
+                        new Date(`${certification.completedOn}T00:00:00Z`)
+                      )}
+                    </span>
+                  )}
+                  {certification.reference && (
+                    <span className="font-mono text-xs">
+                      #{certification.reference}
+                    </span>
+                  )}
+                </div>
               )}
 
-              {certification.verificationUrl && (
-                <a
-                  data-certification-verification
-                  href={certification.verificationUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={t('verifyCertificateAria', { title: certification.title })}
-                  className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-body underline decoration-slate-300 underline-offset-4 hover:text-emerald-800 dark:hover:text-emerald-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2"
+              {/* 1 CTA unique et prioritaire */}
+              <div className="mt-2.5 pt-0.5 sm:mt-auto sm:pt-2">
+                <Link
+                  data-certification-details
+                  href={{
+                    pathname: '/certifications/[slug]',
+                    params: { slug: certification.id },
+                  }}
+                  className="inline-flex w-full items-center justify-center gap-1 rounded-lg bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-800 transition-colors hover:bg-emerald-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 dark:bg-emerald-950/60 dark:text-emerald-200 dark:hover:bg-emerald-900/60"
                 >
-                  <span>{t('verifyCertificate')}</span>
-                  <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                </a>
-              )}
+                  <span>{t('viewDetails')}</span>
+                  <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                </Link>
+              </div>
             </div>
           </article>
         ))}

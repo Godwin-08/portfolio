@@ -44,7 +44,7 @@ export const PROJECTS: Project[] = [
     id: 'gtm',
     slug: 'gtm',
     title: 'GTM — Galaxy Training Manager',
-    tagline: 'Application web professionnelle de gestion, d\'évaluation et d\'analyse décisionnelle des formations',
+    tagline: 'Système d\'information opérationnel & moteur décisionnel (Flask · MySQL 3NF · SQLAlchemy · KPIs temps réel & module d\'ACP)',
     category: 'Web / SI',
     isFeatured: true,
     isFlagship: true,
@@ -52,14 +52,14 @@ export const PROJECTS: Project[] = [
     context: 'Professionnel (Individuel)',
     period: '2025–2026',
     summary:
-      'Application de suivi des formations créée pendant mon stage d’initiation chez Galaxy Solutions. Les données de démonstration sont fictives.',
+      'Application web et décisionnelle conçue en autonomie chez Galaxy Solutions pour centraliser la gestion des formations B2B, automatiser les KPIs et sécuriser les flux. Validée par 166 tests Pytest (100% de réussite).',
     skills: ['Python', 'Flask', 'SQLAlchemy', 'MySQL', 'Pandas', 'NumPy', 'JavaScript', 'HTML/CSS', 'Chart.js', 'Business Intelligence', 'Git', 'pytest', 'openpyxl', 'ReportLab', 'SQL', 'Data Analysis', 'Backend', 'Bases de données', 'Relational Modeling', 'Statistiques', 'Systèmes d\'information', 'Jinja2', 'Tailwind CSS', 'Exploratory Data Analysis', 'Data Visualization', 'Principal Component Analysis (PCA)'],
     accentColor: '#059669', // Emerald Green
     image: '/images/projects/gtm-dashboard.png',
     keyMetrics: [
-      { value: '100%', label: 'Couverture du workflow', detail: 'De la création à l\'export analytique' },
-      { value: '15+', label: 'Indicateurs automatisés', detail: 'Satisfaction, présence, taux d\'abandon' },
-      { value: '2 formats', label: 'Génération documentaire', detail: 'PDF vectoriels et tableurs Excel' },
+      { value: '166', label: 'Tests Pytest (100%)', detail: 'Validation automatisée complète du backend' },
+      { value: '9 entités', label: 'Modèle 3NF MySQL', detail: 'Intégrité référentielle et contraintes SQL' },
+      { value: '15+ KPIs & ACP', label: 'Moteur décisionnel', detail: 'Pilotage temps réel et clustering client' },
     ],
     caseStudy: {
       heroTagline: 'De la gestion administrative à l\'intelligence opérationnelle : un SI unifié pour les formations professionnelles.',
@@ -139,8 +139,8 @@ export const PROJECTS: Project[] = [
   {
     id: 'olist',
     slug: 'olist',
-    title: 'Audit de Données Commerciales — Olist',
-    tagline: 'Analyse exploratoire du jeu final de 96 252 commandes e-commerce',
+    title: 'Audit & Pipeline de Données E-Commerce — Olist',
+    tagline: 'Nettoyage, jointures multi-tables et analyse logistique sur 96 252 commandes',
     category: 'Data Analysis',
     isFeatured: true,
     isFlagship: false,
@@ -148,7 +148,7 @@ export const PROJECTS: Project[] = [
     context: 'Académique (Binôme)',
     period: '2025–2026',
     summary:
-      'Audit des données Olist : préparation, jointures et analyse des délais de livraison et des avis sur les 96 252 lignes du jeu d’analyse final.',
+      'Audit et pipeline de données Olist : préparation, jointures sans perte et analyse des délais de livraison sur les 96 252 lignes du jeu d’analyse final.',
     skills: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'Data Analysis', 'Statistiques', 'Jupyter', 'Git', 'Data Preparation', 'Data Cleaning', 'Exploratory Data Analysis', 'Data Visualization'],
     accentColor: '#0284c7', // Sky Blue
     image: '/images/projects/olist-delais-livraison.png',
@@ -189,7 +189,7 @@ export const PROJECTS: Project[] = [
         },
       ],
       roleDescription:
-        'Projet réalisé en binôme. Responsable de la conception du pipeline de nettoyage sous Pandas, de l\'analyse des délais de livraison et de la formalisation des graphiques statistiques sous Seaborn.',
+        'Projet académique mené en binôme. Responsable de la conception et de l\'exécution intégrale du pipeline sous Pandas : audit de cohérence multi-tables, jointures relationnelles sécurisées sans duplication, calcul vectorisé des métriques logistiques et modélisation des graphiques statistiques sous Seaborn.',
       implementation:
         'Développement de scripts d\'analyse reproductibles sous Jupyter Notebooks et modules Python. Utilisation intensive de fonctions vectorisées Pandas pour le traitement de volumétries sans latence.',
       architectureHighlights: [
@@ -240,7 +240,7 @@ export const PROJECTS: Project[] = [
     category: 'Statistiques',
     isFeatured: true,
     isFlagship: false,
-    order: 3,
+    order: 5,
     context: 'Académique (Binôme)',
     period: '2025–2026',
     summary:
@@ -283,7 +283,7 @@ export const PROJECTS: Project[] = [
         },
       ],
       roleDescription:
-        'Projet réalisé en binôme (SADIK Mohammed & NOUGBOLO Godwin Elie). Responsable de la vectorisation des calculs matriciels sous NumPy et de l\'écriture des tests unitaires validant l\'exactitude des valeurs propres obtenues.',
+        'Projet académique mené en binôme. Responsable de l\'implémentation logicielle et algorithmique complète en Python : vectorisation matricielle des 8 étapes sous NumPy, décomposition SVD, calculs d\'inertie/CTR/cos² et tests unitaires de validation face aux modules scientifiques de référence.',
       implementation:
         'Module Python structuré en classe d\'analyse orientée objet réutilisable, accompagné d\'un notebook d\'application sur des jeux de données réels.',
       architectureHighlights: [
@@ -369,7 +369,7 @@ export const PROJECTS: Project[] = [
         { step: '4. Lire les résultats', description: 'Comparer les pays et les indicateurs sur les plans factoriels en tenant compte de la qualité de représentation.' },
       ],
       roleDescription:
-        'J’ai réalisé l’analyse et le notebook, puis documenté les résultats et leurs limites dans le dépôt du projet.',
+        'Projet académique individuel mené en pleine autonomie. Conception et exécution de l\'analyse sous Pandas et NumPy : nettoyage, centrage-réduction des données, calcul spectral des valeurs propres, tracés de l\'éboulis et du cercle des corrélations, et interprétation rigoureuse des projections factorielles.',
       implementation:
         'Notebook Python fondé sur Pandas et NumPy pour le traitement et les calculs, avec Matplotlib et Seaborn pour les visualisations.',
       keyDecisions: [
@@ -414,7 +414,7 @@ export const PROJECTS: Project[] = [
     tagline: 'Planificateur de révisions intelligent, 100 % navigateur, avec recalcul en temps réel',
     category: 'Web / SI',
     isFeatured: false,
-    order: 5,
+    order: 6,
     context: 'Académique (Individuel)',
     period: '2025–2026',
     summary:
@@ -499,24 +499,24 @@ export const PROJECTS: Project[] = [
     id: 'sante-scolaire',
     slug: 'sante-scolaire',
     title: 'SantéScolaire',
-    tagline: 'Système d\'information médical scolaire sécurisé : dossiers élèves, consultations, agenda et statistiques',
+    tagline: 'Application de gestion de la santé scolaire : dossiers élèves, consultations, agenda et statistiques',
     category: 'Web / SI',
     isFeatured: false,
-    order: 7,
+    order: 8,
     context: 'Académique (Individuel)',
     period: '2025–2026',
     summary:
-      'Plateforme Flask de digitalisation de l\'infirmerie scolaire : dossiers élèves, historique médical, consultations, agenda et statistiques, avec accès par rôle (admin, médecin, infirmier).',
+      'Application Flask de suivi de la santé scolaire : dossiers élèves, consultations, rendez-vous et statistiques, avec des accès différenciés selon le rôle.',
     skills: ['Python', 'Flask', 'SQLAlchemy', 'MySQL', 'JavaScript', 'HTML/CSS', 'Chart.js', 'Bases de données', 'Relational Modeling', 'pytest', 'SQL', 'Backend', 'Systèmes d\'information', 'Jinja2', 'Bootstrap', 'Data Visualization'],
     accentColor: '#10b981',
     image: '/images/projects/sante-scolaire-dashboard-admin.png',
     keyMetrics: [
       { value: '3 rôles', label: 'Accès différenciés', detail: 'Admin · Médecin · Infirmier' },
-      { value: 'Alembic', label: 'Migrations tracées', detail: 'Évolution du schéma sans rupture' },
+      { value: '13 tables', label: 'Base présentée', detail: 'Dont le référentiel des médicaments' },
       { value: 'Chart.js', label: 'Tableau de bord', detail: 'Statistiques de consultations' },
     ],
     caseStudy: {
-      heroTagline: 'Digitaliser le suivi de santé scolaire dans un cadre sécurisé et ergonomique.',
+      heroTagline: 'Organiser le suivi de santé scolaire dans une application web.',
       problem:
         'L\'infirmerie d\'un établissement scolaire gère des données sensibles (dossiers médicaux, vaccinations, consultations) souvent réparties sur des supports papiers. La problématique consistait à centraliser ces informations dans une application web respectant la confidentialité et distinguant clairement les responsabilités du personnel soignant.',
       problemPoints: [
@@ -525,15 +525,15 @@ export const PROJECTS: Project[] = [
         'Absence de vue consolidée sur l\'activité (consultations, rendez-vous) pour piloter l\'infirmerie.',
       ],
       approach:
-        'Conception d\'une application Flask en architecture MVC modulaire (blueprints) avec une gestion stricte des rôles et un tableau de bord statistique, jusqu\'à la gestion des mots de passe par activation.',
+        'Conception d\'une application Flask organisée en blueprints, avec des accès différenciés selon les rôles et un tableau de bord statistique.',
       approachSteps: [
         { step: '1. Modélisation relationnelle', description: 'Schéma SQLAlchemy couvrant élèves, dossiers médicaux, consultations et rendez-vous, avec intégrité référentielle.' },
         { step: '2. Architecture par blueprints', description: 'Séparation des responsabilités (auth, élèves, consultations, agenda, statistiques, administration).' },
-        { step: '3. Contrôle d\'accès par rôle', description: 'Politiques RBAC distinguant admin, médecin et infirmier, avec accès restreint selon la fonction.' },
-        { step: '4. Pilotage & sécurité', description: 'Tableau de bord Chart.js pour l\'activité, changement de mot de passe à la première connexion et activation de compte par /activate.' },
+        { step: '3. Accès par rôle', description: 'Différencier les espaces d’administration et de suivi médical selon le rôle du compte.' },
+        { step: '4. Suivi d’activité', description: 'Présenter des indicateurs de consultations et de rendez-vous avec Chart.js.' },
       ],
       roleDescription:
-        'Développement complet de la solution en solo : modélisation de la base, backend Flask, interfaces Jinja2/Bootstrap, gestion des rôles et des accès, tableau de bord statistique et écriture des tests.',
+        'Projet individuel couvrant la modélisation de la base, le backend Flask, les interfaces Jinja2/Bootstrap, les accès par rôle et le tableau de bord statistique.',
       implementation:
         'Backend Flask 3 synchronisé avec MySQL 8 via SQLAlchemy et Flask-Migrate ; interface Jinja2 stylisée avec Bootstrap 5 ; graphiques d\'activité avec Chart.js.',
       architectureHighlights: [
@@ -546,7 +546,7 @@ export const PROJECTS: Project[] = [
           title: 'Cloisonnement des données par rôle',
           decision: 'Vérifier les privilèges côté serveur selon le rôle (admin, médecin, infirmier).',
           rationale: 'Les données médicales scolaires sont sensibles : l\'accès doit être limité à la fonction, pas seulement masqué dans l\'interface.',
-          impact: 'Chaque profil n\'accède qu\'aux informations de son périmètre.',
+          impact: 'Les routes distinguent l’espace d’administration des fonctions de suivi médical.',
         },
         {
           title: 'Statistiques natives dans l\'application',
@@ -557,17 +557,16 @@ export const PROJECTS: Project[] = [
       ],
       results: [
         { value: '3 rôles', label: 'Périmètres distincts', detail: 'Admin · Médecin · Infirmier' },
-        { value: 'MVC', label: 'Architecture par blueprints', detail: 'Séparation stricte des responsabilités' },
-        { value: 'Versionné', label: 'Schéma migré', detail: 'Flask-Migrate / Alembic' },
+        { value: '13 tables', label: 'Base présentée', detail: 'Dont le référentiel des médicaments' },
+        { value: 'Flask', label: 'Routes modulaires', detail: 'Organisation en blueprints' },
       ],
       validation:
-        'Tests automatisés sous pytest et validation des contraintes d\'intégrité référentielle de la base MySQL, en complément d\'un protocole de démonstration documenté.',
+        'Le dépôt contient un test pytest qui vérifie la prise en compte des variables d’environnement dans la configuration de l’application.',
       validationPoints: [
-        'Tests unitaires sur la logique applicative et les services.',
-        'Vérification des contraintes d\'intégrité de la base MySQL.',
+        'Un test vérifie les valeurs de configuration chargées depuis les variables d’environnement.',
       ],
       reflection:
-        'SantéScolaire m\'a fait approfondir la sécurité et le traitement de données sensibles : rôles, activation de compte et migrations. C\'est un projet où la rigueur technique sert directement la confidentialité.',
+        'SantéScolaire m’a permis de mettre en pratique la structuration d’une application Flask, la modélisation relationnelle et la différenciation des accès selon les rôles.',
       technologiesDetailed: [
         { category: 'Backend', items: ['Python', 'Flask 3', 'SQLAlchemy'] },
         { category: 'Base de données', items: ['MySQL 8', 'Flask-Migrate', 'Alembic'] },
@@ -584,12 +583,12 @@ export const PROJECTS: Project[] = [
     tagline: 'Boutique e-commerce en POO : catalogue, panier dynamique, commandes et facturation',
     category: 'Web / SI',
     isFeatured: false,
-    order: 6,
+    order: 7,
     context: 'Académique (Équipe)',
     period: '2025–2026',
     summary:
       'Prototype e-commerce réalisé par une équipe de cinq : catalogue, panier et facture imprimable. Le paiement est simulé et les commandes ne sont pas conservées durablement.',
-    skills: ['Python', 'Flask', 'Jinja2', 'JavaScript', 'HTML/CSS', 'Backend', 'Object-Oriented Programming', 'Relational Modeling'],
+    skills: ['Python', 'Flask', 'Jinja2', 'JavaScript', 'HTML/CSS', 'Backend', 'Object-Oriented Programming'],
     accentColor: '#f59e0b',
     image: '/images/projects/novastore-filtre-prix.png',
     keyMetrics: [
@@ -598,62 +597,61 @@ export const PROJECTS: Project[] = [
       { value: 'Paiement simulé', label: 'Aucune transaction réelle', detail: 'Les commandes ne sont pas conservées durablement.' },
     ],
     caseStudy: {
-      heroTagline: 'Mettre en pratique les principes fondamentaux de la POO dans un cas d\'usage e-commerce complet.',
+      heroTagline: 'Mettre en pratique la programmation orientée objet dans un prototype de boutique en ligne.',
       problem:
-        'Un projet e-commerce impose de structurer proprement des entités métier (utilisateur, produit, commande, panier) et d\'y appliquer des règles de gestion (stock, totaux, taxes) sans mélanger la logique métier et la persistance.',
+        'Le projet porte sur la modélisation des produits, paniers et commandes, ainsi que sur les règles de stock et de calcul des totaux dans une boutique de démonstration.',
       problemPoints: [
         'Modéliser des entités commerciales avec des règles métier claires (stock, calcul du total de commande).',
-        'Découpler la logique métier objet de la persistance en base relationnelle.',
-        'Couvrir un tunnel d\'achat complet : catalogue, panier, commande et facture.',
+        'Relier le catalogue à un panier de session et à un parcours de commande.',
+        'Générer une facture de démonstration sans traiter un paiement réel.',
       ],
       approach:
-        'Conception orientée objet : les entités du domaine sont des classes dédiées, et l\'ORM SQLAlchemy assure leur persistance sans polluer la logique métier.',
+        'Conception orientée objet avec des classes métier; le panier est conservé dans la session Flask, tandis que les commandes et alertes restent en mémoire.',
       approachSteps: [
         { step: '1. Modélisation objet', description: 'Classes métier (models.py, poo_classes.py) représentant utilisateurs, produits et commandes.' },
-        { step: '2. Persistance ORM', description: 'Mapping des objets métier vers la base relationnelle via SQLAlchemy.' },
+        { step: '2. Gestion de l’état', description: 'Identifiants du panier conservés dans la session Flask; commandes et alertes stockées en mémoire.' },
         { step: '3. Logique métier', description: 'Méthodes de classe pour la validation du panier, la gestion du stock et le calcul du total.' },
-        { step: '4. Interfaces & back-office', description: 'Catalogue, panier via API, tunnel de commande avec facturation et dashboard admin CRUD.' },
+        { step: '4. Interfaces', description: 'Catalogue filtrable, actions de panier via API, parcours de commande et facture de démonstration.' },
       ],
       roleDescription:
-        'Projet académique développé en équipe de 5 (filière IID) autour de la POO : contribution au développement de l\'application et au travail de conception en groupe.',
+        'Dans le cadre d’un projet d’équipe de cinq, mon apport principal a porté sur la conception et le développement de l’application. La présentation ne détaille pas la répartition des contributions entre les membres.',
       implementation:
-        'Application Flask structurée en blueprints, entités métier en POO persistées par SQLAlchemy, interface Jinja2/HTML5/CSS3, échanges panier côté client en JavaScript.',
+        'Application Flask structurée en blueprints, classes métier Python, interface Jinja2/HTML5/CSS3 et échanges de panier en JavaScript. Le panier est en session; les commandes restent en mémoire.',
       architectureHighlights: [
-        'Séparation nette entre classes métier (logique) et modèles ORM (persistance).',
+        'Classes Python pour représenter produits, paniers, commandes et clients.',
         'Encapsulation des données utilisateur et des attributs produits.',
-        'Routes organisées en blueprints (contrôleurs Flask).',
+        'Routes organisées en blueprints Flask; pas de persistance ORM configurée dans l’application.',
       ],
       keyDecisions: [
         {
           title: 'Logique métier en POO',
           decision: 'Isoler les règles de gestion (stock, total de commande) dans des méthodes de classe.',
-          rationale: 'Garder la logique commerciale testable et indépendante du stockage.',
+          rationale: 'Regrouper les règles de stock et de calcul dans les objets métier.',
           impact: 'Un code plus lisible où les entités portent leurs propres règles.',
         },
         {
-          title: 'Persistance via ORM',
-          decision: 'Mapper les objets métier avec SQLAlchemy plutôt qu\'écrire du SQL manuel.',
-          rationale: 'Relier le modèle objet à une base relationnelle sans dupliquer la logique.',
-          impact: 'Cohérence entre les objets manipulés en Python et les données stockées.',
+          title: 'État du prototype',
+          decision: 'Conserver le panier dans la session et les commandes en mémoire.',
+          rationale: 'Le prototype illustre le parcours sans mettre en place de stockage durable des commandes.',
+          impact: 'Le panier peut être reconstitué depuis la session; les commandes disparaissent au redémarrage.',
         },
       ],
       results: [
-        { value: '20+', label: 'Produits catalogués', detail: 'Répartis sur plusieurs catégories' },
-        { value: 'Complet', label: 'Tunnel d\'achat', detail: 'Du catalogue à la génération de facture' },
-        { value: 'CRUD', label: 'Back-office admin', detail: 'Gestion complète des produits et commandes' },
+        { value: '20', label: 'Produits de démonstration', detail: 'Catalogue réparti dans plusieurs catégories.' },
+        { value: 'Panier → facture', label: 'Parcours de démonstration', detail: 'La commande et la facture sont simulées.' },
+        { value: 'Paiement simulé', label: 'Aucun service bancaire', detail: 'Aucune transaction réelle n’est effectuée.' },
       ],
       validation:
-        'Scénarios de tests fonctionnels sur la gestion du panier, la validation des stocks et le calcul des totaux de commande.',
+        'Le dépôt ne contient pas de suite de tests automatisés; les fonctionnalités sont décrites à partir du code de l’application.',
       validationPoints: [
-        'Vérification des règles métier (stock, total) via les méthodes de classe.',
-        'Tests de bout en bout du parcours panier → commande → facture.',
+        'Aucun fichier de tests automatisés n’est présent dans le dépôt.',
       ],
       reflection:
-        'NovaStore a renforcé mes acquis en conception orientée objet et en séparation des couches. C\'est le projet où les principes POO se traduisent directement en fonctionnalités e-commerce concrètes.',
+        'NovaStore m’a permis de mettre en pratique la modélisation orientée objet, les règles de stock et le suivi de l’état d’un panier dans une application Flask.',
       technologiesDetailed: [
         { category: 'Langage & Framework', items: ['Python 3', 'Flask', 'Jinja2'] },
-        { category: 'POO & Persistance', items: ['SQLAlchemy', 'Classes métier', 'Encapsulation'] },
-        { category: 'Base de données', items: ['MySQL', 'SQLite'] },
+        { category: 'POO', items: ['Classes métier', 'Encapsulation'] },
+        { category: 'État de l’application', items: ['Session Flask', 'Données en mémoire'] },
         { category: 'Frontend', items: ['HTML5', 'CSS3', 'JavaScript'] },
       ],
       githubUrl: 'https://github.com/Godwin-08/Novastore',
@@ -665,9 +663,9 @@ export const PROJECTS: Project[] = [
     title: 'Détection de Pneumonie par Radiographie — Deep Learning',
     tagline: 'Classification binaire d’images médicales par CNN personnalisé et Transfer Learning DenseNet121',
     category: 'Machine Learning',
-    isFeatured: true,
+    isFeatured: false,
     isFlagship: false,
-    order: 8,
+    order: 9,
     context: 'Académique (Équipe)',
     period: '2025–2026',
     summary:
@@ -750,7 +748,7 @@ export const PROJECTS: Project[] = [
     tagline: 'Projet guidé DataCamp : exploration des dons et des scores d’impact par mission et région.',
     category: 'Data Analysis',
     isFeatured: false,
-    order: 9,
+    order: 10,
     context: 'Projet guidé DataCamp',
     period: 'SQL Data Analyst',
     summary:
@@ -787,7 +785,7 @@ export const PROJECTS: Project[] = [
     tagline: 'Projet guidé DataCamp : analyse des ventes en gros par produit, mois et entrepôt.',
     category: 'Data Analysis',
     isFeatured: false,
-    order: 10,
+    order: 11,
     context: 'Projet guidé DataCamp',
     period: 'SQL Data Analyst',
     summary:
@@ -824,7 +822,7 @@ export const PROJECTS: Project[] = [
     tagline: 'Projet guidé DataCamp : comparaison des scores de santé mentale selon le statut étudiant et la durée du séjour.',
     category: 'Data Analysis',
     isFeatured: false,
-    order: 11,
+    order: 12,
     context: 'Projet guidé DataCamp',
     period: 'SQL Data Analyst',
     summary:
@@ -853,6 +851,43 @@ export const PROJECTS: Project[] = [
       validation: 'Vérification des sorties enregistrées dans le notebook et recalcul des moyennes Inter / Dom à partir du CSV inclus dans l’archive.',
       reflection: 'Le projet met en pratique les agrégations SQL pour comparer des groupes et examiner les scores selon la durée du séjour, sans transformer ces observations en conclusion causale.',
       technologiesDetailed: [{ category: 'Analyse de données', items: ['SQL', 'Jupyter Notebook', 'DataCamp'] }],
+    },
+  },
+  {
+    id: 'grocery-store-sales',
+    slug: 'grocery-store-sales',
+    title: 'Audit & Analyse SQL des ventes en supermarché — FoodYum',
+    tagline: 'Examen pratique certifiant DataCamp : audit d’intégrité, nettoyage SQL avancé et analyse des ventes.',
+    category: 'Data Analysis',
+    isFeatured: false,
+    order: 3,
+    context: 'Projet guidé DataCamp',
+    period: 'Data Analyst Associate',
+    summary:
+      'Audit d’un bug d’intégrité système, pipeline de nettoyage SQL avancé (CTEs et imputations par médiane avec PERCENTILE_CONT), et ciblage commercial des produits phares.',
+    skills: ['SQL', 'PostgreSQL', 'Data Cleaning', 'Data Preparation', 'Jupyter'],
+    accentColor: '#0D9488',
+    image: '/images/projects/grocery-store-sales.png',
+    keyMetrics: [
+      { value: '4 tâches SQL', label: 'Épreuve pratique chronométrée', detail: 'Audit bug 2022, CTEs de nettoyage, calculs d’extrêmes et extraction ciblée.' },
+      { value: 'PERCENTILE_CONT', label: 'Imputation vectorisée', detail: 'Calcul exact des médianes de prix et de poids sans altération de la table source.' },
+      { value: '8 colonnes', label: 'Variables normalisées & typées', detail: 'Imputation déterministe de year_added (2022) et standardisation des labels.' },
+    ],
+    caseStudy: {
+      heroTagline: 'Résoudre un bug d’intégrité et nettoyer des données de supermarché avec du SQL avancé sous PostgreSQL.',
+      problem: 'La chaîne de supermarchés FoodYum fait face à une hausse des coûts et à un bug survenu en 2022 ayant effacé l’année d’ajout de certains produits. L’objectif est d’auditer les pertes, de nettoyer l’ensemble du catalogue sans modifier la table source, et d’analyser les fourchettes de prix par rayon ainsi que les ventes moyennes.',
+      approach: 'Dénombrer les anomalies, construire un pipeline CTE avec conversion de types et calcul de médianes pour les valeurs continues manquantes, puis effectuer des agrégations et filtrages décisionnels.',
+      roleDescription: 'Projet d’examen pratique officiel réalisé et validé pour l’obtention de la certification DataCamp Data Analyst Associate.',
+      implementation: 'Notebook SQL PostgreSQL utilisant des CTEs imbriquées, PERCENTILE_CONT(0.5) WITHIN GROUP, COALESCE, CAST, REPLACE, ROUND, GROUP BY et filtrages multi-conditions.',
+      keyDecisions: [],
+      results: [
+        { value: 'Task 1', label: 'Audit du bug système', detail: 'Requête dénombrant avec précision les produits affectés par l’absence de year_added.' },
+        { value: 'Task 2', label: 'Pipeline de nettoyage CTE', detail: 'Imputation par médiane pour le poids et le prix, typage strict et standardisation de brand et stock_location.' },
+        { value: 'Task 3 & 4', label: 'Fourchettes de prix & ciblage', detail: 'Extraction des MIN/MAX par product_type et ciblage des rayons Meat et Dairy à fortes ventes (>10 unités).' },
+      ],
+      validation: 'Validation automatisée par les tests de conformité de l’examen officiel DataCamp Data Analyst Associate.',
+      reflection: 'Ce projet valide l’aptitude à manipuler du SQL rigoureux sous contrainte de temps, en privilégiant l’intégrité des calculs et la non-altération des tables brutes.',
+      technologiesDetailed: [{ category: 'Analyse de données', items: ['SQL', 'PostgreSQL', 'DataCamp', 'Jupyter Notebook'] }],
     },
   },
 ];

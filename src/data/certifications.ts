@@ -22,6 +22,7 @@ export interface Certification {
   completedOn?: string;
   expiresOn?: string;
   reference?: string;
+  imagePath?: string;
   documentPath?: string;
   verificationUrl?: string;
   issuer: string;
@@ -36,6 +37,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
   {
     id: 'data-analyst-associate',
     title: 'Data Analyst Associate',
+    imagePath: '/certifications/data-analyst-associate.png',
     category: 'data-analysis',
     credentialType: 'certification',
     importance: 0,
@@ -88,7 +90,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
           },
         ],
         practice:
-          'DataCamp décrit des examens chronométrés adaptatifs et une épreuve pratique où il faut résoudre un problème métier en nettoyant et validant des données, puis en calculant des indicateurs. DataCamp indique que l’acquisition des compétences de ce rôle peut généralement demander 100 heures ou plus ; il s’agit d’une estimation générale, pas de la durée de préparation de Godwin.',
+          "DataCamp décrit des examens chronométrés adaptatifs et une épreuve pratique dans laquelle les candidats doivent résoudre un problème métier en nettoyant et validant des données, puis en calculant des indicateurs. Épreuve pratique officielle FoodYum Grocery Store Sales validée sous PostgreSQL : audit d’un bug d’intégrité système (year_added), pipeline de nettoyage avancé avec calcul vectorisé de médianes (PERCENTILE_CONT) via CTEs, dispersion des prix par rayon et ciblage commercial des produits phares. DataCamp note que l’acquisition des compétences de ce rôle peut généralement demander 100 heures ou plus d’apprentissage ; il s’agit d’une estimation générale, pas de la durée de préparation de Godwin.",
       },
       en: {
         overview:
@@ -130,13 +132,14 @@ export const CERTIFICATIONS: readonly Certification[] = [
           },
         ],
         practice:
-          'DataCamp describes adaptive timed exams and a practical exam in which candidates solve a business problem by cleaning and validating data, then calculating metrics. DataCamp says these skills can typically take candidates 100+ hours to acquire over time; this is a general estimate, not a claim about Godwin’s preparation time.',
+          'DataCamp describes adaptive timed exams and a practical exam in which candidates solve a business problem by cleaning and validating data, then calculating metrics. Official FoodYum Grocery Store Sales practical exam completed under PostgreSQL: system integrity bug audit (year_added), advanced data cleaning pipeline with vectorized median calculation (PERCENTILE_CONT) via CTEs, product category price dispersion, and flagship product targeting. DataCamp says these skills can typically take candidates 100+ hours to acquire over time; this is a general estimate, not a claim about Godwin’s preparation time.',
       },
     },
   },
   {
     id: 'introduction-to-statistics',
     title: 'Introduction to Statistics',
+    imagePath: '/certifications/introduction-to-statistics.png',
     category: 'statistics',
     credentialType: 'course',
     importance: 6,
@@ -177,6 +180,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
   {
     id: 'introduction-to-sql',
     title: 'Introduction to SQL',
+    imagePath: '/certifications/introduction-to-sql.jpg',
     category: 'sql',
     credentialType: 'course',
     importance: 7,
@@ -215,6 +219,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
   {
     id: 'intermediate-sql',
     title: 'Intermediate SQL',
+    imagePath: '/certifications/intermediate-sql.jpg',
     category: 'sql',
     credentialType: 'course',
     importance: 5,
@@ -255,6 +260,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
   {
     id: 'joining-data-in-sql',
     title: 'Joining Data in SQL',
+    imagePath: '/certifications/joining-data-in-sql.jpg',
     category: 'sql',
     credentialType: 'course',
     importance: 2,
@@ -295,6 +301,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
   {
     id: 'data-manipulation-in-sql',
     title: 'Data Manipulation in SQL',
+    imagePath: '/certifications/data-manipulation-in-sql.png',
     category: 'sql',
     credentialType: 'course',
     importance: 1,
@@ -335,6 +342,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
   {
     id: 'postgresql-summary-stats-and-window-functions',
     title: 'PostgreSQL Summary Stats and Window Functions',
+    imagePath: '/certifications/postgresql-summary-stats-and-window-functions.png',
     category: 'sql',
     credentialType: 'course',
     importance: 3,
@@ -376,6 +384,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
   {
     id: 'functions-for-manipulating-data-in-postgresql',
     title: 'Functions for Manipulating Data in PostgreSQL',
+    imagePath: '/certifications/functions-for-manipulating-data-in-postgresql.png',
     category: 'sql',
     credentialType: 'course',
     importance: 4,
@@ -417,6 +426,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
   {
     id: 'exploratory-data-analysis-in-sql',
     title: 'Exploratory Data Analysis in SQL',
+    imagePath: '/certifications/exploratory-data-analysis-in-sql.png',
     category: 'sql',
     credentialType: 'course',
     importance: 8,
@@ -457,6 +467,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
   {
     id: 'associate-data-analyst-in-sql',
     title: 'Associate Data Analyst in SQL',
+    imagePath: '/certifications/associate-data-analyst-in-sql.png',
     category: 'sql',
     credentialType: 'track',
     courseIds: [
@@ -498,6 +509,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
   {
     id: 'data-communication-concepts',
     title: 'Data Communication Concepts',
+    imagePath: '/certifications/data-communication-concepts.png',
     category: 'data-analysis',
     credentialType: 'course',
     importance: 10,
@@ -536,6 +548,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
   {
     id: 'understanding-data-visualization',
     title: 'Understanding Data Visualization',
+    imagePath: '/certifications/understanding-data-visualization.png',
     category: 'data-analysis',
     credentialType: 'course',
     importance: 11,
@@ -574,6 +587,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
   {
     id: 'data-driven-decision-making-in-sql',
     title: 'Data-Driven Decision Making in SQL',
+    imagePath: '/certifications/data-driven-decision-making-in-sql.png',
     category: 'sql',
     credentialType: 'course',
     importance: 12,
