@@ -56,12 +56,13 @@ describe('Data Layer - Projects', () => {
     expect(enMessages.projects.cards['sante-scolaire'].summary).not.toMatch(/full/i);
   });
 
-  it('should return featured projects with at least 3 items in defined order', () => {
+  it('should return the selected featured projects in defined order', () => {
     const featured = getFeaturedProjects();
-    expect(featured.length).toBeGreaterThanOrEqual(3);
-    expect(featured[0].slug).toBe('gtm');
-    expect(featured[1].slug).toBe('olist');
-    expect(featured[2].slug).toBe('afc');
+    expect(featured.map(({ slug }) => slug)).toEqual([
+      'gtm',
+      'olist',
+      'grocery-store-sales',
+    ]);
   });
 
   it('should have GTM as the flagship case study', () => {
