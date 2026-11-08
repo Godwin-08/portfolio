@@ -227,7 +227,7 @@
         "title": "GTM — Galaxy Training Manager",
         "tagline": "Système d’information opérationnel & moteur décisionnel (Flask, MySQL 3NF, KPIs temps réel et module d’ACP).",
         "summary": "Application de données d’entreprise développée chez Galaxy Solutions pour centraliser les formations B2B, automatiser les KPIs décisionnels et fiabiliser les flux. Validée par 166 tests Pytest.",
-        "context": "Stage d’initiation · Galaxy Solutions"
+        "context": "Stage de 1re année · Galaxy Solutions"
       },
       "olist": {
         "title": "Audit & Pipeline de Données E-Commerce — Olist",
@@ -267,26 +267,26 @@
       },
       "pneumonia-detection": {
         "title": "Détection de pneumonie sur radiographies — Deep Learning",
-        "tagline": "Projet académique en équipe : comparaison d’un CNN from scratch et de DenseNet121.",
-        "summary": "Classification NORMAL / PNEUMONIA sur 5 856 radiographies, avec résultats rapportés et écarts entre sources explicités.",
+        "tagline": "Classification binaire d’images médicales par CNN personnalisé et Transfer Learning DenseNet121.",
+        "summary": "Classification NORMAL / PNEUMONIA sur 5 856 radiographies pédiatriques, avec optimisation du seuil de décision et analyse critique du rappel clinique.",
         "context": "Académique · équipe de quatre"
       },
       "goodthought-sql-analysis": {
         "title": "Analyse SQL des dons et de l’impact — GoodThought",
-        "tagline": "Projet guidé DataCamp : exploration des dons et des scores d’impact par mission et région.",
-        "summary": "Requêtes SQL sur les missions, les dons et les donateurs d’un cas d’exercice, avec agrégations, CTE et classement par région.",
+        "tagline": "Modélisation relationnelle et analytique avancée sur les flux de dons et les scores d’impact régionaux.",
+        "summary": "Schéma PostgreSQL 3NF (5 000 missions, dons, donateurs) : agrégations multidimensionnelles par typologie, CTEs modulaires et fenêtrage partitionné ROW_NUMBER().",
         "context": "Projet guidé · DataCamp"
       },
       "motorcycle-parts-sales": {
-        "title": "Analyse des ventes de pièces de moto",
-        "tagline": "Projet guidé DataCamp : analyse des ventes en gros par produit, mois et entrepôt.",
-        "summary": "Requêtes SQL sur 1 000 commandes d’exercice, agrégées par ligne de produits, mois et entrepôt.",
+        "title": "Analyse des ventes de pièces de moto — Audit SQL",
+        "tagline": "Agrégation multidimensionnelle de ventes B2B en gros et audit de formule financière.",
+        "summary": "Analyse SQL de 1 000 commandes réparties sur 3 entrepôts (48 agrégats) : regroupements temporels et audit critique de la déduction de frais (payment_fee).",
         "context": "Projet guidé · DataCamp"
       },
       "students-mental-health": {
         "title": "Analyse de la santé mentale des étudiants",
-        "tagline": "Projet guidé DataCamp : comparaison des scores selon le statut étudiant et la durée du séjour.",
-        "summary": "Analyse SQL des scores PHQ-9, SCS et ASISS dans une enquête menée auprès d’étudiants au Japon.",
+        "tagline": "Analyse biostatistique SQL : évaluation psychométrique comparative (PHQ-9, SCS, ASISS) selon le statut et la durée de séjour.",
+        "summary": "Analyse comparative multivariée sous PostgreSQL des scores de dépression, d'intégration sociale et de stress d'acculturation sur une cohorte universitaire (286 étudiants).",
         "context": "Projet guidé · DataCamp"
       },
       "grocery-store-sales": {
@@ -420,9 +420,9 @@
       }
     },
     "professional": "Expérience professionnelle",
-    "galaxyLabel": "Stage d’initiation · Galaxy Solutions · 2025–2026",
+    "galaxyLabel": "Stage de 1re année (Développeur Python & SQL) · Galaxy Solutions · 2025–2026",
     "galaxy": "Galaxy Training Manager (GTM)",
-    "galaxyText": "Dans le cadre de ce stage d’initiation, j’ai conçu et développé une application de gestion et de suivi des formations. J’ai modélisé la base de données relationnelle (MySQL en 3NF), implémenté la logique applicative sous Flask et conçu un tableau de bord décisionnel intégrant un module d’Analyse en Composantes Principales (ACP). Les données de démonstration sont fictives.",
+    "galaxyText": "Dans le cadre de ce stage chez Galaxy Solutions, j’ai conçu et développé une application de gestion et de suivi des formations. J’ai modélisé la base de données relationnelle (MySQL en 3NF), implémenté la logique applicative sous Flask et conçu un tableau de bord décisionnel intégrant un module d’Analyse en Composantes Principales (ACP).",
     "galaxyLink": "Voir l’étude de cas GTM",
     "association": "Engagement associatif",
     "cestom": "CESTOM",

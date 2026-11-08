@@ -74,7 +74,7 @@ export const ENGLISH_CASE_STUDY_COPY = {
       'Check that past statistics remain unchanged when future days are rebuilt.',
       'Test JSON import and export, and saved-data migration.',
     ],
-    reflection: 'RevisionFlow was an opportunity to build a decision algorithm and reactive state without external dependencies. It also made product transparency concrete: tell users when their schedule cannot work.',
+    reflection: 'RevisionFlow demonstrates building a deterministic decision engine and reactive state without external dependencies. It also enforces radical product transparency: explicitly surfacing capacity overloads in an arbitrage backlog rather than masking conflicts behind an unrealistic schedule.',
     technologyCategories: ['Frontend', 'State and persistence', 'Browser APIs'],
     technologyItemLabels: {
       'Nager.Date (jours fériés)': 'Nager.Date (public holidays)',
@@ -125,7 +125,7 @@ export const ENGLISH_CASE_STUDY_COPY = {
     validationPoints: [
       'A test checks configuration values loaded from environment variables.',
     ],
-    reflection: 'SantéScolaire gave me practice structuring a Flask application, modelling relational data, and differentiating access by role.',
+    reflection: 'SantéScolaire highlights the architectural discipline required for sensitive healthcare information systems: strict referential database integrity, server-side role partitioning, and transparent acknowledgment of regulatory compliance audits prior to real-world deployment.',
     technologyCategories: ['Backend', 'Database', 'Frontend', 'Quality'],
   },
   novastore: {
@@ -173,7 +173,7 @@ export const ENGLISH_CASE_STUDY_COPY = {
     validationPoints: [
       'No automated test files are present in the repository.',
     ],
-    reflection: 'NovaStore let me practise object-oriented modelling, stock rules, and cart state in a Flask application.',
+    reflection: 'NovaStore demonstrates object-oriented modeling of transactional rules and modular routing in Flask. It underscores the value of isolating domain logic from HTTP controllers, while highlighting the necessity of an active relational persistence layer (ORM/RDBMS) to sustain state beyond in-memory execution.',
     technologyCategories: ['Language and framework', 'Object-oriented programming', 'Application state', 'Frontend'],
     technologyItemLabels: {
       'Classes métier': 'Domain classes',

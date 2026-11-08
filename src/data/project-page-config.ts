@@ -60,7 +60,7 @@ export const PROJECT_PAGE_CONFIG = {
     accentDark: '#FF8585',
     layout: {
       kind: 'sections',
-      order: ['method', 'gallery', 'results', 'limitations', 'documents'],
+      order: ['method', 'decisions', 'gallery', 'results', 'limitations', 'documents'],
     },
   },
   'revision-flow': {
@@ -69,7 +69,7 @@ export const PROJECT_PAGE_CONFIG = {
     accentDark: '#A9A4FF',
     layout: {
       kind: 'sections',
-      order: ['method', 'gallery', 'results', 'limitations', 'documents'],
+      order: ['method', 'decisions', 'gallery', 'results', 'limitations', 'documents'],
     },
   },
   'sante-scolaire': {
@@ -78,7 +78,7 @@ export const PROJECT_PAGE_CONFIG = {
     accentDark: '#4CD9B8',
     layout: {
       kind: 'sections',
-      order: ['method', 'architecture', 'gallery', 'results', 'limitations', 'documents'],
+      order: ['method', 'architecture', 'decisions', 'gallery', 'results', 'limitations', 'documents'],
     },
   },
   novastore: {

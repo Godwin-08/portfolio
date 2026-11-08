@@ -122,20 +122,20 @@ const figuresEn = {
 
 const labelsFr: Labels = {
   question: 'Question étudiée',
-  reading: 'Comment lire la figure',
-  observation: 'Résultat observé',
-  interpretation: 'Interprétation',
-  businessInterest: 'À quoi ça sert',
-  limitation: 'Limite',
+  reading: 'Clés de lecture',
+  observation: 'Constat factuel',
+  interpretation: 'Interprétation analytique',
+  businessInterest: 'Impact décisionnel & Métier',
+  limitation: 'Limites méthodologiques',
 };
 
 const labelsEn: Labels = {
   question: 'Research question',
-  reading: 'How to read the figure',
-  observation: 'Observed result',
-  interpretation: 'Interpretation',
-  businessInterest: 'Business value',
-  limitation: 'Limitation',
+  reading: 'Reading guide',
+  observation: 'Key observation',
+  interpretation: 'Analytical interpretation',
+  businessInterest: 'Operational & Business Impact',
+  limitation: 'Methodological caveats',
 };
 
 function FigureAnalysis({ fig, labels }: { fig: FigureData; labels: Labels }) {
@@ -167,7 +167,7 @@ export function GtmCaseStudy() {
   const labels = isEnglish ? labelsEn : labelsFr;
 
   const back = isEnglish ? 'Back to projects' : 'Retour aux projets';
-  const eyebrow = isEnglish ? 'Introductory internship · Galaxy Solutions · 2025–2026' : "Stage d'initiation · Galaxy Solutions · 2025–2026";
+  const eyebrow = isEnglish ? '1st-Year Internship · Galaxy Solutions · 2025–2026' : "Stage de 1re année · Galaxy Solutions · 2025–2026";
   const title = 'GTM — Galaxy Training Manager';
   const intro = isEnglish
     ? 'A Flask application that centralizes training management and makes activity data readable for Galaxy Solutions teams.'

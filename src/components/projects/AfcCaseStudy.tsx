@@ -21,11 +21,11 @@ export function AfcCaseStudy({ copy, locale, galleryLabels }: AfcCaseStudyProps)
         limitationsTitle: 'Technical Perspectives & Interpretation',
         documentsTitle: 'Methodological Presentation',
         question: 'Question',
-        reading: 'How to read it',
-        observation: 'What we see',
-        interpretation: 'What it means',
-        businessInterest: 'Why it is useful',
-        limitation: 'Limit',
+        reading: 'Reading Guide',
+        observation: 'Key Observation',
+        interpretation: 'Analytical Interpretation',
+        businessInterest: 'Operational & Business Impact',
+        limitation: 'Methodological Limitations',
       }
     : {
         dataTitle: 'Données et tableau de contingence',
@@ -37,11 +37,11 @@ export function AfcCaseStudy({ copy, locale, galleryLabels }: AfcCaseStudyProps)
         limitationsTitle: 'Perspectives techniques & Précautions',
         documentsTitle: 'Support méthodologique officiel',
         question: 'Question étudiée',
-        reading: 'Comment lire la figure',
-        observation: 'Ce que l’on observe',
-        interpretation: 'Interprétation',
-        businessInterest: 'À quoi ça sert',
-        limitation: 'Limite',
+        reading: 'Clés de lecture',
+        observation: 'Constat factuel',
+        interpretation: 'Interprétation analytique',
+        businessInterest: 'Impact décisionnel & Métier',
+        limitation: 'Limites méthodologiques',
       };
 
   const scree = copy.gallery.find((image) => image.src.endsWith('afc-screeplot.png'));

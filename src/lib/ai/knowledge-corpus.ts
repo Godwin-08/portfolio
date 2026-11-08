@@ -229,8 +229,8 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
     id: 'exp-galaxy-solutions',
     category: 'experience',
     title: {
-      fr: 'Stage d’initiation — Galaxy Solutions (juillet–août 2026)',
-      en: 'Initiation Internship — Galaxy Solutions (July–August 2026)',
+      fr: 'Stage de 1re année — Galaxy Solutions (juillet–août 2026)',
+      en: '1st-Year Internship — Galaxy Solutions (July–August 2026)',
     },
     summary: {
       fr: 'Conception et développement de l’application professionnelle Galaxy Training Manager (GTM).',
@@ -239,7 +239,7 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
     facts: {
       fr: [
         'Entreprise : Galaxy Solutions.',
-        'Période : juillet–août 2026, pendant deux mois (stage d’initiation terminé).',
+        'Période : juillet–août 2026, pendant deux mois (stage de 1re année terminé).',
         'Modalité : à distance.',
         'Cadre : travail individuel sur l’intégralité du cycle de conception et de développement.',
         'Projet développé : GTM (Galaxy Training Manager).',
@@ -248,7 +248,7 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
       ],
       en: [
         'Company: Galaxy Solutions.',
-        'Period: July–August 2026, for two months (completed initiation internship).',
+        'Period: July–August 2026, for two months (completed 1st-year internship).',
         'Format: remote.',
         'Scope: individual responsibility across the entire design and implementation lifecycle.',
         'Delivered software: GTM (Galaxy Training Manager).',
@@ -748,7 +748,7 @@ function buildAuthoritativeCorpus(): Record<string, KnowledgeDocument> {
       en: 'GTM Internship Report (PDF)',
     },
     summary: {
-      fr: 'Rapport de stage d’initiation consacré à la conception de Galaxy Training Manager chez Galaxy Solutions.',
+      fr: 'Rapport de stage consacré à la conception de Galaxy Training Manager chez Galaxy Solutions.',
       en: 'Internship report covering the development of Galaxy Training Manager at Galaxy Solutions.',
     },
     facts: {
@@ -1133,7 +1133,7 @@ export function buildPromptKnowledgeContext(
           .map((id) => KNOWLEDGE_CORPUS[id])
           .filter((document): document is KnowledgeDocument => Boolean(document));
   const maxDocumentContextChars =
-    documentIds === undefined ? Number.POSITIVE_INFINITY : MAX_SCOPED_PROMPT_CONTEXT_CHARS - 2_000;
+    documentIds === undefined ? Number.POSITIVE_INFINITY : MAX_SCOPED_PROMPT_CONTEXT_CHARS - 800;
   let documentContextChars = lines.join('\n').length + 1;
   let contextLimitReached = false;
 

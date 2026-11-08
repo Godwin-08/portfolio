@@ -227,7 +227,7 @@
         "title": "GTM — Galaxy Training Manager",
         "tagline": "Operational Information System & decision engine (Flask, 3NF MySQL, real-time KPIs, and PCA module).",
         "summary": "Enterprise data application developed at Galaxy Solutions to centralize B2B training operations, automate decision KPIs, and ensure data integrity. Validated by 166 Pytest tests.",
-        "context": "Introductory internship · Galaxy Solutions"
+        "context": "1st-Year Internship · Galaxy Solutions"
       },
       "olist": {
         "title": "E-Commerce Data Pipeline & Audit — Olist",
@@ -267,26 +267,26 @@
       },
       "pneumonia-detection": {
         "title": "Pneumonia Detection from Chest X-rays — Deep Learning",
-        "tagline": "Team academic project comparing a custom CNN with DenseNet121 transfer learning.",
-        "summary": "NORMAL / PNEUMONIA classification on 5,856 chest X-rays, with reported metrics and source discrepancies documented.",
+        "tagline": "Binary medical image classification using custom CNN and DenseNet121 transfer learning.",
+        "summary": "NORMAL / PNEUMONIA classification on 5,856 pediatric chest X-rays, featuring decision threshold optimization and clinical recall analysis.",
         "context": "Academic · team of four"
       },
       "goodthought-sql-analysis": {
         "title": "SQL Analysis of Donations and Impact — GoodThought",
-        "tagline": "Guided DataCamp project exploring donations and impact scores by assignment and region.",
-        "summary": "SQL queries on assignments, donations, and donors in a practice case, using aggregations, CTEs, and regional rankings.",
+        "tagline": "Advanced relational modeling and analytical queries on donation cash flows and regional impact metrics.",
+        "summary": "PostgreSQL 3NF schema (5,000 assignments, donations, donors): multidimensional aggregations by typology, modular CTEs, and partitioned ROW_NUMBER() windowing.",
         "context": "Guided project · DataCamp"
       },
       "motorcycle-parts-sales": {
-        "title": "Motorcycle Parts Sales Analysis",
-        "tagline": "Guided DataCamp project analysing wholesale sales by product, month, and warehouse.",
-        "summary": "SQL queries on 1,000 practice orders, grouped by product line, month, and warehouse.",
+        "title": "Motorcycle Parts Sales Analysis — SQL Audit",
+        "tagline": "Multidimensional B2B wholesale sales aggregation and financial formula auditing.",
+        "summary": "SQL analysis across 1,000 orders spanning 3 warehouses (48 aggregates): multidimensional rollups and critical audit of fee deduction logic (payment_fee).",
         "context": "Guided project · DataCamp"
       },
       "students-mental-health": {
         "title": "Analyzing Students’ Mental Health",
-        "tagline": "Guided DataCamp project comparing scores by student status and length of stay.",
-        "summary": "SQL analysis of PHQ-9, SCS, and ASISS scores in a survey of students in Japan.",
+        "tagline": "Biostatistical SQL analysis: psychometric evaluation (PHQ-9, SCS, ASISS) by student cohort and length of stay.",
+        "summary": "PostgreSQL multivariate comparative study assessing depression, social connectedness, and acculturative stress across an international student cohort (286 students).",
         "context": "Guided project · DataCamp"
       },
       "grocery-store-sales": {
@@ -420,9 +420,9 @@
       }
     },
     "professional": "Professional experience",
-    "galaxyLabel": "Introductory internship · Galaxy Solutions · 2025–2026",
+    "galaxyLabel": "1st-Year Internship (Python & SQL Developer) · Galaxy Solutions · 2025–2026",
     "galaxy": "Galaxy Training Manager (GTM)",
-    "galaxyText": "During this introductory internship, I designed and developed a training management and tracking application. I modeled the relational database (MySQL in 3NF), implemented the application logic with Flask, and built an executive KPI dashboard featuring a Principal Component Analysis (PCA) module. The demonstration uses fictional data.",
+    "galaxyText": "During this internship at Galaxy Solutions, I designed and developed an end-to-end training management application. I modeled the relational database (MySQL in 3NF), implemented the backend logic in Flask, and designed an executive analytics dashboard embedding a Principal Component Analysis (PCA) module.",
     "galaxyLink": "View the GTM case study",
     "association": "Community involvement",
     "cestom": "CESTOM",

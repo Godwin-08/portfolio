@@ -220,7 +220,7 @@ export async function ProjectDetailPage({
                     </div>
                     <div>
                       <dt className="text-sm font-bold text-slate-900 dark:text-white">
-                        {locale === 'en' ? 'Why it matters' : 'À quoi ça sert'}
+                        {locale === 'en' ? 'Operational & Business Impact' : 'Impact décisionnel & Métier'}
                       </dt>
                       <dd className="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
                         {image.analysis.businessInterest}
@@ -228,7 +228,7 @@ export async function ProjectDetailPage({
                     </div>
                     <div>
                       <dt className="text-sm font-bold text-slate-900 dark:text-white">
-                        {locale === 'en' ? 'Limit' : 'Limite'}
+                        {locale === 'en' ? 'Methodological Limitations' : 'Limites méthodologiques'}
                       </dt>
                       <dd className="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
                         {image.analysis.limitation}

@@ -908,8 +908,8 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
         level: 'strong',
         reason:
           locale === 'fr'
-            ? 'Application web professionnelle de suivi des formations conçue et développée pendant le stage d’initiation chez Galaxy Solutions.'
-            : 'Professional web application for training tracking designed and implemented during initiation internship at Galaxy Solutions.',
+            ? 'Application web professionnelle de suivi des formations conçue et développée pendant le stage de 1re année chez Galaxy Solutions.'
+            : 'Professional web application for training tracking designed and implemented during 1st-year internship at Galaxy Solutions.',
         verifiedProofs: gtmProj[locale].verifiedProofs.slice(0, 3),
         limitations: gtmProj[locale].limitations.slice(0, 3),
         href: `/${locale === 'fr' ? 'projets' : 'projects'}/gtm`,
@@ -925,8 +925,8 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
       directAnswer:
         expDoc?.facts[locale].join(' ') ??
         (locale === 'fr'
-          ? 'Le portfolio documente un stage d’initiation terminé chez Galaxy Solutions et la réalisation de Galaxy Training Manager (GTM).'
-          : 'The portfolio documents a completed initiation internship at Galaxy Solutions and the development of Galaxy Training Manager (GTM).'),
+          ? 'Le portfolio documente un stage de 1re année terminé chez Galaxy Solutions et la réalisation de Galaxy Training Manager (GTM).'
+          : 'The portfolio documents a completed 1st-year internship at Galaxy Solutions and the development of Galaxy Training Manager (GTM).'),
       matches,
       relatedItems,
     };

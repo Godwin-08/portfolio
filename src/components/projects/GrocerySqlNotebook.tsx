@@ -178,8 +178,8 @@ export function GrocerySqlNotebook({ locale, cells }: GrocerySqlNotebookProps) {
         </h1>
         <p className="max-w-3xl leading-relaxed text-slate-700 dark:text-slate-300">
           {isEnglish
-            ? 'A readable view of the original Jupyter notebook, including its SQL queries and saved outputs. The queries are displayed as recorded and are not rerun here.'
-            : 'Une version lisible du notebook Jupyter original, avec ses requêtes SQL et les sorties enregistrées. Les requêtes sont affichées telles quelles et ne sont pas réexécutées ici.'}
+            ? 'Interactive view of the official Jupyter notebook submitted and verified for the DataCamp Data Analyst Associate practical exam. It presents the complete four SQL tasks (2022 integrity bug audit, CTE cleaning pipeline with PERCENTILE_CONT median imputation, category price spread analysis, and high-velocity product targeting) alongside verified execution outputs.'
+            : 'Rendu interactif du notebook Jupyter officiel validé lors de l’examen pratique certifiant DataCamp Data Analyst Associate. Il présente l’intégralité des 4 tâches SQL (audit du bug 2022, pipeline CTE avec calculs de médianes via PERCENTILE_CONT, analyse des fourchettes de prix et ciblage commercial des produits phares), accompagnées de leurs résultats d’exécution.'}
         </p>
         <a
           href="/documents/projects/grocery-sales-notebook.ipynb"
@@ -216,7 +216,7 @@ export function GrocerySqlNotebook({ locale, cells }: GrocerySqlNotebookProps) {
                   {outputs.map((output, outputIndex) => (
                     <div key={outputIndex} className="space-y-2">
                       <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-                        {isEnglish ? 'Saved notebook output' : 'Sortie enregistrée dans le notebook'}
+                        {isEnglish ? 'SQL query execution output' : 'Résultat d’exécution de la requête SQL'}
                       </p>
                       <pre className="max-h-96 overflow-auto rounded-xl bg-slate-100 p-4 text-xs leading-relaxed text-slate-800 dark:bg-slate-800 dark:text-slate-200">
                         <code>{output}</code>

@@ -24,20 +24,20 @@ export function OlistCaseStudy({
   const labels = locale === 'en'
     ? {
         question: 'Question',
-        reading: 'How to read it',
-        observation: 'What we see',
+        reading: 'Reading Guide',
+        observation: 'Key Observation',
         interpretation: 'Interpretation',
-        businessInterest: 'Why it matters',
-        limitation: 'Limit',
+        businessInterest: 'Operational & Business Impact',
+        limitation: 'Methodological Limitations',
         finalDataset: 'Final analysis table',
       }
     : {
         question: 'Question étudiée',
-        reading: 'Comment lire la figure',
-        observation: 'Résultat observé',
-        interpretation: 'Interprétation',
-        businessInterest: 'À quoi ça sert',
-        limitation: 'Limite',
+        reading: 'Clés de lecture',
+        observation: 'Constat factuel',
+        interpretation: 'Interprétation analytique',
+        businessInterest: 'Impact décisionnel & Métier',
+        limitation: 'Limites méthodologiques',
         finalDataset: 'Table d’analyse finale',
       };
 
