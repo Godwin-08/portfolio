@@ -594,6 +594,8 @@ export const CERTIFICATIONS: readonly Certification[] = [
     completedOn: '2026-10-30',
     reference: '50,652,560',
     documentPath: '/certifications/data-driven-decision-making-in-sql.pdf',
+    verificationUrl:
+      'https://www.datacamp.com/completed/statement-of-accomplishment/course/155f470f0fc55a1e1f222ba27e6168439da1d01f',
     issuer: 'DataCamp',
     accent: 'emerald',
     content: {
@@ -620,6 +622,90 @@ export const CERTIFICATIONS: readonly Certification[] = [
         ],
         practice:
           'The case study explores customer preferences and engagement, as well as sales trends in a film-rental database.',
+      },
+    },
+  },
+  {
+    id: 'introduction-to-python',
+    title: 'Introduction to Python',
+    imagePath: '/certifications/introduction-to-python.png',
+    category: 'data-analysis',
+    credentialType: 'course',
+    importance: 13,
+    completedOn: '2026-11-05',
+    reference: '50,278,936',
+    documentPath: '/certifications/introduction-to-python.pdf',
+    verificationUrl:
+      'https://www.datacamp.com/completed/statement-of-accomplishment/course/cfa62d5ad06aab726327174a33cc14c874dd5b9b',
+    issuer: 'DataCamp',
+    accent: 'emerald',
+    content: {
+      fr: {
+        overview:
+          'Formation fondamentale à Python orientée Data Science : structures de données natives, manipulation de listes, modularité (fonctions et packages) et calcul vectoriel avec NumPy.',
+        topics: [
+          'Bases du langage Python : variables, types scalaires et calculs',
+          'Listes Python : création, indexation, découpage (slicing) et manipulation',
+          'Fonctions intégrées, méthodes et gestion de paquets (imports sélectifs)',
+          'Tableaux NumPy (1D et 2D), arithmétique vectorisée et statistiques de base',
+        ],
+        practice:
+          '46 exercices interactifs et études de cas appliqués à des jeux de données réels (analyse de caractéristiques de joueurs de baseball).',
+      },
+      en: {
+        overview:
+          'Foundational Python course tailored for Data Science: core data structures, list operations, modular code with functions and packages, and vectorised computing with NumPy.',
+        topics: [
+          'Python programming fundamentals: variables, basic data types, and arithmetic',
+          'Python lists: creation, indexing, slicing, and multi-dimensional lists',
+          'Built-in functions, methods, and package management (selective imports)',
+          'NumPy arrays (1D and 2D), vectorised arithmetic, and descriptive summary statistics',
+        ],
+        practice:
+          '46 interactive exercises and applied case studies on real-world datasets (e.g. baseball player statistics).',
+      },
+    },
+  },
+  {
+    id: 'intermediate-python',
+    title: 'Intermediate Python',
+    imagePath: '/certifications/intermediate-python.png',
+    category: 'data-analysis',
+    credentialType: 'course',
+    importance: 14,
+    completedOn: '2026-11-08',
+    reference: '50,826,835',
+    documentPath: '/certifications/intermediate-python.pdf',
+    verificationUrl:
+      'https://www.datacamp.com/completed/statement-of-accomplishment/course/9736682841e8048403b81700768031ec5568a9fe',
+    issuer: 'DataCamp',
+    accent: 'emerald',
+    content: {
+      fr: {
+        overview:
+          'Perfectionnement à la manipulation et à la visualisation de données en Python : graphiques Matplotlib, structures de données clés (dictionnaires et DataFrames pandas), structures de contrôle et simulation statistique.',
+        topics: [
+          'Visualisation avec Matplotlib : courbes, nuages de points, histogrammes et personnalisation',
+          'Dictionnaires et DataFrames pandas : indexation, sélection par loc/iloc et conversion CSV',
+          'Logique booléenne, flux de contrôle (if/elif/else) et filtrage logique de DataFrames',
+          'Boucles while et for sur structures itérables et DataFrames',
+          'Simulation statistique (Hacker Statistics) : marches aléatoires et calcul de probabilités',
+        ],
+        practice:
+          '87 exercices interactifs et étude de cas finale de simulation statistique (Hacker Statistics) avec génération de nombres aléatoires et marches aléatoires.',
+      },
+      en: {
+        overview:
+          'Intermediate Python for data analysis and visualization: Matplotlib plotting, key data structures (dictionaries and pandas DataFrames), control flow, and statistical simulation.',
+        topics: [
+          'Data visualization with Matplotlib: line plots, scatter plots, histograms, and customizations',
+          'Dictionaries and pandas DataFrames: indexing, subsetting via loc/iloc, and CSV ingestion',
+          'Boolean logic, control flow (if/elif/else), and conditional DataFrame filtering',
+          'while and for loops across iterables, NumPy arrays, and DataFrames',
+          'Hacker Statistics case study: random walk simulations and empirical probability estimation',
+        ],
+        practice:
+          '87 interactive exercises and a capstone case study using Hacker Statistics, random number generation, and probability distributions.',
       },
     },
   },

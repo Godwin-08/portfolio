@@ -289,6 +289,12 @@
         "summary": "Analyse comparative multivariée sous PostgreSQL des scores de dépression, d'intégration sociale et de stress d'acculturation sur une cohorte universitaire (286 étudiants).",
         "context": "Projet guidé · DataCamp"
       },
+      "investigating-netflix-movies": {
+        "title": "Analyse des films Netflix des années 1990 — EDA Python",
+        "tagline": "Analyse exploratoire de données sous Python (Pandas) : filtrage temporel, durée modale et segmentation par genre.",
+        "summary": "Analyse exploratoire sous Python et pandas du catalogue Netflix : isolation de 183 films des années 1990, calcul de la durée modale (94 min) et dénombrement des films d'action courts.",
+        "context": "Projet guidé · DataCamp"
+      },
       "grocery-store-sales": {
         "title": "Audit & Analyse SQL des ventes — FoodYum",
         "tagline": "Examen pratique certifiant DataCamp : audit d'intégrité, nettoyage SQL avancé et ciblage des ventes.",

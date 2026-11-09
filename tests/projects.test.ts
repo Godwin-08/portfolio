@@ -21,6 +21,7 @@ describe('Data Layer - Projects', () => {
     expect(getAllProjects().map(({ id }) => id)).toEqual([
       'gtm', 'olist', 'grocery-store-sales', 'acp', 'afc', 'revision-flow', 'novastore', 'sante-scolaire',
       'pneumonia-detection', 'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health',
+      'investigating-netflix-movies',
     ]);
     for (const messages of [frMessages, enMessages]) {
       expect(Object.keys(messages.projects.cards).sort()).toEqual(
@@ -497,7 +498,7 @@ describe('Localized case study content', () => {
   });
 
   it('keeps all projects backed by a case-study route source', () => {
-    expect(PROJECTS).toHaveLength(12);
+    expect(PROJECTS).toHaveLength(13);
     expect(PROJECTS.every(({ slug, caseStudy }) => Boolean(slug && caseStudy))).toBe(true);
   });
 
@@ -505,12 +506,15 @@ describe('Localized case study content', () => {
     const goodThought = getProjectDetailCopy('goodthought-sql-analysis', 'fr');
     const motorcycle = getProjectDetailCopy('motorcycle-parts-sales', 'fr');
     const mentalHealth = getProjectDetailCopy('students-mental-health', 'fr');
+    const netflix = getProjectDetailCopy('investigating-netflix-movies', 'fr');
     const goodThoughtProject = getProjectBySlug('goodthought-sql-analysis');
     const motorcycleProject = getProjectBySlug('motorcycle-parts-sales');
     const mentalHealthProject = getProjectBySlug('students-mental-health');
+    const netflixProject = getProjectBySlug('investigating-netflix-movies');
 
     expect(goodThoughtProject?.image).toBe('/images/projects/goodthought-data-model.png');
     expect(motorcycleProject?.image).toBe('/images/projects/motorcycle-parts-sales.jpg');
+    expect(netflixProject?.image).toBe('/images/projects/investigating-netflix-movies.jpg');
     expect(goodThought?.documents?.[0].href).toBe(
       'https://www.datacamp.com/datalab/w/f8f3f346-1000-46b8-8570-27be207896b3/edit',
     );
@@ -529,6 +533,12 @@ describe('Localized case study content', () => {
     expect(getProjectDetailCopy('students-mental-health', 'en')?.results.map(({ value }) => value))
       .toContain('75.56 / 62.84');
     expect(mentalHealthProject?.image).toBe('/images/projects/students-mental-health.jpg');
+    expect(netflix?.documents?.[0].href).toBe(
+      'https://www.datacamp.com/datalab/w/aa128536-41d8-4af0-8ca2-843c494e7ca6/edit',
+    );
+    expect(netflix?.results.map(({ value }) => value)).toContain('183');
+    expect(netflix?.results.map(({ value }) => value)).toContain('94 min');
+    expect(netflix?.results.map(({ value }) => value)).toContain('7');
   });
 });
 

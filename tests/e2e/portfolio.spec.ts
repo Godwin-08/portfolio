@@ -256,6 +256,7 @@ for (const site of localizedRoutes) {
         'goodthought-sql-analysis': [],
         'motorcycle-parts-sales': [],
         'students-mental-health': [],
+        'investigating-netflix-movies': [],
         'grocery-store-sales': [],
       } as const;
       for (const kind of expectedPeoplePanels[slug]) {
@@ -288,6 +289,7 @@ for (const site of localizedRoutes) {
         'goodthought-sql-analysis': 0,
         'motorcycle-parts-sales': 0,
         'students-mental-health': 0,
+        'investigating-netflix-movies': 0,
         'grocery-store-sales': 1,
       } as const;
       await expect(page.locator('[data-project-gallery] figure')).toHaveCount(expectedImageCounts[slug]);

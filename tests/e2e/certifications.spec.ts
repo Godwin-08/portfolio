@@ -130,7 +130,8 @@ const certificates = [
     reference: '50,652,560',
     documentPath: '/certifications/data-driven-decision-making-in-sql.pdf',
     contentType: 'application/pdf',
-    verificationUrl: null,
+    verificationUrl:
+      'https://www.datacamp.com/completed/statement-of-accomplishment/course/155f470f0fc55a1e1f222ba27e6168439da1d01f',
   },
 ];
 
@@ -146,8 +147,8 @@ test('DataCamp certifications and courses show their verified records in French 
       locale: 'fr',
       sectionName: 'Certifications',
       navigationLinkName: 'Certifications',
-      featuredCountText: 'Preuves principales : 2 sur 13',
-      listCountText: '11 cours répertoriés',
+      featuredCountText: 'Preuves principales : 2 sur 15',
+      listCountText: '13 cours répertoriés',
       filterGroup: 'Filtrer les cours par domaine',
       filterAll: 'Tous les cours',
       filterSql: 'SQL',
@@ -161,7 +162,7 @@ test('DataCamp certifications and courses show their verified records in French 
       includedCoursesHeading: 'Cours de ce parcours (11)',
       sqlCountText: '8 cours répertoriés',
       statisticsCountText: '1 cours répertorié',
-      dataAnalysisCountText: '2 cours répertoriés',
+      dataAnalysisCountText: '4 cours répertoriés',
       navigationLabel: 'Navigation principale',
       backText: 'Retour aux certifications et formations',
       detailPath: (id: string) => `/certifications/${id}`,
@@ -203,8 +204,8 @@ test('DataCamp certifications and courses show their verified records in French 
       locale: 'en',
       sectionName: 'Certifications',
       navigationLinkName: 'Certifications',
-      featuredCountText: 'Key evidence: 2 of 13',
-      listCountText: '11 courses listed',
+      featuredCountText: 'Key evidence: 2 of 15',
+      listCountText: '13 courses listed',
       filterGroup: 'Filter courses by subject',
       filterAll: 'All courses',
       filterSql: 'SQL',
@@ -218,7 +219,7 @@ test('DataCamp certifications and courses show their verified records in French 
       includedCoursesHeading: 'Courses in this track (11)',
       sqlCountText: '8 courses listed',
       statisticsCountText: '1 course listed',
-      dataAnalysisCountText: '2 courses listed',
+      dataAnalysisCountText: '4 courses listed',
       navigationLabel: 'Main navigation',
       backText: 'Back to certifications and courses',
       detailPath: (id: string) => `/en/certifications/${id}`,
@@ -309,7 +310,7 @@ test('DataCamp certifications and courses show their verified records in French 
     ).toHaveCount(1);
     await expect(
       fullSection.locator('[data-certification-type="course"]')
-    ).toHaveCount(11);
+    ).toHaveCount(13);
     const filters = fullSection.getByRole('group', { name: site.filterGroup });
     const courseZone = fullSection.locator(
       '[data-certifications-zone="courses"]'
@@ -344,18 +345,18 @@ test('DataCamp certifications and courses show their verified records in French 
     await expect(
       fullSection.getByText(site.dataAnalysisCountText, { exact: true })
     ).toBeVisible();
-    await expect(courseZone.locator('[data-certification-id]')).toHaveCount(2);
+    await expect(courseZone.locator('[data-certification-id]')).toHaveCount(4);
     await expect(
       courseZone.locator('[data-certification-category="data-analysis"]')
-    ).toHaveCount(2);
+    ).toHaveCount(4);
     await allFilter.click();
     await expect(allFilter).toHaveAttribute('aria-pressed', 'true');
     await expect(
       fullSection.getByText(site.listCountText, { exact: true })
     ).toBeVisible();
-    await expect(courseZone.locator('[data-certification-id]')).toHaveCount(11);
-    await expect(courseZone.locator('[data-certification-details]')).toHaveCount(11);
-    await expect(courseZone.locator('[data-certification-verification]')).toHaveCount(7);
+    await expect(courseZone.locator('[data-certification-id]')).toHaveCount(13);
+    await expect(courseZone.locator('[data-certification-details]')).toHaveCount(13);
+    await expect(courseZone.locator('[data-certification-verification]')).toHaveCount(9);
     await expect(fullSection.locator('[data-certification-type="track"]')).toBeVisible();
     const cardsGrid = courseZone;
     const desktopColumns = await cardsGrid.evaluate((element) =>

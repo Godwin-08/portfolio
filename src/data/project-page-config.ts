@@ -126,6 +126,15 @@ export const PROJECT_PAGE_CONFIG = {
       order: ['data', 'method', 'results', 'limitations', 'documents'],
     },
   },
+  'investigating-netflix-movies': {
+    accent: '#E50914',
+    accentText: '#B81D24',
+    accentDark: '#F44336',
+    layout: {
+      kind: 'sections',
+      order: ['data', 'method', 'results', 'limitations', 'documents'],
+    },
+  },
   'grocery-store-sales': {
     accent: '#0D9488',
     accentText: '#0F766E',

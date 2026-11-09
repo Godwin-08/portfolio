@@ -41,7 +41,7 @@ export const SKILLS: Skill[] = [
     id: 'pandas',
     name: 'Pandas',
     category: 'data-analysis',
-    projectSlugs: ['gtm', 'olist', 'afc', 'acp'],
+    projectSlugs: ['gtm', 'olist', 'afc', 'acp', 'investigating-netflix-movies'],
     isTopSkill: true,
   },
   {
@@ -125,7 +125,7 @@ export const SKILLS: Skill[] = [
     id: 'python',
     name: 'Python',
     category: 'programming',
-    projectSlugs: ['gtm', 'olist', 'afc', 'acp', 'novastore', 'sante-scolaire', 'pneumonia-detection'],
+    projectSlugs: ['gtm', 'olist', 'afc', 'acp', 'novastore', 'sante-scolaire', 'pneumonia-detection', 'investigating-netflix-movies'],
     isTopSkill: true,
   },
   {
@@ -174,7 +174,7 @@ export const SKILLS: Skill[] = [
     id: 'jupyter',
     name: 'Jupyter',
     category: 'development-tools',
-    projectSlugs: ['olist', 'afc', 'acp', 'pneumonia-detection', 'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health', 'grocery-store-sales'],
+    projectSlugs: ['olist', 'afc', 'acp', 'pneumonia-detection', 'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health', 'grocery-store-sales', 'investigating-netflix-movies'],
     isTopSkill: false,
   },
   {

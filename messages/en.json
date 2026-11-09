@@ -289,6 +289,12 @@
         "summary": "PostgreSQL multivariate comparative study assessing depression, social connectedness, and acculturative stress across an international student cohort (286 students).",
         "context": "Guided project · DataCamp"
       },
+      "investigating-netflix-movies": {
+        "title": "Investigating 1990s Netflix Movies — Python EDA",
+        "tagline": "Exploratory data analysis in Python (pandas): temporal filtering, modal duration, and genre segmentation.",
+        "summary": "Exploratory data analysis in Python and pandas on the Netflix catalogue: isolating 183 1990s movies, identifying modal duration (94 min), and counting short action films.",
+        "context": "Guided project · DataCamp"
+      },
       "grocery-store-sales": {
         "title": "FoodYum Grocery Store Sales SQL Analysis",
         "tagline": "Official DataCamp practical exam: data integrity audit, advanced SQL cleaning, and sales targeting.",

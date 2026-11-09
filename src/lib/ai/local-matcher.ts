@@ -325,6 +325,18 @@ function findGuidedProjectId(query: string): string | undefined {
       'international students',
       'etudiants internationaux',
     ],
+    'investigating-netflix-movies': [
+      'investigating netflix movies',
+      'netflix movies',
+      'netflix movie',
+      'netflix',
+      'films netflix',
+      'duree des films netflix',
+      'annees 1990',
+      '1990s netflix',
+      'duree modale',
+      'modal duration',
+    ],
   };
 
   return Object.entries(projectKeywords).find(([, keywords]) =>
