@@ -19,9 +19,9 @@ describe('Data Layer - Projects', () => {
 
   it('should display all project cards in their configured order', () => {
     expect(getAllProjects().map(({ id }) => id)).toEqual([
-      'gtm', 'olist', 'grocery-store-sales', 'acp', 'afc', 'revision-flow', 'novastore', 'sante-scolaire',
-      'pneumonia-detection', 'goodthought-sql-analysis', 'motorcycle-parts-sales', 'students-mental-health',
-      'investigating-netflix-movies',
+      'gtm', 'olist', 'grocery-store-sales', 'acp', 'afc', 'goodthought-sql-analysis',
+      'investigating-netflix-movies', 'sante-scolaire', 'pneumonia-detection',
+      'motorcycle-parts-sales', 'students-mental-health', 'revision-flow', 'novastore',
     ]);
     for (const messages of [frMessages, enMessages]) {
       expect(Object.keys(messages.projects.cards).sort()).toEqual(

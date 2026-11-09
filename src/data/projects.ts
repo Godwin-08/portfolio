@@ -414,7 +414,7 @@ export const PROJECTS: Project[] = [
     tagline: 'Planificateur de révisions intelligent, 100 % navigateur, avec recalcul en temps réel',
     category: 'Web / SI',
     isFeatured: false,
-    order: 6,
+    order: 12,
     context: 'Académique (Individuel)',
     period: '2025–2026',
     summary:
@@ -583,7 +583,7 @@ export const PROJECTS: Project[] = [
     tagline: 'Boutique e-commerce en POO : catalogue, panier dynamique, commandes et facturation',
     category: 'Web / SI',
     isFeatured: false,
-    order: 7,
+    order: 13,
     context: 'Académique (Équipe)',
     period: '2025–2026',
     summary:
@@ -748,7 +748,7 @@ export const PROJECTS: Project[] = [
     tagline: 'Modélisation relationnelle et requêtes analytiques sur les dons et scores d’impact par mission et région.',
     category: 'Data Analysis',
     isFeatured: false,
-    order: 10,
+    order: 6,
     context: 'Projet guidé DataCamp',
     period: 'SQL Data Analyst',
     summary:
@@ -802,7 +802,7 @@ export const PROJECTS: Project[] = [
     tagline: 'Agrégation multidimensionnelle de ventes B2B en gros et audit de formule financière.',
     category: 'Data Analysis',
     isFeatured: false,
-    order: 11,
+    order: 10,
     context: 'Projet guidé DataCamp',
     period: 'SQL Data Analyst',
     summary:
@@ -842,7 +842,7 @@ export const PROJECTS: Project[] = [
     tagline: 'Analyse biostatistique SQL : évaluation psychométrique comparative (PHQ-9, SCS, ASISS) selon le statut et la durée de séjour.',
     category: 'Data Analysis',
     isFeatured: false,
-    order: 12,
+    order: 11,
     context: 'Projet guidé DataCamp',
     period: 'SQL Data Analyst',
     summary:
@@ -880,7 +880,7 @@ export const PROJECTS: Project[] = [
     tagline: 'Analyse exploratoire de données sous Python (Pandas) : filtrage temporel, durée modale et segmentation par genre.',
     category: 'Data Analysis',
     isFeatured: false,
-    order: 13,
+    order: 7,
     context: 'Projet guidé DataCamp',
     period: 'Python Data Analyst',
     summary:

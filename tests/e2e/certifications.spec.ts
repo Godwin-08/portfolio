@@ -301,7 +301,7 @@ test('DataCamp certifications and courses show their verified records in French 
         .getByRole('link', { name: site.navigationLinkName })
     ).toHaveAttribute('href', site.listPath);
     await expect(fullSection).toContainText(site.listCountText);
-    await expect(fullSection.locator('[data-certification-id]')).toHaveCount(13);
+    await expect(fullSection.locator('[data-certification-id]')).toHaveCount(15);
     await expect(
       fullSection.locator('[data-certification-type="certification"]')
     ).toHaveCount(1);
@@ -356,7 +356,27 @@ test('DataCamp certifications and courses show their verified records in French 
     ).toBeVisible();
     await expect(courseZone.locator('[data-certification-id]')).toHaveCount(13);
     await expect(courseZone.locator('[data-certification-details]')).toHaveCount(13);
-    await expect(courseZone.locator('[data-certification-verification]')).toHaveCount(9);
+    await expect(courseZone.locator('[data-certification-verification]')).toHaveCount(10);
+    const courseIds = await courseZone
+      .locator('[data-certification-id]')
+      .evaluateAll((cards) =>
+        cards.map((card) => card.getAttribute('data-certification-id'))
+      );
+    expect(courseIds).toEqual([
+      'intermediate-python',
+      'introduction-to-python',
+      'postgresql-summary-stats-and-window-functions',
+      'data-manipulation-in-sql',
+      'data-driven-decision-making-in-sql',
+      'functions-for-manipulating-data-in-postgresql',
+      'exploratory-data-analysis-in-sql',
+      'intermediate-sql',
+      'joining-data-in-sql',
+      'introduction-to-sql',
+      'introduction-to-statistics',
+      'data-communication-concepts',
+      'understanding-data-visualization',
+    ]);
     await expect(fullSection.locator('[data-certification-type="track"]')).toBeVisible();
     const cardsGrid = courseZone;
     const desktopColumns = await cardsGrid.evaluate((element) =>
@@ -364,16 +384,16 @@ test('DataCamp certifications and courses show their verified records in French 
     );
     expect(desktopColumns).toBe(3);
 
-    for (const [index, certificate] of certificates.entries()) {
+    for (const certificate of certificates) {
       const card = fullSection.locator(
         `[data-certification-id="${certificate.id}"]`
       );
-      await expect(card).toHaveAttribute(
-        'data-certification-rank',
-        certificate.credentialType === 'certification'
-          ? '0'
-          : String(index)
-      );
+      if (certificate.credentialType !== 'course') {
+        await expect(card).toHaveAttribute(
+          'data-certification-rank',
+          certificate.credentialType === 'certification' ? '0' : '9'
+        );
+      }
       await expect(card.getByRole('heading', { name: certificate.title })).toBeVisible();
       await expect(card.getByText('DataCamp', { exact: true })).toBeVisible();
       await expect(card).toHaveAttribute(
@@ -647,7 +667,7 @@ test('certification list language switching preserves the list route', async ({
   await expect(
     page.getByRole('heading', { name: 'Certifications', level: 1 })
   ).toBeVisible();
-  await expect(page.locator('[data-certification-id]')).toHaveCount(13);
+  await expect(page.locator('[data-certification-id]')).toHaveCount(15);
 });
 
 test('unknown certification slugs return not found', async ({ page }) => {
