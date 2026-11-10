@@ -801,6 +801,33 @@ for (const site of localizedRoutes) {
       expect(availabilityLayout.badgeScrollWidth).toBeLessThanOrEqual(availabilityLayout.badgeWidth);
       expect(availabilityLayout.rightEdge).toBeLessThanOrEqual(availabilityLayout.viewportWidth);
 
+      const actionsBounds = await hero.locator('[data-hero-actions]').boundingBox();
+      const portraitBounds = await hero
+        .locator('.hero-motion-entry--portrait')
+        .boundingBox();
+      const actionButtons = hero.locator('[data-hero-actions] > *');
+      if (!actionsBounds || !portraitBounds) {
+        throw new Error('Hero actions and portrait must be visible');
+      }
+      if (width === 390) {
+        expect(actionsBounds.y).toBeGreaterThan(
+          portraitBounds.y + portraitBounds.height
+        );
+        const [projectsBounds, cvBounds, contactBounds] = await Promise.all([
+          actionButtons.nth(0).boundingBox(),
+          actionButtons.nth(1).boundingBox(),
+          actionButtons.nth(2).boundingBox(),
+        ]);
+        if (!projectsBounds || !cvBounds || !contactBounds) {
+          throw new Error('All hero action buttons must be visible');
+        }
+        expect(projectsBounds.width).toBeCloseTo(actionsBounds.width, 0);
+        expect(cvBounds.y).toBeCloseTo(contactBounds.y, 0);
+        expect(contactBounds.x).toBeGreaterThan(cvBounds.x);
+      } else {
+        expect(actionsBounds.x).toBeLessThan(portraitBounds.x);
+      }
+
       const skillButton = page.getByRole('button', {
         name: skillAriaLabel,
         exact: true,
