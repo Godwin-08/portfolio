@@ -629,6 +629,10 @@ export const CERTIFICATIONS: readonly Certification[] = [
     category: 'data-analysis',
     credentialType: 'course',
     importance: 2,
+    completedOn: '2026-11-21',
+    reference: '50,970,865',
+    imagePath: '/certifications/data-manipulation-with-pandas.png',
+    documentPath: '/certifications/data-manipulation-with-pandas.pdf',
     verificationUrl:
       'https://www.datacamp.com/completed/statement-of-accomplishment/course/61c3fa68bf3eb0f78a463f72748e931d892a0f59',
     issuer: 'DataCamp',

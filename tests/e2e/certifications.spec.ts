@@ -39,6 +39,11 @@ const certificates = [
     credentialType: 'course',
     importance: 2,
     inTrack: false,
+    completedOn: '2026-11-21',
+    reference: '50,970,865',
+    imagePath: '/certifications/data-manipulation-with-pandas.png',
+    documentPath: '/certifications/data-manipulation-with-pandas.pdf',
+    contentType: 'application/pdf',
     verificationUrl:
       'https://www.datacamp.com/completed/statement-of-accomplishment/course/61c3fa68bf3eb0f78a463f72748e931d892a0f59',
   },
@@ -380,8 +385,8 @@ test('DataCamp certifications and courses show their verified records in French 
     await expect(
       courseZone
         .locator('[data-certification-id="data-manipulation-with-pandas"]')
-        .locator('[data-certification-preview-fallback]')
-    ).toBeVisible();
+        .locator('img')
+    ).toHaveAttribute('src', /data-manipulation-with-pandas\.png/);
     await expect(fullSection.locator('[data-certification-type="track"]')).toBeVisible();
     const cardsGrid = courseZone;
     const desktopColumns = await cardsGrid.evaluate((element) =>
@@ -450,6 +455,13 @@ test('DataCamp certifications and courses show their verified records in French 
         expect(documentResponse.headers()['content-type']).toContain(
           certificate.contentType
         );
+      }
+      if (certificate.imagePath) {
+        const imageResponse = await request.get(
+          new URL(certificate.imagePath, page.url()).toString()
+        );
+        expect(imageResponse.status()).toBe(200);
+        expect(imageResponse.headers()['content-type']).toContain('image/png');
       }
 
       const verificationLink = card.locator(
