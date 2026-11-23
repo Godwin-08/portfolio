@@ -623,6 +623,43 @@ export const CERTIFICATIONS: readonly Certification[] = [
       },
     },
   },
+  {
+    id: 'data-manipulation-with-pandas',
+    title: 'Data Manipulation with pandas',
+    category: 'data-analysis',
+    credentialType: 'course',
+    importance: 2,
+    verificationUrl:
+      'https://www.datacamp.com/completed/statement-of-accomplishment/course/61c3fa68bf3eb0f78a463f72748e931d892a0f59',
+    issuer: 'DataCamp',
+    accent: 'emerald',
+    content: {
+      fr: {
+        overview:
+          'Cours pratique sur la manipulation de DataFrames avec pandas : sélection et transformation de données, agrégations, indexation, gestion des valeurs manquantes et échanges CSV.',
+        topics: [
+          'Inspection, tri, sélection et création de colonnes dans les DataFrames',
+          'Statistiques récapitulatives, groupby et tableaux croisés dynamiques',
+          'Indexation et sous-ensembles avec loc et iloc, y compris les séries temporelles',
+          'Visualisation, traitement des valeurs manquantes et import/export CSV',
+        ],
+        practice:
+          'Cours interactif d’environ 4 h comprenant 56 exercices, avec des jeux de données tels que les ventes Walmart, les températures mondiales et les avocats.',
+      },
+      en: {
+        overview:
+          'Hands-on course on manipulating pandas DataFrames: selecting and transforming data, aggregations, indexing, handling missing values, and CSV input/output.',
+        topics: [
+          'Inspecting, sorting, subsetting, and adding columns to DataFrames',
+          'Summary statistics, groupby operations, and pivot tables',
+          'Indexing and slicing with loc and iloc, including time series',
+          'Visualisation, missing-value handling, and CSV import/export',
+        ],
+        practice:
+          'An approximately four-hour interactive course with 56 exercises using datasets such as Walmart sales, global temperatures, and avocados.',
+      },
+    },
+  },
 ];
 
 export const CERTIFICATIONS_BY_IMPORTANCE = [...CERTIFICATIONS].sort(

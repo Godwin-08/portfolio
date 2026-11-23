@@ -1069,8 +1069,8 @@ export function runLocalMatcher(query: string, locale: 'fr' | 'en' = 'fr'): Evid
           : 'track completion certificates';
       directAnswer =
         locale === 'fr'
-          ? `Le portfolio présente ${CERTIFICATIONS.length} preuves DataCamp : ${certificationCount} certification d’examen, ${courseCount} ${courseLabelFr} et ${trackCount} ${trackLabelFr} en statistiques, SQL, PostgreSQL, analyse et communication des données. Chaque fiche résume les apprentissages et indique où consulter la preuve disponible.`
-          : `The portfolio presents ${CERTIFICATIONS.length} pieces of DataCamp evidence: ${certificationCount} exam certification, ${courseCount} ${courseLabelEn}, and ${trackCount} ${trackLabelEn} in statistics, SQL, PostgreSQL, data analysis, and communication. Each page summarizes the learning and links to the available evidence.`;
+          ? `Le portfolio présente ${CERTIFICATIONS.length} preuves DataCamp : ${certificationCount} certification d’examen, ${courseCount} ${courseLabelFr} et ${trackCount} ${trackLabelFr} en statistiques, SQL, PostgreSQL, Python/pandas, analyse et communication des données. Chaque fiche résume les apprentissages et indique où consulter la preuve disponible.`
+          : `The portfolio presents ${CERTIFICATIONS.length} pieces of DataCamp evidence: ${certificationCount} exam certification, ${courseCount} ${courseLabelEn}, and ${trackCount} ${trackLabelEn} in statistics, SQL, PostgreSQL, Python/pandas, data analysis, and communication. Each page summarizes the learning and links to the available evidence.`;
     }
 
     return {
