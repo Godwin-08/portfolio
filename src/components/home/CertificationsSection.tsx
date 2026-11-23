@@ -227,13 +227,13 @@ export async function CertificationsSection({
           </div>
         </section>
 
-        {/* Sur l'accueil : callout compact pour les 11 cours. Sur /certifications : liste complète */}
+        {/* Sur l'accueil : callout compact. Sur /certifications : liste complète */}
         {isFeatured ? (
           <div className="flex flex-col items-center justify-center gap-2.5 rounded-2xl border border-dashed border-emerald-300 bg-emerald-50/40 p-4 text-center dark:border-emerald-800 dark:bg-emerald-950/20 sm:p-6">
             <p className="max-w-xl text-xs font-medium text-body sm:text-sm">
               {locale === 'fr'
-                ? `En complément, ${courses.length} cours spécialisés avec attestations valident les compétences en SQL, PostgreSQL, statistiques et visualisation.`
-                : `In addition, ${courses.length} specialized courses with certificates validate skills in SQL, PostgreSQL, statistics, and visualization.`}
+                ? `En complément, ${courses.length} cours spécialisés avec attestations couvrent SQL, PostgreSQL, Python/pandas, statistiques et visualisation.`
+                : `In addition, ${courses.length} specialized courses with certificates cover SQL, PostgreSQL, Python/pandas, statistics, and visualization.`}
             </p>
             <Link
               href="/certifications"
