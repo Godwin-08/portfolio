@@ -17,6 +17,7 @@ const certificates = [
     id: 'data-manipulation-in-sql',
     title: 'Data Manipulation in SQL',
     credentialType: 'course',
+    importance: 1,
     documentPath: '/certifications/data-manipulation-in-sql.pdf',
     contentType: 'application/pdf',
     verificationUrl:
@@ -26,15 +27,26 @@ const certificates = [
     id: 'joining-data-in-sql',
     title: 'Joining Data in SQL',
     credentialType: 'course',
+    importance: 2,
     documentPath: '/certifications/joining-data-in-sql.jpg',
     contentType: 'image/jpeg',
     verificationUrl:
       'https://www.datacamp.com/completed/statement-of-accomplishment/course/b31eb55198673c224989cf0c237e2091e8476256',
   },
   {
+    id: 'data-manipulation-with-pandas',
+    title: 'Data Manipulation with pandas',
+    credentialType: 'course',
+    importance: 2,
+    inTrack: false,
+    verificationUrl:
+      'https://www.datacamp.com/completed/statement-of-accomplishment/course/61c3fa68bf3eb0f78a463f72748e931d892a0f59',
+  },
+  {
     id: 'postgresql-summary-stats-and-window-functions',
     title: 'PostgreSQL Summary Stats and Window Functions',
     credentialType: 'course',
+    importance: 3,
     documentPath:
       '/certifications/postgresql-summary-stats-and-window-functions.pdf',
     contentType: 'application/pdf',
@@ -45,6 +57,7 @@ const certificates = [
     id: 'functions-for-manipulating-data-in-postgresql',
     title: 'Functions for Manipulating Data in PostgreSQL',
     credentialType: 'course',
+    importance: 4,
     reference: '50,476,062',
     documentPath:
       '/certifications/functions-for-manipulating-data-in-postgresql.pdf',
@@ -56,6 +69,7 @@ const certificates = [
     id: 'intermediate-sql',
     title: 'Intermediate SQL',
     credentialType: 'course',
+    importance: 5,
     documentPath: '/certifications/intermediate-sql.jpg',
     contentType: 'image/jpeg',
     verificationUrl:
@@ -65,6 +79,7 @@ const certificates = [
     id: 'introduction-to-statistics',
     title: 'Introduction to Statistics',
     credentialType: 'course',
+    importance: 6,
     completedOn: '2026-10-22',
     reference: '50,503,580',
     documentPath: '/certifications/introduction-to-statistics.pdf',
@@ -76,6 +91,7 @@ const certificates = [
     id: 'introduction-to-sql',
     title: 'Introduction to SQL',
     credentialType: 'course',
+    importance: 7,
     documentPath: '/certifications/introduction-to-sql.jpg',
     contentType: 'image/jpeg',
     verificationUrl: null,
@@ -84,6 +100,7 @@ const certificates = [
     id: 'exploratory-data-analysis-in-sql',
     title: 'Exploratory Data Analysis in SQL',
     credentialType: 'course',
+    importance: 8,
     completedOn: '2026-10-27',
     reference: '50,562,081',
     documentPath: '/certifications/exploratory-data-analysis-in-sql.pdf',
@@ -95,6 +112,7 @@ const certificates = [
     id: 'associate-data-analyst-in-sql',
     title: 'Associate Data Analyst in SQL',
     credentialType: 'track',
+    importance: 9,
     completedOn: '2026-11-01',
     reference: '978,842',
     documentPath: '/certifications/associate-data-analyst-in-sql.pdf',
@@ -106,6 +124,7 @@ const certificates = [
     id: 'data-communication-concepts',
     title: 'Data Communication Concepts',
     credentialType: 'course',
+    importance: 10,
     completedOn: '2026-11-01',
     reference: '50,676,087',
     documentPath: '/certifications/data-communication-concepts.pdf',
@@ -116,6 +135,7 @@ const certificates = [
     id: 'understanding-data-visualization',
     title: 'Understanding Data Visualization',
     credentialType: 'course',
+    importance: 11,
     completedOn: '2026-10-31',
     reference: '50,665,247',
     documentPath: '/certifications/understanding-data-visualization.pdf',
@@ -126,6 +146,7 @@ const certificates = [
     id: 'data-driven-decision-making-in-sql',
     title: 'Data-Driven Decision Making in SQL',
     credentialType: 'course',
+    importance: 12,
     completedOn: '2026-10-30',
     reference: '50,652,560',
     documentPath: '/certifications/data-driven-decision-making-in-sql.pdf',
@@ -146,8 +167,8 @@ test('DataCamp certifications and courses show their verified records in French 
       locale: 'fr',
       sectionName: 'Certifications',
       navigationLinkName: 'Certifications',
-      featuredCountText: 'Preuves principales : 2 sur 13',
-      listCountText: '11 cours répertoriés',
+      featuredCountText: 'Preuves principales : 2 sur 14',
+      listCountText: '12 cours répertoriés',
       filterGroup: 'Filtrer les cours par domaine',
       filterAll: 'Tous les cours',
       filterSql: 'SQL',
@@ -161,7 +182,7 @@ test('DataCamp certifications and courses show their verified records in French 
       includedCoursesHeading: 'Cours de ce parcours (11)',
       sqlCountText: '8 cours répertoriés',
       statisticsCountText: '1 cours répertorié',
-      dataAnalysisCountText: '2 cours répertoriés',
+      dataAnalysisCountText: '3 cours répertoriés',
       navigationLabel: 'Navigation principale',
       backText: 'Retour aux certifications et formations',
       detailPath: (id: string) => `/certifications/${id}`,
@@ -203,8 +224,8 @@ test('DataCamp certifications and courses show their verified records in French 
       locale: 'en',
       sectionName: 'Certifications',
       navigationLinkName: 'Certifications',
-      featuredCountText: 'Key evidence: 2 of 13',
-      listCountText: '11 courses listed',
+      featuredCountText: 'Key evidence: 2 of 14',
+      listCountText: '12 courses listed',
       filterGroup: 'Filter courses by subject',
       filterAll: 'All courses',
       filterSql: 'SQL',
@@ -218,7 +239,7 @@ test('DataCamp certifications and courses show their verified records in French 
       includedCoursesHeading: 'Courses in this track (11)',
       sqlCountText: '8 courses listed',
       statisticsCountText: '1 course listed',
-      dataAnalysisCountText: '2 courses listed',
+      dataAnalysisCountText: '3 courses listed',
       navigationLabel: 'Main navigation',
       backText: 'Back to certifications and courses',
       detailPath: (id: string) => `/en/certifications/${id}`,
@@ -300,7 +321,7 @@ test('DataCamp certifications and courses show their verified records in French 
         .getByRole('link', { name: site.navigationLinkName })
     ).toHaveAttribute('href', site.listPath);
     await expect(fullSection).toContainText(site.listCountText);
-    await expect(fullSection.locator('[data-certification-id]')).toHaveCount(13);
+    await expect(fullSection.locator('[data-certification-id]')).toHaveCount(14);
     await expect(
       fullSection.locator('[data-certification-type="certification"]')
     ).toHaveCount(1);
@@ -309,7 +330,7 @@ test('DataCamp certifications and courses show their verified records in French 
     ).toHaveCount(1);
     await expect(
       fullSection.locator('[data-certification-type="course"]')
-    ).toHaveCount(11);
+    ).toHaveCount(12);
     const filters = fullSection.getByRole('group', { name: site.filterGroup });
     const courseZone = fullSection.locator(
       '[data-certifications-zone="courses"]'
@@ -344,18 +365,23 @@ test('DataCamp certifications and courses show their verified records in French 
     await expect(
       fullSection.getByText(site.dataAnalysisCountText, { exact: true })
     ).toBeVisible();
-    await expect(courseZone.locator('[data-certification-id]')).toHaveCount(2);
+    await expect(courseZone.locator('[data-certification-id]')).toHaveCount(3);
     await expect(
       courseZone.locator('[data-certification-category="data-analysis"]')
-    ).toHaveCount(2);
+    ).toHaveCount(3);
     await allFilter.click();
     await expect(allFilter).toHaveAttribute('aria-pressed', 'true');
     await expect(
       fullSection.getByText(site.listCountText, { exact: true })
     ).toBeVisible();
-    await expect(courseZone.locator('[data-certification-id]')).toHaveCount(11);
-    await expect(courseZone.locator('[data-certification-details]')).toHaveCount(11);
-    await expect(courseZone.locator('[data-certification-verification]')).toHaveCount(7);
+    await expect(courseZone.locator('[data-certification-id]')).toHaveCount(12);
+    await expect(courseZone.locator('[data-certification-details]')).toHaveCount(12);
+    await expect(courseZone.locator('[data-certification-verification]')).toHaveCount(8);
+    await expect(
+      courseZone
+        .locator('[data-certification-id="data-manipulation-with-pandas"]')
+        .locator('[data-certification-preview-fallback]')
+    ).toBeVisible();
     await expect(fullSection.locator('[data-certification-type="track"]')).toBeVisible();
     const cardsGrid = courseZone;
     const desktopColumns = await cardsGrid.evaluate((element) =>
@@ -371,7 +397,7 @@ test('DataCamp certifications and courses show their verified records in French 
         'data-certification-rank',
         certificate.credentialType === 'certification'
           ? '0'
-          : String(index)
+          : String(certificate.importance ?? index)
       );
       await expect(card.getByRole('heading', { name: certificate.title })).toBeVisible();
       await expect(card.getByText('DataCamp', { exact: true })).toBeVisible();
@@ -532,7 +558,8 @@ test('DataCamp certifications and courses show their verified records in French 
           })
         ).toBeVisible();
         const trackCourses = certificates.filter(
-          (course) => course.credentialType === 'course'
+          (course) =>
+            course.credentialType === 'course' && course.inTrack !== false
         );
         await expect(
           detailPage.locator('[data-track-course-id]')
@@ -646,7 +673,7 @@ test('certification list language switching preserves the list route', async ({
   await expect(
     page.getByRole('heading', { name: 'Certifications', level: 1 })
   ).toBeVisible();
-  await expect(page.locator('[data-certification-id]')).toHaveCount(13);
+  await expect(page.locator('[data-certification-id]')).toHaveCount(14);
 });
 
 test('unknown certification slugs return not found', async ({ page }) => {
