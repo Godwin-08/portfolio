@@ -144,6 +144,15 @@ export const PROJECT_PAGE_CONFIG = {
       order: ['data', 'method', 'gallery', 'results', 'limitations', 'documents'],
     },
   },
+  'exploring-nyc-public-school-test-scores': {
+    accent: '#2563EB',
+    accentText: '#1D4ED8',
+    accentDark: '#60A5FA',
+    layout: {
+      kind: 'sections',
+      order: ['data', 'method', 'results', 'limitations', 'documents'],
+    },
+  },
 } satisfies Record<ProjectPageSlug, ProjectPageConfig>;
 
 export function getProjectPageConfig(slug: string): ProjectPageConfig {

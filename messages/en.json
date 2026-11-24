@@ -300,6 +300,12 @@
         "tagline": "Official DataCamp practical exam: data integrity audit, advanced SQL cleaning, and sales targeting.",
         "summary": "Official DataCamp practical exam (Data Analyst Associate) in PostgreSQL: integrity bug audit, CTE and median-based cleaning (PERCENTILE_CONT), and strategic sales targeting.",
         "context": "Official exam · DataCamp"
+      },
+      "exploring-nyc-public-school-test-scores": {
+        "title": "Exploring NYC Public School Test Result Scores",
+        "tagline": "Explore New York City public school SAT scores with pandas and compare results across boroughs.",
+        "summary": "Exploratory analysis of schools.csv: identify math performers, calculate total SAT scores, and compare score distributions by borough.",
+        "context": "Guided project · DataCamp"
       }
     }
   },

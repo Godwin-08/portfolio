@@ -337,6 +337,20 @@ function findGuidedProjectId(query: string): string | undefined {
       'duree modale',
       'modal duration',
     ],
+    'exploring-nyc-public-school-test-scores': [
+      'nyc public school test scores',
+      'nyc public school',
+      'nyc public schools',
+      'new york public schools',
+      'nyc school sat',
+      'public school sat',
+      'scores sat lycees publics new york',
+      'lycees publics de new york',
+      'ecoles publiques new york',
+      'borough sat scores',
+      'total_sat',
+      'schools.csv',
+    ],
   };
 
   return Object.entries(projectKeywords).find(([, keywords]) =>

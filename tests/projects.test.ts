@@ -22,6 +22,7 @@ describe('Data Layer - Projects', () => {
       'gtm', 'olist', 'grocery-store-sales', 'acp', 'afc', 'goodthought-sql-analysis',
       'investigating-netflix-movies', 'sante-scolaire', 'pneumonia-detection',
       'motorcycle-parts-sales', 'students-mental-health', 'revision-flow', 'novastore',
+      'exploring-nyc-public-school-test-scores',
     ]);
     for (const messages of [frMessages, enMessages]) {
       expect(Object.keys(messages.projects.cards).sort()).toEqual(
@@ -447,7 +448,12 @@ describe('Localized case study content', () => {
   });
 
   it('provides a complete English structure for each generic case study', () => {
-    const slugs = ['revision-flow', 'sante-scolaire', 'novastore'] as const;
+    const slugs = [
+      'revision-flow',
+      'sante-scolaire',
+      'novastore',
+      'exploring-nyc-public-school-test-scores',
+    ] as const;
     expect(Object.keys(ENGLISH_CASE_STUDY_COPY).sort()).toEqual([...slugs].sort());
 
     for (const slug of slugs) {
@@ -471,7 +477,9 @@ describe('Localized case study content', () => {
       expect(localized.approachSteps).toHaveLength(source.approachSteps?.length ?? 0);
       expect(localized.architectureHighlights).toHaveLength(source.architectureHighlights?.length ?? 0);
       expect(localized.keyDecisions).toHaveLength(source.keyDecisions.length);
-      expect(localized.results.map(({ value }) => value)).toEqual(source.results.map(({ value }) => value));
+      expect(localized.results.map(({ value }) => value)).toEqual(
+        copy.resultValues ?? source.results.map(({ value }) => value)
+      );
       expect(localized.validationPoints).toHaveLength(source.validationPoints?.length ?? 0);
       expect(localized.technologiesDetailed.map(({ items }) => items.length)).toEqual(
         source.technologiesDetailed.map(({ items }) => items.length)
@@ -498,8 +506,38 @@ describe('Localized case study content', () => {
   });
 
   it('keeps all projects backed by a case-study route source', () => {
-    expect(PROJECTS).toHaveLength(13);
+    expect(PROJECTS).toHaveLength(14);
     expect(PROJECTS.every(({ slug, caseStudy }) => Boolean(slug && caseStudy))).toBe(true);
+  });
+
+  it('documents verified outputs for the NYC school SAT project', () => {
+    const project = getProjectBySlug('exploring-nyc-public-school-test-scores');
+    const french = getProjectDetailCopy('exploring-nyc-public-school-test-scores', 'fr');
+    const english = getProjectDetailCopy('exploring-nyc-public-school-test-scores', 'en');
+    const englishCaseStudyCopy = getEnglishCaseStudyCopy('exploring-nyc-public-school-test-scores');
+    const expectedDataLab =
+      'https://www.datacamp.com/datalab/w/bbf4effc-be6f-446c-aaa7-adb302e87c36/edit';
+    const expectedStatement =
+      'https://www.datacamp.com/completed/statement-of-accomplishment/project/8de258af-b206-4c9c-b36f-a76b339b6310';
+
+    expect(project?.keyMetrics.map(({ value }) => value)).toEqual(['754', '2 144', '230,29']);
+    expect(french?.results.map(({ value }) => value)).toEqual(['10', '2 144', '230,29']);
+    expect(english?.results.map(({ value }) => value)).toEqual(['10', '2,144', '230.29']);
+    expect(french?.results[1].detail).toContain('Eleanor Roosevelt');
+    expect(english?.results[2].detail).toContain('1,340.13');
+    expect(french?.documents?.map(({ href }) => href)).toEqual([expectedDataLab, expectedStatement]);
+    expect(english?.documents?.map(({ href }) => href)).toEqual([expectedDataLab, expectedStatement]);
+    expect(englishCaseStudyCopy?.problem).toContain('Which schools stand out');
+    expect(englishCaseStudyCopy?.resultValues).toEqual(['754', '2,144', '230.29']);
+    if (!project?.caseStudy || !englishCaseStudyCopy) {
+      throw new Error('NYC school SAT project is missing its English case-study copy.');
+    }
+    const localizedCaseStudy = localizeCaseStudy(project.caseStudy, englishCaseStudyCopy);
+    expect(localizedCaseStudy.problem).toContain('Which schools stand out');
+    expect(localizedCaseStudy.results.map(({ value }) => value)).toEqual(['754', '2,144', '230.29']);
+    expect(localizedCaseStudy.results[2].label).toBe('Highest SAT standard deviation');
+    expect(french?.limitations.join(' ')).toContain('ne constituent pas une mesure');
+    expect(english?.limitations.join(' ')).toContain('do not measure each school');
   });
 
   it('uses the verified DataCamp workspaces and notebook-supported results', () => {

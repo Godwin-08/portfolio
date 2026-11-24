@@ -1,6 +1,10 @@
 import type { CaseStudyData, KeyDecision, ProjectMetric } from '@/types';
 
-export type LocalizedCaseStudySlug = 'revision-flow' | 'sante-scolaire' | 'novastore';
+export type LocalizedCaseStudySlug =
+  | 'revision-flow'
+  | 'sante-scolaire'
+  | 'novastore'
+  | 'exploring-nyc-public-school-test-scores';
 
 export interface LocalizedCaseStudyCopy {
   heroTagline: string;
@@ -13,6 +17,7 @@ export interface LocalizedCaseStudyCopy {
   architectureHighlights: readonly string[];
   keyDecisions: readonly KeyDecision[];
   resultLabels: readonly Pick<ProjectMetric, 'label' | 'detail'>[];
+  resultValues?: readonly string[];
   validation: string;
   validationPoints: readonly string[];
   reflection: string;
@@ -179,10 +184,36 @@ export const ENGLISH_CASE_STUDY_COPY = {
       'Classes métier': 'Domain classes',
     },
   },
+  'exploring-nyc-public-school-test-scores': {
+    heroTagline: 'Explore and compare SAT results from New York City public schools with Python and pandas.',
+    problem: 'Which schools stand out for their math and total SAT scores, and how do results vary across New York City boroughs?',
+    problemPoints: [],
+    approach: 'Load the school data, filter by average math score, calculate a total SAT score from three subjects, and compare grouped results by borough.',
+    approachSteps: [],
+    roleDescription: 'Completed a guided DataCamp DataLab project exploring SAT results from New York City public schools.',
+    implementation: 'A Python notebook using pandas to read schools.csv, filter and sort schools, calculate total_SAT, and aggregate counts, means, and standard deviations by borough.',
+    architectureHighlights: [],
+    keyDecisions: [],
+    resultLabels: [
+      { label: 'Highest math score', detail: 'Stuyvesant High School; 10 schools meet the ≥ 640 threshold.' },
+      { label: 'Highest total SAT score', detail: 'Stuyvesant High School, across 375 schools.' },
+      { label: 'Highest SAT standard deviation', detail: 'Manhattan: 89 schools, mean 1,340.13, standard deviation 230.29.' },
+    ],
+    resultValues: ['754', '2,144', '230.29'],
+    validation: 'Results were recomputed from schools.csv using the notebook’s pandas operations: filtering, nlargest ranking, groupby aggregation, and sample standard deviation.',
+    validationPoints: [],
+    reflection: 'This project applies pandas filtering, derived-variable calculation, and grouped summaries while keeping comparisons between boroughs descriptive.',
+    technologyCategories: ['Data analysis'],
+  },
 } satisfies Record<LocalizedCaseStudySlug, LocalizedCaseStudyCopy>;
 
 export function getEnglishCaseStudyCopy(slug: string): LocalizedCaseStudyCopy | undefined {
-  if (slug === 'revision-flow' || slug === 'sante-scolaire' || slug === 'novastore') {
+  if (
+    slug === 'revision-flow' ||
+    slug === 'sante-scolaire' ||
+    slug === 'novastore' ||
+    slug === 'exploring-nyc-public-school-test-scores'
+  ) {
     return ENGLISH_CASE_STUDY_COPY[slug];
   }
   return undefined;
@@ -198,6 +229,7 @@ export function localizeCaseStudy(
     (source.architectureHighlights?.length ?? 0) === copy.architectureHighlights.length &&
     source.keyDecisions.length === copy.keyDecisions.length &&
     source.results.length === copy.resultLabels.length &&
+    (copy.resultValues === undefined || source.results.length === copy.resultValues.length) &&
     (source.validationPoints?.length ?? 0) === copy.validationPoints.length &&
     source.technologiesDetailed.length === copy.technologyCategories.length;
 
@@ -224,6 +256,7 @@ export function localizeCaseStudy(
     })),
     results: source.results.map((result, index) => ({
       ...result,
+      value: copy.resultValues?.[index] ?? result.value,
       ...copy.resultLabels[index],
     })),
     validation: copy.validation,

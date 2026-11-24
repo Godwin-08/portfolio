@@ -284,6 +284,7 @@ for (const site of localizedRoutes) {
         'students-mental-health': [],
         'investigating-netflix-movies': [],
         'grocery-store-sales': [],
+        'exploring-nyc-public-school-test-scores': [],
       } as const;
       for (const kind of expectedPeoplePanels[slug]) {
         const panelTitle = kind === 'collaborator'
@@ -317,6 +318,7 @@ for (const site of localizedRoutes) {
         'students-mental-health': 0,
         'investigating-netflix-movies': 0,
         'grocery-store-sales': 1,
+        'exploring-nyc-public-school-test-scores': 0,
       } as const;
       await expect(page.locator('[data-project-gallery] figure')).toHaveCount(expectedImageCounts[slug]);
       await expect(page.locator('[data-project-conclusion]')).toBeVisible();
@@ -411,6 +413,21 @@ for (const site of localizedRoutes) {
         await expect(page.locator('[data-project-document]')).toHaveAttribute(
           'href',
           'https://www.datacamp.com/datalab/w/92c8ef26-70ff-4f29-9282-69a8bed276ee/edit',
+        );
+        await expect(page.locator('.project-detail__source')).toHaveCount(0);
+      }
+      if (slug === 'exploring-nyc-public-school-test-scores') {
+        await expect(page.locator('[data-project-method]')).toContainText('schools.csv');
+        await expect(page.locator('[data-project-results]')).toContainText(
+          site.locale === 'fr' ? '2 144' : '2,144',
+        );
+        await expect(page.locator('[data-project-document]').first()).toHaveAttribute(
+          'href',
+          'https://www.datacamp.com/datalab/w/bbf4effc-be6f-446c-aaa7-adb302e87c36/edit',
+        );
+        await expect(page.locator('[data-project-document]').nth(1)).toHaveAttribute(
+          'href',
+          'https://www.datacamp.com/completed/statement-of-accomplishment/project/8de258af-b206-4c9c-b36f-a76b339b6310',
         );
         await expect(page.locator('.project-detail__source')).toHaveCount(0);
       }

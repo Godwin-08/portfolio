@@ -960,6 +960,46 @@ export const PROJECTS: Project[] = [
       technologiesDetailed: [{ category: 'Analyse de données', items: ['SQL', 'PostgreSQL', 'DataCamp', 'Jupyter Notebook'] }],
     },
   },
+  {
+    id: 'exploring-nyc-public-school-test-scores',
+    slug: 'exploring-nyc-public-school-test-scores',
+    title: 'Analyse des résultats SAT des lycées publics de New York',
+    tagline: 'Analyse exploratoire avec pandas des scores SAT des lycées publics de New York et de leur répartition par borough.',
+    category: 'Data Analysis',
+    isFeatured: false,
+    order: 14,
+    context: 'Projet guidé DataCamp',
+    period: 'DataCamp DataLab',
+    summary:
+      'Exploration du fichier schools.csv : sélection des écoles les mieux classées en mathématiques, calcul d’un score SAT total et comparaison des résultats par borough.',
+    skills: ['Python', 'Pandas', 'Jupyter'],
+    accentColor: '#2563EB',
+    keyMetrics: [
+      { value: '754', label: 'Meilleur score en mathématiques', detail: 'Stuyvesant High School; 10 écoles atteignent le seuil de 640.' },
+      { value: '2 144', label: 'Score SAT total maximal', detail: 'Stuyvesant High School, somme des scores moyens des trois matières.' },
+      { value: '230,29', label: 'Écart-type SAT maximal', detail: 'Manhattan; 89 écoles et un score SAT total moyen de 1 340,13.' },
+    ],
+    caseStudy: {
+      heroTagline: 'Explorer et comparer les résultats SAT des lycées publics de New York avec Python et pandas.',
+      problem: 'Quelles écoles obtiennent les meilleurs scores en mathématiques et au SAT total, et comment les résultats se répartissent-ils entre les boroughs de New York ?',
+      problemPoints: [],
+      approach: 'Charger les données scolaires, filtrer les écoles selon leur score moyen en mathématiques, calculer un score SAT total à partir des trois matières, puis comparer les distributions par borough.',
+      approachSteps: [],
+      roleDescription: 'Projet guidé DataCamp réalisé dans DataLab autour de l’analyse exploratoire des résultats scolaires de New York.',
+      implementation: 'Notebook Python utilisant pandas pour lire schools.csv, filtrer et trier les écoles, calculer total_SAT et agréger les effectifs, moyennes et écarts-types par borough.',
+      architectureHighlights: [],
+      keyDecisions: [],
+      results: [
+        { value: '754', label: 'Meilleur score en mathématiques', detail: 'Stuyvesant High School; 10 écoles atteignent le seuil ≥ 640.' },
+        { value: '2 144', label: 'Score SAT total maximal', detail: 'Stuyvesant High School, sur 375 écoles analysées.' },
+        { value: '230,29', label: 'Écart-type SAT maximal', detail: 'Manhattan : 89 écoles, moyenne de 1 340,13 et écart-type de 230,29.' },
+      ],
+      validation: 'Résultats recalculés à partir de schools.csv avec les opérations pandas du notebook : filtre, classement nlargest, agrégation groupby et écart-type échantillonnal.',
+      validationPoints: [],
+      reflection: 'Ce projet met en pratique le filtrage, la création d’une variable dérivée et les agrégations groupées avec pandas. Les écarts entre boroughs restent descriptifs et ne démontrent pas de causalité.',
+      technologiesDetailed: [{ category: 'Analyse & Programmation', items: ['Python', 'Pandas', 'DataCamp DataLab'] }],
+    },
+  },
 ];
 
 export function getAllProjects(): Project[] {

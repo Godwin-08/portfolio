@@ -198,6 +198,18 @@ describe('Authoritative Knowledge Corpus & Global Assistant Tests', () => {
           projectId: 'students-mental-health',
           result: '75.56 / 62.84',
         },
+        {
+          locale: 'fr',
+          query: 'Quels résultats sont documentés dans le projet SAT des lycées publics de New York ?',
+          projectId: 'exploring-nyc-public-school-test-scores',
+          result: '2 144',
+        },
+        {
+          locale: 'en',
+          query: 'What results are documented in the NYC public school SAT project?',
+          projectId: 'exploring-nyc-public-school-test-scores',
+          result: '2,144',
+        },
       ] as const;
 
       for (const { locale, query, projectId, result } of queries) {

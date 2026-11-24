@@ -2093,6 +2093,90 @@ export const PROJECT_DETAIL_COPY = {
       ],
     },
   },
+  'exploring-nyc-public-school-test-scores': {
+    fr: {
+      context: 'Projet guidé DataCamp consacré à l’exploration des résultats de tests des lycées publics de New York. Le notebook travaille sur schools.csv et compare les scores SAT par école et par borough.',
+      question: 'Quelles écoles se distinguent par leurs scores en mathématiques et leur score SAT total, et comment les résultats varient-ils entre les boroughs ?',
+      dataTitle: 'Données scolaires de New York',
+      dataConstruction: 'Le notebook charge schools.csv avec pandas. Le fichier contient 375 écoles et 7 colonnes, dont les scores moyens en mathématiques, en lecture et en écriture, ainsi que le borough de chaque établissement.',
+      methodTitle: 'Démarche d’analyse avec pandas',
+      methodIntro: 'Le notebook répond à trois questions d’analyse en combinant sélection, calcul de variable et agrégation :',
+      methodSteps: [
+        { title: 'Chargement et inspection', description: 'Lecture du fichier schools.csv avec pandas et repérage des variables de score et de borough.' },
+        { title: 'Sélection des écoles en mathématiques', description: 'Filtrage des écoles dont le score moyen en mathématiques atteint 640, puis tri des résultats.' },
+        { title: 'Calcul et classement du score total', description: 'Addition des scores moyens en mathématiques, lecture et écriture pour obtenir total_SAT, puis classement des dix premières écoles.' },
+        { title: 'Agrégation par borough', description: 'Calcul du nombre d’écoles, de la moyenne et de l’écart-type de total_SAT pour comparer les boroughs.' },
+      ],
+      contribution: 'Réalisation d’un notebook d’analyse exploratoire guidé dans DataCamp DataLab, centré sur les scores SAT des lycées publics de New York.',
+      resultsIntro: 'Les trois questions du notebook donnent des résultats vérifiés sur les scores en mathématiques, les scores SAT totaux et leur dispersion par borough.',
+      results: [
+        { value: '10', label: 'Écoles au seuil mathématique', detail: 'Le filtre average_math ≥ 640 retient 10 écoles. Les cinq premières : Stuyvesant (754), Bronx Science (714), Staten Island Technical (711), Queens High School for the Sciences (701) et HSMSE at City College (683).' },
+        { value: '2 144', label: 'Score SAT total maximal', detail: 'Stuyvesant High School. Top 10 : Stuyvesant 2 144; Staten Island Technical et Bronx Science 2 041; High School of American Studies 2 013; Townsend Harris 1 981; Queens High School for the Sciences 1 947; Bard 1 914; Brooklyn Technical 1 896; Eleanor Roosevelt et HSMSE at City College 1 889.' },
+        { value: '230,29', label: 'Écart-type SAT maximal · Manhattan', detail: '89 écoles; score SAT total moyen de 1 340,13. L’écart-type est calculé avec la convention échantillonnale de pandas.' },
+      ],
+      limitations: [
+        'L’analyse est descriptive et ne permet pas d’attribuer une cause aux différences observées entre écoles ou boroughs.',
+        'Les résultats décrivent les données de schools.csv et ne constituent pas une mesure des performances actuelles de chaque établissement.',
+      ],
+      conclusion: {
+        title: 'Bilan de l’analyse exploratoire',
+        description: 'Sur les 375 écoles analysées, Stuyvesant obtient le meilleur score total (2 144). Manhattan présente la dispersion la plus élevée (écart-type 230,29), sur 89 écoles. Ces indicateurs résument le jeu de données sans établir de causalité.',
+      },
+      technologies: ['Python', 'Pandas', 'DataCamp DataLab'],
+      documents: [
+        {
+          href: 'https://www.datacamp.com/datalab/w/bbf4effc-be6f-446c-aaa7-adb302e87c36/edit',
+          label: 'Ouvrir le notebook DataLab',
+        },
+        {
+          href: 'https://www.datacamp.com/completed/statement-of-accomplishment/project/8de258af-b206-4c9c-b36f-a76b339b6310',
+          label: 'Attestation officielle de projet DataCamp',
+        },
+      ],
+      gallery: [],
+    },
+    en: {
+      context: 'A guided DataCamp project exploring public school test results in New York City. The notebook uses schools.csv to compare SAT scores by school and borough.',
+      question: 'Which schools stand out for their math and total SAT scores, and how do results vary across New York City boroughs?',
+      dataTitle: 'New York City school data',
+      dataConstruction: 'The notebook loads schools.csv with pandas. The file contains 375 schools and 7 columns, including average math, reading, and writing scores and each school’s borough.',
+      methodTitle: 'Pandas analytical approach',
+      methodIntro: 'The notebook addresses three analytical questions through filtering, derived-variable calculation, and aggregation:',
+      methodSteps: [
+        { title: 'Load and inspect', description: 'Read schools.csv with pandas and identify the score and borough fields.' },
+        { title: 'Select math performers', description: 'Filter schools whose average math score reaches 640, then sort the results.' },
+        { title: 'Calculate and rank total SAT scores', description: 'Add average math, reading, and writing scores to create total_SAT, then rank the top ten schools.' },
+        { title: 'Aggregate by borough', description: 'Calculate school counts, mean total_SAT, and its standard deviation to compare boroughs.' },
+      ],
+      contribution: 'Completed a guided exploratory-analysis notebook in DataCamp DataLab focused on SAT results from New York City public schools.',
+      resultsIntro: 'The notebook’s three questions produce verified results for math scores, total SAT scores, and score dispersion by borough.',
+      results: [
+        { value: '10', label: 'Schools meeting the math threshold', detail: 'The average_math ≥ 640 filter returns 10 schools. Top five: Stuyvesant (754), Bronx Science (714), Staten Island Technical (711), Queens High School for the Sciences (701), and HSMSE at City College (683).' },
+        { value: '2,144', label: 'Highest total SAT score', detail: 'Stuyvesant High School. Top 10: Stuyvesant 2,144; Staten Island Technical and Bronx Science 2,041; High School of American Studies 2,013; Townsend Harris 1,981; Queens High School for the Sciences 1,947; Bard 1,914; Brooklyn Technical 1,896; Eleanor Roosevelt and HSMSE at City College 1,889.' },
+        { value: '230.29', label: 'Highest SAT standard deviation · Manhattan', detail: '89 schools; mean total SAT score of 1,340.13. Pandas uses the sample standard deviation by default.' },
+      ],
+      limitations: [
+        'The analysis is descriptive and does not establish causes for differences between schools or boroughs.',
+        'The results describe the schools.csv data and do not measure each school’s current performance.',
+      ],
+      conclusion: {
+        title: 'Exploratory Analysis Takeaways',
+        description: 'Across 375 schools, Stuyvesant has the highest total score (2,144). Manhattan has the largest spread (standard deviation 230.29) across 89 schools. These figures describe the dataset and do not establish causality.',
+      },
+      technologies: ['Python', 'Pandas', 'DataCamp DataLab'],
+      documents: [
+        {
+          href: 'https://www.datacamp.com/datalab/w/bbf4effc-be6f-446c-aaa7-adb302e87c36/edit',
+          label: 'Open the DataLab notebook',
+        },
+        {
+          href: 'https://www.datacamp.com/completed/statement-of-accomplishment/project/8de258af-b206-4c9c-b36f-a76b339b6310',
+          label: 'Official DataCamp project statement',
+        },
+      ],
+      gallery: [],
+    },
+  },
 } satisfies Record<string, Record<ProjectDetailLocale, ProjectDetailCopy>>;
 
 export type DetailedProjectSlug = keyof typeof PROJECT_DETAIL_COPY;
