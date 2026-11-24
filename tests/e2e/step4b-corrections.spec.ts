@@ -56,5 +56,5 @@ test('loads the Hero portrait with the default optimized image quality', async (
   await expect.poll(() => portrait.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
 
   const currentSource = await portrait.evaluate((image: HTMLImageElement) => image.currentSrc);
-  expect(currentSource).toContain('q=75');
+  expect(currentSource).toContain('q=85');
 });

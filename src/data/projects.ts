@@ -870,7 +870,7 @@ export const PROJECTS: Project[] = [
       ],
       validation: 'Contrôle d’intégrité des sorties du notebook et vérification croisée des moyennes pondérées à partir du jeu de données brut.',
       reflection: 'Cette étude démontre la pertinence de SQL pour l’analyse épidémiologique descriptive, tout en exigeant une stricte prudence méthodologique : distinguer rigoureusement corrélation transversale et inférence causale longitudinale.',
-      technologiesDetailed: [{ category: 'Analyse & Base de données', items: ['PostgreSQL', 'SQL', 'Jupyter Notebook', 'DataCamp DataLab'] }] as any,
+      technologiesDetailed: [{ category: 'Analyse & Base de données', items: ['PostgreSQL', 'SQL', 'Jupyter Notebook', 'DataCamp DataLab'] }],
     },
   },
   {
@@ -907,7 +907,7 @@ export const PROJECTS: Project[] = [
       ],
       validation: 'Vérification de la conformité du code et validation automatique par la suite de tests DataCamp avec obtention de l’attestation officielle de projet.',
       reflection: 'Ce projet met en pratique la sélection vectorisée et le calcul statistique descriptif avec pandas, démontrant la rigueur d’extraction et de validation des critères sur des données réelles.',
-      technologiesDetailed: [{ category: 'Analyse & Programmation', items: ['Python', 'Pandas', 'Matplotlib', 'DataCamp DataLab'] }] as any,
+      technologiesDetailed: [{ category: 'Analyse & Programmation', items: ['Python', 'Pandas', 'Matplotlib', 'DataCamp DataLab'] }],
     },
   },
   {

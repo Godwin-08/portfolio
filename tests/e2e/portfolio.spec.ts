@@ -29,6 +29,32 @@ const projectSlugs = Object.keys(frMessages.projects.cards) as Array<
   keyof typeof frMessages.projects.cards
 >;
 
+const expectedProjectDetailCopy: Record<
+  Locale,
+  {
+    olistPreparation: string;
+    novastoreArchitecture: string;
+    novastoreDecisions: string;
+    revisionFlowFirstMethod: string;
+    revisionFlowReport: string;
+  }
+> = {
+  fr: {
+    olistPreparation: 'Pipeline ETL, Déduplication & Filtrage de Cohérence',
+    novastoreArchitecture: 'Architecture logicielle & Modélisation objet',
+    novastoreDecisions: 'Décisions d’ingénierie logicielle & Choix de conception',
+    revisionFlowFirstMethod: 'Modélisation des matières & Échéances',
+    revisionFlowReport: '/documents/projects/revisionflow-report-fr.pdf',
+  },
+  en: {
+    olistPreparation: 'Data Sanitization, Deduplication & Validation Pipeline',
+    novastoreArchitecture: 'Software Architecture & Object Modeling',
+    novastoreDecisions: 'Software Engineering Decisions & Design Choices',
+    revisionFlowFirstMethod: 'Subject Modeling & Deadlines',
+    revisionFlowReport: '/documents/projects/revisionflow-report-fr.pdf',
+  },
+};
+
 function projectTitle(messages: Messages, slug: (typeof projectSlugs)[number]) {
   return messages.projects.cards[slug].title;
 }
@@ -270,7 +296,7 @@ for (const site of localizedRoutes) {
         await expect(page.locator('[data-olist-case-study]')).toHaveCount(1);
         await expect(page.getByRole('heading', {
           level: 2,
-          name: site.locale === 'fr' ? 'Nettoyage et construction du jeu d’analyse' : 'Preparing the data for analysis',
+          name: expectedProjectDetailCopy[site.locale].olistPreparation,
         })).toBeVisible();
         await expect(page.locator('[data-project-document]')).toHaveCount(1);
         const heroFigure = page.locator('[data-project-gallery] figure').first();
@@ -356,10 +382,9 @@ for (const site of localizedRoutes) {
         await expect(page.locator('[data-project-data]')).toContainText('Assignments');
         await expect(page.locator('[data-project-method]')).toContainText('ROW_NUMBER()');
         await expect(page.locator('[data-project-results]')).toContainText('Assignment_316');
-        await expect(page.locator('[data-project-document]')).toHaveAttribute(
-          'href',
-          'https://www.datacamp.com/datalab/w/f8f3f346-1000-46b8-8570-27be207896b3/edit',
-        );
+        await expect(page.locator(
+          '[data-project-document][href="https://www.datacamp.com/datalab/w/f8f3f346-1000-46b8-8570-27be207896b3/edit"]',
+        )).toHaveCount(1);
         await expect(page.locator('.project-detail__source')).toHaveCount(0);
       }
       if (slug === 'motorcycle-parts-sales') {
@@ -392,11 +417,11 @@ for (const site of localizedRoutes) {
       if (slug === 'novastore') {
         await expect(page.getByRole('heading', {
           level: 2,
-          name: site.locale === 'fr' ? 'Organisation de l’application' : 'How the app is built',
+          name: expectedProjectDetailCopy[site.locale].novastoreArchitecture,
         })).toBeVisible();
         await expect(page.getByRole('heading', {
           level: 2,
-          name: site.locale === 'fr' ? 'Choix de conception' : 'Design choices',
+          name: expectedProjectDetailCopy[site.locale].novastoreDecisions,
         })).toBeVisible();
         const images = page.locator('[data-project-gallery] figure img');
         await expect(images).toHaveCount(3);
@@ -407,14 +432,13 @@ for (const site of localizedRoutes) {
         }
       }
       if (slug === 'revision-flow') {
-        await expect(page.getByText(
-          site.locale === 'fr' ? 'Planning du jour et minuteur' : 'Daily plan and timer',
-          { exact: true },
-        )).toBeVisible();
-        await expect(page.locator('[data-project-document]')).toHaveAttribute(
-          'href',
-          '/documents/projects/revisionflow-report-fr.pdf',
-        );
+        await expect(page.getByRole('heading', {
+          name: expectedProjectDetailCopy[site.locale].revisionFlowFirstMethod,
+          exact: true,
+        })).toBeVisible();
+        await expect(page.locator(
+          `[data-project-document][href="${expectedProjectDetailCopy[site.locale].revisionFlowReport}"]`,
+        )).toHaveCount(1);
 
         const images = page.locator('[data-project-gallery] figure img');
         for (let index = 0; index < await images.count(); index += 1) {
@@ -558,7 +582,7 @@ test('project titles open every case study from the localized listing', async ({
   await page.setViewportSize({ width: 1440, height: 900 });
   for (const site of localizedRoutes) {
     await page.goto(site.home);
-    for (const slug of ['gtm', 'olist', 'afc'] as const) {
+    for (const slug of ['gtm', 'olist', 'grocery-store-sales'] as const) {
       const title = projectTitle(site.messages, slug);
       const titleLink = page.getByRole('heading', {
         level: 3,
@@ -739,7 +763,19 @@ for (const site of localizedRoutes) {
         name: site.locale === 'fr' ? 'Données et tableau de contingence' : 'Data and count table',
       })).toBeVisible();
       await expect(page.getByText(site.locale === 'fr' ? '25 955' : '25,955', { exact: false }).first()).toBeVisible();
-      await expect(page.getByText(site.locale === 'fr' ? 'cos² indique' : 'Cos² shows how well', { exact: false }).first()).toBeVisible();
+      await expect(page.locator('[data-afc-section="limits"]')).toContainText(
+        site.locale === 'fr' ? 'Métrique cos²' : 'Interpretation of cos²',
+      );
+      await expect(page.locator('[data-afc-section="limits"]')).toContainText(
+        site.locale === 'fr'
+          ? 'le cos² mesure exclusivement la qualité d’ajustement au sous-espace factoriel'
+          : 'the cos² score indicates how well a profile vector is projected onto the subspace',
+      );
+      await expect(page.locator('[data-afc-section="limits"]')).toContainText(
+        site.locale === 'fr'
+          ? 'il ne quantifie en aucun cas l’importance économique d’une compétence'
+          : 'it does not measure the commercial weight of a skill or the absolute strength of an operational link',
+      );
 
       const analysisSections = page.locator('[data-afc-section]');
       for (let index = 0; index < await analysisSections.count(); index += 1) {
@@ -884,15 +920,17 @@ test('mobile navigation opens, closes with Escape, and follows a localized link'
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
 
-  const openMenu = page.getByRole('button', { name: frMessages.common.accessibility.openMenu });
-  await openMenu.focus();
-  await page.keyboard.press('Enter');
+  const menuButton = page.locator('button[aria-controls="mobile-navigation"]');
   const menu = page.getByRole('region', { name: frMessages.common.accessibility.mobileMenu });
+  await menuButton.click();
   await expect(menu).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(menu).toHaveCount(0);
+  await expect(menuButton).toHaveAttribute('aria-expanded', 'false');
 
-  await page.getByRole('button', { name: frMessages.common.accessibility.openMenu }).click();
+  await menuButton.focus();
+  await page.keyboard.press('Enter');
+  await expect(menu).toBeVisible();
   await page.getByRole('navigation', { name: frMessages.common.nav.mobileLabel })
     .getByRole('link', { name: frMessages.common.nav.about, exact: true }).click();
   await expect(page).toHaveURL(/\/a-propos$/);

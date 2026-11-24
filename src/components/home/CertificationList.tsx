@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
-import { ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowRight, BookOpen, ExternalLink } from 'lucide-react';
 import type { Certification } from '@/data/certifications';
 import { cn } from '@/lib/utils';
 
@@ -94,16 +94,16 @@ export function CertificationList({
             className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-emerald-200 border-t-[3px] border-t-emerald-600 bg-white shadow-card transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-emerald-400 hover:shadow-md focus-within:ring-2 focus-within:ring-emerald-700 focus-within:ring-offset-2 motion-reduce:transition-none dark:border-emerald-900 dark:border-t-emerald-400 dark:bg-slate-900 dark:hover:border-emerald-600"
           >
             {/* Aperçu visuel compact */}
-            {certification.imagePath && (
-              <Link
-                href={{
-                  pathname: '/certifications/[slug]',
-                  params: { slug: certification.id },
-                }}
-                tabIndex={-1}
-                aria-hidden="true"
-                className="relative block aspect-[21/9] sm:aspect-[16/8] w-full overflow-hidden bg-slate-100 dark:bg-slate-800"
-              >
+            <Link
+              href={{
+                pathname: '/certifications/[slug]',
+                params: { slug: certification.id },
+              }}
+              tabIndex={-1}
+              aria-hidden="true"
+              className="relative block aspect-[21/9] w-full overflow-hidden bg-slate-100 dark:bg-slate-800 sm:aspect-[16/8]"
+            >
+              {certification.imagePath ? (
                 <Image
                   src={certification.imagePath}
                   alt=""
@@ -111,9 +111,36 @@ export function CertificationList({
                   className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-              </Link>
-            )}
+              ) : (
+                <div
+                  data-certification-preview-fallback
+                  className="absolute inset-0 flex items-center justify-between overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950 px-5 py-4 text-white sm:px-7"
+                >
+                  <div
+                    aria-hidden="true"
+                    className="absolute -right-8 -top-12 h-40 w-40 rounded-full bg-emerald-400/10 blur-2xl"
+                  />
+                  <div className="relative z-10 min-w-0">
+                    <p className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-emerald-300">
+                      {certification.issuer} ·{' '}
+                      {certification.credentialType === 'certification'
+                        ? t('types.certification')
+                        : certification.credentialType === 'track'
+                          ? t('types.track')
+                          : t('types.course')}
+                    </p>
+                    <p className="mt-2 max-w-[85%] font-heading text-base font-bold leading-tight text-white sm:text-lg">
+                      {certification.title}
+                    </p>
+                  </div>
+                  <BookOpen
+                    className="relative z-10 h-12 w-12 shrink-0 text-emerald-300/80 sm:h-16 sm:w-16"
+                    aria-hidden="true"
+                  />
+                </div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+            </Link>
 
             <div className="flex flex-1 flex-col p-3.5 sm:p-4">
               <div className="flex items-center justify-between gap-1.5">
