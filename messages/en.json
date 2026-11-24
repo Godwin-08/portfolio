@@ -428,7 +428,7 @@
     "professional": "Professional experience",
     "galaxyLabel": "1st-Year Internship (Python & SQL Developer) · Galaxy Solutions · 2025–2026",
     "galaxy": "Galaxy Training Manager (GTM)",
-    "galaxyText": "During this internship at Galaxy Solutions, I designed and developed an end-to-end training management application. I modeled the relational database (MySQL in 3NF), implemented the backend logic in Flask, and designed an executive analytics dashboard embedding a Principal Component Analysis (PCA) module.",
+    "galaxyText": "During this internship at Galaxy Solutions, I designed and developed an end-to-end training management application. I modeled the relational database (MySQL in 3NF), implemented the backend logic in Flask, and designed an executive analytics dashboard embedding a Principal Component Analysis (PCA) module. The demonstration uses fictional data.",
     "galaxyLink": "View the GTM case study",
     "association": "Community involvement",
     "cestom": "CESTOM",

@@ -428,7 +428,7 @@
     "professional": "Expérience professionnelle",
     "galaxyLabel": "Stage de 1re année (Développeur Python & SQL) · Galaxy Solutions · 2025–2026",
     "galaxy": "Galaxy Training Manager (GTM)",
-    "galaxyText": "Dans le cadre de ce stage chez Galaxy Solutions, j’ai conçu et développé une application de gestion et de suivi des formations. J’ai modélisé la base de données relationnelle (MySQL en 3NF), implémenté la logique applicative sous Flask et conçu un tableau de bord décisionnel intégrant un module d’Analyse en Composantes Principales (ACP).",
+    "galaxyText": "Dans le cadre de ce stage chez Galaxy Solutions, j’ai conçu et développé une application de gestion et de suivi des formations. J’ai modélisé la base de données relationnelle (MySQL en 3NF), implémenté la logique applicative sous Flask et conçu un tableau de bord décisionnel intégrant un module d’Analyse en Composantes Principales (ACP). Les données de démonstration sont fictives.",
     "galaxyLink": "Voir l’étude de cas GTM",
     "association": "Engagement associatif",
     "cestom": "CESTOM",
